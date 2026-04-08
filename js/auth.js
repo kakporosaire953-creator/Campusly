@@ -73,7 +73,7 @@ async function handleRegister(e) {
   const email = matriculeToEmail(matricule);
 
   // 1. Créer le compte Supabase Auth
-  const { data, error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { email_confirm: true } } });
 
   if (error) {
     btn.disabled = false;

@@ -122,7 +122,13 @@ function initSidebar() {
   });
   const hamburger = document.getElementById("sidebarToggle");
   const sidebar   = document.querySelector(".sidebar");
-  if (hamburger && sidebar) hamburger.addEventListener("click", () => sidebar.classList.toggle("open"));
+  const overlay   = document.getElementById("sidebarOverlay");
+  if (hamburger && sidebar) {
+    hamburger.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      overlay?.classList.toggle("show");
+    });
+  }
 }
 
 window.showSection = function(sectionId) {

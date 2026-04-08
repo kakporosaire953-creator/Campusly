@@ -6,7 +6,7 @@
   <title>Dashboard — Campusly</title>
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
-  <link rel="stylesheet" href="css/enhancements.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />`n  <link rel="stylesheet" href="css/mobile.css" />
   <style>
     /* ── XP / Niveau ── */
     .xp-bar-wrap { background:var(--surface); border-radius:var(--r-full); height:8px; overflow:hidden; margin:8px 0 4px; }
@@ -92,6 +92,9 @@
   <canvas id="confettiCanvas"></canvas>
 
   <div class="dashboard-layout">
+
+    <!-- Overlay mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('sidebar').classList.remove('open');this.classList.remove('show')"></div>
 
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
