@@ -197,9 +197,12 @@
       <!-- ACCUEIL -->
       <div class="dash-section" id="section-accueil">
         <div class="page-header">
-          <div class="page-title" id="welcomeMsg">Tableau de bord</div>
+          <button id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('show')" aria-label="Menu">☰</button>
+          <div>
+            <div class="page-title" id="welcomeMsg">Tableau de bord</div>
           <div class="page-subtitle" id="welcomeSub">Votre espace académique personnel</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:8px;" id="welcomeDate"></div>
+          </div>
         </div>
 
         <!-- Streak -->
