@@ -9,6 +9,14 @@ body { overflow-x: hidden; max-width: 100vw; }
 img, svg, video, iframe { max-width: 100%; }
 .bg-orbs { overflow: hidden; }
 
+/* ── Nav-right : wrapper droite navbar ───────────────────── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
 /* ============================================================
    TABLETTE ≤ 1024px
    ============================================================ */
@@ -35,6 +43,8 @@ img, svg, video, iframe { max-width: 100%; }
   }
   .nav-links { display: none !important; }
   .hamburger { display: flex !important; }
+  .nav-right { gap: 6px; }
+  .nav-right #langSwitcher { display: none; }
   .nav-links.open {
     display: flex !important;
     flex-direction: column;

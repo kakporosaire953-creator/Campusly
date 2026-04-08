@@ -84,13 +84,12 @@
           <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
         </span>
       </a>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div id="langSwitcher"></div>
-      <div class="nav-actions" id="navActions"></div>
-    </div>
+  <div class="nav-right">
+    <div id="langSwitcher"></div>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('show')"><span></span><span></span><span></span></button>
+  </div>
   </nav>
-
-  <canvas id="confettiCanvas"></canvas>
 
   <div class="dashboard-layout">
 
