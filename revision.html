@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Révision IA — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <style>
+    .revision-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
+    .revision-header { padding: 48px 5% 40px; background: linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(56,189,248,0.08) 100%); border-bottom: 1px solid var(--border); }
+    .revision-header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .revision-title    { font-size: clamp(1.5rem,3vw,2rem); font-weight: 800; color: var(--text-1); letter-spacing: -0.02em; }
+    .revision-subtitle { color: var(--text-2); margin-top: 8px; font-size: 0.95rem; }
+    .revision-header-stats { display: flex; gap: 32px; }
+    .rev-stat-value { font-size: 1.8rem; font-weight: 800; background: var(--grad-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .rev-stat-label { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+    .revision-body { max-width: 1200px; margin: 0 auto; padding: 32px 5%; display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
+    .revision-sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .rev-panel { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 20px; }
+    .rev-panel-title { font-size: 0.8rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+    .revision-content { min-height: 400px; }
+    .rev-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 24px; background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); }
+    .rev-empty-icon { width: 80px; height: 80px; background: rgba(108,99,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: var(--brand-2); }
+    .rev-empty h3 { font-size: 1.2rem; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+    .rev-empty p  { color: var(--text-2); font-size: 0.9rem; margin-bottom: 24px; max-width: 400px; }
+    .rev-quiz-container { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 28px; }
+    .quiz-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+    .quiz-matiere { font-size: 1.1rem; font-weight: 700; color: var(--text-1); }
+    .quiz-meta    { font-size: 0.8rem; color: var(--text-3); margin-top: 4px; }
+    .quiz-progress-bar { height: 4px; background: var(--surface-2); border-radius: var(--r-full); margin-bottom: 8px; overflow: hidden; }
+    .quiz-progress-fill { height: 100%; background: var(--grad-brand); border-radius: var(--r-full); transition: width 0.4s var(--ease); }
+    .quiz-progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-3); margin-bottom: 24px; }
+    .quiz-question { font-size: 1.05rem; font-weight: 600; color: var(--text-1); line-height: 1.6; margin-bottom: 20px; }
+    .quiz-options  { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .quiz-option {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); color: var(--text-1); font-family: var(--font-sans);
+      font-size: 0.9rem; cursor: pointer; text-align: left; transition: all var(--t-fast) var(--ease);
+    }
+    .quiz-option:hover:not(:disabled) { background: var(--surface-2); border-color: var(--brand-1); }
+    .quiz-option.correct { background: rgba(16,185,129,0.15); border-color: var(--success); color: var(--success); }
+    .quiz-option.wrong   { background: rgba(239,68,68,0.15);  border-color: var(--danger);  color: var(--danger); }
+    .option-letter { width: 28px; height: 28px; background: var(--surface-2); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+    .quiz-feedback { padding: 14px 16px; border-radius: var(--r-md); font-size: 0.875rem; line-height: 1.6; margin-bottom: 16px; }
+    .correct-fb { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--text-1); }
+    .wrong-fb   { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.3);  color: var(--text-1); }
+    .quiz-actions { display: flex; justify-content: flex-end; }
+    .rev-results { display: flex; align-items: center; justify-content: center; padding: 40px; }
+    .results-card { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 40px; text-align: center; max-width: 480px; width: 100%; }
+    .results-score-circle { width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 1.8rem; font-weight: 900; border: 4px solid; }
+    .results-score-circle.excellent { border-color: var(--success); color: var(--success); background: rgba(16,185,129,0.1); }
+    .results-score-circle.good      { border-color: var(--brand-1); color: var(--brand-1); background: rgba(108,99,255,0.1); }
+    .results-score-circle.average   { border-color: var(--warning); color: var(--warning); background: rgba(245,158,11,0.1); }
+    .results-score-circle.low       { border-color: var(--danger);  color: var(--danger);  background: rgba(239,68,68,0.1); }
+    .results-title { font-size: 1.3rem; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+    .results-desc  { color: var(--text-2); font-size: 0.9rem; margin-bottom: 24px; }
+    .results-breakdown { display: flex; justify-content: center; gap: 32px; margin-bottom: 28px; }
+    .breakdown-item { text-align: center; }
+    .breakdown-value { font-size: 1.6rem; font-weight: 800; color: var(--text-1); }
+    .breakdown-label { font-size: 0.78rem; color: var(--text-3); margin-top: 4px; }
+    .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Partage résultats ── */
+    .share-card { background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(56,189,248,0.1)); border:1px solid rgba(108,99,255,0.3); border-radius:var(--r-xl); padding:20px; margin-top:16px; text-align:center; }
+    .share-card p { font-size:0.82rem; color:var(--text-2); margin-bottom:12px; }
+    .share-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+
+    /* ── Résumé IA ── */
+    .summary-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-xl); padding:20px; margin-top:16px; text-align:left; }
+    .summary-box h4 { font-size:0.875rem; font-weight:700; color:var(--text-1); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+    .summary-content { font-size:0.85rem; color:var(--text-2); line-height:1.7; white-space:pre-wrap; }
+    .summary-loading { display:flex; align-items:center; gap:10px; color:var(--text-3); font-size:0.85rem; }
+    .summary-spinner { width:18px; height:18px; border:2px solid var(--surface-2); border-top-color:var(--brand-1); border-radius:50%; animation:spin 0.8s linear infinite; }
+    .progression-item { margin-bottom: 12px; }
+    .progression-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-2); margin-bottom: 5px; }
+    .progression-pct { font-weight: 700; color: var(--brand-2); }
+    .progress-bar  { height: 4px; background: var(--surface-2); border-radius: var(--r-full); overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--grad-brand); border-radius: var(--r-full); transition: width 0.6s var(--ease); }
+    @media (max-width: 768px) { .revision-body { grid-template-columns: 1fr; } .revision-header-stats { display: none; } }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text">
+      <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="epreuves.html" data-i18n="nav_exams">Épreuves</a></li>
+    <li><a href="revision.html" style="color:var(--brand-2);" data-i18n="nav_revision">Révision IA</a></li>
+    <li><a href="chatbot.html">Assistant IA</a></li>
+    <li><a href="forum.html">Forum</a></li>
+    <li><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div id="langSwitcher"></div>
+    <div class="nav-actions" id="navActions">
+      <a href="auth.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Connexion</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<main class="revision-main">
+  <div class="revision-header">
+    <div class="revision-header-inner">
+      <div>
+        <h1 class="revision-title" data-i18n="rev_title">Révision assistée par IA</h1>
+        <p class="revision-subtitle" data-i18n="rev_subtitle">Générez des quiz personnalisés avec GPT-4o-mini et suivez votre progression.</p>
+      </div>
+      <div class="revision-header-stats">
+        <div class="rev-stat"><div class="rev-stat-value" id="totalQuizDone">0</div><div class="rev-stat-label" data-i18n="rev_quiz_done">Quiz complétés</div></div>
+        <div class="rev-stat"><div class="rev-stat-value" id="avgScore">—</div><div class="rev-stat-label" data-i18n="rev_avg_score">Score moyen</div></div>
+        <div class="rev-stat"><div class="rev-stat-value" id="totalMatieres">0</div><div class="rev-stat-label" data-i18n="rev_subjects">Matières révisées</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="revision-body">
+    <aside class="revision-sidebar">
+      <div class="rev-panel">
+        <div class="rev-panel-title" data-i18n="auth_faculty">Faculté</div>
+        <select class="form-select" id="filterFaculteRev" style="margin:0;">
+          <option value="" data-i18n="all_faculties">Toutes les facultés</option>
+          <option value="FASEG">FASEG</option>
+          <option value="FADESP">FADESP</option>
+          <option value="FAST">FAST</option>
+          <option value="FSS">FSS</option>
+          <option value="FSA">FSA</option>
+          <option value="FASHS">FASHS</option>
+          <option value="FLLAC">FLLAC</option>
+          <option value="EPAC">EPAC</option>
+          <option value="INJEPS">INJEPS</option>
+          <option value="ENEAM">ENEAM</option>
+        </select>
+      </div>
+      <div class="rev-panel">
+        <div class="rev-panel-title">Progression</div>
+        <div id="progressionList"><p style="font-size:0.82rem;color:var(--text-3);">Commencez un quiz pour voir votre progression.</p></div>
+      </div>
+    </aside>
+
+    <section class="revision-content">
+      <div class="rev-empty" id="revEmpty">
+        <div class="rev-empty-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 data-i18n="rev_empty_title">Générez un quiz avec l'IA</h3>
+        <p data-i18n="rev_empty_desc">Entrez un sujet de révision et l'IA génère un quiz personnalisé pour vous.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:480px;">
+          <input type="text" id="quizSujetInput" class="form-input" data-i18n-placeholder="rev_placeholder" placeholder="Ex : Microéconomie, Droit Civil, Anatomie…" style="flex:1;" />
+          <button id="generateQuizBtn" class="btn btn-accent" data-i18n="rev_generate">Générer le quiz ✨</button>
+        </div>
+      </div>
+
+      <div class="rev-quiz-container" id="quizContainer" style="display:none;">
+        <div class="quiz-header">
+          <div><div class="quiz-matiere" id="quizMatiere">—</div><div class="quiz-meta" id="quizMeta">—</div></div>
+          <button class="btn btn-ghost btn-sm" id="quitQuizBtn">✕ Quitter</button>
+        </div>
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div></div>
+        <div class="quiz-progress-label"><span id="questionIndex">Question 1</span><span id="questionTotal">sur 7</span></div>
+        <div class="quiz-question" id="quizQuestion">Chargement...</div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+        <div class="quiz-actions"><button class="btn btn-primary" id="nextBtn" style="display:none;">Question suivante →</button></div>
+      </div>
+
+      <div class="rev-results" id="quizResults" style="display:none;">
+        <div class="results-card">
+          <div class="results-score-circle" id="resultsCircle"><span id="resultsScoreText">0%</span></div>
+          <h2 class="results-title" id="resultsTitle">Quiz terminé</h2>
+          <p class="results-desc" id="resultsDesc">—</p>
+          <div class="results-breakdown" id="resultsBreakdown"></div>
+          <div class="results-actions">
+            <button class="btn btn-primary" id="retryBtn">↺ Recommencer</button>
+            <button class="btn btn-ghost" id="changeSubjectBtn">Nouveau sujet</button>
+          </div>
+          <!-- Partage -->
+          <div class="share-card">
+            <p>Partagez votre résultat avec vos amis 🎉</p>
+            <div class="share-btns">
+              <button class="btn btn-outline btn-sm" onclick="shareResult('copy')">📋 Copier le lien</button>
+              <button class="btn btn-outline btn-sm" onclick="shareResult('whatsapp')">💬 WhatsApp</button>
+              <button class="btn btn-outline btn-sm" onclick="shareResult('twitter')">🐦 Twitter</button>
+            </div>
+          </div>
+          <!-- Résumé IA -->
+          <div class="summary-box" id="summaryBox" style="display:none;">
+            <h4>🤖 Résumé IA du sujet</h4>
+            <div class="summary-content" id="summaryContent">
+              <div class="summary-loading"><div class="summary-spinner"></div> Génération du résumé...</div>
+            </div>
+          </div>
+          <button class="btn btn-accent btn-sm" id="summaryBtn" style="margin-top:12px;width:100%;" onclick="generateSummary()">✨ Obtenir un résumé IA du sujet</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+  import { initLangSwitcher, applyTranslations } from './js/i18n.js';
+  import { injectLogos } from './js/logo.js';
+  import { requireAuth } from './js/auth-guard.js';
+  import { supabase } from "./js/supabase-config.js";
+  import { SUPABASE_FUNCTIONS_URL } from "./js/supabase-config.js";
+  import { saveQuizResult, getQuizResults } from "./js/supabase-db.js";
+
+  const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
+
+  let _uid = null, questions = [], idx = 0, score = 0, sujet = "", faculte = "";
+
+  function showToast(msg, type="info") {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+    t.textContent = msg; t.className = `toast ${type} show`;
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+
+  // Garde de route + init
+  requireAuth((user) => {
+    _uid = user.id;
+    loadProgression();
+    updateNav(user);
+  });
+
+  function updateNav(user) {
+    const el = document.getElementById("navActions");
+    if (!el) return;
+    el.innerHTML = user
+      ? `<a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a><button id="revLogoutBtn" class="btn btn-ghost btn-sm">Déconnexion</button>`
+      : `<a href="auth.html" class="btn btn-ghost btn-sm">Connexion</a><a href="auth.html?tab=register" class="btn btn-primary btn-sm">S'inscrire</a>`;
+    if (user) {
+      document.getElementById("revLogoutBtn")?.addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        window.location.href = "index.html";
+      });
+    }
+  }
+
+  document.getElementById("generateQuizBtn").addEventListener("click", generateQuiz);
+  document.getElementById("quitQuizBtn").addEventListener("click", () => { show("revEmpty"); });
+  document.getElementById("nextBtn").addEventListener("click", nextQ);
+  document.getElementById("retryBtn").addEventListener("click", generateQuiz);
+  document.getElementById("changeSubjectBtn").addEventListener("click", () => { show("revEmpty"); });
+
+  async function generateQuiz() {
+    sujet   = document.getElementById("quizSujetInput").value.trim();
+    faculte = document.getElementById("filterFaculteRev").value;
+    if (!sujet) { showToast("Entrez un sujet de révision.", "info"); return; }
+    if (!_uid)  { showToast("Connectez-vous pour générer un quiz.", "info"); setTimeout(() => window.location.href = "auth.html", 1500); return; }
+
+    showLoader(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`${EDGE_BASE}/generate-quiz`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ sujet, faculte, nbQuestions: 7 }),
+      });
+      const result = await res.json();
+
+      if (!res.ok) {
+        showLoader(false);
+        if (res.status === 429) showToast("Limite de 3 quiz gratuits atteinte. Passez Premium !", "info");
+        else showToast("Service IA indisponible. Vérifiez votre connexion et réessayez.", "info");
+        show("revEmpty");
+        return;
+      }
+
+      const quizQuestions = result.questions;
+      if (!quizQuestions?.length) throw new Error("Aucune question générée");
+
+      questions = quizQuestions;
+      idx = 0; score = 0;
+      document.getElementById("quizMatiere").textContent = sujet;
+      document.getElementById("quizMeta").textContent    = `${questions.length} questions · GPT-4o-mini${faculte ? " · " + faculte : ""}`;
+      document.getElementById("questionTotal").textContent = `sur ${questions.length}`;
+      show("quizContainer");
+      renderQ();
+    } catch (err) {
+      showLoader(false);
+      console.error("Erreur quiz:", err);
+      showToast("Service IA indisponible. Vérifiez votre connexion et réessayez.", "info");
+      show("revEmpty");
+    }
+  }
+
+  function renderQ() {
+    showLoader(false);
+    const q = questions[idx];
+    document.getElementById("quizProgressFill").style.width = `${(idx/questions.length)*100}%`;
+    document.getElementById("questionIndex").textContent    = `Question ${idx+1}`;
+    document.getElementById("quizQuestion").textContent     = q.question;
+    document.getElementById("quizFeedback").style.display   = "none";
+    document.getElementById("nextBtn").style.display        = "none";
+    document.getElementById("quizOptions").innerHTML = q.options.map((o,i) =>
+      `<button class="quiz-option" onclick="selectAnswer(${i})"><span class="option-letter">${["A","B","C","D"][i]}</span>${o}</button>`
+    ).join("");
+  }
+
+  window.selectAnswer = function(i) {
+    const q = questions[idx];
+    document.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
+    document.querySelectorAll(".quiz-option")[q.reponseCorrecte].classList.add("correct");
+    if (i !== q.reponseCorrecte) document.querySelectorAll(".quiz-option")[i].classList.add("wrong");
+    const fb = document.getElementById("quizFeedback");
+    fb.style.display = "block";
+    fb.className = `quiz-feedback ${i === q.reponseCorrecte ? "correct-fb" : "wrong-fb"}`;
+    fb.innerHTML = i === q.reponseCorrecte
+      ? `<strong>✓ Correct.</strong> ${q.explication}`
+      : `<strong>✗ Incorrect.</strong> Bonne réponse : <strong>${q.options[q.reponseCorrecte]}</strong>. ${q.explication}`;
+    if (i === q.reponseCorrecte) score++;
+    const nb = document.getElementById("nextBtn");
+    nb.style.display = "inline-flex";
+    nb.textContent   = idx < questions.length-1 ? "Question suivante →" : "Voir les résultats";
+  };
+
+  function nextQ() { idx++; idx < questions.length ? renderQ() : showResults(); }
+
+  // ── PARTAGE RÉSULTATS ──────────────────────────────────
+  window.shareResult = function(type) {
+    const total = questions.length;
+    const pct   = Math.round((score/total)*100);
+    const text  = `J'ai obtenu ${pct}% (${score}/${total}) au quiz "${sujet}" sur Campusly ! 🎓 Teste-toi aussi sur campusly.uac.bj`;
+    const url   = "https://campusly.uac.bj";
+    if (type === "copy") {
+      navigator.clipboard.writeText(text).then(() => showToast("Copié dans le presse-papier !", "success"));
+    } else if (type === "whatsapp") {
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+    } else if (type === "twitter") {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, "_blank");
+    }
+  };
+
+  // ── RÉSUMÉ IA ──────────────────────────────────────────
+  window.generateSummary = async function() {
+    const box = document.getElementById("summaryBox");
+    const btn = document.getElementById("summaryBtn");
+    const content = document.getElementById("summaryContent");
+    box.style.display = "block";
+    btn.style.display = "none";
+    content.innerHTML = `<div class="summary-loading"><div class="summary-spinner"></div> Génération du résumé...</div>`;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ messages: [{ role: "user", content: `Génère un résumé clair et structuré du sujet "${sujet}"${faculte ? ` (Faculté : ${faculte})` : ""}. Couvre les points clés en 5-8 paragraphes courts, niveau universitaire, en français.` }], mode: "explain" }),
+      });
+      const result = await res.json();
+      content.textContent = result.content;
+    } catch(err) {
+      content.textContent = "Service IA indisponible. Réessayez plus tard.";
+      btn.style.display = "block";
+    }
+  };
+
+  async function showResults() {
+    const total = questions.length, pct = Math.round((score/total)*100);
+    show("quizResults");
+    if (pct >= 70) {
+      // Confetti si bon score
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js";
+      s.onload = () => confetti({ particleCount:150, spread:80, origin:{y:0.6} });
+      document.head.appendChild(s);
+    }
+    document.getElementById("quizProgressFill").style.width = "100%";
+    const c = document.getElementById("resultsCircle");
+    c.className = "results-score-circle " + (pct>=80?"excellent":pct>=60?"good":pct>=40?"average":"low");
+    document.getElementById("resultsScoreText").textContent = `${pct}%`;
+    const msgs = [[80,"Excellent !","Vous maîtrisez bien ce sujet."],[60,"Bon résultat","Quelques révisions supplémentaires."],[40,"Résultat moyen","Révisez les points mal maîtrisés."],[0,"Des efforts nécessaires","Révision approfondie recommandée."]];
+    const [,title,desc] = msgs.find(([m])=>pct>=m);
+    document.getElementById("resultsTitle").textContent = title;
+    document.getElementById("resultsDesc").textContent  = desc;
+    document.getElementById("resultsBreakdown").innerHTML = `
+      <div class="breakdown-item"><div class="breakdown-value" style="color:var(--success)">${score}</div><div class="breakdown-label">Correctes</div></div>
+      <div class="breakdown-item"><div class="breakdown-value" style="color:var(--danger)">${total-score}</div><div class="breakdown-label">Incorrectes</div></div>
+      <div class="breakdown-item"><div class="breakdown-value">${total}</div><div class="breakdown-label">Total</div></div>`;
+    if (_uid) {
+      try {
+        await saveQuizResult(_uid, { sujet, score, total, faculte });
+        await loadProgression();
+      } catch(e) { console.error(e); }
+    }
+  }
+
+  async function loadProgression() {
+    if (!_uid) return;
+    try {
+      const results = await getQuizResults(_uid);
+      document.getElementById("totalQuizDone").textContent = results.length;
+      if (!results.length) return;
+      const avg = Math.round(results.reduce((a,r)=>a+(r.score/r.total)*100,0)/results.length);
+      document.getElementById("avgScore").textContent    = `${avg}%`;
+      document.getElementById("totalMatieres").textContent = [...new Set(results.map(r=>r.sujet))].length;
+      const sujets = [...new Set(results.map(r=>r.sujet))].slice(0,5);
+      document.getElementById("progressionList").innerHTML = sujets.map(s => {
+        const sr  = results.filter(r=>r.sujet===s);
+        const pct = Math.round(sr.reduce((a,r)=>a+(r.score/r.total)*100,0)/sr.length);
+        return `<div class="progression-item"><div class="progression-label"><span>${s}</span><span class="progression-pct">${pct}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+      }).join("");
+    } catch(e) { console.error(e); }
+  }
+
+  function show(id) {
+    ["revEmpty","quizContainer","quizResults"].forEach(i => {
+      const el = document.getElementById(i);
+      if (el) el.style.display = i===id ? (id==="quizResults"?"flex":"block") : "none";
+    });
+  }
+
+  function showLoader(v) {
+    let l = document.getElementById("quizLoader");
+    if (!l) {
+      l = document.createElement("div");
+      l.id = "quizLoader";
+      l.style.cssText = "display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:80px;background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);color:var(--text-2);font-size:0.9rem;";
+      l.innerHTML = `<div style="width:40px;height:40px;border:3px solid var(--surface-2);border-top-color:var(--brand-1);border-radius:50%;animation:spin 0.8s linear infinite"></div><p>L'IA génère votre quiz…</p>`;
+      document.querySelector(".revision-content").appendChild(l);
+    }
+    ["revEmpty","quizContainer","quizResults"].forEach(i => { const el=document.getElementById(i); if(el) el.style.display="none"; });
+    l.style.display = v ? "flex" : "none";
+    if (!v) show("revEmpty");
+  }
+
+  window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
+  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
+  initLangSwitcher();
+  applyTranslations();
+  injectLogos();
+</script>
+<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+</body>
+</html>

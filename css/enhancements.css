@@ -1,0 +1,312 @@
+/* ============================================================
+   CAMPUSLY — Enhancements CSS (design moderne)
+   À charger après modern.css sur toutes les pages
+   ============================================================ */
+
+/* ── Navbar glassmorphism ─────────────────────────────────── */
+.navbar {
+  background: rgba(5, 13, 26, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(21, 101, 192, 0.12) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.3) !important;
+}
+html.theme-light .navbar {
+  background: rgba(255,255,255,0.85) !important;
+  border-bottom: 1px solid rgba(21,101,192,0.1) !important;
+}
+.navbar.scrolled {
+  background: rgba(5, 13, 26, 0.95) !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4) !important;
+}
+html.theme-light .navbar.scrolled {
+  background: rgba(255,255,255,0.97) !important;
+}
+
+/* ── Hero amélioré ────────────────────────────────────────── */
+.hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(21,101,192,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 60%, rgba(245,124,0,0.08) 0%, transparent 60%);
+}
+.hero-title {
+  background: linear-gradient(135deg, #F0F6FF 0%, #B8D0F0 50%, #42A5F5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-title span {
+  background: linear-gradient(135deg, #1565C0 0%, #42A5F5 50%, #F57C00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Hero card flottante améliorée ───────────────────────── */
+.hero-card {
+  background: rgba(10, 22, 40, 0.8);
+  backdrop-filter: blur(32px);
+  border: 1px solid rgba(21,101,192,0.25);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 32px 64px rgba(0,0,0,0.5),
+    0 0 80px rgba(21,101,192,0.15);
+}
+
+/* ── Feature cards améliorées ────────────────────────────── */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(21,101,192,0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.feature-card:hover::after { opacity: 1; }
+.feature-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(21,101,192,0.2);
+}
+
+/* ── Pricing cards améliorées ────────────────────────────── */
+.pricing-card.popular {
+  background: linear-gradient(145deg, rgba(21,101,192,0.18) 0%, rgba(245,124,0,0.06) 100%);
+  box-shadow: 0 0 0 1px rgba(21,101,192,0.4), 0 24px 64px rgba(21,101,192,0.2);
+  transform: scale(1.03);
+}
+.pricing-card.popular:hover { transform: scale(1.03) translateY(-4px); }
+
+/* ── Stat items animés ───────────────────────────────────── */
+.stat-item {
+  position: relative;
+  padding: 12px 20px;
+  border-radius: var(--r-md);
+  transition: all 0.2s ease;
+}
+.stat-item:hover { background: rgba(21,101,192,0.08); }
+.stat-number {
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #42A5F5, #F57C00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Buttons améliorés ───────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #0D47A1 0%, #1565C0 40%, #1E88E5 100%);
+  box-shadow: 0 4px 16px rgba(21,101,192,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 32px rgba(21,101,192,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+.btn-accent {
+  background: linear-gradient(135deg, #E65100 0%, #F57C00 50%, #FF8F00 100%);
+  box-shadow: 0 4px 16px rgba(245,124,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.btn-accent:hover {
+  box-shadow: 0 8px 32px rgba(245,124,0,0.5);
+  transform: translateY(-2px);
+}
+
+/* ── Section tags ────────────────────────────────────────── */
+.section-tag {
+  background: linear-gradient(135deg, rgba(21,101,192,0.15), rgba(245,124,0,0.08));
+  border: 1px solid rgba(21,101,192,0.3);
+  color: #42A5F5;
+  letter-spacing: 0.1em;
+}
+
+/* ── Dashboard sidebar améliorée ─────────────────────────── */
+.sidebar {
+  background: linear-gradient(180deg, #070F1E 0%, #0A1628 100%);
+  border-right: 1px solid rgba(21,101,192,0.1);
+}
+.sidebar-profile {
+  background: linear-gradient(135deg, rgba(21,101,192,0.12) 0%, rgba(245,124,0,0.05) 100%);
+  border: 1px solid rgba(21,101,192,0.15);
+  border-radius: var(--r-xl);
+}
+.sidebar-link {
+  border-radius: var(--r-md);
+  transition: all 0.15s ease;
+}
+.sidebar-link:hover {
+  background: rgba(21,101,192,0.1);
+  color: #42A5F5;
+  padding-left: 16px;
+}
+.sidebar-link.active {
+  background: linear-gradient(135deg, rgba(21,101,192,0.2), rgba(21,101,192,0.08));
+  color: #42A5F5;
+  border: 1px solid rgba(21,101,192,0.25);
+  box-shadow: inset 3px 0 0 #1565C0;
+}
+
+/* ── Dashboard cards améliorées ──────────────────────────── */
+.stat-card {
+  background: linear-gradient(145deg, rgba(21,101,192,0.06) 0%, rgba(255,255,255,0.01) 100%);
+  border: 1px solid rgba(21,101,192,0.1);
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-brand);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(21,101,192,0.25);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(21,101,192,0.15);
+}
+.stat-card-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #F0F6FF, #42A5F5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Page header dashboard ───────────────────────────────── */
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #F0F6FF 0%, #B8D0F0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+}
+
+/* ── Card améliorée ──────────────────────────────────────── */
+.card {
+  background: linear-gradient(145deg, rgba(21,101,192,0.06) 0%, rgba(255,255,255,0.01) 100%);
+  border: 1px solid rgba(21,101,192,0.1);
+  transition: border-color 0.2s ease;
+}
+.card:hover { border-color: rgba(21,101,192,0.2); }
+
+/* ── Streak card ─────────────────────────────────────────── */
+.streak-card {
+  background: linear-gradient(135deg, rgba(245,124,0,0.12) 0%, rgba(255,152,0,0.06) 100%);
+  border: 1px solid rgba(245,124,0,0.25);
+  box-shadow: 0 4px 24px rgba(245,124,0,0.08);
+}
+
+/* ── Toast amélioré ──────────────────────────────────────── */
+.toast {
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(21,101,192,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.toast.success {
+  background: rgba(16,185,129,0.15);
+  border-color: rgba(16,185,129,0.35);
+  box-shadow: 0 8px 32px rgba(16,185,129,0.15);
+}
+
+/* ── Scrollbar custom ────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(21,101,192,0.3); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(21,101,192,0.6); }
+
+/* ── Animations d'entrée ─────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.hero-text { animation: fadeInUp 0.7s cubic-bezier(0.4,0,0.2,1) both; }
+.hero-visual { animation: fadeInScale 0.8s 0.2s cubic-bezier(0.4,0,0.2,1) both; }
+.hero-badge { animation: fadeInUp 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+
+/* ── Section démo cards ──────────────────────────────────── */
+#demo .card, #demo > div > div {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#demo > div > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+}
+
+/* ── Auth page améliorée ─────────────────────────────────── */
+.auth-right {
+  background: linear-gradient(180deg, #0A1628 0%, #070F1E 100%);
+}
+.auth-form-container {
+  background: rgba(10,22,40,0.6);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(21,101,192,0.12);
+  border-radius: var(--r-xl);
+  padding: 32px;
+}
+
+/* ── Form inputs améliorés ───────────────────────────────── */
+.form-input, .form-select {
+  background: rgba(21,101,192,0.05);
+  border: 1px solid rgba(21,101,192,0.15);
+  transition: all 0.2s ease;
+}
+.form-input:focus, .form-select:focus {
+  background: rgba(21,101,192,0.08);
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.12), 0 0 20px rgba(21,101,192,0.08);
+}
+
+/* ── Mode clair overrides ────────────────────────────────── */
+html.theme-light .sidebar {
+  background: linear-gradient(180deg, #F8FAFC 0%, #F0F4F8 100%);
+}
+html.theme-light .stat-card-value {
+  background: linear-gradient(135deg, #0D47A1, #1565C0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+html.theme-light .page-title {
+  background: linear-gradient(135deg, #0D1F3C, #1565C0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+html.theme-light .hero-title {
+  background: linear-gradient(135deg, #0D1F3C 0%, #1565C0 60%, #F57C00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+html.theme-light .auth-right { background: #F0F4F8; }
+html.theme-light .auth-form-container {
+  background: #fff;
+  border-color: rgba(21,101,192,0.1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-title { font-size: clamp(2rem, 8vw, 3rem); }
+  .pricing-card.popular { transform: scale(1); }
+  .stat-card:hover { transform: none; }
+}

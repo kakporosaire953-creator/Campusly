@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <style>
+    /* ── XP / Niveau ── */
+    .xp-bar-wrap { background:var(--surface); border-radius:var(--r-full); height:8px; overflow:hidden; margin:8px 0 4px; }
+    .xp-bar-fill { height:100%; background:linear-gradient(90deg,#6C63FF,#38BDF8); border-radius:var(--r-full); transition:width 0.6s ease; }
+    .xp-label { font-size:0.72rem; color:var(--text-3); display:flex; justify-content:space-between; }
+    .level-badge { display:inline-flex; align-items:center; gap:5px; background:linear-gradient(135deg,#6C63FF,#38BDF8); color:#fff; font-size:0.72rem; font-weight:700; padding:3px 10px; border-radius:var(--r-full); margin-top:6px; }
+
+    /* ── Streak ── */
+    .streak-card { background:linear-gradient(135deg,rgba(245,124,0,0.15),rgba(255,152,0,0.08)); border:1px solid rgba(245,124,0,0.3); border-radius:var(--r-xl); padding:16px 20px; display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+    .streak-fire { font-size:2rem; }
+    .streak-count { font-size:1.8rem; font-weight:900; color:#F57C00; line-height:1; }
+    .streak-label { font-size:0.78rem; color:var(--text-2); margin-top:2px; }
+
+    /* ── Badges ── */
+    .badges-grid { display:flex; flex-wrap:wrap; gap:10px; }
+    .badge-item { display:flex; flex-direction:column; align-items:center; gap:4px; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-xl); min-width:80px; transition:all var(--t-fast) var(--ease); }
+    .badge-item.unlocked { background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(56,189,248,0.1)); border-color:rgba(108,99,255,0.4); }
+    .badge-item.locked { opacity:0.4; filter:grayscale(1); }
+    .badge-icon { font-size:1.6rem; }
+    .badge-name { font-size:0.68rem; font-weight:700; color:var(--text-2); text-align:center; }
+
+    /* ── Compte à rebours examens ── */
+    .countdown-list { display:flex; flex-direction:column; gap:10px; }
+    .countdown-item { display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); }
+    .countdown-days { font-size:1.4rem; font-weight:900; color:var(--brand-1); min-width:48px; text-align:center; }
+    .countdown-days.urgent { color:var(--danger); }
+    .countdown-info { flex:1; }
+    .countdown-name { font-size:0.875rem; font-weight:600; color:var(--text-1); }
+    .countdown-date { font-size:0.75rem; color:var(--text-3); margin-top:2px; }
+    .countdown-del { background:none; border:none; color:var(--text-4); cursor:pointer; font-size:1rem; padding:4px; }
+    .countdown-del:hover { color:var(--danger); }
+    .add-exam-form { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; padding-top:16px; border-top:1px solid var(--border); }
+    .add-exam-form input { flex:1; min-width:140px; }
+
+    /* ── Plan de révision ── */
+    .plan-week { margin-bottom:20px; }
+    .plan-week-title { font-size:0.78rem; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; padding:0 4px; }
+    .plan-day { display:flex; align-items:flex-start; gap:12px; padding:12px 14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); margin-bottom:8px; transition:all var(--t-fast) var(--ease); }
+    .plan-day.done { opacity:0.5; }
+    .plan-day.today { border-color:rgba(108,99,255,0.5); background:rgba(108,99,255,0.08); }
+    .plan-day-check { width:20px; height:20px; border:2px solid var(--border-2); border-radius:4px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:2px; transition:all var(--t-fast) var(--ease); }
+    .plan-day-check.checked { background:#10B981; border-color:#10B981; color:#fff; }
+    .plan-day-date { font-size:0.72rem; color:var(--text-3); margin-bottom:3px; }
+    .plan-day-tasks { font-size:0.85rem; color:var(--text-1); font-weight:500; line-height:1.5; }
+    .plan-progress-bar { height:6px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:20px; }
+    .plan-progress-fill { height:100%; background:linear-gradient(90deg,#6C63FF,#38BDF8); border-radius:999px; transition:width 0.5s ease; }
+
+    /* ── Confetti canvas ── */
+    #confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; display:none; }
+
+    /* ── Leaderboard ── */
+    .lb-row { display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:var(--r-md); margin-bottom:8px; background:var(--surface); border:1px solid var(--border); transition:all var(--t-fast) var(--ease); }
+    .lb-row.me { background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(56,189,248,0.1)); border-color:rgba(108,99,255,0.4); }
+    .lb-rank { font-size:1.1rem; font-weight:900; min-width:32px; text-align:center; }
+    .lb-rank.gold { color:#FFD700; } .lb-rank.silver { color:#C0C0C0; } .lb-rank.bronze { color:#CD7F32; }
+    .lb-avatar { width:36px; height:36px; border-radius:50%; background:var(--grad-brand); display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:0.9rem; overflow:hidden; flex-shrink:0; }
+    .lb-name { flex:1; font-size:0.875rem; font-weight:600; color:var(--text-1); }
+    .lb-faculty { font-size:0.72rem; color:var(--text-3); }
+    .lb-score { font-size:1rem; font-weight:800; color:var(--brand-3); }
+
+    /* ── Groupes ── */
+    .group-item { display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); margin-bottom:8px; }
+    .group-icon { font-size:1.4rem; }
+    .group-name { flex:1; font-size:0.875rem; font-weight:600; color:var(--text-1); }
+    .group-count { font-size:0.75rem; color:var(--text-3); }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+        <span class="logo-text">
+          <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
+        </span>
+      </a>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="langSwitcher"></div>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </nav>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-avatar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div id="userName" class="sidebar-profile-name">Chargement…</div>
+        <div id="userMatricule" class="sidebar-profile-sub"></div>
+        <div id="premiumStatus" style="margin-top:8px;"></div>
+        <!-- XP / Niveau -->
+        <div style="margin-top:12px;">
+          <div class="level-badge" id="levelBadge">⭐ Niveau 1</div>
+          <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div></div>
+          <div class="xp-label"><span id="xpCurrent">0 XP</span><span id="xpNext">100 XP</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Principal</div>
+        <a class="sidebar-link active" data-section="accueil" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Accueil
+        </a>
+        <a class="sidebar-link" data-section="historique" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 0 .5-4"/><polyline points="3 3 3 7 7 7"/></svg>
+          Historique
+        </a>
+        <a class="sidebar-link" data-section="favoris" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Favoris
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Ressources</div>
+        <a class="sidebar-link" href="epreuves.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Épreuves
+        </a>
+        <a class="sidebar-link" href="revision.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Révision IA
+          <span class="sidebar-badge">Nouveau</span>
+        </a>
+        <a class="sidebar-link" href="chatbot.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Assistant IA
+          <span class="sidebar-badge" style="background:var(--grad-accent);">GPT</span>
+        </a>
+        <a class="sidebar-link" href="contribuer.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Contribuer
+        </a>
+        <a class="sidebar-link" href="forum.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Forum
+          <span class="sidebar-badge" style="background:rgba(108,99,255,0.8);">Nouveau</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Compte</div>
+        <a class="sidebar-link" data-section="abonnement" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Abonnement
+        </a>
+        <a class="sidebar-link" data-section="badges" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          Badges & XP
+        </a>
+        <a class="sidebar-link" data-section="examens" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Mes examens
+        </a>
+        <a class="sidebar-link" data-section="planning" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Plan de révision
+          <span class="sidebar-badge" style="background:var(--grad-accent);">IA</span>
+        </a>
+        <a class="sidebar-link" data-section="leaderboard" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Classement
+        </a>
+        <a class="sidebar-link" data-section="profil" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Mon profil
+        </a>
+        <a class="sidebar-link sidebar-link-danger" href="#" onclick="logout()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- CONTENU -->
+    <main class="dashboard-main">
+
+      <!-- ACCUEIL -->
+      <div class="dash-section" id="section-accueil">
+        <div class="page-header">
+          <div class="page-title" id="welcomeMsg">Tableau de bord</div>
+          <div class="page-subtitle" id="welcomeSub">Votre espace académique personnel</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;" id="welcomeDate"></div>
+        </div>
+
+        <!-- Streak -->
+        <div class="streak-card" id="streakCard">
+          <div class="streak-fire">🔥</div>
+          <div>
+            <div class="streak-count" id="streakCount">0</div>
+            <div class="streak-label">jours de révision consécutifs</div>
+          </div>
+          <div style="margin-left:auto;font-size:0.78rem;color:var(--text-3);" id="streakMsg"></div>
+        </div>
+
+        <!-- Question du jour -->
+        <div class="card" id="dailyQuestionCard" style="margin-bottom:20px;background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(56,189,248,0.08));border-color:rgba(108,99,255,0.3);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:1.4rem;">🧠</span>
+              <div>
+                <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Question du jour</div>
+                <div style="font-size:0.72rem;color:var(--text-3);" id="dqMeta">Chargement...</div>
+              </div>
+            </div>
+            <span id="dqBadge" style="font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(108,99,255,0.2);color:#a78bfa;">Quotidien</span>
+          </div>
+          <div id="dqContent" style="min-height:60px;">
+            <div style="display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:0.85rem;">
+              <div style="width:16px;height:16px;border:2px solid var(--border-2);border-top-color:#6C63FF;border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0;"></div>
+              Génération de votre question...
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-icon blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <div>
+              <div class="stat-card-value" id="statDownloads">0</div>
+              <div class="stat-card-label">Téléchargements</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon orange">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div>
+              <div class="stat-card-value" id="statFavorites">0</div>
+              <div class="stat-card-label">Favoris</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <div class="stat-card-value" id="statQuiz">0</div>
+              <div class="stat-card-label">Quiz complétés</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div>
+              <div class="stat-card-value" id="statPremium">Inactif</div>
+              <div class="stat-card-label">Statut Premium</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:24px;">
+          <h3 class="card-title">Accès rapide</h3>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="epreuves.html" class="btn btn-primary">Parcourir les épreuves</a>
+            <a href="revision.html" class="btn btn-accent">Révision IA</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <h3 class="card-title" style="margin:0;">Derniers téléchargements</h3>
+            <a href="#" onclick="showSection('historique')" class="link-primary">Voir tout</a>
+          </div>
+          <div id="historyPreview"></div>
+        </div>
+      </div>
+
+      <!-- HISTORIQUE -->
+      <div class="dash-section" id="section-historique" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Historique</div>
+          <div class="page-subtitle">Toutes vos épreuves téléchargées</div>
+        </div>
+        <div class="card"><div id="historyList"></div></div>
+      </div>
+
+      <!-- FAVORIS -->
+      <div class="dash-section" id="section-favoris" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Favoris</div>
+          <div class="page-subtitle">Vos épreuves sauvegardées</div>
+        </div>
+        <div class="card"><div id="favoritesList"></div></div>
+      </div>
+
+      <!-- ABONNEMENT -->
+      <div class="dash-section" id="section-abonnement" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Abonnement Premium</div>
+          <div class="page-subtitle">Débloquez l'accès complet — MTN MoMo, Moov Money, carte bancaire</div>
+        </div>
+
+        <!-- Statut actuel -->
+        <div class="card" style="margin-bottom:20px;" id="premiumStatusCard"></div>
+
+        <!-- Plans -->
+        <div class="pricing-grid" style="max-width:100%;">
+          <div class="pricing-card">
+            <div class="pricing-duration">1 Semaine</div>
+            <div class="pricing-price">500 <span>FCFA</span></div>
+            <ul class="pricing-features">
+              <li><span class="check">✓</span> Accès illimité aux épreuves</li>
+              <li><span class="check">✓</span> Quiz IA illimités</li>
+              <li><span class="check">✓</span> Assistant IA GPT</li>
+            </ul>
+            <button class="btn btn-outline" style="width:100%;" onclick="startPayment(500,7,'1 Semaine')">Choisir</button>
+          </div>
+          <div class="pricing-card popular">
+            <div class="popular-badge">⭐ Recommandé</div>
+            <div class="pricing-duration">1 Mois</div>
+            <div class="pricing-price">1 500 <span>FCFA</span></div>
+            <ul class="pricing-features">
+              <li><span class="check">✓</span> Accès illimité aux épreuves</li>
+              <li><span class="check">✓</span> Quiz IA illimités</li>
+              <li><span class="check">✓</span> Assistant IA GPT</li>
+              <li><span class="check">✓</span> Support prioritaire</li>
+            </ul>
+            <button class="btn btn-primary" style="width:100%;" onclick="startPayment(1500,30,'1 Mois')">Choisir</button>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-duration">3 Mois</div>
+            <div class="pricing-price">3 500 <span>FCFA</span></div>
+            <ul class="pricing-features">
+              <li><span class="check">✓</span> Tout du plan 1 mois</li>
+              <li><span class="check">✓</span> Économisez 1 000 FCFA</li>
+            </ul>
+            <button class="btn btn-outline" style="width:100%;" onclick="startPayment(3500,90,'3 Mois')">Choisir</button>
+          </div>
+        </div>
+        <p style="text-align:center;font-size:0.78rem;color:var(--text-3);margin-top:16px;">
+          Paiement sécurisé via <strong>Flutterwave</strong> — MTN Mobile Money · Moov Money · Carte bancaire
+        </p>
+      </div>
+
+      <!-- PROFIL -->
+      <div class="dash-section" id="section-profil" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Mon profil</div>
+          <div class="page-subtitle">Modifiez vos informations personnelles</div>
+        </div>
+        <div class="card" style="max-width:520px;">
+          <!-- Photo de profil -->
+          <div style="display:flex;align-items:center;gap:20px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);">
+            <div style="position:relative;cursor:pointer;" onclick="document.getElementById('photoInput').click()">
+              <div id="profileAvatarImg" style="width:72px;height:72px;border-radius:50%;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:1.8rem;font-weight:700;color:#fff;"></div>
+              <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;">✏️</div>
+            </div>
+            <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="uploadPhoto(this)" />
+            <div>
+              <div id="profileName" class="profile-name" style="font-size:1.1rem;font-weight:700;"></div>
+              <div id="profileMatricule" class="profile-sub" style="font-size:0.82rem;color:var(--text-3);"></div>
+              <div id="profilePremium" style="margin-top:4px;"></div>
+            </div>
+          </div>
+          <!-- Formulaire édition -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Prénom</label>
+              <input type="text" id="editPrenom" class="form-input" style="margin:0;" />
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label class="form-label">Nom</label>
+              <input type="text" id="editNom" class="form-input" style="margin:0;" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Matricule UAC</label>
+            <input type="text" id="editMatricule" class="form-input" maxlength="8" />
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Faculté</label>
+            <select id="editFaculte" class="form-select">
+              <option value="">Sélectionner</option>
+              <option value="FASEG">FASEG</option><option value="FADESP">FADESP</option>
+              <option value="FAST">FAST</option><option value="FSS">FSS</option>
+              <option value="FSA">FSA</option><option value="FASHS">FASHS</option>
+              <option value="FLLAC">FLLAC</option><option value="EPAC">EPAC</option>
+              <option value="INJEPS">INJEPS</option><option value="ENEAM">ENEAM</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:24px;">
+            <label class="form-label">Département / Filière</label>
+            <input type="text" id="editDept" class="form-input" placeholder="Ex : Informatique" />
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="saveProfile()">💾 Enregistrer les modifications</button>
+          <!-- Danger zone -->
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+            <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:12px;">Zone dangereuse</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button onclick="doLogout()" class="btn btn-outline btn-sm" style="color:var(--text-2);">Se déconnecter</button>
+              <button onclick="confirmDeleteAccount()" class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);">🗑️ Supprimer mon compte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BADGES & XP -->
+      <div class="dash-section" id="section-badges" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Badges & XP</div>
+          <div class="page-subtitle">Votre progression et vos récompenses</div>
+        </div>
+        <div class="card" style="margin-bottom:20px;">
+          <h3 class="card-title">Votre niveau</h3>
+          <div class="level-badge" id="levelBadgeBig" style="font-size:1rem;padding:6px 16px;">⭐ Niveau 1</div>
+          <div class="xp-bar-wrap" style="height:12px;margin:12px 0 6px;"><div class="xp-bar-fill" id="xpBarFillBig" style="width:0%"></div></div>
+          <div class="xp-label"><span id="xpCurrentBig">0 XP</span><span id="xpNextBig">100 XP</span></div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Badges débloqués</h3>
+          <div class="badges-grid" id="badgesGrid"></div>
+        </div>
+      </div>
+
+      <!-- LEADERBOARD -->
+      <div class="dash-section" id="section-leaderboard" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">🏆 Classement</div>
+          <div class="page-subtitle">Les étudiants les plus actifs de Campusly</div>
+        </div>
+        <div class="card" style="margin-bottom:16px;">
+          <div style="display:flex;gap:8px;margin-bottom:20px;">
+            <button class="btn btn-primary btn-sm" onclick="loadLeaderboard('xp')" id="lbXpBtn">⭐ XP</button>
+            <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('quiz')" id="lbQuizBtn">🎯 Quiz</button>
+            <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('streak')" id="lbStreakBtn">🔥 Streak</button>
+          </div>
+          <div id="leaderboardList"></div>
+        </div>
+        <!-- Groupes d'étude -->
+        <div class="card">
+          <h3 class="card-title">👥 Groupes d'étude</h3>
+          <div id="groupsList" style="margin-bottom:16px;"></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--border);">
+            <input type="text" id="groupName" class="form-input" placeholder="Nom du groupe (ex: FASEG S3)" style="flex:1;margin:0;" />
+            <button class="btn btn-primary" onclick="createGroup()">+ Créer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLAN DE RÉVISION IA -->
+      <div class="dash-section" id="section-planning" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">📋 Plan de révision</div>
+          <div class="page-subtitle">Votre planning personnalisé généré par IA</div>
+        </div>
+
+        <!-- Formulaire de création -->
+        <div class="card" id="planSetupCard" style="margin-bottom:20px;">
+          <h3 class="card-title">Créer mon plan de révision</h3>
+          <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:20px;line-height:1.6;">
+            Entrez vos matières et vos dates d'examens. L'IA génère un planning jour par jour adapté à votre emploi du temps.
+          </p>
+          <div id="planMatieres" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
+          <button class="btn btn-ghost btn-sm" onclick="addMatiere()" style="margin-bottom:20px;">+ Ajouter une matière</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <div class="form-group" style="flex:1;min-width:180px;margin:0;">
+              <label class="form-label">Date de début</label>
+              <input type="date" id="planStartDate" class="form-input" style="margin:0;" />
+            </div>
+            <div class="form-group" style="flex:1;min-width:180px;margin:0;">
+              <label class="form-label">Heures de révision/jour</label>
+              <select id="planHours" class="form-select" style="margin:0;">
+                <option value="1">1h par jour</option>
+                <option value="2" selected>2h par jour</option>
+                <option value="3">3h par jour</option>
+                <option value="4">4h par jour</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-accent" style="width:100%;margin-top:16px;" onclick="generatePlan()" id="generatePlanBtn">
+            ✨ Générer mon plan IA
+          </button>
+        </div>
+
+        <!-- Plan généré -->
+        <div id="planResult" style="display:none;">
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <h3 class="card-title" style="margin:0;">Ma progression</h3>
+              <span id="planProgressLabel" style="font-size:0.82rem;color:var(--text-3);">0%</span>
+            </div>
+            <div class="plan-progress-bar"><div class="plan-progress-fill" id="planProgressFill" style="width:0%"></div></div>
+            <button class="btn btn-ghost btn-sm" onclick="resetPlan()">↺ Recréer un plan</button>
+          </div>
+          <div id="planWeeks"></div>
+        </div>
+      </div>
+
+      <!-- COMPTE À REBOURS EXAMENS -->
+      <div class="dash-section" id="section-examens" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Mes examens</div>
+          <div class="page-subtitle">Compte à rebours avant vos épreuves</div>
+        </div>
+        <div class="card">
+          <div class="countdown-list" id="countdownList"></div>
+          <div class="add-exam-form">
+            <input type="text" id="examName" class="form-input" placeholder="Nom de l'examen (ex: Microéconomie)" style="margin:0;" />
+            <input type="date" id="examDate" class="form-input" style="margin:0;max-width:180px;" />
+            <button class="btn btn-primary" onclick="addExam()">+ Ajouter</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FIN MODAL -->
+
+  <!-- ONBOARDING -->
+  <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:36px;max-width:480px;width:100%;text-align:center;">
+      <div id="onboardingStep1">
+        <div style="font-size:3rem;margin-bottom:16px;">🎓</div>
+        <h2 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Bienvenue sur Campusly !</h2>
+        <p style="color:var(--text-2);line-height:1.7;margin-bottom:24px;">La plateforme académique des étudiants de l'UAC. Voici comment tirer le meilleur parti de Campusly.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:left;">
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
+            <span style="font-size:1.4rem;">📚</span>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">Épreuves</div><div style="color:var(--text-3);font-size:0.78rem;">Accédez à des centaines d'anciennes épreuves classées par faculté.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
+            <span style="font-size:1.4rem;">🤖</span>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">Révision IA</div><div style="color:var(--text-3);font-size:0.78rem;">Générez des quiz personnalisés avec GPT-4o-mini.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
+            <span style="font-size:1.4rem;">🏆</span>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">XP & Badges</div><div style="color:var(--text-3);font-size:0.78rem;">Gagnez des points en révisant et débloquez des badges.</div></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="nextOnboarding()">Commencer →</button>
+      </div>
+      <div id="onboardingStep2" style="display:none;">
+        <div style="font-size:3rem;margin-bottom:16px;">✏️</div>
+        <h2 style="font-size:1.3rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Complétez votre profil</h2>
+        <p style="color:var(--text-2);line-height:1.7;margin-bottom:20px;">Ajoutez votre matricule et votre faculté pour une expérience personnalisée.</p>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="showSection('profil');closeOnboarding()">Compléter mon profil</button>
+        <button class="btn btn-ghost" style="width:100%;" onclick="closeOnboarding()">Plus tard</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from './js/supabase-config.js';
+    import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';
+    import { initLangSwitcher, applyTranslations } from './js/i18n.js';
+    import { injectLogos } from './js/logo.js';
+
+    const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
+
+    // ── Toast ──────────────────────────────────────────────
+    function showToast(msg, type = "info") {
+      let t = document.getElementById("toast");
+      if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }
+      t.textContent = msg; t.className = `toast ${type} show`;
+      clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+    }
+
+    // ── Plans ──────────────────────────────────────────────
+    // (paiement désactivé temporairement)
+
+    let _user = null, _profile = null;
+
+    // ── Auth guard ─────────────────────────────────────────
+    document.body.style.visibility = "hidden";
+    const { data: { session: _session } } = await supabase.auth.getSession();
+    if (!_session) { window.location.replace("auth.html"); }
+    else {
+      document.body.style.visibility = "visible";
+      _user = _session.user;
+
+      const { data: profile } = await supabase.from("users").select("*").eq("id", _user.id).single();
+      _profile = profile;
+
+      if (!_profile) {
+        // Créer le profil automatiquement
+        const email     = _user.email || "";
+        const matricule = email.replace("@campusly.uac.bj","").toUpperCase();
+        const nameParts = (_user.user_metadata?.full_name || "").split(" ");
+        const newProfile = {
+          id: _user.id, matricule, prenom: nameParts[0]||"", nom: nameParts.slice(1).join(" ")||"",
+          email, faculte: "", departement: "", is_premium: false,
+        };
+        await supabase.from("users").insert(newProfile);
+        _profile = newProfile;
+        showToast("Complétez votre profil dans Mon profil.", "info");
+      }
+
+      renderAll();
+      checkOnboarding();
+    }
+
+    // ── Render tout ────────────────────────────────────────
+    async function renderAll() {
+      renderUserInfo();
+      renderNav();
+      await renderStats();
+      await renderHistory();
+      await renderFavorites();
+      const xp     = _profile.xp || 0;
+      const streak = updateStreak(_profile);
+      const [{ count: dlCount }, { count: qzCount }] = await Promise.all([
+        supabase.from("history").select("*", { count:"exact", head:true }).eq("user_id", _user.id),
+        supabase.from("quiz_results").select("*", { count:"exact", head:true }).eq("user_id", _user.id),
+      ]);
+      const stats = { downloads: dlCount||0, quizzes: qzCount||0, streak, contribs: 0, level: getLevel(xp) };
+      renderXP(xp);
+      renderBadges(stats);
+      renderPremiumStatus();
+      loadExams();
+      loadDailyQuestion();
+      loadLeaderboard("xp");
+      loadGroups();
+      initSidebar();
+      const hash = window.location.hash.replace("#","");
+      if (hash) showSection(hash);
+    }
+
+    // ── Navbar ─────────────────────────────────────────────
+    function renderNav() {
+      const el = document.getElementById("navActions");
+      if (!el) return;
+      el.innerHTML = `
+        <span style="font-size:0.875rem;font-weight:600;color:#1565C0;">${_profile.prenom || _profile.matricule}</span>
+        <button onclick="doLogout()" class="btn btn-ghost btn-sm">Déconnexion</button>`;
+    }
+
+    window.doLogout = async () => {
+      await supabase.auth.signOut();
+      window.location.href = "index.html";
+    };
+    window.logout = window.doLogout;
+
+    // ── Infos utilisateur ──────────────────────────────────
+    function renderUserInfo() {
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || ""; };
+      const name = `${_profile.prenom||""} ${_profile.nom||""}`.trim() || _profile.matricule;
+      set("userName",         name);
+      set("userMatricule",    _profile.matricule);
+
+      // Message de bienvenue dynamique selon l'heure
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? "Bonjour" : hour < 18 ? "Bon après-midi" : "Bonsoir";
+      set("welcomeMsg", `${greeting}, ${_profile.prenom || _profile.matricule} 👋`);
+
+      // Sous-titre motivant aléatoire
+      const subs = [
+        "Prêt à réviser aujourd'hui ?",
+        "Votre prochaine session vous attend.",
+        "Continuez sur votre lancée !",
+        "Chaque révision vous rapproche du succès.",
+      ];
+      const subEl = document.getElementById("welcomeSub");
+      if (subEl) subEl.textContent = subs[Math.floor(Math.random() * subs.length)];
+
+      // Date du jour
+      const dateEl = document.getElementById("welcomeDate");
+      if (dateEl) {
+        const today = new Date().toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+        dateEl.innerHTML = `<span style="font-size:0.78rem;color:var(--text-3);background:var(--surface);padding:3px 10px;border-radius:999px;border:1px solid var(--border);">📅 ${today.charAt(0).toUpperCase()+today.slice(1)}</span>
+          ${_profile.faculte ? `<span style="font-size:0.78rem;color:var(--brand-3);background:rgba(21,101,192,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(21,101,192,0.2);">${_profile.faculte}</span>` : ""}`;
+      }
+
+      set("profileName",      name);
+      set("profileMatricule", _profile.matricule);
+
+      // Photo de profil
+      const avatarEl = document.getElementById("profileAvatarImg");
+      if (avatarEl) {
+        if (_profile.photoURL) {
+          avatarEl.innerHTML = `<img src="${_profile.photoURL}" style="width:100%;height:100%;object-fit:cover;" />`;
+        } else {
+          avatarEl.textContent = (name[0] || "?").toUpperCase();
+        }
+      }
+      // Avatar sidebar
+      const sideAvatar = document.querySelector(".sidebar-avatar");
+      if (sideAvatar && _profile.photoURL) {
+        sideAvatar.innerHTML = `<img src="${_profile.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
+      }
+
+      // Pré-remplir formulaire édition
+      const setVal = (id, val) => { const el=document.getElementById(id); if(el) el.value = val||""; };
+      setVal("editPrenom",    _profile.prenom);
+      setVal("editNom",       _profile.nom);
+      setVal("editMatricule", _profile.matricule);
+      setVal("editFaculte",   _profile.faculte);
+      setVal("editDept",      _profile.departement);
+
+      const premium = isPremium();
+      const premEl  = document.getElementById("premiumStatus");
+      if (premEl) {
+        premEl.innerHTML = premium
+          ? `<span class="premium-badge">⭐ Premium actif</span>`
+          : `<span style="color:var(--text-3);font-size:0.85rem;">Compte gratuit</span>`;
+      }
+      const pPrem = document.getElementById("profilePremium");
+      if (pPrem) pPrem.innerHTML = premium
+        ? '<span class="premium-badge">Premium actif</span>'
+        : '<span style="color:var(--text-3);font-size:0.78rem;">Compte gratuit</span>';
+    }
+
+    function isPremium() {
+      if (!_profile?.is_premium || !_profile?.premium_expiry) return false;
+      return new Date(_profile.premium_expiry) > new Date();
+    }
+
+    // ── Stats ──────────────────────────────────────────────
+    async function renderStats() {
+      try {
+        const [{ count: dlCount }, { count: favCount }, { count: qzCount }] = await Promise.all([
+          supabase.from("history").select("*", { count:"exact", head:true }).eq("user_id", _user.id),
+          supabase.from("favorites").select("*", { count:"exact", head:true }).eq("user_id", _user.id),
+          supabase.from("quiz_results").select("*", { count:"exact", head:true }).eq("user_id", _user.id),
+        ]);
+        const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+        set("statDownloads", dlCount||0);
+        set("statFavorites", favCount||0);
+        set("statQuiz",      qzCount||0);
+        set("statPremium",   isPremium() ? "Actif" : "Inactif");
+
+        const { data: items } = await supabase.from("history").select("*").eq("user_id", _user.id).order("created_at", { ascending:false }).limit(3);
+        renderHistoryItems(items||[], "historyPreview", 3);
+      } catch(e) { console.error("Stats:", e); }
+    }
+
+    // ── Historique ─────────────────────────────────────────
+    async function renderHistory() {
+      try {
+        const { data: items } = await supabase.from("history").select("*").eq("user_id", _user.id).order("created_at", { ascending:false }).limit(50);
+        renderHistoryItems(items||[], "historyList", 50);
+      } catch(e) { console.error("History:", e); }
+    }
+
+    function renderHistoryItems(items, containerId, limit) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      if (!items.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><p>Aucun téléchargement.</p><a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:12px;">Consulter les épreuves</a></div>`;
+        return;
+      }
+      el.innerHTML = items.slice(0,limit).map(item => `
+        <div class="history-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="history-row-title">${item.titre || "Épreuve"}</span>
+          <span class="history-row-date">${item.created_at ? new Date(item.created_at).toLocaleDateString("fr-FR") : ""}</span>
+        </div>`).join("");
+    }
+
+    // ── Favoris ────────────────────────────────────────────
+    async function renderFavorites() {
+      try {
+        const { data: favs } = await supabase.from("favorites").select("epreuve_id").eq("user_id", _user.id);
+        const el = document.getElementById("favoritesList");
+        if (!el) return;
+        if (!favs?.length) {
+          el.innerHTML = `<div class="empty-state"><div class="empty-icon">⭐</div><h3>Aucun favori</h3><a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:16px;">Parcourir les épreuves</a></div>`;
+          return;
+        }
+        el.innerHTML = favs.map(f => `
+          <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface);border-radius:var(--r-md);margin-bottom:10px;">
+            <span style="font-size:1.2rem;">⭐</span>
+            <div style="flex:1;font-weight:600;font-size:0.9rem;color:var(--text-1);">${f.epreuve_id}</div>
+            <a href="epreuves.html" class="btn btn-primary btn-sm">Voir</a>
+          </div>`).join("");
+      } catch(e) { console.error("Favorites:", e); }
+    }
+
+    // ── Sidebar ────────────────────────────────────────────
+    function initSidebar() {
+      document.querySelectorAll(".sidebar-link[data-section]").forEach(link => {
+        link.addEventListener("click", e => { e.preventDefault(); showSection(link.dataset.section); });
+      });
+      document.getElementById("sidebarToggle")?.addEventListener("click", () =>
+        document.querySelector(".sidebar")?.classList.toggle("open"));
+    }
+
+    window.showSection = function(id) {
+      document.querySelectorAll(".dash-section").forEach(s => s.style.display = "none");
+      const t = document.getElementById(`section-${id}`);
+      if (t) t.style.display = "block";
+      document.querySelectorAll(".sidebar-link").forEach(l =>
+        l.classList.toggle("active", l.dataset.section === id));
+      window.location.hash = id;
+    };
+
+    window.openModal  = id => document.getElementById(id)?.classList.add("show");
+    window.closeModal = id => document.getElementById(id)?.classList.remove("show");
+    document.addEventListener("click", e => {
+      if (e.target.classList.contains("modal-overlay")) e.target.classList.remove("show");
+    });
+
+    // ── Misc ───────────────────────────────────────────────
+    window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
+
+    // ── ÉDITION PROFIL ─────────────────────────────────────
+    window.saveProfile = async function() {
+      const prenom = document.getElementById("editPrenom").value.trim();
+      const nom    = document.getElementById("editNom").value.trim();
+      const mat    = document.getElementById("editMatricule").value.trim();
+      const fac    = document.getElementById("editFaculte").value;
+      const dept   = document.getElementById("editDept").value.trim();
+      if (!prenom || !nom) return showToast("Prénom et nom requis.", "info");
+      if (mat && !/^\d{8}$/.test(mat)) return showToast("Matricule invalide (8 chiffres).", "info");
+      const { error } = await supabase.from("users").update({ prenom, nom, matricule: mat||_profile.matricule, faculte: fac, departement: dept }).eq("id", _user.id);
+      if (!error) {
+        _profile = { ..._profile, prenom, nom, matricule: mat||_profile.matricule, faculte: fac, departement: dept };
+        renderUserInfo();
+        showToast("Profil mis à jour !", "success");
+      } else { showToast("Erreur : " + error.message, "info"); }
+    };
+
+    // ── PHOTO DE PROFIL ────────────────────────────────────
+    window.uploadPhoto = async function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      if (file.size > 2*1024*1024) return showToast("Image trop lourde (max 2 MB).", "info");
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const dataUrl = e.target.result;
+        const { error } = await supabase.from("users").update({ photo_url: dataUrl }).eq("id", _user.id);
+        if (!error) {
+          _profile.photo_url = dataUrl;
+          renderUserInfo();
+          showToast("Photo mise à jour !", "success");
+        } else { showToast("Erreur upload : " + error.message, "info"); }
+      };
+      reader.readAsDataURL(file);
+    };
+
+    // ── SUPPRESSION COMPTE ─────────────────────────────────
+    window.confirmDeleteAccount = function() {
+      if (!confirm("Supprimer définitivement votre compte ? Cette action est irréversible.")) return;
+      deleteAccount();
+    };
+    async function deleteAccount() {
+      try {
+        await supabase.from("users").delete().eq("id", _user.id);
+        await supabase.auth.admin?.deleteUser(_user.id);
+        await supabase.auth.signOut();
+        showToast("Compte supprimé.", "info");
+        setTimeout(() => window.location.href = "index.html", 1200);
+      } catch(e) {
+        showToast("Erreur : " + e.message + " — Reconnectez-vous d'abord.", "info");
+      }
+    }
+    // ── XP & NIVEAUX ───────────────────────────────────────
+    const XP_LEVELS = [0,100,250,500,900,1500,2500,4000,6000,10000];
+    function getLevel(xp) {
+      let lvl = 1;
+      for (let i = 1; i < XP_LEVELS.length; i++) { if (xp >= XP_LEVELS[i]) lvl = i+1; else break; }
+      return lvl;
+    }
+    function renderXP(xp) {
+      const lvl   = getLevel(xp);
+      const cur   = XP_LEVELS[lvl-1] || 0;
+      const next  = XP_LEVELS[lvl]   || XP_LEVELS[XP_LEVELS.length-1];
+      const pct   = Math.min(100, Math.round(((xp - cur) / (next - cur)) * 100));
+      const names = ["","Débutant","Curieux","Studieux","Assidu","Expert","Maître","Champion","Légende","Dieu du savoir"];
+      const label = `⭐ Niv. ${lvl} — ${names[lvl]||""}`;
+      ["levelBadge","levelBadgeBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=label; });
+      ["xpBarFill","xpBarFillBig"].forEach(id => { const el=document.getElementById(id); if(el) el.style.width=pct+"%"; });
+      ["xpCurrent","xpCurrentBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=xp+" XP"; });
+      ["xpNext","xpNextBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=next+" XP"; });
+    }
+    async function addXP(uid, amount) {
+      const { data } = await supabase.from("users").select("xp").eq("id", uid).single();
+      const cur = data?.xp || 0;
+      await supabase.from("users").update({ xp: cur + amount }).eq("id", uid);
+      return cur + amount;
+    }
+
+    // ── BADGES ─────────────────────────────────────────────
+    const ALL_BADGES = [
+      { id:"first_dl",    icon:"📥", name:"1er téléchargement",  check: (s) => s.downloads >= 1  },
+      { id:"dl10",        icon:"📚", name:"10 téléchargements",  check: (s) => s.downloads >= 10 },
+      { id:"first_quiz",  icon:"🎯", name:"1er quiz",            check: (s) => s.quizzes  >= 1  },
+      { id:"quiz10",      icon:"🧠", name:"10 quiz complétés",   check: (s) => s.quizzes  >= 10 },
+      { id:"streak3",     icon:"🔥", name:"Streak 3 jours",      check: (s) => s.streak   >= 3  },
+      { id:"streak7",     icon:"⚡", name:"Streak 7 jours",      check: (s) => s.streak   >= 7  },
+      { id:"contrib",     icon:"🤝", name:"Contributeur",        check: (s) => s.contribs >= 1  },
+      { id:"level5",      icon:"🏆", name:"Niveau 5",            check: (s) => s.level    >= 5  },
+    ];
+    function renderBadges(stats) {
+      const grid = document.getElementById("badgesGrid");
+      if (!grid) return;
+      grid.innerHTML = ALL_BADGES.map(b => {
+        const unlocked = b.check(stats);
+        return `<div class="badge-item ${unlocked?"unlocked":"locked"}">
+          <div class="badge-icon">${b.icon}</div>
+          <div class="badge-name">${b.name}</div>
+        </div>`;
+      }).join("");
+    }
+
+    // ── STREAK ─────────────────────────────────────────────
+    function updateStreak(profile) {
+      const today     = new Date().toISOString().slice(0,10);
+      const lastVisit = profile.last_visit || "";
+      const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+      let streak = profile.streak || 0;
+      if (lastVisit === today) {
+        // déjà visité aujourd'hui
+      } else if (lastVisit === yesterday) {
+        streak++;
+        supabase.from("users").update({ streak, last_visit: today }).eq("id", _user.id);
+      } else {
+        streak = 1;
+        supabase.from("users").update({ streak, last_visit: today }).eq("id", _user.id);
+      }
+      const el = document.getElementById("streakCount");
+      if (el) el.textContent = streak;
+      const msg = document.getElementById("streakMsg");
+      if (msg) msg.textContent = streak >= 7 ? "🏆 Incroyable !" : streak >= 3 ? "💪 Continue !" : "Révise chaque jour !";
+      return streak;
+    }
+
+    // ── CONFETTI ───────────────────────────────────────────
+    window.launchConfetti = function() {
+      const canvas = document.getElementById("confettiCanvas");
+      if (!canvas) return;
+      canvas.style.display = "block";
+      const ctx = canvas.getContext("2d");
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const pieces = Array.from({length:120}, () => ({
+        x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
+        r: Math.random()*6+4, d: Math.random()*120,
+        color: ["#6C63FF","#38BDF8","#F57C00","#10B981","#EF4444","#FBBF24"][Math.floor(Math.random()*6)],
+        tilt: Math.random()*10-10, tiltAngle:0, tiltSpeed: Math.random()*0.1+0.05,
+      }));
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pieces.forEach(p => {
+          p.tiltAngle += p.tiltSpeed; p.y += (Math.cos(p.d)+3+p.r/2)*0.8; p.x += Math.sin(frame*0.01);
+          p.tilt = Math.sin(p.tiltAngle)*15;
+          ctx.beginPath(); ctx.lineWidth = p.r; ctx.strokeStyle = p.color;
+          ctx.moveTo(p.x+p.tilt+p.r/4, p.y); ctx.lineTo(p.x+p.tilt, p.y+p.tilt+p.r/4);
+          ctx.stroke();
+        });
+        frame++;
+        if (frame < 200) requestAnimationFrame(draw);
+        else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display="none"; }
+      }
+      draw();
+    };
+
+    // ── COMPTE À REBOURS EXAMENS ───────────────────────────
+    function loadExams() {
+      const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+      const list  = document.getElementById("countdownList");
+      if (!list) return;
+      if (!exams.length) {
+        list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajouté. Ajoutez vos dates ci-dessous.</div>`;
+        return;
+      }
+      const today = new Date(); today.setHours(0,0,0,0);
+      list.innerHTML = exams.map((ex,i) => {
+        const d    = new Date(ex.date); d.setHours(0,0,0,0);
+        const days = Math.round((d-today)/86400000);
+        const urgent = days <= 3;
+        return `<div class="countdown-item">
+          <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Passé" : days+"j"}</div>
+          <div class="countdown-info">
+            <div class="countdown-name">${ex.name}</div>
+            <div class="countdown-date">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
+          </div>
+          <button class="countdown-del" onclick="deleteExam(${i})">✕</button>
+        </div>`;
+      }).join("");
+    }
+    window.addExam = function() {
+      const name = document.getElementById("examName").value.trim();
+      const date = document.getElementById("examDate").value;
+      if (!name || !date) return showToast("Remplis le nom et la date.", "info");
+      const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+      exams.push({name, date});
+      exams.sort((a,b) => new Date(a.date)-new Date(b.date));
+      localStorage.setItem("campusly_exams", JSON.stringify(exams));
+      document.getElementById("examName").value = "";
+      document.getElementById("examDate").value = "";
+      loadExams();
+      showToast("Examen ajouté !", "success");
+    };
+    window.deleteExam = function(i) {
+      const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+      exams.splice(i,1);
+      localStorage.setItem("campusly_exams", JSON.stringify(exams));
+      loadExams();
+    };
+
+    // ── PLAN DE RÉVISION ───────────────────────────────────
+    let _planMatieres = [{ nom: "", dateExamen: "" }];
+
+    function renderPlanForm() {
+      const container = document.getElementById("planMatieres");
+      if (!container) return;
+      container.innerHTML = _planMatieres.map((m, i) => `
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <input type="text" value="${m.nom}" placeholder="Matière (ex: Microéconomie)"
+            class="form-input" style="flex:1;min-width:160px;margin:0;"
+            oninput="_planMatieres[${i}].nom=this.value" />
+          <input type="date" value="${m.dateExamen}"
+            class="form-input" style="max-width:160px;margin:0;"
+            oninput="_planMatieres[${i}].dateExamen=this.value" />
+          ${_planMatieres.length > 1 ? `<button onclick="removeMatiere(${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:1.1rem;padding:4px;">✕</button>` : ""}
+        </div>`).join("");
+    }
+    window.addMatiere    = () => { _planMatieres.push({nom:"",dateExamen:""}); renderPlanForm(); };
+    window.removeMatiere = (i) => { _planMatieres.splice(i,1); renderPlanForm(); };
+
+    window.generatePlan = async function() {
+      const matieres = _planMatieres.filter(m => m.nom.trim() && m.dateExamen);
+      if (!matieres.length) return showToast("Ajoutez au moins une matière avec une date d'examen.", "info");
+      const startDate = document.getElementById("planStartDate").value || new Date().toISOString().slice(0,10);
+      const hours     = parseInt(document.getElementById("planHours").value || "2");
+      const btn       = document.getElementById("generatePlanBtn");
+      btn.disabled = true; btn.textContent = "Génération en cours...";
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
+          body: JSON.stringify({
+            messages: [{ role: "user", content: `Génère un plan de révision pour ces matières : ${matieres.map(m=>`${m.nom} (examen le ${m.dateExamen})`).join(", ")}. Date de début : ${startDate}. ${hours}h par jour. Réponds avec un JSON : [{"label":"Semaine du...","days":[{"date":"YYYY-MM-DD","tasks":"..."}]}]` }],
+            mode: "chat"
+          }),
+        });
+        const result = await res.json();
+        let plan;
+        try { plan = JSON.parse(result.content); } catch(e) { throw new Error("Réponse IA invalide"); }
+        if (!Array.isArray(plan)) plan = plan.plan || plan.semaines || [];
+        savePlan(plan);
+        renderPlan(plan);
+        document.getElementById("planSetupCard").style.display = "none";
+        document.getElementById("planResult").style.display = "block";
+        showToast("Plan de révision créé ! 📋", "success");
+      } catch(e) {
+        showToast("Erreur : " + e.message, "info");
+      } finally {
+        btn.disabled = false; btn.textContent = "✨ Générer mon plan IA";
+      }
+    };
+
+    function savePlan(plan) {
+      localStorage.setItem("campusly_revision_plan", JSON.stringify(plan));
+    }
+    function loadSavedPlan() {
+      const saved = localStorage.getItem("campusly_revision_plan");
+      if (!saved) return;
+      try {
+        const plan = JSON.parse(saved);
+        renderPlan(plan);
+        document.getElementById("planSetupCard").style.display = "none";
+        document.getElementById("planResult").style.display = "block";
+      } catch(e) {}
+    }
+    window.resetPlan = function() {
+      localStorage.removeItem("campusly_revision_plan");
+      document.getElementById("planSetupCard").style.display = "block";
+      document.getElementById("planResult").style.display = "none";
+      _planMatieres = [{nom:"",dateExamen:""}];
+      renderPlanForm();
+    };
+
+    function renderPlan(plan) {
+      const today    = new Date().toISOString().slice(0,10);
+      const checked  = JSON.parse(localStorage.getItem("campusly_plan_checked") || "{}");
+      const allDays  = plan.flatMap(w => w.days);
+      const done     = allDays.filter(d => checked[d.date]).length;
+      const pct      = allDays.length ? Math.round((done/allDays.length)*100) : 0;
+      const fillEl   = document.getElementById("planProgressFill");
+      const labelEl  = document.getElementById("planProgressLabel");
+      if (fillEl)  fillEl.style.width  = pct + "%";
+      if (labelEl) labelEl.textContent = pct + "% complété";
+
+      const container = document.getElementById("planWeeks");
+      if (!container) return;
+      container.innerHTML = plan.map((week, wi) => `
+        <div class="plan-week">
+          <div class="plan-week-title">Semaine ${wi+1} — ${week.label||""}</div>
+          ${week.days.map(day => {
+            const isToday   = day.date === today;
+            const isDone    = !!checked[day.date];
+            const isPast    = day.date < today && !isDone;
+            return `<div class="plan-day ${isDone?"done":""} ${isToday?"today":""}">
+              <div class="plan-day-check ${isDone?"checked":""}" onclick="togglePlanDay('${day.date}')">
+                ${isDone ? "✓" : ""}
+              </div>
+              <div style="flex:1;">
+                <div class="plan-day-date">${new Date(day.date+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${isToday?" · <strong style='color:#6C63FF;'>Aujourd'hui</strong>":""}</div>
+                <div class="plan-day-tasks">${day.tasks}</div>
+              </div>
+              ${isPast ? '<span style="font-size:0.72rem;color:var(--danger);">Manqué</span>' : ""}
+            </div>`;
+          }).join("")}
+        </div>`).join("");
+    }
+
+    window.togglePlanDay = function(date) {
+      const checked = JSON.parse(localStorage.getItem("campusly_plan_checked") || "{}");
+      checked[date] = !checked[date];
+      if (!checked[date]) delete checked[date];
+      localStorage.setItem("campusly_plan_checked", JSON.stringify(checked));
+      const plan = JSON.parse(localStorage.getItem("campusly_revision_plan") || "[]");
+      renderPlan(plan);
+      if (checked[date]) showToast("Session validée ! +15 XP 💪", "success");
+    };
+
+    // Initialiser le formulaire et charger le plan sauvegardé
+    renderPlanForm();
+    loadSavedPlan();
+
+    // ── QUESTION DU JOUR ───────────────────────────────────
+    async function loadDailyQuestion() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
+          body: JSON.stringify({
+            messages: [{ role: "user", content: `Génère UNE seule question de cours pour un étudiant en ${_profile?.faculte||"universitaire"}. Réponds UNIQUEMENT avec ce JSON : {"question":"Texte","options":["A","B","C","D"],"reponseCorrecte":0,"explication":"Explication courte","matiere":"Nom matière"}` }],
+            mode: "chat"
+          }),
+        });
+        const result = await res.json();
+        const q = JSON.parse(result.content);
+        renderDailyQuestion(q);
+      } catch(e) {
+        const el = document.getElementById("dqContent");
+        if (el) el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Question indisponible. Réessayez plus tard.</p>`;
+      }
+    }
+
+    function renderDailyQuestion(q) {
+      const meta = document.getElementById("dqMeta");
+      if (meta) meta.textContent = (q.matiere || _profile?.faculte || "Culture générale") + " · " + new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+      const today    = new Date().toISOString().slice(0,10);
+      const answered = localStorage.getItem("campusly_dq_" + today);
+      const el = document.getElementById("dqContent");
+      if (!el) return;
+      el.innerHTML = `
+        <p style="font-size:0.9rem;font-weight:600;color:var(--text-1);margin-bottom:14px;">${q.question}</p>
+        <div id="dqOptions" style="display:flex;flex-direction:column;gap:8px;">
+          ${q.options.map((o,i) => {
+            let extra = "";
+            if (answered) {
+              if (i === q.reponseCorrecte) extra = "background:rgba(16,185,129,0.15);border-color:#10B981;color:#10B981;";
+              else if (i === parseInt(answered)) extra = "background:rgba(239,68,68,0.15);border-color:#EF4444;color:#EF4444;";
+              else extra = "opacity:0.5;";
+            }
+            return `<button onclick="answerDailyQuestion(${i},${q.reponseCorrecte},'${(q.explication||"").replace(/'/g,"&#39;")}')"
+              ${answered ? "disabled" : ""}
+              style="display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;font-family:var(--font-sans);font-size:0.82rem;color:var(--text-1);text-align:left;transition:all 0.15s ease;${extra}">
+              <span style="width:22px;height:22px;background:var(--surface-2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;">${["A","B","C","D"][i]}</span>${o}
+            </button>`;
+          }).join("")}
+        </div>
+        ${answered ? `<div style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;">💡 ${q.explication}</div>` : ""}`;
+    }
+
+    window.answerDailyQuestion = function(chosen, correct, explication) {
+      const today = new Date().toISOString().slice(0,10);
+      localStorage.setItem("campusly_dq_" + today, String(chosen));
+      document.querySelectorAll("#dqOptions button").forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.style.cssText += "background:rgba(16,185,129,0.15);border-color:#10B981;color:#10B981;";
+        else if (i === chosen) btn.style.cssText += "background:rgba(239,68,68,0.15);border-color:#EF4444;color:#EF4444;";
+        else btn.style.opacity = "0.5";
+      });
+      const expl = document.createElement("div");
+      expl.style.cssText = "margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;";
+      expl.textContent = "💡 " + explication;
+      document.getElementById("dqOptions")?.after(expl);
+      showToast(chosen === correct ? "Bonne réponse ! +10 XP 🎉" : "Pas tout à fait... Lis l'explication !", chosen === correct ? "success" : "info");
+    };
+
+    // ── FLUTTERWAVE PAIEMENT ───────────────────────────────
+    window.startPayment = function(amount, days, label) {
+      if (!_user || !_profile) return showToast("Connectez-vous d'abord.", "info");
+
+      // Charger le SDK Flutterwave dynamiquement
+      if (!window.FlutterwaveCheckout) {
+        const s = document.createElement("script");
+        s.src = "https://checkout.flutterwave.com/v3.js";
+        s.onload = () => launchFlutterwave(amount, days, label);
+        document.head.appendChild(s);
+      } else {
+        launchFlutterwave(amount, days, label);
+      }
+    };
+
+    function launchFlutterwave(amount, days, label) {
+      FlutterwaveCheckout({
+        public_key: "REMPLACE_PAR_TA_CLE_PUBLIQUE_FLUTTERWAVE",
+        tx_ref:     "campusly_" + _user.uid + "_" + Date.now(),
+        amount,
+        currency:   "XOF",
+        payment_options: "mobilemoney,card",
+        customer: {
+          email:      _user.email || _user.uid + "@campusly.uac.bj",
+          name:       (_profile.prenom || "") + " " + (_profile.nom || ""),
+          phone_number: "",
+        },
+        customizations: {
+          title:       "Campusly Premium",
+          description: `Abonnement ${label}`,
+          logo:        "https://campusly.uac.bj/campusly/assets/logo.png.jpg",
+        },
+        meta: {
+          userId: _user.uid,
+          days,
+          plan: label,
+        },
+        callback: async function(response) {
+          if (response.status === "successful") {
+            const exp = new Date();
+            exp.setDate(exp.getDate() + days);
+            try {
+              await supabase.from("users").update({ is_premium: true, premium_expiry: exp.toISOString() }).eq("id", _user.id);
+              const { data } = await supabase.from("users").select("*").eq("id", _user.id).single();
+              _profile = data;
+              renderUserInfo();
+              renderNav();
+              showToast("Premium activé pour " + label + " ! 🎉", "success");
+              showSection("accueil");
+            } catch(e) { showToast("Erreur activation : " + e.message, "info"); }
+          } else {
+            showToast("Paiement non complété.", "info");
+          }
+        },
+        onclose: function() {
+          showToast("Paiement annulé.", "info");
+        },
+      });
+    }
+
+    function renderPremiumStatus() {
+      const el = document.getElementById("premiumStatusCard");
+      if (!el || !_profile) return;
+      const prem = isPremium();
+      if (prem) {
+        const exp = _profile.premium_expiry ? new Date(_profile.premium_expiry) : null;
+        el.innerHTML = `<div style="display:flex;align-items:center;gap:16px;padding:8px;">
+          <span style="font-size:2rem;">⭐</span>
+          <div><div style="font-weight:700;color:var(--text-1);">Premium actif</div>
+          <div style="font-size:0.82rem;color:var(--text-3);">Expire le ${exp?.toLocaleDateString("fr-FR") || "—"}</div></div>
+        </div>`;
+      } else {
+        el.innerHTML = `<div style="padding:8px;color:var(--text-2);font-size:0.875rem;">Vous êtes sur le plan gratuit. Choisissez un plan ci-dessous pour débloquer tout le contenu.</div>`;
+      }
+    }
+
+    // ── ONBOARDING ─────────────────────────────────────────
+    function checkOnboarding() {
+      const done = localStorage.getItem("campusly_onboarding_done");
+      if (done) return;
+      const overlay = document.getElementById("onboardingOverlay");
+      if (overlay) overlay.style.display = "flex";
+    }
+    window.nextOnboarding = function() {
+      document.getElementById("onboardingStep1").style.display = "none";
+      document.getElementById("onboardingStep2").style.display = "block";
+    };
+    window.closeOnboarding = function() {
+      document.getElementById("onboardingOverlay").style.display = "none";
+      localStorage.setItem("campusly_onboarding_done", "1");
+    };
+
+    // ── LEADERBOARD ────────────────────────────────────────
+    let _lbMode = "xp";
+    window.loadLeaderboard = async function(mode) {
+      _lbMode = mode;
+      ["xp","quiz","streak"].forEach(m => {
+        const b = document.getElementById("lb"+m.charAt(0).toUpperCase()+m.slice(1)+"Btn");
+        if (b) b.className = m === mode ? "btn btn-primary btn-sm" : "btn btn-ghost btn-sm";
+      });
+      const list = document.getElementById("leaderboardList");
+      if (!list) return;
+      list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);">Chargement...</div>`;
+      try {
+        const field = mode === "quiz" ? "quiz_count_today" : mode;
+        const { data: users } = await supabase.from("users").select("id,prenom,nom,matricule,faculte,xp,streak,quiz_count_today,photo_url").order(field, { ascending:false }).limit(20);
+        if (!users?.length) { list.innerHTML = `<p style="color:var(--text-3);text-align:center;padding:24px;">Aucun classement disponible.</p>`; return; }
+        const medals = ["🥇","🥈","🥉"];
+        const rankClass = i => i===0?"gold":i===1?"silver":i===2?"bronze":"";
+        list.innerHTML = users.map((u,i) => {
+          const isMe = u.id === _user.id;
+          const name = `${u.prenom||""} ${u.nom||""}`.trim() || u.matricule || "Étudiant";
+          const score = mode === "xp" ? (u.xp||0)+" XP" : mode === "quiz" ? (u.quiz_count_today||0)+" quiz" : (u.streak||0)+" jours";
+          const initial = name[0]?.toUpperCase() || "?";
+          const avatar = u.photo_url ? `<img src="${u.photo_url}" style="width:100%;height:100%;object-fit:cover;" />` : initial;
+          return `<div class="lb-row ${isMe?"me":""}">
+            <div class="lb-rank ${rankClass(i)}">${medals[i]||"#"+(i+1)}</div>
+            <div class="lb-avatar">${avatar}</div>
+            <div style="flex:1;"><div class="lb-name">${name}${isMe?" (vous)":""}</div><div class="lb-faculty">${u.faculte||""}</div></div>
+            <div class="lb-score">${score}</div>
+          </div>`;
+        }).join("");
+      } catch(e) { list.innerHTML = `<p style="color:var(--text-3);text-align:center;padding:24px;">Erreur de chargement.</p>`; }
+    };
+
+    // ── GROUPES D'ÉTUDE ────────────────────────────────────
+    async function loadGroups() {
+      const el = document.getElementById("groupsList");
+      if (!el) return;
+      const { data: groups } = await supabase.from("groups").select("*").order("created_at", { ascending:false }).limit(20);
+      if (!groups?.length) { el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Aucun groupe. Créez le premier !</p>`; return; }
+      el.innerHTML = groups.map(g => `
+        <div class="group-item">
+          <div class="group-icon">👥</div>
+          <div class="group-name">${g.name}</div>
+          <div class="group-count">${g.members||1} membre${(g.members||1)>1?"s":""}</div>
+          <button class="btn btn-outline btn-sm" onclick="joinGroup('${g.id}')">Rejoindre</button>
+        </div>`).join("");
+    }
+    window.createGroup = async function() {
+      const name = document.getElementById("groupName").value.trim();
+      if (!name) return showToast("Entrez un nom de groupe.", "info");
+      const { error } = await supabase.from("groups").insert({ name, created_by: _user.id, members: 1 });
+      if (!error) {
+        document.getElementById("groupName").value = "";
+        loadGroups();
+        showToast("Groupe créé !", "success");
+      } else { showToast("Erreur : "+error.message, "info"); }
+    };
+    window.joinGroup = async function(id) {
+      const { data } = await supabase.from("groups").select("members").eq("id", id).single();
+      await supabase.from("groups").update({ members: (data?.members||1) + 1 }).eq("id", id);
+      loadGroups();
+      showToast("Vous avez rejoint le groupe !", "success");
+    };
+
+    // ── NOTIFICATIONS PUSH PWA ─────────────────────────────
+    async function initPushNotifications() {
+      if (!("Notification" in window) || !("serviceWorker" in navigator)) return;
+      if (Notification.permission === "default") {
+        setTimeout(async () => {
+          const perm = await Notification.requestPermission();
+          if (perm === "granted") {
+            showToast("Notifications activées ! 🔔", "success");
+            scheduleRevisionReminder();
+          }
+        }, 3000);
+      } else if (Notification.permission === "granted") {
+        scheduleRevisionReminder();
+      }
+    }
+    function scheduleRevisionReminder() {
+      const lastNotif = localStorage.getItem("campusly_last_notif");
+      const today     = new Date().toISOString().slice(0,10);
+      if (lastNotif === today) return;
+      const hour = new Date().getHours();
+      if (hour >= 18 && hour < 22) {
+        new Notification("Campusly 📚", {
+          body: "N'oublie pas ta révision du jour ! Lance un quiz maintenant.",
+          icon: "/campusly/assets/logo.png.jpg",
+        });
+        localStorage.setItem("campusly_last_notif", today);
+      }
+    }
+
+    initLangSwitcher();
+    applyTranslations();
+    injectLogos();
+    initPushNotifications();
+  </script>
+</body>
+</html>

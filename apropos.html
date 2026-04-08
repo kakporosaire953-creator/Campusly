@@ -1,0 +1,68 @@
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div id="langSwitcher"></div>
+    <a href="index.html" class="btn btn-ghost btn-sm">← Accueil</a>
+  </div>
+</nav>
+
+<main style="padding-top:88px;min-height:100vh;max-width:800px;margin:0 auto;padding-left:5%;padding-right:5%;">
+  <div class="card" style="padding:40px;margin-bottom:24px;">
+    <h1 style="font-size:2rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">À propos de Campusly</h1>
+    <p style="color:var(--text-3);margin-bottom:32px;">La plateforme académique des étudiants de l'UAC</p>
+
+    <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:12px;">Notre mission</h2>
+    <p style="color:var(--text-2);line-height:1.8;margin-bottom:24px;">
+      Campusly est née d'un constat simple : les étudiants de l'Université d'Abomey-Calavi (UAC) au Bénin manquent d'accès facile aux ressources académiques. Anciennes épreuves, supports de cours, outils de révision — tout est dispersé et difficile à trouver.
+    </p>
+    <p style="color:var(--text-2);line-height:1.8;margin-bottom:24px;">
+      Notre mission est de centraliser ces ressources et de les rendre accessibles à tous les étudiants de l'UAC, quelle que soit leur faculté.
+    </p>
+
+    <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:12px;">Ce que nous offrons</h2>
+    <ul style="color:var(--text-2);line-height:2;margin-bottom:24px;padding-left:20px;">
+      <li>📚 Bibliothèque d'anciennes épreuves classées par faculté, département et année</li>
+      <li>🤖 Révision assistée par IA avec quiz personnalisés (GPT-4o-mini)</li>
+      <li>📊 Suivi de progression et statistiques personnelles</li>
+      <li>🤝 Plateforme de contribution communautaire</li>
+      <li>📱 Application mobile (PWA) accessible hors ligne</li>
+    </ul>
+
+    <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:12px;">Facultés couvertes</h2>
+    <p style="color:var(--text-2);line-height:1.8;margin-bottom:24px;">
+      FASEG · FADESP · FAST · FSS · FSA · FASHS · FLLAC · EPAC · INJEPS · ENEAM
+    </p>
+
+    <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:12px;">Contact</h2>
+    <p style="color:var(--text-2);line-height:1.8;">
+      Pour toute question ou suggestion, contactez-nous via la page <a href="contribuer.html" style="color:var(--brand-3);">Contribuer</a>.
+    </p>
+  </div>
+</main>
+
+<script type="module">
+  import { injectLogos } from './js/logo.js';
+  window.addEventListener('scroll', () => document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 20));
+  injectLogos();
+</script>
+</body>
+</html>

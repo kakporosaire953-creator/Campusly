@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Épreuves — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <style>
+    .epreuves-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
+    .ep-header { padding: 48px 5% 40px; background: linear-gradient(135deg, rgba(13,71,161,0.3) 0%, rgba(21,101,192,0.15) 60%, rgba(245,124,0,0.08) 100%); border-bottom: 1px solid var(--border); }
+    .ep-header-inner { max-width: 1200px; margin: 0 auto; }
+    .ep-header h1 { font-size: clamp(1.5rem,3vw,2rem); font-weight: 800; color: var(--text-1); letter-spacing: -0.02em; margin-bottom: 8px; }
+    .ep-header p  { color: var(--text-2); font-size: 0.95rem; }
+    .ep-count { display: inline-flex; align-items: center; gap: 6px; background: rgba(21,101,192,0.2); border: 1px solid rgba(21,101,192,0.3); color: #42A5F5; padding: 4px 14px; border-radius: var(--r-full); font-size: 0.82rem; font-weight: 600; margin-top: 12px; }
+    .filters-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 20px; margin-bottom: 24px; }
+    .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
+    .filter-label { font-size: 0.75rem; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+    .epreuves-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .ep-card { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 20px; transition: all var(--t-base) var(--ease); position: relative; overflow: hidden; }
+    .ep-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--grad-brand); opacity: 0; transition: opacity var(--t-base) var(--ease); }
+    .ep-card:hover { border-color: var(--border-2); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .ep-card:hover::before { opacity: 1; }
+    .ep-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .ep-icon { width: 44px; height: 44px; border-radius: var(--r-md); background: rgba(21,101,192,0.15); border: 1px solid rgba(21,101,192,0.2); display: flex; align-items: center; justify-content: center; color: #1E88E5; flex-shrink: 0; }
+    .ep-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ep-badge { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: var(--r-full); border: 1px solid; }
+    .ep-badge-faculte { background: rgba(21,101,192,0.15); border-color: rgba(21,101,192,0.3); color: #42A5F5; }
+    .ep-badge-type    { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #10B981; }
+    .ep-badge-premium { background: rgba(245,124,0,0.15); border-color: rgba(245,124,0,0.35); color: #FF8F00; }
+    .ep-title { font-size: 0.95rem; font-weight: 700; color: var(--text-1); margin-bottom: 6px; line-height: 1.4; }
+    .ep-meta  { font-size: 0.78rem; color: var(--text-3); margin-bottom: 16px; }
+    .ep-meta span { margin-right: 10px; }
+    .ep-actions { display: flex; gap: 8px; }
+    .ep-btn-dl { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px; background: var(--grad-brand); color: #fff; border: none; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all var(--t-base) var(--ease); box-shadow: var(--shadow-brand); }
+    .ep-btn-dl:hover { box-shadow: 0 8px 24px rgba(21,101,192,0.5); transform: translateY(-1px); }
+    .ep-btn-fav { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); cursor: pointer; color: var(--text-3); transition: all var(--t-fast) var(--ease); font-size: 1rem; }
+    .ep-btn-fav:hover, .ep-btn-fav.active { background: rgba(245,124,0,0.15); border-color: rgba(245,124,0,0.3); color: #F57C00; }
+    .ep-btn-premium { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px; background: rgba(245,124,0,0.12); color: #FF8F00; border: 1px solid rgba(245,124,0,0.3); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all var(--t-base) var(--ease); }
+    .ep-btn-premium:hover { background: rgba(245,124,0,0.2); }
+    .ep-empty { grid-column: 1/-1; text-align: center; padding: 80px 24px; background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); }
+    .ep-empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
+    .ep-empty h3 { font-size: 1rem; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+    .ep-empty p  { color: var(--text-3); font-size: 0.875rem; }
+    @media (max-width: 768px) { .filters-bar { flex-direction: column; } .filter-group { min-width: 100%; } }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="epreuves.html" style="color:#1E88E5;">Épreuves</a></li>
+    <li><a href="revision.html">Révision IA</a></li>
+    <li><a href="chatbot.html">Assistant IA</a></li>
+    <li><a href="forum.html">Forum</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div id="langSwitcher"></div>
+    <div class="nav-actions" id="navActions"></div>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<main class="epreuves-main">
+  <div class="ep-header">
+    <div class="ep-header-inner">
+      <h1>Bibliothèque d'épreuves</h1>
+      <p>Anciennes épreuves de l'UAC classées par faculté, département et année académique.</p>
+      <div class="ep-count" id="epreuvesCount">📚 Chargement...</div>
+    </div>
+  </div>
+
+  <div style="max-width:1200px;margin:0 auto;padding:28px 5%;">
+    <div class="filters-bar">
+      <div class="filter-group" style="flex:2;min-width:200px;">
+        <label class="filter-label">Rechercher</label>
+        <input type="text" id="searchInput" class="form-input" placeholder="Nom du cours, département…" style="margin:0;" />
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Faculté</label>
+        <select id="filterFaculte" class="form-select" style="margin:0;">
+          <option value="">Toutes</option>
+          <option value="FASEG">FASEG</option>
+          <option value="FADESP">FADESP</option>
+          <option value="FAST">FAST</option>
+          <option value="FSS">FSS</option>
+          <option value="FSA">FSA</option>
+          <option value="FASHS">FASHS</option>
+          <option value="FLLAC">FLLAC</option>
+          <option value="EPAC">EPAC</option>
+          <option value="INJEPS">INJEPS</option>
+          <option value="ENEAM">ENEAM</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Semestre</label>
+        <select id="filterSemestre" class="form-select" style="margin:0;">
+          <option value="">Tous</option>
+          <option value="S1">S1</option><option value="S2">S2</option>
+          <option value="S3">S3</option><option value="S4">S4</option>
+          <option value="S5">S5</option><option value="S6">S6</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Année</label>
+        <select id="filterAnnee" class="form-select" style="margin:0;">
+          <option value="">Toutes</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+        </select>
+      </div>
+      <div class="filter-group" style="min-width:auto;justify-content:flex-end;">
+        <label class="filter-label">&nbsp;</label>
+        <button id="resetFilters" class="btn btn-ghost btn-sm">↺ Réinitialiser</button>
+      </div>
+    </div>
+    <div class="epreuves-grid" id="epreuvesGrid"></div>
+  </div>
+</main>
+
+<!-- MODAL PREMIUM -->
+<div class="modal-overlay" id="premiumModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('premiumModal').classList.remove('show')">✕</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="width:60px;height:60px;background:rgba(245,124,0,0.15);border:1px solid rgba(245,124,0,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.5rem;">🔒</div>
+    </div>
+    <div class="modal-title">Contenu Premium</div>
+    <div class="modal-desc">Cette épreuve est accessible uniquement avec un abonnement Premium, à partir de 500 FCFA.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <a href="dashboard.html#abonnement" class="btn btn-accent" style="justify-content:center;">⭐ Voir les offres Premium</a>
+      <button onclick="document.getElementById('premiumModal').classList.remove('show')" class="btn btn-ghost" style="justify-content:center;">Plus tard</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/epreuves.js"></script>
+</body>
+</html>

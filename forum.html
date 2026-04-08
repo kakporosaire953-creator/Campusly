@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forum — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <style>
+    .forum-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
+    .forum-header { padding: 40px 5% 32px; background: linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(56,189,248,0.08) 100%); border-bottom: 1px solid var(--border); }
+    .forum-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .forum-body { max-width: 900px; margin: 0 auto; padding: 28px 5%; }
+
+    /* Filtres */
+    .forum-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .filter-tag { padding: 5px 14px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: none; color: var(--text-3); font-family: var(--font-sans); transition: all 0.15s ease; }
+    .filter-tag.active { background: var(--grad-brand); color: #fff; border-color: transparent; }
+
+    /* Question card */
+    .q-card { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 20px; margin-bottom: 14px; transition: all var(--t-base) var(--ease); cursor: pointer; }
+    .q-card:hover { border-color: var(--border-2); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .q-card.resolved { border-left: 3px solid #10B981; }
+    .q-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .q-faculte { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(21,101,192,0.15); color: #42A5F5; border: 1px solid rgba(21,101,192,0.3); }
+    .q-matiere { font-size: 0.7rem; color: var(--text-3); }
+    .q-author { font-size: 0.72rem; color: var(--text-3); margin-left: auto; }
+    .q-title { font-size: 0.95rem; font-weight: 700; color: var(--text-1); margin-bottom: 6px; line-height: 1.4; }
+    .q-preview { font-size: 0.82rem; color: var(--text-2); line-height: 1.6; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .q-footer { display: flex; align-items: center; gap: 14px; }
+    .q-stat { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--text-3); }
+    .q-resolved-badge { font-size: 0.7rem; font-weight: 700; color: #10B981; background: rgba(16,185,129,0.12); padding: 2px 8px; border-radius: 999px; margin-left: auto; }
+
+    /* Modal question détail */
+    .q-detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: flex-start; justify-content: center; padding: 80px 16px 16px; overflow-y: auto; }
+    .q-detail-overlay.show { display: flex; }
+    .q-detail-box { background: var(--bg-2); border: 1px solid var(--border-2); border-radius: var(--r-xl); padding: 28px; max-width: 700px; width: 100%; position: relative; }
+    .q-detail-close { position: absolute; top: 16px; right: 16px; background: var(--surface); border: none; color: var(--text-3); width: 32px; height: 32px; border-radius: var(--r-sm); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+
+    /* Réponses */
+    .answer-item { padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: 10px; }
+    .answer-item.best { border-color: #10B981; background: rgba(16,185,129,0.08); }
+    .answer-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .answer-author { font-size: 0.78rem; font-weight: 600; color: var(--text-2); }
+    .answer-date { font-size: 0.72rem; color: var(--text-4); }
+    .answer-best-badge { font-size: 0.68rem; font-weight: 700; color: #10B981; background: rgba(16,185,129,0.15); padding: 2px 8px; border-radius: 999px; margin-left: auto; }
+    .answer-text { font-size: 0.875rem; color: var(--text-1); line-height: 1.7; }
+    .vote-btn { background: none; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 3px 10px; cursor: pointer; font-size: 0.75rem; color: var(--text-3); font-family: var(--font-sans); transition: all 0.15s ease; }
+    .vote-btn:hover { background: var(--surface-2); color: var(--text-1); }
+    .vote-btn.voted { background: rgba(21,101,192,0.15); border-color: var(--brand-1); color: var(--brand-3); }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="epreuves.html">Épreuves</a></li>
+    <li><a href="revision.html">Révision IA</a></li>
+    <li><a href="forum.html" style="color:var(--brand-3);">Forum</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div id="langSwitcher"></div>
+    <div class="nav-actions" id="navActions"></div>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<main class="forum-main">
+  <div class="forum-header">
+    <div class="forum-header-inner">
+      <div>
+        <h1 style="font-size:clamp(1.4rem,3vw,1.8rem);font-weight:800;color:var(--text-1);margin-bottom:6px;">💬 Forum étudiant UAC</h1>
+        <p style="color:var(--text-2);font-size:0.9rem;">Posez vos questions, aidez vos camarades, progressez ensemble.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openNewQuestion()">+ Poser une question</button>
+    </div>
+  </div>
+
+  <div class="forum-body">
+    <!-- Filtres -->
+    <div class="forum-filters" id="forumFilters">
+      <button class="filter-tag active" data-filter="">Toutes</button>
+      <button class="filter-tag" data-filter="FASEG">FASEG</button>
+      <button class="filter-tag" data-filter="FADESP">FADESP</button>
+      <button class="filter-tag" data-filter="FAST">FAST</button>
+      <button class="filter-tag" data-filter="FSS">FSS</button>
+      <button class="filter-tag" data-filter="FSA">FSA</button>
+      <button class="filter-tag" data-filter="EPAC">EPAC</button>
+      <button class="filter-tag" data-filter="non-resolu">Sans réponse</button>
+    </div>
+
+    <!-- Liste des questions -->
+    <div id="questionsList">
+      <div style="text-align:center;padding:48px;color:var(--text-3);">Chargement...</div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal nouvelle question -->
+<div class="modal-overlay" id="newQuestionModal">
+  <div class="modal" style="max-width:560px;">
+    <button class="modal-close" onclick="closeModal('newQuestionModal')">✕</button>
+    <div class="modal-title">Poser une question</div>
+    <div class="form-group">
+      <label class="form-label">Titre de la question *</label>
+      <input type="text" id="qTitle" class="form-input" placeholder="Ex : Comment résoudre les équations différentielles ?" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Détails (optionnel)</label>
+      <textarea id="qBody" class="form-input" rows="4" placeholder="Décrivez votre problème en détail..." style="resize:vertical;"></textarea>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label class="form-label">Faculté</label>
+        <select id="qFaculte" class="form-select">
+          <option value="">Générale</option>
+          <option value="FASEG">FASEG</option><option value="FADESP">FADESP</option>
+          <option value="FAST">FAST</option><option value="FSS">FSS</option>
+          <option value="FSA">FSA</option><option value="FASHS">FASHS</option>
+          <option value="FLLAC">FLLAC</option><option value="EPAC">EPAC</option>
+          <option value="INJEPS">INJEPS</option><option value="ENEAM">ENEAM</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Matière</label>
+        <input type="text" id="qMatiere" class="form-input" placeholder="Ex : Microéconomie" />
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;" onclick="submitQuestion()" id="submitQBtn">Publier la question</button>
+  </div>
+</div>
+
+<!-- Modal détail question -->
+<div class="q-detail-overlay" id="questionDetailOverlay">
+  <div class="q-detail-box">
+    <button class="q-detail-close" onclick="closeDetail()">✕</button>
+    <div id="questionDetailContent"></div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth } from './js/auth-guard.js';
+  import { injectLogos } from './js/logo.js';
+  import { supabase } from './js/supabase-config.js';
+
+  let _user = null, _profile = null, _filter = "", _currentQId = null;
+
+  function showToast(msg, type="info") {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+    t.textContent = msg; t.className = `toast ${type} show`;
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+
+  requireAuth(async (user) => {
+    _user = user;
+    const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
+    _profile = profile;
+    const navEl = document.getElementById("navActions");
+    if (navEl) navEl.innerHTML = `
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+      <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
+    if (_profile?.faculte) document.getElementById("qFaculte").value = _profile.faculte;
+    loadQuestions();
+  });
+
+  window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
+
+  // ── Filtres ──────────────────────────────────────────────
+  document.querySelectorAll(".filter-tag").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-tag").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      _filter = btn.dataset.filter;
+      loadQuestions();
+    });
+  });
+
+  // ── Charger les questions ────────────────────────────────
+  async function loadQuestions() {
+    const list = document.getElementById("questionsList");
+    list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--text-3);">Chargement...</div>`;
+    try {
+      let query = supabase.from("forum_questions").select("*").order("created_at", { ascending: false });
+      if (_filter === "non-resolu") query = query.eq("resolved", false);
+      else if (_filter) query = query.eq("faculte", _filter);
+
+      const { data: docs, error } = await query;
+      if (error) throw error;
+
+      if (!docs?.length) {
+        list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--text-3);">Aucune question. Soyez le premier à poser une question !</div>`;
+        return;
+      }
+      list.innerHTML = docs.map(q => {
+        const ago = timeAgo(new Date(q.created_at));
+        return `<div class="q-card ${q.resolved?"resolved":""}" onclick="openQuestion('${q.id}')">
+          <div class="q-meta">
+            ${q.faculte ? `<span class="q-faculte">${q.faculte}</span>` : ""}
+            ${q.matiere ? `<span class="q-matiere">${q.matiere}</span>` : ""}
+            <span class="q-author">${q.author_name||"Étudiant"} · ${ago}</span>
+          </div>
+          <div class="q-title">${q.titre}</div>
+          ${q.contenu ? `<div class="q-preview">${q.contenu}</div>` : ""}
+          <div class="q-footer">
+            <span class="q-stat">💬 ${q.answers_count||0} réponse${(q.answers_count||0)>1?"s":""}</span>
+            <span class="q-stat">👁 ${q.views||0} vues</span>
+            ${q.resolved ? '<span class="q-resolved-badge">✓ Résolu</span>' : ""}
+          </div>
+        </div>`;
+      }).join("");
+    } catch(e) {
+      list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--danger);">Erreur de chargement : ${e.message}</div>`;
+    }
+  }
+
+  // ── Ouvrir une question ──────────────────────────────────
+  window.openQuestion = async function(id) {
+    _currentQId = id;
+    const overlay = document.getElementById("questionDetailOverlay");
+    const content = document.getElementById("questionDetailContent");
+    overlay.classList.add("show");
+    content.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text-3);">Chargement...</div>`;
+    try {
+      await supabase.from("forum_questions").update({ views: supabase.rpc ? undefined : undefined }).eq("id", id);
+      const { data: q } = await supabase.from("forum_questions").select("*").eq("id", id).single();
+      const { data: answers } = await supabase.from("forum_answers").select("*").eq("question_id", id).order("votes", { ascending: false });
+      const votes = JSON.parse(localStorage.getItem("campusly_votes")||"{}");
+      content.innerHTML = `
+        <div class="q-meta" style="margin-bottom:12px;">
+          ${q.faculte ? `<span class="q-faculte">${q.faculte}</span>` : ""}
+          ${q.matiere ? `<span class="q-matiere">${q.matiere}</span>` : ""}
+          <span class="q-author" style="margin-left:0;">${q.author_name||"Étudiant"} · ${timeAgo(new Date(q.created_at))}</span>
+        </div>
+        <h2 style="font-size:1.1rem;font-weight:800;color:var(--text-1);margin-bottom:10px;">${q.titre}</h2>
+        ${q.contenu ? `<p style="font-size:0.875rem;color:var(--text-2);line-height:1.7;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);">${q.contenu}</p>` : '<hr style="border-color:var(--border);margin-bottom:20px;">'}
+        <div style="font-size:0.82rem;font-weight:700;color:var(--text-3);margin-bottom:12px;">${answers?.length||0} RÉPONSE${(answers?.length||0)>1?"S":""}</div>
+        <div id="answersList">
+          ${answers?.length ? answers.map(a => `
+            <div class="answer-item ${a.is_best?"best":""}">
+              <div class="answer-header">
+                <span class="answer-author">${a.author_name||"Étudiant"}</span>
+                <span class="answer-date">${timeAgo(new Date(a.created_at))}</span>
+                ${a.is_best ? '<span class="answer-best-badge">✓ Meilleure réponse</span>' : ""}
+              </div>
+              <div class="answer-text">${a.contenu}</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                <button class="vote-btn ${votes[a.id]?"voted":""}" onclick="voteAnswer('${id}','${a.id}',${a.votes||0})">
+                  👍 ${a.votes||0}
+                </button>
+                ${q.user_id === _user?.id && !q.resolved ? `<button class="vote-btn" onclick="markBest('${id}','${a.id}')">✓ Marquer comme meilleure</button>` : ""}
+              </div>
+            </div>`).join("") : `<p style="color:var(--text-3);font-size:0.85rem;padding:16px 0;">Aucune réponse pour l'instant. Soyez le premier à répondre !</p>`}
+        </div>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
+          <div class="form-group">
+            <label class="form-label">Votre réponse</label>
+            <textarea id="answerText" class="form-input" rows="3" placeholder="Partagez votre réponse ou explication..." style="resize:vertical;"></textarea>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="submitAnswer('${id}')">Publier ma réponse</button>
+        </div>`;
+    } catch(e) { content.innerHTML = `<p style="color:var(--danger);">Erreur : ${e.message}</p>`; }
+  };
+
+  window.closeDetail = () => {
+    document.getElementById("questionDetailOverlay").classList.remove("show");
+    loadQuestions();
+  };
+
+  // ── Nouvelle question ────────────────────────────────────
+  window.openNewQuestion = () => document.getElementById("newQuestionModal").classList.add("show");
+  window.closeModal = (id) => document.getElementById(id)?.classList.remove("show");
+
+  window.submitQuestion = async function() {
+    const titre   = document.getElementById("qTitle").value.trim();
+    const contenu = document.getElementById("qBody").value.trim();
+    const faculte = document.getElementById("qFaculte").value;
+    const matiere = document.getElementById("qMatiere").value.trim();
+    const btn     = document.getElementById("submitQBtn");
+    if (!titre) return showToast("Le titre est requis.", "info");
+    btn.disabled = true; btn.textContent = "Publication...";
+    const { error } = await supabase.from("forum_questions").insert({
+      user_id:     _user.id,
+      author_name: `${_profile?.prenom||""} ${_profile?.nom||""}`.trim() || _profile?.matricule || "Étudiant",
+      titre, contenu, faculte, matiere,
+      resolved: false, answers_count: 0, views: 0,
+    });
+    if (error) { showToast("Erreur : " + error.message, "info"); }
+    else {
+      closeModal("newQuestionModal");
+      document.getElementById("qTitle").value = "";
+      document.getElementById("qBody").value  = "";
+      showToast("Question publiée ! 🎉", "success");
+      loadQuestions();
+    }
+    btn.disabled = false; btn.textContent = "Publier la question";
+  };
+
+  // ── Répondre ─────────────────────────────────────────────
+  window.submitAnswer = async function(qId) {
+    const text = document.getElementById("answerText").value.trim();
+    if (!text) return showToast("Écrivez votre réponse.", "info");
+    const { error } = await supabase.from("forum_answers").insert({
+      question_id: qId,
+      user_id:     _user.id,
+      author_name: `${_profile?.prenom||""} ${_profile?.nom||""}`.trim() || _profile?.matricule || "Étudiant",
+      contenu:     text,
+      votes: 0, is_best: false,
+    });
+    if (!error) {
+      await supabase.from("forum_questions").update({ answers_count: supabase.rpc ? undefined : undefined }).eq("id", qId);
+      showToast("Réponse publiée ! 🎉", "success");
+      openQuestion(qId);
+    } else { showToast("Erreur : " + error.message, "info"); }
+  };
+
+  // ── Voter ────────────────────────────────────────────────
+  window.voteAnswer = async function(qId, aId, currentVotes) {
+    const votes = JSON.parse(localStorage.getItem("campusly_votes")||"{}");
+    if (votes[aId]) return showToast("Vous avez déjà voté.", "info");
+    const { error } = await supabase.from("forum_answers").update({ votes: currentVotes + 1 }).eq("id", aId);
+    if (!error) {
+      votes[aId] = true;
+      localStorage.setItem("campusly_votes", JSON.stringify(votes));
+      showToast("Vote enregistré !", "success");
+      openQuestion(qId);
+    }
+  };
+
+  // ── Marquer meilleure réponse ────────────────────────────
+  window.markBest = async function(qId, aId) {
+    await supabase.from("forum_answers").update({ is_best: true }).eq("id", aId);
+    await supabase.from("forum_questions").update({ resolved: true }).eq("id", qId);
+    showToast("Meilleure réponse marquée ✓", "success");
+    openQuestion(qId);
+  };
+
+  // ── Utilitaire temps relatif ─────────────────────────────
+  function timeAgo(date) {
+    if (!date) return "";
+    const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (diff < 60)    return "à l'instant";
+    if (diff < 3600)  return Math.floor(diff/60) + " min";
+    if (diff < 86400) return Math.floor(diff/3600) + "h";
+    return Math.floor(diff/86400) + "j";
+  }
+
+  window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
+  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
+  injectLogos();
+</script>
+</body>
+</html>

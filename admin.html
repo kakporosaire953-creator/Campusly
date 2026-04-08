@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+</head>
+<body>
+<script src="js/theme.js"></script>
+
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span style="font-size:0.78rem;color:var(--danger);font-weight:700;">🔒 ADMIN</span>
+    <button onclick="doLogout()" class="btn btn-ghost btn-sm">Déconnexion</button>
+  </div>
+</nav>
+
+<main style="padding-top:88px;max-width:1000px;margin:0 auto;padding-left:5%;padding-right:5%;min-height:100vh;">
+  <div style="margin-bottom:28px;">
+    <h1 style="font-size:1.8rem;font-weight:800;color:var(--text-1);">Panel Admin</h1>
+    <p style="color:var(--text-3);">Validation des contributions et gestion du contenu</p>
+  </div>
+
+  <!-- Stats rapides -->
+  <div class="stats-grid" style="margin-bottom:28px;">
+    <div class="stat-card"><div class="stat-card-icon orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div><div class="stat-card-value" id="pendingCount">—</div><div class="stat-card-label">En attente</div></div></div>
+    <div class="stat-card"><div class="stat-card-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="stat-card-value" id="approvedCount">—</div><div class="stat-card-label">Approuvées</div></div></div>
+    <div class="stat-card"><div class="stat-card-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="stat-card-value" id="usersCount">—</div><div class="stat-card-label">Utilisateurs</div></div></div>
+  </div>
+
+  <!-- Contributions en attente -->
+  <div class="card">
+    <h3 class="card-title">Contributions en attente de validation</h3>
+    <div id="contributionsList"></div>
+  </div>
+</main>
+
+<script type="module">
+  import { supabase } from "./js/supabase-config.js";
+  import { injectLogos } from "./js/logo.js";
+
+  // UID des admins — remplace par ton user ID Supabase
+  const ADMIN_UIDS = ["VOTRE_USER_ID_SUPABASE"];
+
+  function showToast(msg, type="info") {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+    t.textContent = msg; t.className = `toast ${type} show`;
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+
+  window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) { window.location.replace("auth.html"); }
+  else if (!ADMIN_UIDS.includes(session.user.id)) {
+    document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--danger);font-size:1.2rem;font-weight:700;">⛔ Accès refusé</div>`;
+  } else {
+    loadStats();
+    loadContributions();
+  }
+
+  async function loadStats() {
+    const [{ count: pending }, { count: approved }, { count: users }] = await Promise.all([
+      supabase.from("contributions").select("*", { count: "exact", head: true }).eq("status", "pending"),
+      supabase.from("contributions").select("*", { count: "exact", head: true }).eq("status", "approved"),
+      supabase.from("users").select("*", { count: "exact", head: true }),
+    ]);
+    document.getElementById("pendingCount").textContent  = pending  || 0;
+    document.getElementById("approvedCount").textContent = approved || 0;
+    document.getElementById("usersCount").textContent    = users    || 0;
+  }
+
+  async function loadContributions() {
+    const el = document.getElementById("contributionsList");
+    const { data, error } = await supabase
+      .from("contributions")
+      .select("*, users(matricule, prenom, nom, email)")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false });
+
+    if (error || !data?.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">✅</div><p>Aucune contribution en attente.</p></div>`;
+      return;
+    }
+    el.innerHTML = data.map(c => `
+      <div style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border-radius:var(--r-md);margin-bottom:10px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">${c.titre||"Sans titre"}</div>
+          <div style="font-size:0.75rem;color:var(--text-3);margin-top:4px;">${c.faculte||""} · ${c.annee||""}</div>
+          <div style="font-size:0.72rem;color:var(--text-4);margin-top:2px;">Par : ${c.users?.email||c.contributor_id}</div>
+        </div>
+        ${c.file_url ? `<a href="${c.file_url}" target="_blank" class="btn btn-ghost btn-sm">👁 Voir</a>` : ""}
+        <button class="btn btn-primary btn-sm" onclick="approveContrib('${c.id}','${(c.titre||"").replace(/'/g,"\\'")}','${c.faculte||""}','${c.annee||""}','${c.file_url||""}')">✓ Approuver</button>
+        <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);" onclick="rejectContrib('${c.id}')">✕ Rejeter</button>
+      </div>`).join("");
+  }
+
+  window.approveContrib = async (id, titre, faculte, annee, fileUrl) => {
+    await supabase.from("contributions").update({ status: "approved" }).eq("id", id);
+    await supabase.from("epreuves").insert({ titre, faculte, annee, file_url: fileUrl, is_premium: false });
+    showToast("Contribution approuvée et publiée !", "success");
+    loadContributions(); loadStats();
+  };
+
+  window.rejectContrib = async (id) => {
+    if (!confirm("Rejeter cette contribution ?")) return;
+    await supabase.from("contributions").delete().eq("id", id);
+    showToast("Contribution rejetée.", "info");
+    loadContributions(); loadStats();
+  };
+
+  window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
+  injectLogos();
+</script>
+</body>
+</html>

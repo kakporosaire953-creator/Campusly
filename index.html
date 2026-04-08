@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Campusly - La plateforme académique des étudiants de l'UAC. Accédez aux anciennes épreuves, révisez avec l'IA." />
+
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://campusly.uac.bj/" />
+  <meta property="og:title"       content="Campusly — Plateforme Académique UAC" />
+  <meta property="og:description" content="500+ épreuves, révision IA, suivi de progression. La plateforme des étudiants de l'Université d'Abomey-Calavi." />
+  <meta property="og:image"       content="https://campusly.uac.bj/campusly/assets/logo.png.jpg" />
+  <meta property="og:locale"      content="fr_BJ" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Campusly — Plateforme Académique UAC" />
+  <meta name="twitter:description" content="500+ épreuves, révision IA, suivi de progression." />
+  <meta name="twitter:image"       content="https://campusly.uac.bj/campusly/assets/logo.png.jpg" />
+
+  <title>Campusly — Plateforme Académique UAC</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div> 
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text">
+      <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features" data-i18n="nav_features">Fonctionnalités</a></li>
+    <li><a href="#how-it-works" data-i18n="nav_process">Processus</a></li>
+    <li><a href="#pricing" data-i18n="nav_pricing">Tarifs</a></li>
+    <li class="nav-auth-only" style="display:none;"><a href="epreuves.html" data-i18n="nav_exams">Épreuves</a></li>
+    <li class="nav-auth-only" style="display:none;"><a href="revision.html" data-i18n="nav_revision">Révision</a></li>
+    <li class="nav-auth-only" style="display:none;"><a href="chatbot.html">Assistant IA</a></li>
+    <li class="nav-auth-only" style="display:none;"><a href="contribuer.html">Contribuer</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <!-- Recherche globale -->
+    <div id="globalSearchWrap" style="position:relative;display:none;">
+      <input type="text" id="globalSearch" placeholder="Rechercher une épreuve…" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);padding:6px 14px 6px 32px;font-size:0.82rem;color:var(--text-1);outline:none;width:200px;" />
+      <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:0.4;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div id="globalSearchResults" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-md);z-index:200;max-height:280px;overflow-y:auto;"></div>
+    </div>
+    <div id="langSwitcher"></div>
+    <div class="nav-actions" id="navActions">
+      <a href="auth.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Connexion</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Particules flottantes décoratives -->
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;">
+    <div style="position:absolute;width:2px;height:2px;background:#42A5F5;border-radius:50%;top:20%;left:15%;animation:particleFloat 8s ease-in-out infinite;opacity:0.6;"></div>
+    <div style="position:absolute;width:3px;height:3px;background:#F57C00;border-radius:50%;top:60%;left:80%;animation:particleFloat 10s 2s ease-in-out infinite;opacity:0.5;"></div>
+    <div style="position:absolute;width:2px;height:2px;background:#42A5F5;border-radius:50%;top:80%;left:25%;animation:particleFloat 7s 4s ease-in-out infinite;opacity:0.4;"></div>
+    <div style="position:absolute;width:4px;height:4px;background:#1565C0;border-radius:50%;top:35%;left:70%;animation:particleFloat 9s 1s ease-in-out infinite;opacity:0.3;"></div>
+    <div style="position:absolute;width:2px;height:2px;background:#F57C00;border-radius:50%;top:50%;left:45%;animation:particleFloat 11s 3s ease-in-out infinite;opacity:0.4;"></div>
+  </div>
+  <style>
+    @keyframes particleFloat {
+      0%,100% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-20px) translateX(10px); }
+      50% { transform: translateY(-10px) translateX(-8px); }
+      75% { transform: translateY(-25px) translateX(5px); }
+    }
+    .hero-badge-pulse::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 999px;
+      background: rgba(245,124,0,0.2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:0.5;} 50%{transform:scale(1.1);opacity:0;} }
+    .hero-badge { position: relative; }
+  </style>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge hero-badge-pulse" data-i18n="hero_badge">🎓 Université d'Abomey-Calavi</div>
+      <h1 class="hero-title">
+        <span data-i18n="hero_title">La plateforme académique</span><br/>
+        <span data-i18n="hero_title_span">des étudiants de l'UAC</span>
+      </h1>
+      <p class="hero-desc" data-i18n="hero_desc">
+        Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle et suivez votre progression.
+      </p>
+      <div class="hero-actions">
+        <a href="epreuves.html" class="btn btn-accent btn-lg" data-i18n="hero_cta_exams">Consulter les épreuves</a>
+        <a href="auth.html?tab=register" class="btn btn-ghost btn-lg" data-i18n="hero_cta_register">Créer un compte</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number" id="statEpreuves">500+</div>
+          <div class="stat-label" data-i18n="hero_stat_exams">Épreuves</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">8</div>
+          <div class="stat-label" data-i18n="hero_stat_faculties">Facultés</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="statEtudiants">2 000+</div>
+          <div class="stat-label" data-i18n="hero_stat_students">Étudiants</div>
+        </div>
+      </div>
+      <!-- Social proof -->
+      <div style="display:flex;align-items:center;gap:12px;margin-top:24px;">
+        <div style="display:flex;">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1565C0,#42A5F5);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;margin-right:-8px;">K</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#F57C00,#FF8F00);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;margin-right:-8px;">A</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#10B981,#34D399);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;margin-right:-8px;">R</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#6C63FF,#38BDF8);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;">+</div>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-3);">
+          <span style="color:var(--text-2);font-weight:600;">2 000+ étudiants</span> utilisent déjà Campusly
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <div class="hero-card-title">Épreuves récentes</div>
+            <div class="hero-card-sub">FAST — Informatique</div>
+          </div>
+        </div>
+        <div class="epreuve-item">
+          <div class="epreuve-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="epreuve-info"><div class="epreuve-name">Algorithmique — S1</div><div class="epreuve-meta">2023 · Examen final</div></div>
+          <span class="epreuve-dl">↓</span>
+        </div>
+        <div class="epreuve-item">
+          <div class="epreuve-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="epreuve-info"><div class="epreuve-name">Bases de Données — S3</div><div class="epreuve-meta">2023 · Examen final</div></div>
+          <span class="epreuve-dl">↓</span>
+        </div>
+        <div class="epreuve-item">
+          <div class="epreuve-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="epreuve-info"><div class="epreuve-name">Réseaux Informatiques</div><div class="epreuve-meta">2022 · Partiel</div></div>
+          <span class="epreuve-dl" style="color:var(--accent);">Premium</span>
+        </div>
+        <a href="epreuves.html" class="btn btn-primary" style="width:100%;margin-top:16px;" data-i18n="hero_cta_exams">Voir toutes les épreuves</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MINI DASHBOARD (visible uniquement connecté) -->
+<section id="loggedInDash" style="display:none;padding:40px 5%;max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+    <a href="epreuves.html" style="text-decoration:none;" class="home-quick-card">
+      <div style="font-size:1.8rem;margin-bottom:8px;">📚</div>
+      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Épreuves</div>
+      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Bibliothèque complète</div>
+    </a>
+    <a href="revision.html" style="text-decoration:none;" class="home-quick-card">
+      <div style="font-size:1.8rem;margin-bottom:8px;">🤖</div>
+      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Révision IA</div>
+      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Quiz personnalisés</div>
+    </a>
+    <a href="chatbot.html" style="text-decoration:none;" class="home-quick-card">
+      <div style="font-size:1.8rem;margin-bottom:8px;">💬</div>
+      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Assistant IA</div>
+      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">GPT-4o-mini</div>
+    </a>
+    <a href="forum.html" style="text-decoration:none;" class="home-quick-card">
+      <div style="font-size:1.8rem;margin-bottom:8px;">🗣️</div>
+      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Forum</div>
+      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Entraide étudiante</div>
+    </a>
+    <a href="dashboard.html" style="text-decoration:none;" class="home-quick-card" style="border-color:rgba(21,101,192,0.3);">
+      <div style="font-size:1.8rem;margin-bottom:8px;">📊</div>
+      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Dashboard</div>
+      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Ma progression</div>
+    </a>
+    <a href="contribuer.html" style="text-decoration:none;" class="home-quick-card">
+      <div style="font-size:1.8rem;margin-bottom:8px;">📤</div>
+      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Contribuer</div>
+      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Partager une épreuve</div>
+    </a>
+  </div>
+</section>
+<style>
+  .home-quick-card {
+    background: var(--grad-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 20px;
+    transition: all 0.2s ease;
+    display: block;
+  }
+  .home-quick-card:hover {
+    border-color: rgba(21,101,192,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+    background: linear-gradient(145deg, rgba(21,101,192,0.08), rgba(255,255,255,0.01));
+  }
+</style>
+
+<!-- FEATURES -->
+<section class="section guest-only" id="features">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="features_tag">Fonctionnalités</span>
+    <h2 class="section-title"><span data-i18n="features_title">Tout ce dont vous avez besoin pour</span> <span data-i18n="features_title_span">réussir</span></h2>
+    <p class="section-desc" data-i18n="features_desc">Une plateforme conçue pour les étudiants de l'UAC, avec des outils académiques modernes.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card fade-up">
+      <div class="feature-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+      <div class="feature-title" data-i18n="feat1_title">Bibliothèque d'épreuves</div>
+      <p class="feature-desc" data-i18n="feat1_desc">Accédez à des centaines d'anciennes épreuves classées par faculté, département, semestre et année.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="feature-title" data-i18n="feat2_title">Recherche avancée</div>
+      <p class="feature-desc" data-i18n="feat2_desc">Filtrez les épreuves par faculté, département, semestre ou année en quelques secondes.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="feature-title" data-i18n="feat3_title">Révision assistée par IA</div>
+      <p class="feature-desc" data-i18n="feat3_desc">Révisez avec des quiz générés par intelligence artificielle et suivez votre progression.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon purple"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="feature-title" data-i18n="feat4_title">Application mobile (PWA)</div>
+      <p class="feature-desc" data-i18n="feat4_desc">Installez Campusly sur votre smartphone. Interface optimisée mobile.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div class="feature-title" data-i18n="feat5_title">Contenu Premium</div>
+      <p class="feature-desc" data-i18n="feat5_desc">Débloquez des épreuves exclusives avec un abonnement à partir de 500 FCFA.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="feature-title" data-i18n="feat6_title">Toutes les facultés UAC</div>
+      <p class="feature-desc" data-i18n="feat6_desc">FAST, FADESP, FASEG, FLASH, EPAC, FSS, INJEPS, ENEAM — toutes couvertes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section guest-only" id="how-it-works">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="nav_process">Processus</span>
+    <h2 class="section-title">Comment <span>ça marche</span></h2>
+    <p class="section-desc">En quatre étapes simples, accédez à toutes les ressources dont vous avez besoin.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card fade-up"><div class="step-number">01</div><div class="step-title">Créez votre compte</div><p class="step-desc">Inscrivez-vous avec votre matricule UAC en moins de deux minutes.</p></div>
+    <div class="step-card fade-up"><div class="step-number">02</div><div class="step-title">Recherchez vos épreuves</div><p class="step-desc">Filtrez par faculté, département, semestre ou année.</p></div>
+    <div class="step-card fade-up"><div class="step-number">03</div><div class="step-title">Révisez avec l'IA</div><p class="step-desc">Utilisez les quiz interactifs générés par IA pour tester vos connaissances.</p></div>
+    <div class="step-card fade-up"><div class="step-number">04</div><div class="step-title">Suivez votre progression</div><p class="step-desc">Consultez vos statistiques et mesurez votre niveau avant les examens.</p></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing-section guest-only" id="pricing">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="pricing_tag">Tarifs</span>
+    <h2 class="section-title"><span data-i18n="pricing_title">Des tarifs</span> <span data-i18n="pricing_title_span">accessibles</span> <span data-i18n="pricing_title2">pour tous</span></h2>
+    <p class="section-desc" data-i18n="pricing_desc">Commencez gratuitement. Passez Premium pour débloquer l'intégralité du contenu.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card fade-up">
+      <div class="pricing-duration" data-i18n="plan_free">Gratuit</div>
+      <div class="pricing-price">0 <span>FCFA</span></div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> <span data-i18n="plan_free_feat1">Accès aux épreuves gratuites</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_free_feat2">Recherche et filtres</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_free_feat3">Favoris et historique</span></li>
+        <li class="disabled" data-i18n="plan_free_feat4">Épreuves Premium</li>
+        <li class="disabled" data-i18n="plan_free_feat5">Quiz IA illimités</li>
+      </ul>
+      <a href="auth.html?tab=register" class="btn btn-outline" style="width:100%;" data-i18n="plan_free_cta">Commencer gratuitement</a>
+    </div>
+    <div class="pricing-card popular fade-up">
+      <div class="popular-badge" data-i18n="plan_recommended">Recommandé</div>
+      <div class="pricing-duration" data-i18n="plan_month">1 Mois</div>
+      <div class="pricing-price">1 500 <span>FCFA</span></div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> <span data-i18n="plan_feat1">Tout du plan gratuit</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat2">Accès illimité Premium</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat3">Quiz IA illimités</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat4">Suivi de progression</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat5">Support prioritaire</span></li>
+      </ul>
+      <a href="auth.html?tab=register" class="btn btn-primary" style="width:100%;" data-i18n="plan_cta">Choisir ce plan</a>
+    </div>
+    <div class="pricing-card fade-up">
+      <div class="pricing-duration" data-i18n="plan_week">1 Semaine</div>
+      <div class="pricing-price">500 <span>FCFA</span></div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> <span data-i18n="plan_feat1">Tout du plan gratuit</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat2">Accès illimité Premium</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat3">Quiz IA illimités</span></li>
+        <li><span class="check">✓</span> <span data-i18n="plan_feat4">Suivi de progression</span></li>
+        <li class="disabled" data-i18n="plan_feat5">Support prioritaire</li>
+      </ul>
+      <a href="auth.html?tab=register" class="btn btn-outline" style="width:100%;" data-i18n="plan_cta">Choisir ce plan</a>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO SECTION -->
+<section class="section guest-only" id="demo" style="background:linear-gradient(135deg,rgba(108,99,255,0.08) 0%,rgba(56,189,248,0.05) 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-center">
+    <span class="section-tag">Démonstration</span>
+    <h2 class="section-title">Voyez Campusly <span>en action</span></h2>
+    <p class="section-desc">Découvrez comment nos étudiants révisent et progressent chaque jour.</p>
+  </div>
+  <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+    <!-- Demo Quiz IA -->
+    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-brand);"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:1.4rem;">🎯</span>
+        <div>
+          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Quiz IA — Microéconomie</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">7 questions · GPT-4o-mini</div>
+        </div>
+        <span style="margin-left:auto;font-size:0.72rem;font-weight:700;color:#10B981;background:rgba(16,185,129,0.12);padding:3px 10px;border-radius:999px;">3/7</span>
+      </div>
+      <div style="height:4px;background:var(--surface-2);border-radius:999px;margin-bottom:16px;overflow:hidden;">
+        <div style="height:100%;width:43%;background:var(--grad-brand);border-radius:999px;"></div>
+      </div>
+      <p style="font-size:0.875rem;font-weight:600;color:var(--text-1);margin-bottom:14px;">Qu'est-ce que l'élasticité-prix de la demande ?</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="padding:9px 14px;background:rgba(16,185,129,0.15);border:1px solid #10B981;border-radius:var(--r-md);font-size:0.8rem;color:#10B981;display:flex;align-items:center;gap:8px;">
+          <span style="width:20px;height:20px;background:#10B981;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700;flex-shrink:0;">A</span>
+          La variation relative de la quantité demandée suite à une variation relative du prix ✓
+        </div>
+        <div style="padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);display:flex;align-items:center;gap:8px;opacity:0.5;">
+          <span style="width:20px;height:20px;background:var(--surface-2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">B</span>
+          Le rapport entre l'offre et la demande
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-2);line-height:1.6;">
+        💡 L'élasticité-prix mesure la sensibilité des consommateurs aux variations de prix.
+      </div>
+    </div>
+
+    <!-- Demo Plan de révision -->
+    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6C63FF,#38BDF8);"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:1.4rem;">📋</span>
+        <div>
+          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Plan de révision IA</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">Semaine 2 sur 3</div>
+        </div>
+        <span style="margin-left:auto;font-size:0.72rem;font-weight:700;color:#6C63FF;background:rgba(108,99,255,0.12);padding:3px 10px;border-radius:999px;">67%</span>
+      </div>
+      <div style="height:4px;background:var(--surface-2);border-radius:999px;margin-bottom:16px;overflow:hidden;">
+        <div style="height:100%;width:67%;background:linear-gradient(90deg,#6C63FF,#38BDF8);border-radius:999px;"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:var(--r-md);opacity:0.6;">
+          <div style="width:18px;height:18px;background:#10B981;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;flex-shrink:0;">✓</div>
+          <div style="font-size:0.78rem;color:var(--text-2);">Lundi — Microéconomie Ch.3 (2h)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.4);border-radius:var(--r-md);">
+          <div style="width:18px;height:18px;border:2px solid #6C63FF;border-radius:4px;flex-shrink:0;"></div>
+          <div style="font-size:0.78rem;color:var(--text-1);font-weight:600;">Aujourd'hui — Comptabilité Ch.5 (2h)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);">
+          <div style="width:18px;height:18px;border:2px solid var(--border-2);border-radius:4px;flex-shrink:0;"></div>
+          <div style="font-size:0.78rem;color:var(--text-2);">Mercredi — Révision générale (1h)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo Question du jour -->
+    <div style="background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(56,189,248,0.08));border:1px solid rgba(108,99,255,0.3);border-radius:var(--r-xl);padding:24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <span style="font-size:1.4rem;">🧠</span>
+        <div>
+          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Question du jour</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">Droit Civil · Aujourd'hui</div>
+        </div>
+        <span style="margin-left:auto;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(108,99,255,0.2);color:#a78bfa;">Quotidien</span>
+      </div>
+      <p style="font-size:0.875rem;font-weight:600;color:var(--text-1);margin-bottom:12px;">Qu'est-ce que la capacité juridique ?</p>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-2);display:flex;align-items:center;gap:8px;">
+          <span style="width:18px;height:18px;background:var(--surface-2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;">A</span>
+          L'aptitude à être titulaire de droits et d'obligations
+        </div>
+        <div style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-2);display:flex;align-items:center;gap:8px;">
+          <span style="width:18px;height:18px;background:var(--surface-2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;">B</span>
+          Le droit de voter aux élections
+        </div>
+      </div>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Répondre →</a>
+    </div>
+
+    <!-- Demo Forum -->
+    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:1.4rem;">💬</span>
+        <div>
+          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Forum étudiant</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">Questions récentes</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);border-left:3px solid #10B981;">
+          <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Comment résoudre les équations différentielles ?</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">FAST · 2 réponses · ✓ Résolu</div>
+        </div>
+        <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);">
+          <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Différence entre droit public et privé ?</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">FADESP · 1 réponse · ✓ Résolu</div>
+        </div>
+        <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);">
+          <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Comment préparer Microéconomie en 2 semaines ?</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">FASEG · 0 réponse · En attente</div>
+        </div>
+      </div>
+      <a href="auth.html?tab=register" class="btn btn-outline btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Rejoindre le forum →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section guest-only">
+  <h2 class="cta-title">Prêt à optimiser vos révisions ?</h2>
+  <p class="cta-desc">Rejoignez des milliers d'étudiants de l'UAC qui utilisent Campusly pour préparer leurs examens.</p>
+  <div class="cta-actions">
+    <a href="auth.html?tab=register" class="btn btn-accent btn-lg" data-i18n="plan_free_cta">Créer un compte gratuit</a>
+    <a href="epreuves.html" class="btn btn-ghost btn-lg" data-i18n="nav_exams">Consulter les épreuves</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <!-- Drapeau du Bénin en arrière-plan décoratif -->
+  <div class="footer-flag" aria-hidden="true">
+    <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="300" height="600" fill="#008751"/>
+      <rect x="300" width="600" height="300" fill="#FCD116"/>
+      <rect x="300" y="300" width="600" height="300" fill="#E8112D"/>
+    </svg>
+  </div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
+      <p>La plateforme académique des étudiants de l'Université d'Abomey-Calavi.</p>
+      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-3);">Bénin 🇧🇯</div>
+    </div>
+    <div class="footer-col">
+      <h4>Plateforme</h4>
+      <a href="epreuves.html" data-i18n="nav_exams">Épreuves</a>
+      <a href="revision.html" data-i18n="nav_revision">Révision IA</a>
+      <a href="auth.html?tab=register" data-i18n="nav_register">S'inscrire</a>
+      <a href="#pricing" data-i18n="nav_pricing">Tarifs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Facultés</h4>
+      <a href="epreuves.html?faculte=FASEG">FASEG</a>
+      <a href="epreuves.html?faculte=FADESP">FADESP</a>
+      <a href="epreuves.html?faculte=FAST">FAST</a>
+      <a href="epreuves.html?faculte=FSS">FSS</a>
+      <a href="epreuves.html?faculte=EPAC">EPAC</a>
+      <a href="epreuves.html?faculte=FLLAC">FLLAC</a>
+    </div>
+    <div class="footer-col">
+      <h4>Informations</h4>
+      <a href="apropos.html">À propos</a>
+      <a href="#">Support</a>
+      <a href="contribuer.html">Contribuer</a>
+      <a href="conditions.html">Conditions</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Campusly — Plateforme académique de l'UAC</div>
+</footer>
+
+<script type="module">
+  import { initLangSwitcher, applyTranslations } from './js/i18n.js';
+  import { injectLogos } from './js/logo.js';
+  import { supabase } from './js/supabase-config.js';
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 20));
+  document.getElementById('hamburger')?.addEventListener('click', () => document.querySelector('.nav-links')?.classList.toggle('open'));
+
+  // Scroll animations
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // Effet hover magnétique sur les feature cards
+  document.querySelectorAll('.feature-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+      const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // Navbar dynamique
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user ?? null;
+
+  const el = document.getElementById("navActions");
+  const searchWrap = document.getElementById("globalSearchWrap");
+  const loggedInDash = document.getElementById("loggedInDash");
+
+  document.querySelectorAll(".guest-only").forEach(s => { s.style.display = user ? "none" : ""; });
+  if (loggedInDash) loggedInDash.style.display = user ? "block" : "none";
+  document.querySelectorAll(".nav-auth-only").forEach(li => { li.style.display = user ? "list-item" : "none"; });
+  if (searchWrap) searchWrap.style.display = user ? "block" : "none";
+
+  if (el) {
+    el.innerHTML = user
+      ? `<a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+         <button id="logoutBtn" class="btn btn-outline btn-sm">Déconnexion</button>`
+      : `<a href="auth.html" class="btn btn-ghost btn-sm">Connexion</a>
+         <a href="auth.html?tab=register" class="btn btn-primary btn-sm">S'inscrire</a>`;
+    if (user) {
+      document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        window.location.href = "index.html";
+      });
+    }
+  }
+
+  // Recherche globale
+  const searchInput = document.getElementById("globalSearch");
+  const searchResults = document.getElementById("globalSearchResults");
+  if (searchInput) {
+    searchInput.addEventListener("input", async function() {
+      const q = this.value.trim().toLowerCase();
+      if (q.length < 2) { searchResults.style.display = "none"; return; }
+      const { data } = await supabase.from("epreuves").select("titre,faculte,annee,departement").ilike("titre", `%${q}%`).limit(6);
+      if (!data?.length) { searchResults.style.display = "none"; return; }
+      searchResults.innerHTML = data.map(e =>
+        `<a href="epreuves.html?faculte=${e.faculte||''}" style="display:block;padding:10px 14px;font-size:0.82rem;color:var(--text-1);text-decoration:none;border-bottom:1px solid var(--border);">
+          <span style="font-weight:600;">${e.titre||""}</span>
+          <span style="color:var(--text-3);margin-left:8px;">${e.faculte||""} · ${e.annee||""}</span>
+        </a>`
+      ).join("");
+      searchResults.style.display = "block";
+    });
+    document.addEventListener("click", e => {
+      if (!searchInput.contains(e.target)) searchResults.style.display = "none";
+    });
+  }
+
+  // Stats réelles avec animation
+  try {
+    const [{ count: ep }, { count: us }] = await Promise.all([
+      supabase.from("epreuves").select("*", { count: "exact", head: true }),
+      supabase.from("users").select("*", { count: "exact", head: true }),
+    ]);
+
+    function animateCount(el, target, suffix) {
+      if (!el || !target) return;
+      let start = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        start = Math.min(start + step, target);
+        el.textContent = (start > 999 ? Math.floor(start/1000)+"k" : start) + suffix;
+        if (start >= target) clearInterval(timer);
+      }, 30);
+    }
+    animateCount(document.getElementById("statEpreuves"), ep > 0 ? ep : 500, "+");
+    animateCount(document.getElementById("statEtudiants"), us > 0 ? us : 2000, "+");
+  } catch(e) {}
+
+  // i18n
+  initLangSwitcher();
+  applyTranslations();
+  injectLogos();
+
+  // Service Worker PWA
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contribuer — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <style>
+    .contrib-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
+    .contrib-header { padding: 48px 5% 40px; background: linear-gradient(135deg, rgba(21,101,192,0.15) 0%, rgba(245,124,0,0.08) 100%); border-bottom: 1px solid var(--border); }
+    .contrib-header-inner { max-width: 800px; margin: 0 auto; }
+    .contrib-header h1 { font-size: clamp(1.5rem,3vw,2rem); font-weight: 800; color: var(--text-1); letter-spacing: -0.02em; }
+    .contrib-header p  { color: var(--text-2); margin-top: 8px; font-size: 0.95rem; }
+    .contrib-body { max-width: 800px; margin: 0 auto; padding: 32px 5%; }
+
+    .upload-card { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 32px; margin-bottom: 24px; }
+    .upload-card h2 { font-size: 1.1rem; font-weight: 700; color: var(--text-1); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+
+    .drop-zone {
+      border: 2px dashed var(--border-2);
+      border-radius: var(--r-xl);
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--t-base) var(--ease);
+      background: var(--surface);
+      margin-bottom: 24px;
+    }
+    .drop-zone:hover, .drop-zone.dragover { border-color: var(--brand-1); background: var(--surface-2); }
+    .drop-zone-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .drop-zone h3 { font-size: 1rem; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+    .drop-zone p  { font-size: 0.85rem; color: var(--text-3); }
+    .drop-zone input { display: none; }
+
+    .file-preview { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(21,101,192,0.1); border: 1px solid rgba(21,101,192,0.3); border-radius: var(--r-md); margin-bottom: 20px; }
+    .file-preview-icon { font-size: 1.5rem; }
+    .file-preview-name { flex: 1; font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+    .file-preview-size { font-size: 0.78rem; color: var(--text-3); }
+    .file-remove { background: none; border: none; color: var(--text-3); cursor: pointer; font-size: 1.1rem; padding: 4px; }
+    .file-remove:hover { color: #EF4444; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .progress-bar-wrap { background: var(--surface); border-radius: var(--r-full); height: 8px; overflow: hidden; margin: 16px 0; display: none; }
+    .progress-bar-fill { height: 100%; background: var(--grad-brand); border-radius: var(--r-full); transition: width 0.3s var(--ease); width: 0%; }
+
+    .success-msg { display: none; text-align: center; padding: 32px; }
+    .success-msg .success-icon { font-size: 3rem; margin-bottom: 12px; }
+    .success-msg h3 { font-size: 1.2rem; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+    .success-msg p  { color: var(--text-2); font-size: 0.9rem; }
+
+    .contrib-list { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 24px; }
+    .contrib-list h2 { font-size: 1rem; font-weight: 700; color: var(--text-1); margin-bottom: 16px; }
+    .contrib-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface); border-radius: var(--r-md); margin-bottom: 8px; }
+    .contrib-item-icon { width: 36px; height: 36px; background: rgba(21,101,192,0.15); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: var(--brand-3); flex-shrink: 0; }
+    .contrib-item-info { flex: 1; }
+    .contrib-item-title { font-size: 0.875rem; font-weight: 600; color: var(--text-1); }
+    .contrib-item-meta  { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; }
+    .contrib-item-status { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: var(--r-full); }
+    .status-pending  { background: rgba(245,124,0,0.15); color: #F57C00; }
+    .status-approved { background: rgba(16,185,129,0.15); color: #10B981; }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="epreuves.html">Épreuves</a></li>
+    <li><a href="revision.html">Révision IA</a></li>
+    <li><a href="chatbot.html">Assistant IA</a></li>
+    <li><a href="forum.html">Forum</a></li>
+    <li><a href="contribuer.html" style="color:var(--brand-3);">Contribuer</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions"></div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<main class="contrib-main">
+  <div class="contrib-header">
+    <div class="contrib-header-inner">
+      <h1>📤 Contribuer à Campusly</h1>
+      <p>Partagez vos épreuves avec la communauté UAC. Chaque contribution aide des milliers d'étudiants à mieux préparer leurs examens.</p>
+    </div>
+  </div>
+
+  <div class="contrib-body">
+    <!-- Formulaire upload -->
+    <div class="upload-card">
+      <h2>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Soumettre une épreuve
+      </h2>
+
+      <div id="uploadForm">
+        <!-- Zone de dépôt -->
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div class="drop-zone-icon">📄</div>
+          <h3>Glissez votre fichier ici</h3>
+          <p>ou cliquez pour sélectionner · PDF, DOC, DOCX, JPG, PNG · Max 10 MB</p>
+          <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+        </div>
+
+        <!-- Aperçu fichier -->
+        <div class="file-preview" id="filePreview" style="display:none;">
+          <div class="file-preview-icon">📄</div>
+          <div class="file-preview-name" id="fileName">—</div>
+          <div class="file-preview-size" id="fileSize">—</div>
+          <button class="file-remove" onclick="removeFile()" title="Supprimer">✕</button>
+        </div>
+
+        <!-- Infos épreuve -->
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Titre de l'épreuve *</label>
+            <input type="text" id="epTitre" class="form-input" placeholder="Ex : Microéconomie I — Examen final" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Faculté *</label>
+            <select id="epFaculte" class="form-select">
+              <option value="">Sélectionner</option>
+              <option value="FASEG">FASEG</option>
+              <option value="FADESP">FADESP</option>
+              <option value="FAST">FAST</option>
+              <option value="FSS">FSS</option>
+              <option value="FSA">FSA</option>
+              <option value="FASHS">FASHS</option>
+              <option value="FLLAC">FLLAC</option>
+              <option value="EPAC">EPAC</option>
+              <option value="INJEPS">INJEPS</option>
+              <option value="ENEAM">ENEAM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Département / Filière</label>
+            <input type="text" id="epDept" class="form-input" placeholder="Ex : Économie, Informatique…" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Semestre *</label>
+            <select id="epSemestre" class="form-select">
+              <option value="">Sélectionner</option>
+              <option value="S1">S1</option><option value="S2">S2</option>
+              <option value="S3">S3</option><option value="S4">S4</option>
+              <option value="S5">S5</option><option value="S6">S6</option>
+              <option value="S7">S7 (Master 1)</option><option value="S8">S8 (Master 1)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Année académique *</label>
+            <select id="epAnnee" class="form-select">
+              <option value="">Sélectionner</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type *</label>
+            <select id="epType" class="form-select">
+              <option value="Examen">Examen final</option>
+              <option value="Partiel">Partiel</option>
+              <option value="Rattrapage">Rattrapage</option>
+              <option value="TD">TD / Devoir</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Barre de progression -->
+        <div class="progress-bar-wrap" id="progressWrap">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="submitEpreuve()" id="submitBtn">
+          📤 Soumettre l'épreuve
+        </button>
+        <p style="text-align:center;font-size:0.78rem;color:var(--text-3);margin-top:10px;">
+          Votre contribution sera vérifiée avant publication. Merci pour votre aide ! 🙏
+        </p>
+      </div>
+
+      <!-- Message succès -->
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">🎉</div>
+        <h3>Épreuve soumise avec succès !</h3>
+        <p>Merci pour votre contribution. Elle sera vérifiée et publiée sous 24h.</p>
+        <button class="btn btn-primary" style="margin-top:20px;" onclick="resetForm()">Soumettre une autre épreuve</button>
+      </div>
+    </div>
+
+    <!-- Mes contributions -->
+    <div class="contrib-list">
+      <h2>📋 Mes contributions</h2>
+      <div id="myContributions">
+        <div class="empty-state"><div class="empty-icon">📂</div><p>Aucune contribution pour l'instant.</p></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+  import { requireAuth } from './js/auth-guard.js';
+  import { injectLogos } from './js/logo.js';
+  import { supabase } from './js/supabase-config.js';
+
+  let _user = null, _file = null;
+
+  function showToast(msg, type="info") {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+    t.textContent = msg; t.className = `toast ${type} show`;
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+
+  requireAuth((user) => {
+    _user = user;
+    const navEl = document.getElementById("navActions");
+    if (navEl) navEl.innerHTML = `
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+      <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
+    loadMyContributions();
+  });
+
+  window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
+
+  // ── Drag & Drop ──────────────────────────────────────────
+  const dropZone = document.getElementById("dropZone");
+  dropZone.addEventListener("dragover",  e => { e.preventDefault(); dropZone.classList.add("dragover"); });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault(); dropZone.classList.remove("dragover");
+    const f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+  document.getElementById("fileInput").addEventListener("change", e => {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  function handleFile(f) {
+    const maxSize = 10 * 1024 * 1024; // 10 MB
+    const allowed = ["application/pdf","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","image/jpeg","image/png"];
+    if (!allowed.includes(f.type)) { showToast("Format non supporté. PDF, DOC, DOCX, JPG, PNG uniquement.", "info"); return; }
+    if (f.size > maxSize) { showToast("Fichier trop volumineux. Maximum 10 MB.", "info"); return; }
+    _file = f;
+    document.getElementById("dropZone").style.display = "none";
+    document.getElementById("filePreview").style.display = "flex";
+    document.getElementById("fileName").textContent = f.name;
+    document.getElementById("fileSize").textContent = (f.size / 1024 / 1024).toFixed(2) + " MB";
+  }
+
+  window.removeFile = function() {
+    _file = null;
+    document.getElementById("dropZone").style.display = "block";
+    document.getElementById("filePreview").style.display = "none";
+    document.getElementById("fileInput").value = "";
+  };
+
+  // ── Soumission ───────────────────────────────────────────
+  window.submitEpreuve = async function() {
+    const titre    = document.getElementById("epTitre").value.trim();
+    const faculte  = document.getElementById("epFaculte").value;
+    const dept     = document.getElementById("epDept").value.trim();
+    const semestre = document.getElementById("epSemestre").value;
+    const annee    = document.getElementById("epAnnee").value;
+    const type     = document.getElementById("epType").value;
+
+    if (!_file)    { showToast("Veuillez sélectionner un fichier.", "info"); return; }
+    if (!titre)    { showToast("Le titre est requis.", "info"); return; }
+    if (!faculte)  { showToast("La faculté est requise.", "info"); return; }
+    if (!semestre) { showToast("Le semestre est requis.", "info"); return; }
+    if (!annee)    { showToast("L'année est requise.", "info"); return; }
+
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true; btn.textContent = "Upload en cours…";
+
+    const progressWrap = document.getElementById("progressWrap");
+    const progressFill = document.getElementById("progressFill");
+    progressWrap.style.display = "block";
+    progressFill.style.width = "30%";
+
+    try {
+      // 1. Upload vers Supabase Storage
+      const ext      = _file.name.split(".").pop();
+      const fileName = `epreuves/${faculte}/${Date.now()}_${titre.replace(/\s+/g,"_")}.${ext}`;
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("epreuves")
+        .upload(fileName, _file, { cacheControl: "3600", upsert: false });
+
+      if (uploadError) throw uploadError;
+      progressFill.style.width = "70%";
+
+      const { data: { publicUrl } } = supabase.storage.from("epreuves").getPublicUrl(fileName);
+
+      // 2. Enregistrer dans la table contributions
+      const { error: dbError } = await supabase.from("contributions").insert({
+        contributor_id: _user.id,
+        titre, faculte,
+        annee,
+        file_url: publicUrl,
+        status: "pending",
+      });
+
+      if (dbError) throw dbError;
+      progressFill.style.width = "100%";
+
+      document.getElementById("uploadForm").style.display = "none";
+      document.getElementById("successMsg").style.display = "block";
+      progressWrap.style.display = "none";
+      loadMyContributions();
+
+    } catch (err) {
+      console.error(err);
+      showToast("Erreur lors de l'upload. Réessayez.", "info");
+      btn.disabled = false; btn.textContent = "📤 Soumettre l'épreuve";
+      progressWrap.style.display = "none";
+    }
+  };
+
+  window.resetForm = function() {
+    _file = null;
+    document.getElementById("uploadForm").style.display = "block";
+    document.getElementById("successMsg").style.display = "none";
+    document.getElementById("fileInput").value = "";
+    document.getElementById("dropZone").style.display = "block";
+    document.getElementById("filePreview").style.display = "none";
+    document.getElementById("epTitre").value = "";
+    document.getElementById("epFaculte").value = "";
+    document.getElementById("epDept").value = "";
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("submitBtn").textContent = "📤 Soumettre l'épreuve";
+    document.getElementById("progressFill").style.width = "0%";
+  };
+
+  async function loadMyContributions() {
+    if (!_user) return;
+    const { data, error } = await supabase
+      .from("contributions")
+      .select("*")
+      .eq("contributor_id", _user.id)
+      .order("created_at", { ascending: false });
+
+    const el = document.getElementById("myContributions");
+    if (!data?.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><p>Aucune contribution pour l'instant.</p></div>`;
+      return;
+    }
+    el.innerHTML = data.map(c => {
+      const statusClass = c.status === "approved" ? "status-approved" : "status-pending";
+      const statusLabel = c.status === "approved" ? "✓ Publié" : "⏳ En attente";
+      return `
+        <div class="contrib-item">
+          <div class="contrib-item-icon">📄</div>
+          <div class="contrib-item-info">
+            <div class="contrib-item-title">${c.titre}</div>
+            <div class="contrib-item-meta">${c.faculte} · ${c.annee}</div>
+          </div>
+          <span class="contrib-item-status ${statusClass}">${statusLabel}</span>
+        </div>`;
+    }).join("");
+  }
+
+  window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
+  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
+  injectLogos();
+</script>
+</body>
+</html>

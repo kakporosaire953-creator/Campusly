@@ -1,0 +1,14 @@
+{
+  "name": "Campusly — Plateforme Académique UAC",
+  "short_name": "Campusly",
+  "description": "Accédez aux anciennes épreuves et ressources académiques de l'UAC",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0D1B2A",
+  "theme_color": "#1E88E5",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "assets/logo.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

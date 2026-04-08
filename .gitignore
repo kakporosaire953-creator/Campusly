@@ -1,0 +1,16 @@
+# ===== CLÉS ET SECRETS =====
+functions/.env
+.env
+.env.local
+.env.*.local
+
+# ===== FIREBASE =====
+functions/node_modules/
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# ===== DIVERS =====
+.DS_Store
+Thumbs.db
+*.log

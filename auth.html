@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion / Inscription — Campusly</title>
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <style>
+    .auth-divider { display:flex; align-items:center; gap:12px; margin:20px 0; }
+    .auth-divider span { font-size:0.78rem; color:var(--text-3); white-space:nowrap; }
+    .auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .btn-google {
+      width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+      padding:11px 16px; background:#fff; border:1.5px solid #dadce0; border-radius:var(--r-md);
+      font-family:var(--font-sans); font-size:0.9rem; font-weight:600; color:#3c4043;
+      cursor:pointer; transition:all var(--t-fast) var(--ease); margin-bottom:4px;
+    }
+    .btn-google:hover { background:#f8f9fa; box-shadow:0 2px 8px rgba(0,0,0,0.12); }
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:1000; display:none; align-items:center; justify-content:center; padding:16px; }
+    .modal-overlay.show { display:flex; }
+    .modal-box { background:var(--bg); border:1px solid var(--border); border-radius:var(--r-xl); padding:32px; max-width:440px; width:100%; }
+    .modal-box h2 { font-size:1.2rem; font-weight:800; color:var(--text-1); margin-bottom:8px; }
+    .modal-box p  { font-size:0.875rem; color:var(--text-2); margin-bottom:24px; line-height:1.6; }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+</div>
+
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <a href="index.html" style="text-decoration:none;">
+        <span class="logo-text" style="font-size:1.6rem;">
+          <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
+        </span>
+      </a>
+      <h2 style="font-size:2rem;font-weight:800;color:var(--text-1);margin:32px 0 12px;letter-spacing:-0.02em;">La réussite commence ici</h2>
+      <p style="color:var(--text-2);line-height:1.7;margin-bottom:32px;">Accédez aux anciennes épreuves de l'UAC, révisez avec l'IA et suivez votre progression académique.</p>
+      <div class="auth-features">
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+          <span>500+ épreuves disponibles</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <span>Révision assistée par IA (GPT-4o)</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <span>Accessible sur mobile (PWA)</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+          <span>Premium à partir de 500 FCFA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-form-container">
+      <div class="auth-form-header">
+        <h1>Bienvenue</h1>
+        <p>Connectez-vous ou créez votre compte étudiant</p>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Connexion</button>
+        <button class="auth-tab" data-tab="register">Inscription</button>
+      </div>
+
+      <button class="btn-google" id="googleBtn">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continuer avec Google
+      </button>
+
+      <div class="auth-divider"><span>ou</span></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Matricule UAC</label>
+          <input type="text" id="loginMatricule" class="form-input" placeholder="Ex : 10851326" maxlength="8" />
+          <div class="form-error" id="loginMatriculeError"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="Votre mot de passe" />
+          <div class="form-error" id="loginPasswordError"></div>
+        </div>
+        <button type="submit" class="form-btn" id="loginBtn">Se connecter</button>
+        <p style="text-align:center;margin-top:18px;font-size:0.87rem;color:var(--text-3);">
+          Pas encore de compte ?
+          <span class="form-link" onclick="switchTab('register')"> S'inscrire gratuitement</span>
+        </p>
+      </form>
+
+      <form id="registerForm" style="display:none;" novalidate>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input type="text" id="regPrenom" class="form-input" placeholder="Votre prénom" />
+            <div class="form-error" id="regPrenomError"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input type="text" id="regNom" class="form-input" placeholder="Votre nom" />
+            <div class="form-error" id="regNomError"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Matricule UAC (8 chiffres)</label>
+          <input type="text" id="regMatricule" class="form-input" placeholder="Ex : 10851326" maxlength="8" />
+          <div class="form-error" id="regMatriculeError"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Faculté</label>
+          <select id="regFaculte" class="form-select">
+            <option value="">Sélectionner une faculté</option>
+            <option value="FASEG">FASEG — Sciences Économiques et de Gestion</option>
+            <option value="FADESP">FADESP — Droit et Sciences Politiques</option>
+            <option value="FAST">FAST — Sciences et Techniques</option>
+            <option value="FSS">FSS — Sciences de la Santé</option>
+            <option value="FSA">FSA — Sciences Agronomiques</option>
+            <option value="FASHS">FASHS — Sciences Humaines et Sociales</option>
+            <option value="FLLAC">FLLAC — Lettres, Langues, Arts et Communications</option>
+            <option value="EPAC">EPAC — École Polytechnique</option>
+            <option value="INJEPS">INJEPS — Jeunesse, Éducation Physique et Sport</option>
+            <option value="ENEAM">ENEAM — École Nationale d'Économie Appliquée</option>
+          </select>
+          <div class="form-error" id="regFaculteError"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Département / Filière</label>
+          <input type="text" id="regDepartement" class="form-input" placeholder="Ex : Informatique" list="deptList" />
+          <datalist id="deptList"></datalist>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input type="password" id="regPassword" class="form-input" placeholder="Min 8 car., 1 maj., 1 chiffre, 1 symbole" />
+          <div class="form-error" id="regPasswordError"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe</label>
+          <input type="password" id="regConfirm" class="form-input" placeholder="Répéter le mot de passe" />
+          <div class="form-error" id="regConfirmError"></div>
+        </div>
+        <button type="submit" class="form-btn" id="registerBtn">Créer mon compte</button>
+        <p style="text-align:center;margin-top:18px;font-size:0.87rem;color:var(--text-3);">
+          Déjà un compte ?
+          <span class="form-link" onclick="switchTab('login')"> Se connecter</span>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="googleProfileModal">
+  <div class="modal-box">
+    <h2>Complétez votre profil</h2>
+    <p>Première connexion avec Google. Ajoutez votre matricule UAC et votre faculté pour accéder à toutes les fonctionnalités.</p>
+    <div class="form-group">
+      <label class="form-label">Matricule UAC (8 chiffres)</label>
+      <input type="text" id="googleMatricule" class="form-input" placeholder="Ex : 10851326" maxlength="8" />
+      <div class="form-error" id="googleMatriculeError"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Faculté</label>
+      <select id="googleFaculte" class="form-select">
+        <option value="">Sélectionner une faculté</option>
+        <option value="FASEG">FASEG</option>
+        <option value="FADESP">FADESP</option>
+        <option value="FAST">FAST</option>
+        <option value="FSS">FSS</option>
+        <option value="FSA">FSA</option>
+        <option value="FASHS">FASHS</option>
+        <option value="FLLAC">FLLAC</option>
+        <option value="EPAC">EPAC</option>
+        <option value="INJEPS">INJEPS</option>
+        <option value="ENEAM">ENEAM</option>
+      </select>
+      <div class="form-error" id="googleFaculteError"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Département / Filière</label>
+      <input type="text" id="googleDept" class="form-input" placeholder="Ex : Informatique" />
+    </div>
+    <button class="form-btn" id="googleProfileBtn">Enregistrer et continuer</button>
+  </div>
+</div>
+
+<script type="module">
+  import { supabase } from "./js/supabase-config.js";
+  import { initLangSwitcher, applyTranslations } from "./js/i18n.js";
+  import { injectLogos } from "./js/logo.js";
+
+  const matriculeToEmail = m => `${m.toLowerCase().replace(/\s+/g,"")}@campusly.uac.bj`;
+
+  function validatePassword(p) {
+    if (p.length < 8)            return "Au moins 8 caractères";
+    if (!/[A-Z]/.test(p))        return "Au moins une lettre majuscule";
+    if (!/[0-9]/.test(p))        return "Au moins un chiffre";
+    if (!/[^A-Za-z0-9]/.test(p)) return "Au moins un symbole (@, #, !, %...)";
+    return null;
+  }
+
+  function showErr(id, msg) { const el = document.getElementById(id); if (el) { el.textContent = msg; el.classList.add("show"); } }
+  function clearErrors()    { document.querySelectorAll(".form-error").forEach(e => e.classList.remove("show")); }
+  function showToast(msg, type = "info") {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }
+    t.textContent = msg; t.className = `toast ${type} show`;
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+
+  window.switchTab = function(tab) {
+    document.querySelectorAll(".auth-tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
+    document.getElementById("loginForm").style.display    = tab === "login"    ? "block" : "none";
+    document.getElementById("registerForm").style.display = tab === "register" ? "block" : "none";
+  };
+  document.querySelectorAll(".auth-tab").forEach(t => t.addEventListener("click", () => switchTab(t.dataset.tab)));
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("tab") === "register") switchTab("register");
+
+  // Si déjà connecté → dashboard
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) window.location.href = "dashboard.html";
+
+  // ── GOOGLE AUTH ──────────────────────────────────────────
+  document.getElementById("googleBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("googleBtn");
+    btn.disabled = true; btn.textContent = "Connexion en cours...";
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin + "/dashboard.html" },
+    });
+    if (error) {
+      btn.disabled = false; btn.textContent = "Continuer avec Google";
+      showToast("Erreur Google. Réessayez.", "info");
+    }
+  });
+
+  // Complétion profil Google (après redirect)
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === "SIGNED_IN" && session) {
+      const { data: existing } = await supabase.from("users").select("id").eq("id", session.user.id).single();
+      if (!existing) {
+        document.getElementById("googleProfileModal").classList.add("show");
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    }
+  });
+
+  document.getElementById("googleProfileBtn").addEventListener("click", async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+    clearErrors();
+    const mat  = document.getElementById("googleMatricule").value.trim();
+    const fac  = document.getElementById("googleFaculte").value;
+    const dept = document.getElementById("googleDept").value.trim();
+    const btn  = document.getElementById("googleProfileBtn");
+    if (!/^\d{8}$/.test(mat)) return showErr("googleMatriculeError", "Matricule invalide (8 chiffres).");
+    if (!fac)                  return showErr("googleFaculteError",   "Veuillez sélectionner une faculté.");
+    btn.disabled = true; btn.textContent = "Enregistrement...";
+    const nameParts = (session.user.user_metadata?.full_name || "").split(" ");
+    const { error } = await supabase.from("users").insert({
+      id:          session.user.id,
+      matricule:   mat,
+      prenom:      nameParts[0] || "",
+      nom:         nameParts.slice(1).join(" ") || "",
+      email:       session.user.email,
+      faculte:     fac,
+      departement: dept,
+      is_premium:  false,
+      auth_provider: "google",
+    });
+    if (error) {
+      btn.disabled = false; btn.textContent = "Enregistrer et continuer";
+      showToast("Erreur : " + error.message, "info");
+    } else {
+      showToast("Bienvenue ! Profil créé.", "success");
+      setTimeout(() => window.location.href = "dashboard.html", 900);
+    }
+  });
+
+  // ── INSCRIPTION MATRICULE ────────────────────────────────
+  document.getElementById("registerForm").addEventListener("submit", async e => {
+    e.preventDefault(); clearErrors();
+    const prenom = document.getElementById("regPrenom").value.trim();
+    const nom    = document.getElementById("regNom").value.trim();
+    const mat    = document.getElementById("regMatricule").value.trim().toUpperCase();
+    const fac    = document.getElementById("regFaculte").value;
+    const dept   = document.getElementById("regDepartement").value.trim();
+    const pwd    = document.getElementById("regPassword").value;
+    const conf   = document.getElementById("regConfirm").value;
+    const btn    = document.getElementById("registerBtn");
+    if (!prenom)               return showErr("regPrenomError",    "Le prénom est requis.");
+    if (!nom)                  return showErr("regNomError",       "Le nom est requis.");
+    if (!/^\d{8}$/.test(mat))  return showErr("regMatriculeError", "Matricule invalide (8 chiffres).");
+    if (!fac)                  return showErr("regFaculteError",   "Veuillez sélectionner une faculté.");
+    const pwErr = validatePassword(pwd);
+    if (pwErr)                 return showErr("regPasswordError",  pwErr);
+    if (pwd !== conf)          return showErr("regConfirmError",   "Les mots de passe ne correspondent pas.");
+    btn.disabled = true; btn.textContent = "Création du compte...";
+    const email = matriculeToEmail(mat);
+    const { data, error } = await supabase.auth.signUp({ email, password: pwd });
+    if (error) {
+      btn.disabled = false; btn.textContent = "Créer mon compte";
+      if (error.message.includes("already registered")) showErr("regMatriculeError", "Un compte existe déjà pour ce matricule.");
+      else showErr("regPasswordError", "Erreur : " + error.message);
+      return;
+    }
+    await supabase.from("users").insert({
+      id: data.user.id, matricule: mat, prenom, nom, email, faculte: fac,
+      departement: dept || "", is_premium: false, auth_provider: "matricule",
+    });
+    showToast(`Compte créé. Bienvenue, ${prenom} !`, "success");
+    setTimeout(() => window.location.href = "dashboard.html", 900);
+  });
+
+  // ── CONNEXION MATRICULE ──────────────────────────────────
+  document.getElementById("loginForm").addEventListener("submit", async e => {
+    e.preventDefault(); clearErrors();
+    const mat = document.getElementById("loginMatricule").value.trim().toUpperCase();
+    const pwd = document.getElementById("loginPassword").value;
+    const btn = document.getElementById("loginBtn");
+    if (!mat) return showErr("loginMatriculeError", "Veuillez entrer votre matricule.");
+    if (!pwd) return showErr("loginPasswordError",  "Veuillez entrer votre mot de passe.");
+    btn.disabled = true; btn.textContent = "Connexion en cours...";
+    const { error } = await supabase.auth.signInWithPassword({ email: matriculeToEmail(mat), password: pwd });
+    if (error) {
+      btn.disabled = false; btn.textContent = "Se connecter";
+      showErr("loginPasswordError", "Identifiants incorrects.");
+    } else {
+      showToast("Connexion réussie !", "success");
+      setTimeout(() => window.location.href = "dashboard.html", 900);
+    }
+  });
+
+  const DEPTS = {
+    FASEG:["Économie","Gestion","Comptabilité et Finance","Marketing"],
+    FADESP:["Droit Public","Droit Privé","Sciences Politiques"],
+    FAST:["Mathématiques","Physique","Chimie","Sciences Naturelles","Informatique"],
+    FSS:["Médecine générale","Pharmacie","Odontostomatologie","Kinésithérapie"],
+    FSA:["Production Végétale","Production Animale","Nutrition & Sciences agro-alimentaires"],
+    FASHS:["Histoire","Géographie","Sociologie","Philosophie","Psychologie"],
+    FLLAC:["Lettres Modernes","Anglais","Allemand","Espagnol"],
+    EPAC:["Génie Civil","Génie Électrique","Génie Mécanique","Architecture"],
+    INJEPS:["STAPS","Sciences de l'Éducation"],
+    ENEAM:["Gestion des Entreprises","Statistiques","Informatique de Gestion"],
+  };
+  document.getElementById("regFaculte").addEventListener("change", function() {
+    document.getElementById("deptList").innerHTML = (DEPTS[this.value]||[]).map(d=>`<option value="${d}">`).join("");
+  });
+
+  initLangSwitcher();
+  applyTranslations();
+  injectLogos();
+</script>
+</body>
+</html>

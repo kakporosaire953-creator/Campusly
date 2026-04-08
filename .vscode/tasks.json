@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "serve",
+			"path": "functions",
+			"problemMatcher": [],
+			"label": "npm: serve - functions",
+			"detail": "firebase emulators:start --only functions",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
