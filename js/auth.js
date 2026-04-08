@@ -5,7 +5,7 @@ import { supabase } from "./supabase-config.js";
 
 // ── Utilitaires ──────────────────────────────────────────────
 export function matriculeToEmail(matricule) {
-  return `${matricule.toLowerCase().replace(/\s+/g, "")}@campusly.uac.bj`;
+  return `${matricule.toLowerCase().replace(/\s+/g, "")}@campusly.app`;
 }
 
 export function validatePassword(password) {
