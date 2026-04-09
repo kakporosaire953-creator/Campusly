@@ -51,12 +51,24 @@ img, svg, video, iframe { max-width: 100%; }
     border-bottom: 1px solid var(--border) !important;
   }
 
-  /* Cacher tout sauf logo et hamburger */
+  /* Cacher tout sauf logo, lang FR/EN et hamburger */
   .nav-links { display: none !important; }
   .nav-right .nav-actions { display: none !important; }
-  .nav-right #langSwitcher { display: none !important; }
   .nav-right #globalSearchWrap { display: none !important; }
   .nav-user-name { display: none !important; }
+
+  /* Lang switcher compact — FR et EN seulement */
+  .nav-right #langSwitcher {
+    display: flex !important;
+    gap: 3px;
+  }
+  .nav-right #langSwitcher .lang-btn[data-lang="de"],
+  .nav-right #langSwitcher .lang-btn[data-lang="es"] { display: none !important; }
+  .nav-right #langSwitcher .lang-btn {
+    padding: 4px 7px !important;
+    font-size: 0.68rem !important;
+    border-radius: 6px !important;
+  }
 
   /* Hamburger visible */
   .hamburger {
