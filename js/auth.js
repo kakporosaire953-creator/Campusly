@@ -5,7 +5,9 @@ import { supabase } from "./supabase-config.js";
 
 // ── Utilitaires ──────────────────────────────────────────────
 export function matriculeToEmail(matricule) {
-  return `${matricule.toLowerCase().replace(/\s+/g, "")}@campusly.app`;
+  // Accepte email direct ou convertit un identifiant en email
+  if (matricule.includes('@')) return matricule.toLowerCase().trim();
+  return `${matricule.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9._-]/g, "")}@campusly.app`;
 }
 
 export function validatePassword(password) {
@@ -61,7 +63,8 @@ async function handleRegister(e) {
 
   if (!prenom)                         return showError("regPrenomError",    "Le prénom est requis.");
   if (!nom)                            return showError("regNomError",       "Le nom est requis.");
-  if (!/^\d{8}$/.test(matricule))      return showError("regMatriculeError", "Matricule invalide (8 chiffres requis).");
+  if (!matricule) return showError("regMatriculeError", "L'identifiant est requis.");
+  if (matricule.length < 3) return showError("regMatriculeError", "Identifiant trop court (min 3 caractères).");
   if (!faculte)                        return showError("regFaculteError",   "Veuillez sélectionner une faculté.");
   const pwError = validatePassword(password);
   if (pwError)                         return showError("regPasswordError",  pwError);
@@ -111,7 +114,7 @@ async function handleLogin(e) {
   const password  = document.getElementById("loginPassword").value;
   const btn       = document.getElementById("loginBtn");
 
-  if (!matricule) return showError("loginMatriculeError", "Veuillez entrer votre matricule.");
+  if (!matricule) return showError("loginMatriculeError", "Veuillez entrer votre identifiant.");
   if (!password)  return showError("loginPasswordError",  "Veuillez entrer votre mot de passe.");
 
   btn.disabled = true;

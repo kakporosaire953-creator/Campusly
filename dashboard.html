@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
   <title>Dashboard — Campusly</title>
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
@@ -279,6 +280,36 @@
             <a href="epreuves.html" class="btn btn-primary">Parcourir les épreuves</a>
             <a href="revision.html" class="btn btn-accent">Révision IA</a>
           </div>
+        </div>
+
+        <!-- GRAPHIQUES DE PROGRESSION -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;" class="charts-grid">
+
+          <!-- Courbe quiz 7 derniers jours -->
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <h3 class="card-title" style="margin:0;">📈 Quiz cette semaine</h3>
+            </div>
+            <canvas id="chartQuizWeek" height="140"></canvas>
+          </div>
+
+          <!-- Donut score moyen par matière -->
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <h3 class="card-title" style="margin:0;">🎯 Score moyen</h3>
+            </div>
+            <canvas id="chartScoreDonut" height="140"></canvas>
+          </div>
+
+        </div>
+
+        <!-- Barre progression par faculté -->
+        <div class="card" style="margin-bottom:24px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <h3 class="card-title" style="margin:0;">📊 Progression par matière</h3>
+            <span style="font-size:0.75rem;color:var(--text-3);">7 derniers jours</span>
+          </div>
+          <canvas id="chartProgressBar" height="120"></canvas>
         </div>
 
         <div class="card">
@@ -565,6 +596,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script type="module">
     import { supabase } from './js/supabase-config.js';
     import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';
@@ -637,8 +669,140 @@
       loadLeaderboard("xp");
       loadGroups();
       initSidebar();
+      initCharts(); // ← graphiques
       const hash = window.location.hash.replace("#","");
       if (hash) showSection(hash);
+    }
+
+    // ── Graphiques Chart.js ────────────────────────────────
+    async function initCharts() {
+      const isDark = !document.documentElement.classList.contains('theme-light');
+      const textColor = isDark ? 'rgba(176,208,240,0.7)' : 'rgba(42,74,107,0.7)';
+      const gridColor = isDark ? 'rgba(21,101,192,0.1)' : 'rgba(21,101,192,0.08)';
+
+      // Récupérer les quiz des 7 derniers jours
+      const since = new Date(); since.setDate(since.getDate() - 6);
+      const { data: quizData } = await supabase
+        .from("quiz_results")
+        .select("score, total, created_at, sujet")
+        .eq("user_id", _user.id)
+        .gte("created_at", since.toISOString())
+        .order("created_at", { ascending: true });
+
+      const results = quizData || [];
+
+      // ── Courbe quiz par jour ──────────────────────────────
+      const days = Array.from({length:7}, (_,i) => {
+        const d = new Date(); d.setDate(d.getDate() - (6-i));
+        return d.toLocaleDateString('fr-FR', {weekday:'short'});
+      });
+      const quizPerDay = Array(7).fill(0);
+      results.forEach(r => {
+        const d = new Date(r.created_at);
+        const diff = Math.round((new Date() - d) / 86400000);
+        if (diff <= 6) quizPerDay[6 - diff]++;
+      });
+
+      const ctx1 = document.getElementById('chartQuizWeek');
+      if (ctx1) {
+        new Chart(ctx1, {
+          type: 'line',
+          data: {
+            labels: days,
+            datasets: [{
+              label: 'Quiz',
+              data: quizPerDay,
+              borderColor: '#1565C0',
+              backgroundColor: 'rgba(21,101,192,0.1)',
+              borderWidth: 2,
+              pointBackgroundColor: '#1565C0',
+              pointRadius: 4,
+              fill: true,
+              tension: 0.4,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 11 } }, grid: { color: gridColor } },
+              y: { ticks: { color: textColor, font: { size: 11 }, stepSize: 1 }, grid: { color: gridColor }, beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      // ── Donut score moyen ─────────────────────────────────
+      const avgScore = results.length
+        ? Math.round(results.reduce((a,r) => a + (r.score/r.total)*100, 0) / results.length)
+        : 0;
+      const ctx2 = document.getElementById('chartScoreDonut');
+      if (ctx2) {
+        new Chart(ctx2, {
+          type: 'doughnut',
+          data: {
+            labels: ['Score', 'Restant'],
+            datasets: [{
+              data: [avgScore, 100 - avgScore],
+              backgroundColor: ['#1565C0', isDark ? 'rgba(21,101,192,0.1)' : 'rgba(21,101,192,0.08)'],
+              borderWidth: 0,
+              borderRadius: 4,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '72%',
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false },
+            }
+          },
+          plugins: [{
+            id: 'centerText',
+            beforeDraw(chart) {
+              const { ctx, chartArea: { width, height, left, top } } = chart;
+              ctx.save();
+              ctx.font = 'bold 1.4rem Plus Jakarta Sans, sans-serif';
+              ctx.fillStyle = isDark ? '#F0F6FF' : '#0D1F3C';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(`${avgScore}%`, left + width/2, top + height/2);
+              ctx.restore();
+            }
+          }]
+        });
+      }
+
+      // ── Barres progression par matière ────────────────────
+      const sujets = [...new Set(results.map(r => r.sujet))].slice(0, 5);
+      const scores = sujets.map(s => {
+        const sr = results.filter(r => r.sujet === s);
+        return Math.round(sr.reduce((a,r) => a + (r.score/r.total)*100, 0) / sr.length);
+      });
+      const ctx3 = document.getElementById('chartProgressBar');
+      if (ctx3) {
+        new Chart(ctx3, {
+          type: 'bar',
+          data: {
+            labels: sujets.length ? sujets : ['Aucune donnée'],
+            datasets: [{
+              label: 'Score %',
+              data: sujets.length ? scores : [0],
+              backgroundColor: 'rgba(21,101,192,0.7)',
+              borderRadius: 6,
+              borderSkipped: false,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 11 } }, grid: { display: false } },
+              y: { ticks: { color: textColor, font: { size: 11 } }, grid: { color: gridColor }, max: 100, beginAtZero: true }
+            }
+          }
+        });
+      }
     }
 
     // ── Navbar ─────────────────────────────────────────────
