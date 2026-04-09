@@ -78,49 +78,49 @@ img, svg, video, iframe { max-width: 100%; }
     transition: all 0.25s ease;
   }
 
-  /* ── Menu mobile plein écran style Chariow ──────────────── */
+  /* ── Menu mobile compact ────────────────────────────────── */
   .nav-links.open {
     display: flex !important;
     flex-direction: column;
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 56px; left: 0; right: 0;
     background: var(--bg);
-    padding: 70px 24px 100px;
+    border-bottom: 1px solid var(--border);
+    padding: 4px 16px 8px;
     gap: 0;
     z-index: 1001;
-    overflow-y: auto;
-    justify-content: flex-start;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    overflow: hidden;
   }
-  .nav-links.open li { width: 100%; border-bottom: 1px solid var(--border); }
+  .nav-links.open li { width: 100%; border-bottom: 1px solid rgba(21,101,192,0.06); }
+  .nav-links.open li:last-child { border-bottom: none; }
   .nav-links.open a {
     display: block;
     width: 100%;
-    padding: 18px 4px;
+    padding: 10px 4px;
     color: var(--text-1) !important;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     text-decoration: none;
   }
+  /* Sélecteur langue dans menu */
+  .mobile-lang-switcher { padding: 8px 4px 4px !important; }
 
-  /* Bouton X fermer le menu */
+  /* Bouton ✕ dans la navbar */
   .nav-close-btn {
-    display: none;
-    position: fixed;
-    top: 14px;
-    right: 16px;
-    z-index: 1002;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text-1);
-    width: 36px; height: 36px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
-  .nav-close-btn.show { display: flex; }
+  .nav-close-btn.show { display: flex !important; }
+  .hamburger.hidden { display: none !important; }
 
   /* Connexion/Inscription en bas du menu */
   .nav-links.open::after {

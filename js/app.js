@@ -150,16 +150,16 @@ function injectMobileLang() {
 function openMenu() {
   injectMobileLang();
   navLinks?.classList.add("open");
-  hamburger?.classList.add("active");
-  navAuthBottom?.classList.add("show");
+  hamburger?.classList.add("hidden");
   navCloseBtn?.classList.add("show");
+  navAuthBottom?.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 function closeMenu() {
   navLinks?.classList.remove("open");
-  hamburger?.classList.remove("active");
-  navAuthBottom?.classList.remove("show");
+  hamburger?.classList.remove("hidden");
   navCloseBtn?.classList.remove("show");
+  navAuthBottom?.classList.remove("show");
   document.body.style.overflow = "";
 }
 
