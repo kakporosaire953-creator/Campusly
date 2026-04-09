@@ -98,7 +98,57 @@ const navLinks  = document.querySelector(".nav-links");
 const navAuthBottom = document.getElementById("navAuthBottom");
 const navCloseBtn   = document.getElementById("navCloseBtn");
 
+// Injecter le sélecteur de langue dans le menu mobile
+function injectMobileLang() {
+  if (!navLinks) return;
+  const existing = navLinks.querySelector(".mobile-lang-switcher");
+  if (existing) return;
+  const langs = [
+    { code: "fr", flag: "🇫🇷", label: "FR" },
+    { code: "en", flag: "🇬🇧", label: "EN" },
+    { code: "de", flag: "🇩🇪", label: "DE" },
+    { code: "es", flag: "🇪🇸", label: "ES" },
+  ];
+  const currentLang = localStorage.getItem("campusly_lang") || "fr";
+  const div = document.createElement("li");
+  div.className = "mobile-lang-switcher";
+  div.style.cssText = "display:flex;gap:8px;padding:16px 4px;border-bottom:1px solid var(--border);flex-wrap:wrap;";
+  div.innerHTML = langs.map(l => `
+    <button onclick="window._setLangMobile('${l.code}')" style="
+      background:${l.code===currentLang?'var(--grad-brand)':'var(--surface)'};
+      color:${l.code===currentLang?'#fff':'var(--text-2)'};
+      border:1px solid ${l.code===currentLang?'transparent':'var(--border)'};
+      border-radius:8px; padding:6px 12px; cursor:pointer;
+      font-family:var(--font-sans); font-size:0.82rem; font-weight:600;
+    " id="mlang-${l.code}">${l.flag} ${l.label}</button>
+  `).join("");
+  navLinks.insertBefore(div, navLinks.firstChild);
+
+  window._setLangMobile = (code) => {
+    localStorage.setItem("campusly_lang", code);
+    // Mettre à jour visuellement
+    langs.forEach(l => {
+      const btn = document.getElementById(`mlang-${l.code}`);
+      if (!btn) return;
+      btn.style.background = l.code===code ? 'var(--grad-brand)' : 'var(--surface)';
+      btn.style.color = l.code===code ? '#fff' : 'var(--text-2)';
+      btn.style.borderColor = l.code===code ? 'transparent' : 'var(--border)';
+    });
+    // Aussi mettre à jour le switcher desktop si présent
+    const desktopSwitcher = document.getElementById("langSwitcher");
+    if (desktopSwitcher) {
+      desktopSwitcher.querySelectorAll(".lang-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.lang === code);
+      });
+    }
+    // Appliquer les traductions si disponible
+    if (window._applyTranslations) window._applyTranslations(code);
+    else location.reload();
+  };
+}
+
 function openMenu() {
+  injectMobileLang();
   navLinks?.classList.add("open");
   hamburger?.classList.add("active");
   navAuthBottom?.classList.add("show");
