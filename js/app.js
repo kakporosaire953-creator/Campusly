@@ -95,17 +95,31 @@ if (navbar) {
 }
 const hamburger = document.querySelector(".hamburger");
 const navLinks  = document.querySelector(".nav-links");
+const navAuthBottom = document.getElementById("navAuthBottom");
 if (hamburger && navLinks) {
   hamburger.addEventListener("click", (e) => {
     e.stopPropagation();
-    navLinks.classList.toggle("open");
-    hamburger.classList.toggle("active");
+    const isOpen = navLinks.classList.toggle("open");
+    hamburger.classList.toggle("active", isOpen);
+    if (navAuthBottom) navAuthBottom.classList.toggle("show", isOpen);
+    document.body.style.overflow = isOpen ? "hidden" : "";
   });
   document.addEventListener("click", (e) => {
     if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
       navLinks.classList.remove("open");
       hamburger.classList.remove("active");
+      if (navAuthBottom) navAuthBottom.classList.remove("show");
+      document.body.style.overflow = "";
     }
+  });
+  // Fermer en cliquant sur un lien
+  navLinks.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      hamburger.classList.remove("active");
+      if (navAuthBottom) navAuthBottom.classList.remove("show");
+      document.body.style.overflow = "";
+    });
   });
 }
 
