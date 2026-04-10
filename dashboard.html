@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style id="body-hidden-guard">body{visibility:hidden}</style>
   <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
   <title>Dashboard — Campusly</title>
   <link rel="stylesheet" href="css/modern.css" />
@@ -280,36 +281,6 @@
             <a href="epreuves.html" class="btn btn-primary">Parcourir les épreuves</a>
             <a href="revision.html" class="btn btn-accent">Révision IA</a>
           </div>
-        </div>
-
-        <!-- GRAPHIQUES DE PROGRESSION -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;" class="charts-grid">
-
-          <!-- Courbe quiz 7 derniers jours -->
-          <div class="card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <h3 class="card-title" style="margin:0;">📈 Quiz cette semaine</h3>
-            </div>
-            <canvas id="chartQuizWeek" height="140"></canvas>
-          </div>
-
-          <!-- Donut score moyen par matière -->
-          <div class="card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <h3 class="card-title" style="margin:0;">🎯 Score moyen</h3>
-            </div>
-            <canvas id="chartScoreDonut" height="140"></canvas>
-          </div>
-
-        </div>
-
-        <!-- Barre progression par faculté -->
-        <div class="card" style="margin-bottom:24px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-            <h3 class="card-title" style="margin:0;">📊 Progression par matière</h3>
-            <span style="font-size:0.75rem;color:var(--text-3);">7 derniers jours</span>
-          </div>
-          <canvas id="chartProgressBar" height="120"></canvas>
         </div>
 
         <div class="card">
@@ -596,7 +567,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script type="module">
     import { supabase } from './js/supabase-config.js';
     import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';

@@ -13,6 +13,8 @@ export async function requireAuth(onUser) {
     return;
   }
 
+  // Supprimer le style de masquage
+  document.getElementById("body-hidden-guard")?.remove();
   document.body.style.visibility = "visible";
   if (typeof onUser === "function") onUser(session.user);
 }
