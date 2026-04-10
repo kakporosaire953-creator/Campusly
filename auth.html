@@ -264,29 +264,42 @@
   const { data: { session } } = await supabase.auth.getSession();
   if (session) window.location.href = "dashboard.html";
 
-  // ── GOOGLE AUTH ──────────────────────────────────────────
+  // ── GOOGLE AUTH via Firebase ────────────────────────────
   document.getElementById("googleBtn").addEventListener("click", async () => {
     const btn = document.getElementById("googleBtn");
     btn.disabled = true; btn.textContent = "Connexion en cours...";
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.origin + "/dashboard.html" },
-    });
-    if (error) {
-      btn.disabled = false; btn.textContent = "Continuer avec Google";
-      showToast("Erreur Google. Réessayez.", "info");
-    }
-  });
+    try {
+      const { auth, provider, signInWithPopup } = await import("./js/firebase-config.js");
+      const result  = await signInWithPopup(auth, provider);
+      const fbUser  = result.user;
+      const email   = fbUser.email;
+      const prenom  = fbUser.displayName?.split(" ")[0] || "";
+      const nom     = fbUser.displayName?.split(" ").slice(1).join(" ") || "";
+      const photo   = fbUser.photoURL || "";
+      const pwd     = `G_${fbUser.uid.slice(0, 16)}`;
 
-  // Complétion profil Google (après redirect)
-  supabase.auth.onAuthStateChange(async (event, session) => {
-    if (event === "SIGNED_IN" && session) {
-      const { data: existing } = await supabase.from("users").select("id").eq("id", session.user.id).single();
-      if (!existing) {
-        document.getElementById("googleProfileModal").classList.add("show");
-      } else {
-        window.location.href = "dashboard.html";
+      // Connexion Supabase avec email/password
+      let { error: loginErr } = await supabase.auth.signInWithPassword({ email, password: pwd });
+      if (loginErr) {
+        // Nouveau compte → créer
+        const { data, error: signupErr } = await supabase.auth.signUp({ email, password: pwd });
+        if (signupErr) throw signupErr;
+        if (data.user) {
+          await supabase.from("users").upsert({
+            id: data.user.id,
+            matricule: email.split("@")[0].toUpperCase().slice(0, 12),
+            prenom, nom, email,
+            faculte: "", departement: "",
+            is_premium: false, photo_url: photo, auth_provider: "google",
+          }, { onConflict: "id" });
+        }
       }
+      showToast(`Bienvenue, ${prenom} !`, "success");
+      setTimeout(() => window.location.href = "dashboard.html", 900);
+    } catch (err) {
+      console.error(err);
+      btn.disabled = false; btn.textContent = "Continuer avec Google";
+      showToast("Connexion Google échouée. Réessayez.", "info");
     }
   });
 
