@@ -308,30 +308,16 @@
 
       const { data: { publicUrl } } = supabase.storage.from("epreuves").getPublicUrl(fileName);
 
-      // 2. Enregistrer dans contributions ET directement dans epreuves
+      // 2. Enregistrer dans contributions (en attente de validation admin)
       const { error: dbError } = await supabase.from("contributions").insert({
         contributor_id: _user.id,
         titre, faculte,
         annee,
         file_url: publicUrl,
-        status: "approved",
+        status: "pending",
       });
 
       if (dbError) throw dbError;
-
-      // 3. Publier directement dans la table epreuves
-      const { error: epError } = await supabase.from("epreuves").insert({
-        titre,
-        faculte,
-        departement: dept || "",
-        semestre:    semestre || "",
-        annee,
-        type,
-        is_premium:  false,
-        file_url:    publicUrl,
-      });
-
-      if (epError) console.error("Erreur publication épreuve:", epError);
       progressFill.style.width = "100%";
 
       document.getElementById("uploadForm").style.display = "none";

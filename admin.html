@@ -95,18 +95,36 @@
         <div style="flex:1;min-width:200px;">
           <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">${c.titre||"Sans titre"}</div>
           <div style="font-size:0.75rem;color:var(--text-3);margin-top:4px;">${c.faculte||""} · ${c.annee||""}</div>
-          <div style="font-size:0.72rem;color:var(--text-4);margin-top:2px;">Par : ${c.users?.email||c.contributor_id}</div>
+          <div style="font-size:0.72rem;color:var(--text-4);margin-top:2px;">Par : ${c.users?.prenom||""} ${c.users?.nom||""} (${c.users?.email||c.contributor_id})</div>
+          <div style="font-size:0.72rem;color:var(--text-4);">Soumis le : ${new Date(c.created_at).toLocaleDateString('fr-FR')}</div>
         </div>
-        ${c.file_url ? `<a href="${c.file_url}" target="_blank" class="btn btn-ghost btn-sm">👁 Voir</a>` : ""}
-        <button class="btn btn-primary btn-sm" onclick="approveContrib('${c.id}','${(c.titre||"").replace(/'/g,"\\'")}','${c.faculte||""}','${c.annee||""}','${c.file_url||""}')">✓ Approuver</button>
+        ${c.file_url ? `<a href="${c.file_url}" target="_blank" class="btn btn-ghost btn-sm">👁 Voir le fichier</a>` : ""}
+        <button class="btn btn-primary btn-sm" onclick="approveContrib('${c.id}')">✓ Approuver</button>
         <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);" onclick="rejectContrib('${c.id}')">✕ Rejeter</button>
       </div>`).join("");
   }
 
-  window.approveContrib = async (id, titre, faculte, annee, fileUrl) => {
+  window.approveContrib = async (id) => {
+    // Récupérer les détails complets de la contribution
+    const { data: c } = await supabase.from("contributions").select("*").eq("id", id).single();
+    if (!c) return;
+
+    // Publier dans epreuves
+    const { error: epErr } = await supabase.from("epreuves").insert({
+      titre:       c.titre || "Sans titre",
+      faculte:     c.faculte || "",
+      departement: c.departement || "",
+      semestre:    c.semestre || "",
+      annee:       c.annee || "",
+      type:        c.type || "Examen",
+      is_premium:  false,
+      file_url:    c.file_url || "",
+    });
+    if (epErr) { showToast("Erreur publication : " + epErr.message, "info"); return; }
+
+    // Marquer comme approuvée
     await supabase.from("contributions").update({ status: "approved" }).eq("id", id);
-    await supabase.from("epreuves").insert({ titre, faculte, annee, file_url: fileUrl, is_premium: false });
-    showToast("Contribution approuvée et publiée !", "success");
+    showToast("✅ Contribution approuvée et publiée !", "success");
     loadContributions(); loadStats();
   };
 
