@@ -145,16 +145,57 @@ async function handleLogin(e) {
   setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
 }
 
-// ── Google OAuth ─────────────────────────────────────────────
+// ── Google OAuth via Firebase ────────────────────────────────
 async function handleGoogle() {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: window.location.origin + "/dashboard.html",
-      queryParams: { access_type: "offline", prompt: "consent" }
-    },
-  });
-  if (error) window.showToast?.("Erreur Google. Réessayez.", "error");
+  try {
+    const { auth, provider, signInWithPopup } = await import("./firebase-config.js");
+    const result = await signInWithPopup(auth, provider);
+    const fbUser = result.user;
+
+    // Récupérer les infos Google
+    const email    = fbUser.email;
+    const prenom   = fbUser.displayName?.split(" ")[0] || "";
+    const nom      = fbUser.displayName?.split(" ").slice(1).join(" ") || "";
+    const photoUrl = fbUser.photoURL || "";
+
+    // Connecter dans Supabase avec l'email Google
+    // On crée un mot de passe déterministe basé sur l'UID Firebase
+    const password = `G_${fbUser.uid.slice(0, 16)}`;
+
+    // Essayer de se connecter d'abord
+    let { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (loginError) {
+      // Compte inexistant → créer
+      const { data, error: signupError } = await supabase.auth.signUp({ email, password });
+      if (signupError) {
+        window.showToast?.("Erreur connexion Google. Réessayez.", "error");
+        return;
+      }
+      // Créer le profil
+      if (data.user) {
+        await supabase.from("users").upsert({
+          id:           data.user.id,
+          matricule:    email.split("@")[0].toUpperCase().slice(0, 12),
+          prenom,
+          nom,
+          email,
+          faculte:      "",
+          departement:  "",
+          is_premium:   false,
+          photo_url:    photoUrl,
+          auth_provider: "google",
+        }, { onConflict: "id" });
+      }
+    }
+
+    window.showToast?.(`Bienvenue, ${prenom} !`, "success");
+    setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
+
+  } catch (err) {
+    console.error("Erreur Google:", err);
+    window.showToast?.("Connexion Google annulée ou bloquée.", "error");
+  }
 }
 
 // ── Départements par faculté ─────────────────────────────────
