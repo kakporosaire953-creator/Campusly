@@ -600,17 +600,32 @@
       _profile = profile;
 
       if (!_profile) {
-        // Créer le profil automatiquement
+        // Créer le profil automatiquement (Google OAuth ou inscription sans profil)
         const email     = _user.email || "";
-        const matricule = email.replace("@campusly.uac.bj","").toUpperCase();
-        const nameParts = (_user.user_metadata?.full_name || "").split(" ");
+        const meta      = _user.user_metadata || {};
+        // Récupérer nom/prénom depuis les métadonnées Google ou Supabase
+        const fullName  = meta.full_name || meta.name || "";
+        const nameParts = fullName.trim().split(" ");
+        const prenom    = meta.given_name || nameParts[0] || "Utilisateur";
+        const nom       = meta.family_name || nameParts.slice(1).join(" ") || "";
+        const matricule = meta.matricule || email.split("@")[0].toUpperCase().slice(0, 12);
+        const photo_url = meta.avatar_url || meta.picture || "";
+
         const newProfile = {
-          id: _user.id, matricule, prenom: nameParts[0]||"", nom: nameParts.slice(1).join(" ")||"",
-          email, faculte: "", departement: "", is_premium: false,
+          id: _user.id,
+          matricule,
+          prenom,
+          nom,
+          email,
+          faculte:     meta.faculte || "",
+          departement: meta.departement || "",
+          is_premium:  false,
+          photo_url,
+          auth_provider: _user.app_metadata?.provider || "email",
         };
-        await supabase.from("users").insert(newProfile);
+        const { error: insertErr } = await supabase.from("users").upsert(newProfile, { onConflict: "id" });
+        if (insertErr) console.error("Erreur création profil:", insertErr);
         _profile = newProfile;
-        showToast("Complétez votre profil dans Mon profil.", "info");
       }
 
       renderAll();

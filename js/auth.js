@@ -76,28 +76,40 @@ async function handleRegister(e) {
   const email = matriculeToEmail(matricule);
 
   // 1. Créer le compte Supabase Auth
-  const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { email_confirm: true } } });
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { prenom, nom, faculte, departement, matricule }
+    }
+  });
 
   if (error) {
     btn.disabled = false;
     btn.textContent = "Créer mon compte";
-    if (error.message.includes("already registered")) {
-      return showError("regMatriculeError", "Un compte existe déjà pour ce matricule.");
+    if (error.message.includes("already registered") || error.message.includes("already been registered")) {
+      return showError("regMatriculeError", "Un compte existe déjà avec cet identifiant.");
     }
-    return showError("regPasswordError", "Erreur lors de la création du compte. Réessayez.");
+    return showError("regPasswordError", `Erreur : ${error.message}`);
+  }
+
+  if (!data.user) {
+    btn.disabled = false;
+    btn.textContent = "Créer mon compte";
+    return showError("regPasswordError", "Erreur lors de la création. Réessayez.");
   }
 
   // 2. Créer le profil dans la table users
-  const { error: profileError } = await supabase.from("users").insert({
+  const { error: profileError } = await supabase.from("users").upsert({
     id:          data.user.id,
-    matricule,
+    matricule:   matricule || data.user.id.slice(0, 8).toUpperCase(),
     prenom,
     nom,
     email,
     faculte,
     departement: departement || "",
     is_premium:  false,
-  });
+  }, { onConflict: "id" });
 
   if (profileError) console.error("Erreur profil:", profileError);
 
@@ -137,7 +149,10 @@ async function handleLogin(e) {
 async function handleGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: window.location.origin + "/dashboard.html" },
+    options: {
+      redirectTo: window.location.origin + "/dashboard.html",
+      queryParams: { access_type: "offline", prompt: "consent" }
+    },
   });
   if (error) window.showToast?.("Erreur Google. Réessayez.", "error");
 }
