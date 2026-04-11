@@ -4,55 +4,714 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style id="body-hidden-guard">body{visibility:hidden}</style>
-  <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
+  <style id="body-hidden">body{visibility:hidden}</style>
   <title>Forum — Campusly</title>
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/theme-dark.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
   <link rel="stylesheet" href="css/interactive-buttons.css" />
+  <link rel="stylesheet" href="css/skeleton-loaders.css" />
   <style>
-    .forum-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
-    .forum-header { padding: 40px 5% 32px; background: linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(56,189,248,0.08) 100%); border-bottom: 1px solid var(--border); }
-    .forum-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .forum-body { max-width: 900px; margin: 0 auto; padding: 28px 5%; }
-
-    /* Filtres */
-    .forum-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-    .filter-tag { padding: 5px 14px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: none; color: var(--text-3); font-family: var(--font-sans); transition: all 0.15s ease; }
-    .filter-tag.active { background: var(--grad-brand); color: #fff; border-color: transparent; }
-
-    /* Question card */
-    .q-card { background: var(--grad-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 20px; margin-bottom: 14px; transition: all var(--t-base) var(--ease); cursor: pointer; }
-    .q-card:hover { border-color: var(--border-2); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .q-card.resolved { border-left: 3px solid #10B981; }
-    .q-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-    .q-faculte { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(21,101,192,0.15); color: #42A5F5; border: 1px solid rgba(21,101,192,0.3); }
-    .q-matiere { font-size: 0.7rem; color: var(--text-3); }
-    .q-author { font-size: 0.72rem; color: var(--text-3); margin-left: auto; }
-    .q-title { font-size: 0.95rem; font-weight: 700; color: var(--text-1); margin-bottom: 6px; line-height: 1.4; }
-    .q-preview { font-size: 0.82rem; color: var(--text-2); line-height: 1.6; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .q-footer { display: flex; align-items: center; gap: 14px; }
-    .q-stat { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--text-3); }
-    .q-resolved-badge { font-size: 0.7rem; font-weight: 700; color: #10B981; background: rgba(16,185,129,0.12); padding: 2px 8px; border-radius: 999px; margin-left: auto; }
-
-    /* Modal question détail */
-    .q-detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: flex-start; justify-content: center; padding: 80px 16px 16px; overflow-y: auto; }
-    .q-detail-overlay.show { display: flex; }
-    .q-detail-box { background: var(--bg-2); border: 1px solid var(--border-2); border-radius: var(--r-xl); padding: 28px; max-width: 700px; width: 100%; position: relative; }
-    .q-detail-close { position: absolute; top: 16px; right: 16px; background: var(--surface); border: none; color: var(--text-3); width: 32px; height: 32px; border-radius: var(--r-sm); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
-
-    /* Réponses */
-    .answer-item { padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: 10px; }
-    .answer-item.best { border-color: #10B981; background: rgba(16,185,129,0.08); }
-    .answer-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .answer-author { font-size: 0.78rem; font-weight: 600; color: var(--text-2); }
-    .answer-date { font-size: 0.72rem; color: var(--text-4); }
-    .answer-best-badge { font-size: 0.68rem; font-weight: 700; color: #10B981; background: rgba(16,185,129,0.15); padding: 2px 8px; border-radius: 999px; margin-left: auto; }
-    .answer-text { font-size: 0.875rem; color: var(--text-1); line-height: 1.7; }
-    .vote-btn { background: none; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 3px 10px; cursor: pointer; font-size: 0.75rem; color: var(--text-3); font-family: var(--font-sans); transition: all 0.15s ease; }
-    .vote-btn:hover { background: var(--surface-2); color: var(--text-1); }
-    .vote-btn.voted { background: rgba(21,101,192,0.15); border-color: var(--brand-1); color: var(--brand-3); }
+    /* ══════════════════════════════════════════════════════
+       FORUM SOCIAL FEED - Style Facebook
+       ══════════════════════════════════════════════════════ */
+    
+    .forum-main { 
+      padding-top: 68px; 
+      min-height: 100vh; 
+      background: #f0f2f5;
+    }
+    
+    /* ── Mode sombre ── */
+    [data-theme="dark"] .forum-main {
+      background: var(--bg);
+    }
+    
+    [data-theme="dark"] .publish-box,
+    [data-theme="dark"] .filters-container,
+    [data-theme="dark"] .post-card,
+    [data-theme="dark"] .sidebar-card,
+    [data-theme="dark"] .create-post-box,
+    [data-theme="dark"] .new-post-toast {
+      background: var(--bg-2);
+      border-color: var(--border);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    [data-theme="dark"] .publish-input,
+    [data-theme="dark"] .filter-chip,
+    [data-theme="dark"] .comment-content,
+    [data-theme="dark"] .comment-input,
+    [data-theme="dark"] .create-post-close {
+      background: var(--surface);
+      color: var(--text-2);
+    }
+    
+    [data-theme="dark"] .filter-chip:hover,
+    [data-theme="dark"] .publish-input:hover,
+    [data-theme="dark"] .publish-action-btn:hover,
+    [data-theme="dark"] .post-action-btn:hover,
+    [data-theme="dark"] .active-user:hover,
+    [data-theme="dark"] .top-contributor:hover {
+      background: var(--surface-2);
+    }
+    
+    [data-theme="dark"] .post-author,
+    [data-theme="dark"] .post-content,
+    [data-theme="dark"] .comment-author,
+    [data-theme="dark"] .comment-text,
+    [data-theme="dark"] .sidebar-title,
+    [data-theme="dark"] .active-user-name,
+    [data-theme="dark"] .create-post-title,
+    [data-theme="dark"] .unanswered-title {
+      color: var(--text-1);
+    }
+    
+    [data-theme="dark"] .post-meta,
+    [data-theme="dark"] .comment-meta,
+    [data-theme="dark"] .unanswered-meta,
+    [data-theme="dark"] .publish-action-btn,
+    [data-theme="dark"] .post-action-btn,
+    [data-theme="dark"] .contributor-rank {
+      color: var(--text-3);
+    }
+    
+    [data-theme="dark"] .post-actions,
+    [data-theme="dark"] .publish-actions,
+    [data-theme="dark"] .create-post-header,
+    [data-theme="dark"] .create-post-footer {
+      border-color: var(--border);
+    }
+    
+    [data-theme="dark"] .create-post-textarea {
+      color: var(--text-1);
+    }
+    
+    /* Layout 2 colonnes desktop */
+    .forum-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    
+    @media (min-width: 1024px) {
+      .forum-container {
+        grid-template-columns: 65% 35%;
+      }
+    }
+    
+    /* ── Zone de publication (remplace bouton) ── */
+    .publish-box {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+    }
+    
+    .publish-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .publish-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a56db, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    
+    .publish-input {
+      flex: 1;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      color: #65676b;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .publish-input:hover {
+      background: #e4e6eb;
+    }
+    
+    .publish-actions {
+      display: flex;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #e4e6eb;
+      margin-top: 12px;
+    }
+    
+    .publish-action-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #65676b;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .publish-action-btn:hover {
+      background: #f0f2f5;
+    }
+    
+    /* ── Filtres enrichis ── */
+    .filters-container {
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+    }
+    
+    .filters-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    
+    .filters-row:last-child {
+      margin-bottom: 0;
+    }
+    
+    .filter-chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: #f0f2f5;
+      color: #65676b;
+      transition: all 0.2s;
+    }
+    
+    .filter-chip:hover {
+      background: #e4e6eb;
+    }
+    
+    .filter-chip.active {
+      background: #1a56db;
+      color: white;
+    }
+    
+    /* ── Post Card ── */
+    .post-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    
+    .post-header {
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    
+    .post-info {
+      flex: 1;
+    }
+    
+    .post-author {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #050505;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .post-meta {
+      font-size: 0.8rem;
+      color: #65676b;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .post-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .badge-discussion { background: #e7f3ff; color: #1a56db; }
+    .badge-question { background: #fff3cd; color: #f59e0b; }
+    .badge-annonce { background: #ffe5e5; color: #ef4444; }
+    .badge-ressource { background: #d1fae5; color: #10b981; }
+    
+    .post-content {
+      padding: 0 16px 16px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #050505;
+      white-space: pre-wrap;
+    }
+    
+    .post-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    
+    .post-actions {
+      padding: 8px 16px;
+      border-top: 1px solid #e4e6eb;
+      display: flex;
+      gap: 4px;
+    }
+    
+    .post-action-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #65676b;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .post-action-btn:hover {
+      background: #f0f2f5;
+    }
+    
+    .post-action-btn.liked {
+      color: #1a56db;
+    }
+    
+    .post-action-btn.saved {
+      color: #f59e0b;
+    }
+    
+    /* ── Section commentaires ── */
+    .comments-section {
+      padding: 0 16px 16px;
+      display: none;
+    }
+    
+    .comments-section.show {
+      display: block;
+    }
+    
+    .comment-item {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .comment-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    
+    .comment-content {
+      flex: 1;
+      background: #f0f2f5;
+      border-radius: 18px;
+      padding: 8px 12px;
+    }
+    
+    .comment-author {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #050505;
+      margin-bottom: 2px;
+    }
+    
+    .comment-text {
+      font-size: 0.875rem;
+      color: #050505;
+      line-height: 1.4;
+    }
+    
+    .comment-meta {
+      font-size: 0.75rem;
+      color: #65676b;
+      margin-top: 4px;
+      padding-left: 12px;
+    }
+    
+    .comment-input-wrapper {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .comment-input {
+      flex: 1;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 18px;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      resize: none;
+      font-family: inherit;
+    }
+    
+    .comment-input:focus {
+      outline: none;
+      background: #e4e6eb;
+    }
+    
+    /* ── Sidebar droite (desktop) ── */
+    .sidebar {
+      display: none;
+    }
+    
+    @media (min-width: 1024px) {
+      .sidebar {
+        display: block;
+      }
+    }
+    
+    .sidebar-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+    }
+    
+    .sidebar-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #050505;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .active-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    
+    .active-user:hover {
+      background: #f0f2f5;
+    }
+    
+    .active-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    
+    .active-indicator {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      background: #31a24c;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+    
+    .active-user-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #050505;
+    }
+    
+    .top-contributor {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    
+    .top-contributor:hover {
+      background: #f0f2f5;
+    }
+    
+    .contributor-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .contributor-rank {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #65676b;
+      width: 24px;
+    }
+    
+    .contributor-rank.gold { color: #fbbf24; }
+    .contributor-rank.silver { color: #9ca3af; }
+    .contributor-rank.bronze { color: #d97706; }
+    
+    .unanswered-question {
+      padding: 8px;
+      border-radius: 8px;
+      background: #fff3cd;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .unanswered-question:hover {
+      background: #ffe69c;
+    }
+    
+    .unanswered-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #050505;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    
+    .unanswered-meta {
+      font-size: 0.75rem;
+      color: #65676b;
+    }
+    
+    /* ── Toast notification ── */
+    .new-post-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      cursor: pointer;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    
+    .new-post-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    /* ── Modal création post ── */
+    .create-post-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .create-post-modal.show {
+      display: flex;
+    }
+    
+    .create-post-box {
+      background: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .create-post-header {
+      padding: 16px;
+      border-bottom: 1px solid #e4e6eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .create-post-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #050505;
+    }
+    
+    .create-post-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f0f2f5;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #65676b;
+    }
+    
+    .create-post-body {
+      padding: 16px;
+    }
+    
+    .post-type-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .post-type-btn {
+      flex: 1;
+      padding: 8px;
+      border: 2px solid #e4e6eb;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #65676b;
+      transition: all 0.2s;
+    }
+    
+    .post-type-btn.active {
+      border-color: #1a56db;
+      background: #e7f3ff;
+      color: #1a56db;
+    }
+    
+    .create-post-textarea {
+      width: 100%;
+      border: none;
+      font-size: 1rem;
+      resize: none;
+      min-height: 120px;
+      font-family: inherit;
+      color: #050505;
+    }
+    
+    .create-post-textarea:focus {
+      outline: none;
+    }
+    
+    .create-post-footer {
+      padding: 16px;
+      border-top: 1px solid #e4e6eb;
+    }
+    
+    .create-post-submit {
+      width: 100%;
+      padding: 10px;
+      background: #1a56db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .create-post-submit:hover {
+      background: #1543b0;
+    }
+    
+    .create-post-submit:disabled {
+      background: #e4e6eb;
+      color: #bcc0c4;
+      cursor: not-allowed;
+    }
+    
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .forum-container {
+        padding: 12px;
+      }
+      
+      .post-card {
+        border-radius: 0;
+        margin-left: -12px;
+        margin-right: -12px;
+      }
+      
+      .publish-box, .filters-container {
+        border-radius: 0;
+        margin-left: -12px;
+        margin-right: -12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -62,6 +721,7 @@
   <div class="bg-orb bg-orb-2"></div>
 </div>
 
+<!-- Navbar (ne pas toucher) -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
     <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
@@ -79,76 +739,130 @@
   </div>
 </nav>
 
+
+<!-- Contenu principal transformé en feed social -->
 <main class="forum-main">
-  <div class="forum-header">
-    <div class="forum-header-inner">
-      <div>
-        <h1 style="font-size:clamp(1.4rem,3vw,1.8rem);font-weight:800;color:var(--text-1);margin-bottom:6px;">💬 Forum étudiant UAC</h1>
-        <p style="color:var(--text-2);font-size:0.9rem;">Posez vos questions, aidez vos camarades, progressez ensemble.</p>
+  <div class="forum-container">
+    
+    <!-- Colonne principale (feed) -->
+    <div class="feed-column">
+      
+      <!-- Zone de publication (remplace le bouton) -->
+      <div class="publish-box">
+        <div class="publish-header">
+          <div class="publish-avatar" id="publishAvatar">U</div>
+          <div class="publish-input" onclick="openCreatePost()">Quoi de neuf à l'UAC ?</div>
+        </div>
+        <div class="publish-actions">
+          <button class="publish-action-btn" onclick="openCreatePost('photo')">
+            📷 Photo
+          </button>
+          <button class="publish-action-btn" onclick="openCreatePost('faculte')">
+            🏷️ Faculté
+          </button>
+          <button class="publish-action-btn" onclick="openCreatePost()">
+            📌 Type de post
+          </button>
+        </div>
       </div>
-      <button class="btn btn-primary" onclick="openNewQuestion()">+ Poser une question</button>
+      
+      <!-- Filtres enrichis -->
+      <div class="filters-container">
+        <div class="filters-row">
+          <button class="filter-chip active" data-filter="all">🔥 Tendances</button>
+          <button class="filter-chip" data-filter="recent">🕐 Récents</button>
+          <button class="filter-chip" data-filter="question">❓ Questions</button>
+          <button class="filter-chip" data-filter="annonce">📢 Annonces</button>
+          <button class="filter-chip" data-filter="resolved">✅ Résolus</button>
+        </div>
+        <div class="filters-row">
+          <button class="filter-chip" data-filter="">Toutes</button>
+          <button class="filter-chip" data-filter="FASEG">FASEG</button>
+          <button class="filter-chip" data-filter="FADESP">FADESP</button>
+          <button class="filter-chip" data-filter="FAST">FAST</button>
+          <button class="filter-chip" data-filter="FSS">FSS</button>
+          <button class="filter-chip" data-filter="FSA">FSA</button>
+          <button class="filter-chip" data-filter="EPAC">EPAC</button>
+        </div>
+      </div>
+      
+      <!-- Feed des posts -->
+      <div id="feedContainer">
+        <div style="text-align:center;padding:48px;color:#65676b;">Chargement du feed...</div>
+      </div>
+      
     </div>
-  </div>
-
-  <div class="forum-body">
-    <!-- Filtres -->
-    <div class="forum-filters" id="forumFilters">
-      <button class="filter-tag active" data-filter="">Toutes</button>
-      <button class="filter-tag" data-filter="FASEG">FASEG</button>
-      <button class="filter-tag" data-filter="FADESP">FADESP</button>
-      <button class="filter-tag" data-filter="FAST">FAST</button>
-      <button class="filter-tag" data-filter="FSS">FSS</button>
-      <button class="filter-tag" data-filter="FSA">FSA</button>
-      <button class="filter-tag" data-filter="EPAC">EPAC</button>
-      <button class="filter-tag" data-filter="non-resolu">Sans réponse</button>
+    
+    <!-- Sidebar droite (desktop uniquement) -->
+    <div class="sidebar">
+      
+      <!-- Étudiants actifs -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">🟢 Étudiants actifs</div>
+        <div id="activeUsers"></div>
+      </div>
+      
+      <!-- Top contributeurs -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">🏆 Top contributeurs</div>
+        <div id="topContributors"></div>
+      </div>
+      
+      <!-- Questions sans réponse -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">❓ Besoin d'aide</div>
+        <div id="unansweredQuestions"></div>
+      </div>
+      
     </div>
-
-    <!-- Liste des questions -->
-    <div id="questionsList">
-      <div style="text-align:center;padding:48px;color:var(--text-3);">Chargement...</div>
-    </div>
+    
   </div>
 </main>
 
-<!-- Modal nouvelle question -->
-<div class="modal-overlay" id="newQuestionModal">
-  <div class="modal" style="max-width:560px;">
-    <button class="modal-close" onclick="closeModal('newQuestionModal')">✕</button>
-    <div class="modal-title">Poser une question</div>
-    <div class="form-group">
-      <label class="form-label">Titre de la question *</label>
-      <input type="text" id="qTitle" class="form-input" placeholder="Ex : Comment résoudre les équations différentielles ?" />
+
+<!-- Modal création de post -->
+<div class="create-post-modal" id="createPostModal">
+  <div class="create-post-box">
+    <div class="create-post-header">
+      <div class="create-post-title">Créer une publication</div>
+      <button class="create-post-close" onclick="closeCreatePost()">✕</button>
     </div>
-    <div class="form-group">
-      <label class="form-label">Détails (optionnel)</label>
-      <textarea id="qBody" class="form-input" rows="4" placeholder="Décrivez votre problème en détail..." style="resize:vertical;"></textarea>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div class="form-group">
-        <label class="form-label">Faculté</label>
-        <select id="qFaculte" class="form-select">
-          <option value="">Générale</option>
-          <option value="FASEG">FASEG</option><option value="FADESP">FADESP</option>
-          <option value="FAST">FAST</option><option value="FSS">FSS</option>
-          <option value="FSA">FSA</option><option value="FASHS">FASHS</option>
-          <option value="FLLAC">FLLAC</option><option value="EPAC">EPAC</option>
-          <option value="INJEPS">INJEPS</option><option value="ENEAM">ENEAM</option>
-        </select>
+    <div class="create-post-body">
+      <div class="post-type-selector">
+        <button class="post-type-btn active" data-type="discussion">💬 Discussion</button>
+        <button class="post-type-btn" data-type="question">❓ Question</button>
+        <button class="post-type-btn" data-type="annonce">📢 Annonce</button>
+        <button class="post-type-btn" data-type="ressource">📚 Ressource</button>
       </div>
-      <div class="form-group">
-        <label class="form-label">Matière</label>
-        <input type="text" id="qMatiere" class="form-input" placeholder="Ex : Microéconomie" />
-      </div>
+      <select id="postFaculte" class="form-select" style="margin-bottom:12px;">
+        <option value="">Toutes les facultés</option>
+        <option value="FASEG">FASEG</option>
+        <option value="FADESP">FADESP</option>
+        <option value="FAST">FAST</option>
+        <option value="FSS">FSS</option>
+        <option value="FSA">FSA</option>
+        <option value="FASHS">FASHS</option>
+        <option value="FLLAC">FLLAC</option>
+        <option value="EPAC">EPAC</option>
+      </select>
+      <textarea 
+        id="postContent" 
+        class="create-post-textarea" 
+        placeholder="Partagez quelque chose avec la communauté UAC..."
+      ></textarea>
     </div>
-    <button class="btn btn-primary" style="width:100%;" onclick="submitQuestion()" id="submitQBtn">Publier la question</button>
+    <div class="create-post-footer">
+      <button class="create-post-submit" onclick="submitPost()">Publier</button>
+    </div>
   </div>
 </div>
 
-<!-- Modal détail question -->
-<div class="q-detail-overlay" id="questionDetailOverlay">
-  <div class="q-detail-box">
-    <button class="q-detail-close" onclick="closeDetail()">✕</button>
-    <div id="questionDetailContent"></div>
+<!-- Toast notification nouveau post -->
+<div class="new-post-toast" id="newPostToast" onclick="refreshFeed()">
+  <div style="font-size:1.5rem;">🔔</div>
+  <div>
+    <div style="font-weight:700;font-size:0.875rem;color:#050505;">Nouveau post disponible</div>
+    <div style="font-size:0.75rem;color:#65676b;">Cliquez pour actualiser</div>
   </div>
 </div>
 
@@ -157,213 +871,248 @@
   import { injectLogos } from './js/logo.js';
   import { supabase } from './js/supabase-config.js';
   import { initAutoLogout } from './js/auto-logout.js';
+  import './js/theme-switcher.js';
+  import './js/pwa-installer.js';
+  import './js/lazy-loading.js';
+  import './js/accessibility.js';
 
-  let _user = null, _profile = null, _filter = "", _currentQId = null;
+  // ══════════════════════════════════════════════════════
+  // VARIABLES GLOBALES
+  // ══════════════════════════════════════════════════════
+  
+  let _user = null;
+  let _profile = null;
+  let _currentFilter = 'all';
+  let _currentFacultyFilter = '';
+  let _currentPostType = 'discussion';
+  let _posts = [];
+  let _likes = JSON.parse(localStorage.getItem('campusly_likes') || '{}');
+  let _saved = JSON.parse(localStorage.getItem('campusly_saved') || '{}');
 
+  
+  // ══════════════════════════════════════════════════════
+  // DONNÉES FICTIVES (5 posts de démonstration)
+  // ══════════════════════════════════════════════════════
+  
+  const DEMO_POSTS = [
+    {
+      id: 'demo1',
+      author_name: 'Koffi Mensah',
+      author_initials: 'KM',
+      author_color: '#1a56db',
+      faculte: 'FASEG',
+      type: 'question',
+      content: 'Bonjour ! Quelqu\'un aurait-il des notes de cours sur la Microéconomie S3 ? J\'ai raté quelques séances et j\'aimerais me rattraper avant le partiel de la semaine prochaine. Merci d\'avance ! 📚',
+      created_at: new Date(Date.now() - 2 * 60 * 60 * 1000), // Il y a 2h
+      likes: 12,
+      comments_count: 5,
+      resolved: false
+    },
+    {
+      id: 'demo2',
+      author_name: 'Aïcha Dossou',
+      author_initials: 'AD',
+      author_color: '#10b981',
+      faculte: 'FAST',
+      type: 'annonce',
+      content: '📢 IMPORTANT : Le groupe de révision pour l\'examen d\'Algèbre Linéaire se réunit demain à 14h à la bibliothèque centrale. Tous les étudiants de FAST S2 sont les bienvenus ! On va revoir les espaces vectoriels et les matrices.',
+      created_at: new Date(Date.now() - 5 * 60 * 60 * 1000), // Il y a 5h
+      likes: 28,
+      comments_count: 8,
+      resolved: false
+    },
+    {
+      id: 'demo3',
+      author_name: 'Serge Akpovi',
+      author_initials: 'SA',
+      author_color: '#f59e0b',
+      faculte: 'FSS',
+      type: 'ressource',
+      content: 'Je partage avec vous un PDF super complet sur l\'Anatomie du système nerveux. C\'est ce qui m\'a aidé à avoir 16/20 au dernier partiel. Le lien est dans les commentaires. Bon courage à tous ! 💪',
+      created_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // Il y a 1 jour
+      likes: 45,
+      comments_count: 12,
+      resolved: false
+    },
+    {
+      id: 'demo4',
+      author_name: 'Fatoumata Bello',
+      author_initials: 'FB',
+      author_color: '#ef4444',
+      faculte: 'FADESP',
+      type: 'discussion',
+      content: 'Petite question : est-ce que quelqu\'un sait si le cours de Droit Constitutionnel de demain est maintenu ? J\'ai entendu dire que le prof était absent mais je ne suis pas sûre. Merci de confirmer !',
+      created_at: new Date(Date.now() - 30 * 60 * 1000), // Il y a 30 min
+      likes: 8,
+      comments_count: 3,
+      resolved: true
+    },
+    {
+      id: 'demo5',
+      author_name: 'Yves Houngbo',
+      author_initials: 'YH',
+      author_color: '#8b5cf6',
+      faculte: 'EPAC',
+      type: 'question',
+      content: 'Urgent ! Quelqu\'un peut m\'expliquer comment calculer les moments fléchissants en Résistance des Matériaux ? J\'ai l\'examen dans 2 jours et je bloque complètement sur ce chapitre 😰',
+      created_at: new Date(Date.now() - 4 * 60 * 60 * 1000), // Il y a 4h
+      likes: 15,
+      comments_count: 7,
+      resolved: false
+    }
+  ];
+
+  
+  // ══════════════════════════════════════════════════════
+  // FONCTIONS UTILITAIRES
+  // ══════════════════════════════════════════════════════
+  
   function showToast(msg, type="info") {
     let t = document.getElementById("toast");
-    if (!t) { t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
-    t.textContent = msg; t.className = `toast ${type} show`;
-    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+    if (!t) { 
+      t = document.createElement("div"); 
+      t.id="toast"; 
+      t.className="toast"; 
+      document.body.appendChild(t); 
+    }
+    t.textContent = msg; 
+    t.className = `toast ${type} show`;
+    clearTimeout(t._t); 
+    t._t = setTimeout(() => t.classList.remove("show"), 3500);
   }
-
+  
+  function timeAgo(date) {
+    if (!date) return "";
+    const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (diff < 60) return "à l'instant";
+    if (diff < 3600) return Math.floor(diff/60) + " min";
+    if (diff < 86400) return Math.floor(diff/3600) + "h";
+    if (diff < 604800) return Math.floor(diff/86400) + "j";
+    return Math.floor(diff/604800) + " sem";
+  }
+  
+  function getInitials(name) {
+    if (!name) return 'U';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
+  
+  function getRandomColor() {
+    const colors = ['#1a56db', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+  
+  // ══════════════════════════════════════════════════════
+  // INITIALISATION
+  // ══════════════════════════════════════════════════════
+  
   requireAuth(async (user) => {
     _user = user;
     const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
     _profile = profile;
+    
+    // Mettre à jour la navbar
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
       <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
-    if (_profile?.faculte) document.getElementById("qFaculte").value = _profile.faculte;
-    loadQuestions();
+    
+    // Mettre à jour l'avatar de publication
+    const publishAvatar = document.getElementById('publishAvatar');
+    if (publishAvatar && _profile) {
+      const initials = getInitials(`${_profile.prenom || ''} ${_profile.nom || ''}`);
+      publishAvatar.textContent = initials;
+    }
+    
+    // Charger le feed
+    loadFeed();
+    
+    // Charger la sidebar
+    loadSidebar();
+    
+    // Initialiser les filtres
+    initFilters();
+    
+    // Initialiser auto-logout
     initAutoLogout();
+    
+    // Écouter les nouveaux posts en temps réel (Supabase Realtime)
+    subscribeToNewPosts();
   });
+  
+  window.doLogout = async () => { 
+    await supabase.auth.signOut(); 
+    window.location.href = "index.html"; 
+  };
 
-  window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
-
-  // ── Filtres ──────────────────────────────────────────────
-  document.querySelectorAll(".filter-tag").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".filter-tag").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      _filter = btn.dataset.filter;
-      loadQuestions();
+  
+  // ══════════════════════════════════════════════════════
+  // GESTION DES FILTRES
+  // ══════════════════════════════════════════════════════
+  
+  function initFilters() {
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        // Retirer active de la même rangée
+        const row = chip.parentElement;
+        row.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        
+        // Appliquer le filtre
+        const filter = chip.dataset.filter;
+        if (['all', 'recent', 'question', 'annonce', 'resolved'].includes(filter)) {
+          _currentFilter = filter;
+        } else {
+          _currentFacultyFilter = filter;
+        }
+        
+        loadFeed();
+      });
     });
-  });
-
-  // ── Charger les questions ────────────────────────────────
-  async function loadQuestions() {
-    const list = document.getElementById("questionsList");
-    list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--text-3);">Chargement...</div>`;
+  }
+  
+  // ══════════════════════════════════════════════════════
+  // CHARGEMENT DU FEED
+  // ══════════════════════════════════════════════════════
+  
+  async function loadFeed() {
+    const container = document.getElementById('feedContainer');
+    container.innerHTML = '<div style="text-align:center;padding:48px;color:#65676b;">Chargement...</div>';
+    
     try {
-      let query = supabase.from("forum_questions").select("*").order("created_at", { ascending: false });
-      if (_filter === "non-resolu") query = query.eq("resolved", false);
-      else if (_filter) query = query.eq("faculte", _filter);
-
-      const { data: docs, error } = await query;
-      if (error) throw error;
-
-      if (!docs?.length) {
-        list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--text-3);">Aucune question. Soyez le premier à poser une question !</div>`;
+      // Pour la démo, utiliser les posts fictifs
+      // En production, remplacer par une vraie requête Supabase
+      let posts = [...DEMO_POSTS];
+      
+      // Appliquer les filtres
+      if (_currentFilter === 'question') {
+        posts = posts.filter(p => p.type === 'question');
+      } else if (_currentFilter === 'annonce') {
+        posts = posts.filter(p => p.type === 'annonce');
+      } else if (_currentFilter === 'resolved') {
+        posts = posts.filter(p => p.resolved);
+      } else if (_currentFilter === 'recent') {
+        posts.sort((a, b) => b.created_at - a.created_at);
+      }
+      
+      if (_currentFacultyFilter) {
+        posts = posts.filter(p => p.faculte === _currentFacultyFilter);
+      }
+      
+      _posts = posts;
+      
+      if (posts.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:48px;color:#65676b;">Aucun post trouvé</div>';
         return;
       }
-      list.innerHTML = docs.map(q => {
-        const ago = timeAgo(new Date(q.created_at));
-        return `<div class="q-card ${q.resolved?"resolved":""}" onclick="openQuestion('${q.id}')">
-          <div class="q-meta">
-            ${q.faculte ? `<span class="q-faculte">${q.faculte}</span>` : ""}
-            ${q.matiere ? `<span class="q-matiere">${q.matiere}</span>` : ""}
-            <span class="q-author">${q.author_name||"Étudiant"} · ${ago}</span>
-          </div>
-          <div class="q-title">${q.titre}</div>
-          ${q.contenu ? `<div class="q-preview">${q.contenu}</div>` : ""}
-          <div class="q-footer">
-            <span class="q-stat">💬 ${q.answers_count||0} réponse${(q.answers_count||0)>1?"s":""}</span>
-            <span class="q-stat">👁 ${q.views||0} vues</span>
-            ${q.resolved ? '<span class="q-resolved-badge">✓ Résolu</span>' : ""}
-          </div>
-        </div>`;
-      }).join("");
-    } catch(e) {
-      list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--danger);">Erreur de chargement : ${e.message}</div>`;
+      
+      container.innerHTML = posts.map(post => renderPost(post)).join('');
+      
+    } catch (error) {
+      console.error('Erreur chargement feed:', error);
+      container.innerHTML = '<div style="text-align:center;padding:48px;color:#ef4444;">Erreur de chargement</div>';
     }
   }
-
-  // ── Ouvrir une question ──────────────────────────────────
-  window.openQuestion = async function(id) {
-    _currentQId = id;
-    const overlay = document.getElementById("questionDetailOverlay");
-    const content = document.getElementById("questionDetailContent");
-    overlay.classList.add("show");
-    content.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text-3);">Chargement...</div>`;
-    try {
-      await supabase.from("forum_questions").update({ views: supabase.rpc ? undefined : undefined }).eq("id", id);
-      const { data: q } = await supabase.from("forum_questions").select("*").eq("id", id).single();
-      const { data: answers } = await supabase.from("forum_answers").select("*").eq("question_id", id).order("votes", { ascending: false });
-      const votes = JSON.parse(localStorage.getItem("campusly_votes")||"{}");
-      content.innerHTML = `
-        <div class="q-meta" style="margin-bottom:12px;">
-          ${q.faculte ? `<span class="q-faculte">${q.faculte}</span>` : ""}
-          ${q.matiere ? `<span class="q-matiere">${q.matiere}</span>` : ""}
-          <span class="q-author" style="margin-left:0;">${q.author_name||"Étudiant"} · ${timeAgo(new Date(q.created_at))}</span>
-        </div>
-        <h2 style="font-size:1.1rem;font-weight:800;color:var(--text-1);margin-bottom:10px;">${q.titre}</h2>
-        ${q.contenu ? `<p style="font-size:0.875rem;color:var(--text-2);line-height:1.7;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);">${q.contenu}</p>` : '<hr style="border-color:var(--border);margin-bottom:20px;">'}
-        <div style="font-size:0.82rem;font-weight:700;color:var(--text-3);margin-bottom:12px;">${answers?.length||0} RÉPONSE${(answers?.length||0)>1?"S":""}</div>
-        <div id="answersList">
-          ${answers?.length ? answers.map(a => `
-            <div class="answer-item ${a.is_best?"best":""}">
-              <div class="answer-header">
-                <span class="answer-author">${a.author_name||"Étudiant"}</span>
-                <span class="answer-date">${timeAgo(new Date(a.created_at))}</span>
-                ${a.is_best ? '<span class="answer-best-badge">✓ Meilleure réponse</span>' : ""}
-              </div>
-              <div class="answer-text">${a.contenu}</div>
-              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
-                <button class="vote-btn ${votes[a.id]?"voted":""}" onclick="voteAnswer('${id}','${a.id}',${a.votes||0})">
-                  👍 ${a.votes||0}
-                </button>
-                ${q.user_id === _user?.id && !q.resolved ? `<button class="vote-btn" onclick="markBest('${id}','${a.id}')">✓ Marquer comme meilleure</button>` : ""}
-              </div>
-            </div>`).join("") : `<p style="color:var(--text-3);font-size:0.85rem;padding:16px 0;">Aucune réponse pour l'instant. Soyez le premier à répondre !</p>`}
-        </div>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
-          <div class="form-group">
-            <label class="form-label">Votre réponse</label>
-            <textarea id="answerText" class="form-input" rows="3" placeholder="Partagez votre réponse ou explication..." style="resize:vertical;"></textarea>
-          </div>
-          <button class="btn btn-primary" style="width:100%;" onclick="submitAnswer('${id}')">Publier ma réponse</button>
-        </div>`;
-    } catch(e) { content.innerHTML = `<p style="color:var(--danger);">Erreur : ${e.message}</p>`; }
-  };
-
-  window.closeDetail = () => {
-    document.getElementById("questionDetailOverlay").classList.remove("show");
-    loadQuestions();
-  };
-
-  // ── Nouvelle question ────────────────────────────────────
-  window.openNewQuestion = () => document.getElementById("newQuestionModal").classList.add("show");
-  window.closeModal = (id) => document.getElementById(id)?.classList.remove("show");
-
-  window.submitQuestion = async function() {
-    const titre   = document.getElementById("qTitle").value.trim();
-    const contenu = document.getElementById("qBody").value.trim();
-    const faculte = document.getElementById("qFaculte").value;
-    const matiere = document.getElementById("qMatiere").value.trim();
-    const btn     = document.getElementById("submitQBtn");
-    if (!titre) return showToast("Le titre est requis.", "info");
-    btn.disabled = true; btn.textContent = "Publication...";
-    const { error } = await supabase.from("forum_questions").insert({
-      user_id:     _user.id,
-      author_name: `${_profile?.prenom||""} ${_profile?.nom||""}`.trim() || _profile?.matricule || "Étudiant",
-      titre, contenu, faculte, matiere,
-      resolved: false, answers_count: 0, views: 0,
-    });
-    if (error) { showToast("Erreur : " + error.message, "info"); }
-    else {
-      closeModal("newQuestionModal");
-      document.getElementById("qTitle").value = "";
-      document.getElementById("qBody").value  = "";
-      showToast("Question publiée ! 🎉", "success");
-      loadQuestions();
-    }
-    btn.disabled = false; btn.textContent = "Publier la question";
-  };
-
-  // ── Répondre ─────────────────────────────────────────────
-  window.submitAnswer = async function(qId) {
-    const text = document.getElementById("answerText").value.trim();
-    if (!text) return showToast("Écrivez votre réponse.", "info");
-    const { error } = await supabase.from("forum_answers").insert({
-      question_id: qId,
-      user_id:     _user.id,
-      author_name: `${_profile?.prenom||""} ${_profile?.nom||""}`.trim() || _profile?.matricule || "Étudiant",
-      contenu:     text,
-      votes: 0, is_best: false,
-    });
-    if (!error) {
-      await supabase.from("forum_questions").update({ answers_count: supabase.rpc ? undefined : undefined }).eq("id", qId);
-      showToast("Réponse publiée ! 🎉", "success");
-      openQuestion(qId);
-    } else { showToast("Erreur : " + error.message, "info"); }
-  };
-
-  // ── Voter ────────────────────────────────────────────────
-  window.voteAnswer = async function(qId, aId, currentVotes) {
-    const votes = JSON.parse(localStorage.getItem("campusly_votes")||"{}");
-    if (votes[aId]) return showToast("Vous avez déjà voté.", "info");
-    const { error } = await supabase.from("forum_answers").update({ votes: currentVotes + 1 }).eq("id", aId);
-    if (!error) {
-      votes[aId] = true;
-      localStorage.setItem("campusly_votes", JSON.stringify(votes));
-      showToast("Vote enregistré !", "success");
-      openQuestion(qId);
-    }
-  };
-
-  // ── Marquer meilleure réponse ────────────────────────────
-  window.markBest = async function(qId, aId) {
-    await supabase.from("forum_answers").update({ is_best: true }).eq("id", aId);
-    await supabase.from("forum_questions").update({ resolved: true }).eq("id", qId);
-    showToast("Meilleure réponse marquée ✓", "success");
-    openQuestion(qId);
-  };
-
-  // ── Utilitaire temps relatif ─────────────────────────────
-  function timeAgo(date) {
-    if (!date) return "";
-    const diff = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (diff < 60)    return "à l'instant";
-    if (diff < 3600)  return Math.floor(diff/60) + " min";
-    if (diff < 86400) return Math.floor(diff/3600) + "h";
-    return Math.floor(diff/86400) + "j";
-  }
-
-  window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
-  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
-  injectLogos();
-</script>
-</body>
-</html>
