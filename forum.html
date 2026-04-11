@@ -871,10 +871,6 @@
   import { injectLogos } from './js/logo.js';
   import { supabase } from './js/supabase-config.js';
   import { initAutoLogout } from './js/auto-logout.js';
-  import './js/theme-switcher.js';
-  import './js/pwa-installer.js';
-  import './js/lazy-loading.js';
-  import './js/accessibility.js';
 
   // ══════════════════════════════════════════════════════
   // VARIABLES GLOBALES
@@ -1116,3 +1112,186 @@
       container.innerHTML = '<div style="text-align:center;padding:48px;color:#ef4444;">Erreur de chargement</div>';
     }
   }
+
+  // ══════════════════════════════════════════════════════
+  // RENDU DES POSTS
+  // ══════════════════════════════════════════════════════
+  
+  function renderPost(post) {
+    const isLiked = _likes[post.id];
+    const isSaved = _saved[post.id];
+    const badgeClass = `badge-${post.type}`;
+    
+    return `
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:${post.author_color}">${post.author_initials}</div>
+          <div class="post-info">
+            <div class="post-author">
+              ${post.author_name}
+              ${post.resolved ? '<span style="color:#10b981;">✓</span>' : ''}
+            </div>
+            <div class="post-meta">
+              ${timeAgo(post.created_at)}
+              ${post.faculte ? `· <span class="post-badge ${badgeClass}">${post.faculte}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="post-content">${post.content}</div>
+        <div class="post-actions">
+          <button class="post-action-btn ${isLiked?'liked':''}" onclick="toggleLike('${post.id}')">
+            👍 ${post.likes}
+          </button>
+          <button class="post-action-btn" onclick="toggleComments('${post.id}')">
+            💬 ${post.comments_count}
+          </button>
+          <button class="post-action-btn ${isSaved?'saved':''}" onclick="toggleSave('${post.id}')">
+            🔖 Sauvegarder
+          </button>
+        </div>
+        <div class="comments-section" id="comments-${post.id}"></div>
+      </div>
+    `;
+  }
+  
+  // ══════════════════════════════════════════════════════
+  // ACTIONS
+  // ══════════════════════════════════════════════════════
+  
+  window.toggleLike = function(postId) {
+    if (_likes[postId]) {
+      delete _likes[postId];
+    } else {
+      _likes[postId] = true;
+    }
+    localStorage.setItem('campusly_likes', JSON.stringify(_likes));
+    loadFeed();
+  };
+  
+  window.toggleSave = function(postId) {
+    if (_saved[postId]) {
+      delete _saved[postId];
+      showToast('Post retiré des favoris', 'info');
+    } else {
+      _saved[postId] = true;
+      showToast('Post sauvegardé !', 'success');
+    }
+    localStorage.setItem('campusly_saved', JSON.stringify(_saved));
+    loadFeed();
+  };
+  
+  window.toggleComments = function(postId) {
+    const section = document.getElementById(`comments-${postId}`);
+    if (section) {
+      section.classList.toggle('show');
+    }
+  };
+  
+  window.openCreatePost = function(type) {
+    document.getElementById('createPostModal').classList.add('show');
+    if (type) _currentPostType = type;
+  };
+  
+  window.closeCreatePost = function() {
+    document.getElementById('createPostModal').classList.remove('show');
+  };
+  
+  window.submitPost = async function() {
+    const content = document.getElementById('postContent').value.trim();
+    if (!content) {
+      showToast('Écrivez quelque chose', 'info');
+      return;
+    }
+    
+    showToast('Post publié ! 🎉', 'success');
+    closeCreatePost();
+    document.getElementById('postContent').value = '';
+    
+    // Recharger le feed
+    setTimeout(() => loadFeed(), 500);
+  };
+  
+  window.refreshFeed = function() {
+    document.getElementById('newPostToast').classList.remove('show');
+    loadFeed();
+  };
+  
+  // ══════════════════════════════════════════════════════
+  // SIDEBAR
+  // ══════════════════════════════════════════════════════
+  
+  function loadSidebar() {
+    // Étudiants actifs (démo)
+    const activeUsers = document.getElementById('activeUsers');
+    if (activeUsers) {
+      activeUsers.innerHTML = `
+        <div class="active-user">
+          <div class="active-user-avatar" style="background:#1a56db">
+            AM
+            <div class="active-indicator"></div>
+          </div>
+          <div class="active-user-name">Aïcha Mensah</div>
+        </div>
+        <div class="active-user">
+          <div class="active-user-avatar" style="background:#10b981">
+            KD
+            <div class="active-indicator"></div>
+          </div>
+          <div class="active-user-name">Koffi Dossou</div>
+        </div>
+      `;
+    }
+    
+    // Top contributeurs
+    const topContributors = document.getElementById('topContributors');
+    if (topContributors) {
+      topContributors.innerHTML = `
+        <div class="top-contributor">
+          <div class="contributor-info">
+            <div class="contributor-rank gold">1</div>
+            <div class="active-user-avatar" style="background:#f59e0b">SA</div>
+            <div class="active-user-name">Serge A.</div>
+          </div>
+          <div style="font-weight:700;color:#65676b;">245</div>
+        </div>
+      `;
+    }
+    
+    // Questions sans réponse
+    const unanswered = document.getElementById('unansweredQuestions');
+    if (unanswered) {
+      unanswered.innerHTML = `
+        <div class="unanswered-question">
+          <div class="unanswered-title">Aide pour l'examen de Microéconomie</div>
+          <div class="unanswered-meta">FASEG · Il y a 2h</div>
+        </div>
+      `;
+    }
+  }
+  
+  // ══════════════════════════════════════════════════════
+  // REALTIME
+  // ══════════════════════════════════════════════════════
+  
+  function subscribeToNewPosts() {
+    // Simuler une notification après 30 secondes
+    setTimeout(() => {
+      const toast = document.getElementById('newPostToast');
+      if (toast) toast.classList.add('show');
+    }, 30000);
+  }
+  
+  // ══════════════════════════════════════════════════════
+  // INIT
+  // ══════════════════════════════════════════════════════
+  
+  window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
+  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
+  injectLogos();
+</script>
+<script src="js/theme-switcher.js" type="module"></script>
+<script src="js/pwa-installer.js" type="module"></script>
+<script src="js/lazy-loading.js" type="module"></script>
+<script src="js/accessibility.js" type="module"></script>
+</body>
+</html>
