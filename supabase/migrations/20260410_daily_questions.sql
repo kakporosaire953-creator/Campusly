@@ -4,7 +4,7 @@
 
 -- Table pour stocker les questions quotidiennes générées
 create table if not exists public.daily_questions (
-  id              uuid primary key default uuid_generate_v4(),
+  id              uuid primary key default gen_random_uuid(),
   question_date   date not null,
   faculte         text not null,
   departement     text default '',
@@ -21,7 +21,7 @@ create table if not exists public.daily_questions (
 
 -- Table pour suivre les réponses des utilisateurs
 create table if not exists public.daily_question_answers (
-  id              uuid primary key default uuid_generate_v4(),
+  id              uuid primary key default gen_random_uuid(),
   user_id         uuid references public.users(id) on delete cascade,
   question_id     uuid references public.daily_questions(id) on delete cascade,
   user_answer     int not null,
