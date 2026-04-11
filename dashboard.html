@@ -1331,28 +1331,22 @@
       try {
         const { data: { session } } = await supabase.auth.getSession();
         
-        // Construire le prompt en fonction de la filière
-        let prompt = `Génère UNE seule question de cours universitaire`;
-        if (faculte) {
-          prompt += ` pour un étudiant de ${faculte}`;
-          if (departement) prompt += ` en ${departement}`;
-        }
-        prompt += `. La question doit être pertinente et éducative. Réponds UNIQUEMENT avec ce JSON : {"question":"Texte de la question","options":["Option A","Option B","Option C","Option D"],"reponseCorrecte":0,"explication":"Explication détaillée de la bonne réponse","matiere":"Nom de la matière"}`;
-
-        const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+        const res = await fetch(`${EDGE_BASE}/groq-ai`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json", 
             "Authorization": `Bearer ${session?.access_token}` 
           },
           body: JSON.stringify({
-            messages: [{ role: "user", content: prompt }],
-            mode: "chat"
+            mode: "daily-question",
+            faculte: faculte || undefined,
+            model: "balanced"
           }),
         });
 
         const result = await res.json();
-        const q = JSON.parse(result.content);
+        
+        if (result.error) throw new Error(result.error);
 
         // Sauvegarder la question dans la base de données
         const { data: savedQuestion, error } = await supabase
@@ -1361,11 +1355,11 @@
             question_date: date,
             faculte: faculte,
             departement: departement,
-            question: q.question,
-            options: q.options,
-            correct_answer: q.reponseCorrecte,
-            explication: q.explication,
-            matiere: q.matiere || faculte || 'Culture générale'
+            question: result.question,
+            options: result.options,
+            correct_answer: result.reponseCorrecte,
+            explication: result.explication,
+            matiere: result.matiere || faculte || 'Culture générale'
           })
           .select()
           .single();

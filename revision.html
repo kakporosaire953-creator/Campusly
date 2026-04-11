@@ -269,10 +269,10 @@
     showLoader(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`${EDGE_BASE}/generate-quiz`, {
+      const res = await fetch(`${EDGE_BASE}/groq-ai`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
-        body: JSON.stringify({ sujet, faculte, nbQuestions: 7 }),
+        body: JSON.stringify({ mode: "quiz", sujet, faculte, nbQuestions: 7, model: "balanced" }),
       });
       const result = await res.json();
 
@@ -359,10 +359,17 @@
     content.innerHTML = `<div class="summary-loading"><div class="summary-spinner"></div> Génération du résumé...</div>`;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+      const res = await fetch(`${EDGE_BASE}/groq-ai`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
-        body: JSON.stringify({ messages: [{ role: "user", content: `Génère un résumé clair et structuré du sujet "${sujet}"${faculte ? ` (Faculté : ${faculte})` : ""}. Couvre les points clés en 5-8 paragraphes courts, niveau universitaire, en français.` }], mode: "explain" }),
+        body: JSON.stringify({ 
+          mode: "explain", 
+          messages: [{ 
+            role: "user", 
+            content: `Génère un résumé clair et structuré du sujet "${sujet}"${faculte ? ` (Faculté : ${faculte})` : ""}. Couvre les points clés en 5-8 paragraphes courts, niveau universitaire, en français.` 
+          }],
+          model: "balanced"
+        }),
       });
       const result = await res.json();
       content.textContent = result.content;
