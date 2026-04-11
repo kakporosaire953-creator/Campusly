@@ -1,0 +1,317 @@
+/* ============================================================
+   CAMPUSLY — Boutons interactifs modernes
+   ============================================================ */
+
+/* ── Effet Ripple (comme Material Design) ── */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* ── Effet Hover amélioré ── */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Bouton Primary avec gradient animé ── */
+.btn-primary {
+  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.btn-primary:hover {
+  background-position: right center;
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.4);
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: left center; }
+  50% { background-position: right center; }
+}
+
+/* ── Bouton Accent avec effet glow ── */
+.btn-accent {
+  background: linear-gradient(135deg, #F57C00 0%, #FF8F00 100%);
+  box-shadow: 0 4px 16px rgba(245, 124, 0, 0.3);
+  position: relative;
+}
+
+.btn-accent::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #F57C00, #FF8F00);
+  border-radius: inherit;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+.btn-accent:hover::after {
+  opacity: 0.7;
+}
+
+.btn-accent:hover {
+  box-shadow: 0 8px 32px rgba(245, 124, 0, 0.5);
+}
+
+/* ── Bouton Ghost avec effet border ── */
+.btn-ghost {
+  position: relative;
+  background: transparent;
+  border: 2px solid var(--border);
+}
+
+.btn-ghost::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, #1565C0, #F57C00);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-ghost:hover::before {
+  opacity: 1;
+}
+
+.btn-ghost:hover {
+  border-color: transparent;
+  color: var(--brand-1);
+}
+
+/* ── Effet de chargement ── */
+.btn.loading {
+  pointer-events: none;
+  position: relative;
+  color: transparent !important;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* ── Boutons avec icônes animées ── */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon svg,
+.btn-icon .icon {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-icon:hover svg,
+.btn-icon:hover .icon {
+  transform: translateX(4px);
+}
+
+/* ── Effet Pulse pour attirer l'attention ── */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 16px rgba(21, 101, 192, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 8px 32px rgba(21, 101, 192, 0.5);
+  }
+}
+
+.btn-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ── Bouton Success ── */
+.btn-success {
+  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+}
+
+/* ── Bouton Danger ── */
+.btn-danger {
+  background: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+}
+
+/* ── Groupe de boutons ── */
+.btn-group {
+  display: inline-flex;
+  gap: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-group .btn {
+  border-radius: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-group .btn:first-child {
+  border-radius: var(--r-md) 0 0 var(--r-md);
+}
+
+.btn-group .btn:last-child {
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  border-right: none;
+}
+
+/* ── Effet Shimmer (brillance) ── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.btn-shimmer {
+  background: linear-gradient(
+    90deg,
+    #1565C0 0%,
+    #42A5F5 50%,
+    #1565C0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ── Bouton avec badge ── */
+.btn-badge {
+  position: relative;
+}
+
+.btn-badge::after {
+  content: attr(data-badge);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #EF4444;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  min-width: 18px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* ── Effet 3D ── */
+.btn-3d {
+  box-shadow: 
+    0 4px 0 rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+}
+
+.btn-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 0 rgba(0, 0, 0, 0.1),
+    0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 0 rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .btn {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+  
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}
+
+/* ── Accessibilité ── */
+.btn:focus-visible {
+  outline: 3px solid rgba(21, 101, 192, 0.5);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Animation d'entrée ── */
+@keyframes btnFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-animate {
+  animation: btnFadeIn 0.4s ease;
+}

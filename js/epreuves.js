@@ -6,6 +6,7 @@ import { requireAuth } from "./auth-guard.js";
 import { getEpreuves, saveDownload, toggleFavorite, getFavorites } from "./supabase-db.js";
 import { initLangSwitcher, applyTranslations } from "./i18n.js";
 import { injectLogos } from "./logo.js";
+import { initAutoLogout } from "./auto-logout.js";
 
 let _user        = null;
 let ALL_EPREUVES = [];
@@ -41,6 +42,7 @@ requireAuth(async (user) => {
 
   favorites = await getFavorites(user.id);
   await loadEpreuves();
+  initAutoLogout();
 });
 
 async function loadEpreuves() {

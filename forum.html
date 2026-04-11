@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/interactive-buttons.css" />
   <style>
     .forum-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
     .forum-header { padding: 40px 5% 32px; background: linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(56,189,248,0.08) 100%); border-bottom: 1px solid var(--border); }
@@ -155,6 +156,7 @@
   import { requireAuth } from './js/auth-guard.js';
   import { injectLogos } from './js/logo.js';
   import { supabase } from './js/supabase-config.js';
+  import { initAutoLogout } from './js/auto-logout.js';
 
   let _user = null, _profile = null, _filter = "", _currentQId = null;
 
@@ -175,6 +177,7 @@
       <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
     if (_profile?.faculte) document.getElementById("qFaculte").value = _profile.faculte;
     loadQuestions();
+    initAutoLogout();
   });
 
   window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };

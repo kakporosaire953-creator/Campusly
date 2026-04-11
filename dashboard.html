@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/interactive-buttons.css" />
   <style>
     /* ── XP / Niveau ── */
     .xp-bar-wrap { background:var(--surface); border-radius:var(--r-full); height:8px; overflow:hidden; margin:8px 0 4px; }
@@ -572,6 +573,7 @@
     import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';
     import { initLangSwitcher, applyTranslations } from './js/i18n.js';
     import { injectLogos } from './js/logo.js';
+    import { initAutoLogout } from './js/auto-logout.js';
 
     const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
 
@@ -630,6 +632,7 @@
 
       renderAll();
       checkOnboarding();
+      initAutoLogout();
     }
 
     // ── Render tout ────────────────────────────────────────

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/interactive-buttons.css" />
   <style>
     .contrib-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
     .contrib-header { padding: 48px 5% 40px; background: linear-gradient(135deg, rgba(21,101,192,0.15) 0%, rgba(245,124,0,0.08) 100%); border-bottom: 1px solid var(--border); }
@@ -218,6 +219,7 @@
   import { requireAuth } from './js/auth-guard.js';
   import { injectLogos } from './js/logo.js';
   import { supabase } from './js/supabase-config.js';
+  import { initAutoLogout } from './js/auto-logout.js';
 
   let _user = null, _file = null;
 
@@ -235,6 +237,7 @@
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
       <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
     loadMyContributions();
+    initAutoLogout();
   });
 
   window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };

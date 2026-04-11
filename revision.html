@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/interactive-buttons.css" />
   <style>
     .revision-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
     .revision-header { padding: 48px 5% 40px; background: linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(56,189,248,0.08) 100%); border-bottom: 1px solid var(--border); }
@@ -221,6 +222,7 @@
   import { supabase } from "./js/supabase-config.js";
   import { SUPABASE_FUNCTIONS_URL } from "./js/supabase-config.js";
   import { saveQuizResult, getQuizResults } from "./js/supabase-db.js";
+  import { initAutoLogout } from './js/auto-logout.js';
 
   const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
 
@@ -238,6 +240,7 @@
     _uid = user.id;
     loadProgression();
     updateNav(user);
+    initAutoLogout();
   });
 
   function updateNav(user) {
