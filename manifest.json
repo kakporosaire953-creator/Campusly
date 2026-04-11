@@ -1,14 +1,74 @@
 {
-  "name": "Campusly — Plateforme Académique UAC",
+  "name": "Campusly - Plateforme Étudiante UAC",
   "short_name": "Campusly",
-  "description": "Accédez aux anciennes épreuves et ressources académiques de l'UAC",
-  "start_url": "/index.html",
+  "description": "Accédez aux épreuves, révisez avec l'IA, et rejoignez la communauté étudiante de l'UAC",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0D1B2A",
-  "theme_color": "#1E88E5",
   "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1565C0",
+  "categories": ["education", "productivity"],
+  "lang": "fr-BJ",
+  "dir": "ltr",
   "icons": [
-    { "src": "assets/logo.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "assets/logo.png", "sizes": "512x512", "type": "image/png" }
-  ]
+    {
+      "src": "/assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Épreuves",
+      "short_name": "Épreuves",
+      "description": "Parcourir les épreuves",
+      "url": "/epreuves.html",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Révision IA",
+      "short_name": "Révision",
+      "description": "Réviser avec l'IA",
+      "url": "/revision.html",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Mon tableau de bord",
+      "url": "/dashboard.html",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Forum",
+      "short_name": "Forum",
+      "description": "Forum étudiant",
+      "url": "/forum.html",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
+    }
+  ],
+  "share_target": {
+    "action": "/contribuer.html",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "titre",
+      "text": "description",
+      "files": [
+        {
+          "name": "epreuve",
+          "accept": ["application/pdf", "image/*"]
+        }
+      ]
+    }
+  },
+  "prefer_related_applications": false
 }
