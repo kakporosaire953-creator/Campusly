@@ -1289,65 +1289,194 @@
     // ── QUESTION DU JOUR ───────────────────────────────────
     async function loadDailyQuestion() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        const res = await fetch(`${EDGE_BASE}/chat-ai`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
-          body: JSON.stringify({
-            messages: [{ role: "user", content: `Génère UNE seule question de cours pour un étudiant en ${_profile?.faculte||"universitaire"}. Réponds UNIQUEMENT avec ce JSON : {"question":"Texte","options":["A","B","C","D"],"reponseCorrecte":0,"explication":"Explication courte","matiere":"Nom matière"}` }],
-            mode: "chat"
-          }),
-        });
-        const result = await res.json();
-        const q = JSON.parse(result.content);
-        renderDailyQuestion(q);
+        const today = new Date().toISOString().slice(0, 10);
+        const faculte = _profile?.faculte || '';
+        const departement = _profile?.departement || '';
+
+        // Vérifier si une question existe déjà pour aujourd'hui et cette filière
+        let { data: existingQuestion } = await supabase
+          .from('daily_questions')
+          .select('*')
+          .eq('question_date', today)
+          .eq('faculte', faculte)
+          .eq('departement', departement)
+          .single();
+
+        // Si pas de question, en générer une nouvelle
+        if (!existingQuestion) {
+          existingQuestion = await generateDailyQuestion(today, faculte, departement);
+        }
+
+        if (existingQuestion) {
+          // Vérifier si l'utilisateur a déjà répondu
+          const { data: userAnswer } = await supabase
+            .from('daily_question_answers')
+            .select('*')
+            .eq('user_id', _user.id)
+            .eq('question_id', existingQuestion.id)
+            .single();
+
+          renderDailyQuestion(existingQuestion, userAnswer);
+        } else {
+          throw new Error("Impossible de charger la question");
+        }
       } catch(e) {
+        console.error("Erreur question du jour:", e);
         const el = document.getElementById("dqContent");
         if (el) el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Question indisponible. Réessayez plus tard.</p>`;
       }
     }
 
-    function renderDailyQuestion(q) {
+    async function generateDailyQuestion(date, faculte, departement) {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        // Construire le prompt en fonction de la filière
+        let prompt = `Génère UNE seule question de cours universitaire`;
+        if (faculte) {
+          prompt += ` pour un étudiant de ${faculte}`;
+          if (departement) prompt += ` en ${departement}`;
+        }
+        prompt += `. La question doit être pertinente et éducative. Réponds UNIQUEMENT avec ce JSON : {"question":"Texte de la question","options":["Option A","Option B","Option C","Option D"],"reponseCorrecte":0,"explication":"Explication détaillée de la bonne réponse","matiere":"Nom de la matière"}`;
+
+        const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json", 
+            "Authorization": `Bearer ${session?.access_token}` 
+          },
+          body: JSON.stringify({
+            messages: [{ role: "user", content: prompt }],
+            mode: "chat"
+          }),
+        });
+
+        const result = await res.json();
+        const q = JSON.parse(result.content);
+
+        // Sauvegarder la question dans la base de données
+        const { data: savedQuestion, error } = await supabase
+          .from('daily_questions')
+          .insert({
+            question_date: date,
+            faculte: faculte,
+            departement: departement,
+            question: q.question,
+            options: q.options,
+            correct_answer: q.reponseCorrecte,
+            explication: q.explication,
+            matiere: q.matiere || faculte || 'Culture générale'
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+        return savedQuestion;
+      } catch(e) {
+        console.error("Erreur génération question:", e);
+        return null;
+      }
+    }
+
+    function renderDailyQuestion(questionData, userAnswer) {
       const meta = document.getElementById("dqMeta");
-      if (meta) meta.textContent = (q.matiere || _profile?.faculte || "Culture générale") + " · " + new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
-      const today    = new Date().toISOString().slice(0,10);
-      const answered = localStorage.getItem("campusly_dq_" + today);
+      if (meta) {
+        const matiere = questionData.matiere || _profile?.faculte || "Culture générale";
+        const dateStr = new Date().toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long"});
+        meta.textContent = `${matiere} · ${dateStr}`;
+      }
+
       const el = document.getElementById("dqContent");
       if (!el) return;
+
+      const options = Array.isArray(questionData.options) 
+        ? questionData.options 
+        : JSON.parse(questionData.options || '[]');
+      
+      const correctAnswer = questionData.correct_answer ?? questionData.reponseCorrecte;
+      const answered = userAnswer?.user_answer;
+
       el.innerHTML = `
-        <p style="font-size:0.9rem;font-weight:600;color:var(--text-1);margin-bottom:14px;">${q.question}</p>
+        <p style="font-size:0.9rem;font-weight:600;color:var(--text-1);margin-bottom:14px;">${questionData.question}</p>
         <div id="dqOptions" style="display:flex;flex-direction:column;gap:8px;">
-          ${q.options.map((o,i) => {
+          ${options.map((o, i) => {
             let extra = "";
-            if (answered) {
-              if (i === q.reponseCorrecte) extra = "background:rgba(16,185,129,0.15);border-color:#10B981;color:#10B981;";
-              else if (i === parseInt(answered)) extra = "background:rgba(239,68,68,0.15);border-color:#EF4444;color:#EF4444;";
-              else extra = "opacity:0.5;";
+            if (answered !== undefined && answered !== null) {
+              if (i === correctAnswer) {
+                extra = "background:rgba(16,185,129,0.15);border-color:#10B981;color:#10B981;";
+              } else if (i === answered) {
+                extra = "background:rgba(239,68,68,0.15);border-color:#EF4444;color:#EF4444;";
+              } else {
+                extra = "opacity:0.5;";
+              }
             }
-            return `<button onclick="answerDailyQuestion(${i},${q.reponseCorrecte},'${(q.explication||"").replace(/'/g,"&#39;")}')"
-              ${answered ? "disabled" : ""}
-              style="display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;font-family:var(--font-sans);font-size:0.82rem;color:var(--text-1);text-align:left;transition:all 0.15s ease;${extra}">
+            return `<button onclick="answerDailyQuestion('${questionData.id}', ${i}, ${correctAnswer}, '${(questionData.explication||"").replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')"
+              ${answered !== undefined && answered !== null ? "disabled" : ""}
+              style="display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);cursor:${answered !== undefined && answered !== null ? 'default' : 'pointer'};font-family:var(--font-sans);font-size:0.82rem;color:var(--text-1);text-align:left;transition:all 0.15s ease;${extra}">
               <span style="width:22px;height:22px;background:var(--surface-2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;">${["A","B","C","D"][i]}</span>${o}
             </button>`;
           }).join("")}
         </div>
-        ${answered ? `<div style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;">💡 ${q.explication}</div>` : ""}`;
+        ${answered !== undefined && answered !== null ? `<div style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;">💡 ${questionData.explication}</div>` : ""}
+        ${answered !== undefined && answered !== null ? `<div style="margin-top:10px;text-align:center;font-size:0.75rem;color:var(--text-3);">✅ Vous avez déjà répondu aujourd'hui. Revenez demain pour une nouvelle question !</div>` : ""}`;
     }
 
-    window.answerDailyQuestion = function(chosen, correct, explication) {
-      const today = new Date().toISOString().slice(0,10);
-      localStorage.setItem("campusly_dq_" + today, String(chosen));
-      document.querySelectorAll("#dqOptions button").forEach((btn, i) => {
-        btn.disabled = true;
-        if (i === correct) btn.style.cssText += "background:rgba(16,185,129,0.15);border-color:#10B981;color:#10B981;";
-        else if (i === chosen) btn.style.cssText += "background:rgba(239,68,68,0.15);border-color:#EF4444;color:#EF4444;";
-        else btn.style.opacity = "0.5";
-      });
-      const expl = document.createElement("div");
-      expl.style.cssText = "margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;";
-      expl.textContent = "💡 " + explication;
-      document.getElementById("dqOptions")?.after(expl);
-      showToast(chosen === correct ? "Bonne réponse ! +10 XP 🎉" : "Pas tout à fait... Lis l'explication !", chosen === correct ? "success" : "info");
+    window.answerDailyQuestion = async function(questionId, chosen, correct, explication) {
+      try {
+        // Sauvegarder la réponse dans la base de données
+        const { error } = await supabase
+          .from('daily_question_answers')
+          .insert({
+            user_id: _user.id,
+            question_id: questionId,
+            user_answer: chosen,
+            is_correct: chosen === correct
+          });
+
+        if (error) {
+          console.error("Erreur sauvegarde réponse:", error);
+          showToast("Erreur lors de la sauvegarde de votre réponse", "info");
+          return;
+        }
+
+        // Mettre à jour l'interface
+        document.querySelectorAll("#dqOptions button").forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === correct) {
+            btn.style.cssText += "background:rgba(16,185,129,0.15);border-color:#10B981;color:#10B981;";
+          } else if (i === chosen) {
+            btn.style.cssText += "background:rgba(239,68,68,0.15);border-color:#EF4444;color:#EF4444;";
+          } else {
+            btn.style.opacity = "0.5";
+          }
+        });
+
+        // Afficher l'explication
+        const expl = document.createElement("div");
+        expl.style.cssText = "margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;";
+        expl.textContent = "💡 " + explication;
+        document.getElementById("dqOptions")?.after(expl);
+
+        // Message de confirmation
+        const confirmMsg = document.createElement("div");
+        confirmMsg.style.cssText = "margin-top:10px;text-align:center;font-size:0.75rem;color:var(--text-3);";
+        confirmMsg.textContent = "✅ Vous avez déjà répondu aujourd'hui. Revenez demain pour une nouvelle question !";
+        expl.after(confirmMsg);
+
+        // Ajouter des XP si bonne réponse
+        if (chosen === correct) {
+          await addXP(_user.id, 10);
+          const newXP = (_profile.xp || 0) + 10;
+          _profile.xp = newXP;
+          renderXP(newXP);
+          showToast("Bonne réponse ! +10 XP 🎉", "success");
+        } else {
+          showToast("Pas tout à fait... Lis l'explication !", "info");
+        }
+      } catch(e) {
+        console.error("Erreur réponse question:", e);
+        showToast("Une erreur est survenue", "info");
+      }
     };
 
     // ── FLUTTERWAVE PAIEMENT ───────────────────────────────

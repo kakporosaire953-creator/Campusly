@@ -14,3 +14,8 @@ firestore-debug.log
 .DS_Store
 Thumbs.db
 *.log
+
+supabase.exe
+supabase/.temp/
+supabase.tar.gz
+;
