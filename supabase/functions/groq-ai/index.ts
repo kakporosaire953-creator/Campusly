@@ -159,16 +159,17 @@ Règles:
 
       case "daily-question":
         // Question quotidienne
+        const faculteText = faculte || "universitaire";
         groqMessages = [
           {
             role: "system",
-            content: "Tu es un assistant pédagogique qui génère des questions quotidiennes pour tester les connaissances des étudiants. Réponds UNIQUEMENT avec un JSON valide."
+            content: "Tu es un assistant pédagogique expert. Tu génères des questions de cours universitaires. Réponds UNIQUEMENT avec un JSON valide, sans texte avant ou après, sans balises markdown."
           },
           {
             role: "user",
-            content: `Génère UNE seule question de cours universitaire${faculte ? ` pour un étudiant de ${faculte}` : ""}.
+            content: `Génère UNE question de cours pour un étudiant de ${faculteText}.
 
-Format JSON attendu:
+Réponds avec ce JSON exact (sans \`\`\`json):
 {
   "question": "Texte de la question",
   "options": ["Option A", "Option B", "Option C", "Option D"],
@@ -177,7 +178,12 @@ Format JSON attendu:
   "matiere": "Nom de la matière"
 }
 
-La question doit être pertinente, éducative et adaptée au niveau universitaire.`
+Règles strictes:
+- Question pertinente niveau universitaire
+- 4 options distinctes
+- reponseCorrecte est un nombre de 0 à 3
+- Explication claire et pédagogique
+- JSON valide uniquement`
           }
         ];
         break;
@@ -215,9 +221,24 @@ La question doit être pertinente, éducative et adaptée au niveau universitair
     // Pour les modes quiz et daily-question, parser le JSON
     if (mode === "quiz" || mode === "daily-question") {
       try {
-        // Nettoyer le contenu (enlever les backticks markdown si présents)
-        const cleanContent = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+        // Nettoyer le contenu (enlever les backticks markdown et espaces)
+        let cleanContent = content.trim();
+        
+        // Enlever les balises markdown si présentes
+        cleanContent = cleanContent.replace(/^```json\s*/g, "");
+        cleanContent = cleanContent.replace(/^```\s*/g, "");
+        cleanContent = cleanContent.replace(/\s*```$/g, "");
+        cleanContent = cleanContent.trim();
+        
+        // Parser le JSON
         const parsed = JSON.parse(cleanContent);
+        
+        // Valider la structure pour daily-question
+        if (mode === "daily-question") {
+          if (!parsed.question || !parsed.options || parsed.reponseCorrecte === undefined) {
+            throw new Error("Structure JSON invalide pour daily-question");
+          }
+        }
         
         return new Response(
           JSON.stringify(parsed),
@@ -225,7 +246,20 @@ La question doit être pertinente, éducative et adaptée au niveau universitair
         );
       } catch (parseError) {
         console.error("Erreur parsing JSON:", content);
-        throw new Error("Réponse IA invalide");
+        console.error("Erreur détails:", parseError);
+        
+        // Retourner une erreur plus explicite
+        return new Response(
+          JSON.stringify({ 
+            error: "Réponse IA invalide",
+            details: parseError.message,
+            rawContent: content.substring(0, 200)
+          }),
+          { 
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" } 
+          }
+        );
       }
     }
 

@@ -1339,30 +1339,55 @@
           },
           body: JSON.stringify({
             mode: "daily-question",
-            faculte: faculte || undefined,
-            model: "balanced"
+            faculte: faculte || "universitaire",
+            model: "fast"
           }),
         });
 
+        if (!res.ok) {
+          console.error("Erreur API:", res.status);
+          throw new Error("Erreur génération question");
+        }
+
         const result = await res.json();
         
-        if (result.error) throw new Error(result.error);
+        if (result.error) {
+          console.error("Erreur résultat:", result.error);
+          throw new Error(result.error);
+        }
+
+        // Vérifier que tous les champs sont présents
+        if (!result.question || !result.options || result.reponseCorrecte === undefined) {
+          console.error("Réponse incomplète:", result);
+          throw new Error("Réponse IA incomplète");
+        }
 
         // Sauvegarder la question dans la base de données
         const { data: savedQuestion, error } = await supabase
           .from('daily_questions')
           .insert({
             question_date: date,
-            faculte: faculte,
-            departement: departement,
+            faculte: faculte || '',
+            departement: departement || '',
             question: result.question,
             options: result.options,
             correct_answer: result.reponseCorrecte,
-            explication: result.explication,
+            explication: result.explication || "Pas d'explication disponible",
             matiere: result.matiere || faculte || 'Culture générale'
           })
           .select()
           .single();
+
+        if (error) {
+          console.error("Erreur sauvegarde:", error);
+          throw error;
+        }
+        return savedQuestion;
+      } catch(e) {
+        console.error("Erreur génération question:", e);
+        return null;
+      }
+    }
 
         if (error) throw error;
         return savedQuestion;
