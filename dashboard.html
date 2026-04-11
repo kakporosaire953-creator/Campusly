@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style id="body-hidden-guard">body{visibility:hidden}</style>
-  <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
   <title>Dashboard — Campusly</title>
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/theme-dark.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
   <link rel="stylesheet" href="css/interactive-buttons.css" />
+  <link rel="stylesheet" href="css/skeleton-loaders.css" />
   <style>
     /* ── XP / Niveau ── */
     .xp-bar-wrap { background:var(--surface); border-radius:var(--r-full); height:8px; overflow:hidden; margin:8px 0 4px; }
@@ -590,50 +590,61 @@
 
     let _user = null, _profile = null;
 
-    // ── Auth guard ─────────────────────────────────────────
-    document.body.style.visibility = "hidden";
-    const { data: { session: _session } } = await supabase.auth.getSession();
-    if (!_session) { window.location.replace("auth.html"); }
-    else {
-      document.body.style.visibility = "visible";
-      _user = _session.user;
+    // ── Fonction d'initialisation principale ──────────────
+    (async function initDashboard() {
+      try {
+        // ── Auth guard ─────────────────────────────────────────
+        document.body.style.visibility = "hidden";
+        const { data: { session: _session } } = await supabase.auth.getSession();
+        if (!_session) { 
+          window.location.replace("auth.html");
+          return;
+        }
+        
+        document.body.style.visibility = "visible";
+        _user = _session.user;
 
-      const { data: profile } = await supabase.from("users").select("*").eq("id", _user.id).single();
-      _profile = profile;
+        const { data: profile } = await supabase.from("users").select("*").eq("id", _user.id).single();
+        _profile = profile;
 
-      if (!_profile) {
-        // Créer le profil automatiquement (Google OAuth ou inscription sans profil)
-        const email     = _user.email || "";
-        const meta      = _user.user_metadata || {};
-        // Récupérer nom/prénom depuis les métadonnées Google ou Supabase
-        const fullName  = meta.full_name || meta.name || "";
-        const nameParts = fullName.trim().split(" ");
-        const prenom    = meta.given_name || nameParts[0] || "Utilisateur";
-        const nom       = meta.family_name || nameParts.slice(1).join(" ") || "";
-        const matricule = meta.matricule || email.split("@")[0].toUpperCase().slice(0, 12);
-        const photo_url = meta.avatar_url || meta.picture || "";
+        if (!_profile) {
+          // Créer le profil automatiquement (Google OAuth ou inscription sans profil)
+          const email     = _user.email || "";
+          const meta      = _user.user_metadata || {};
+          // Récupérer nom/prénom depuis les métadonnées Google ou Supabase
+          const fullName  = meta.full_name || meta.name || "";
+          const nameParts = fullName.trim().split(" ");
+          const prenom    = meta.given_name || nameParts[0] || "Utilisateur";
+          const nom       = meta.family_name || nameParts.slice(1).join(" ") || "";
+          const matricule = meta.matricule || email.split("@")[0].toUpperCase().slice(0, 12);
+          const photo_url = meta.avatar_url || meta.picture || "";
 
-        const newProfile = {
-          id: _user.id,
-          matricule,
-          prenom,
-          nom,
-          email,
-          faculte:     meta.faculte || "",
-          departement: meta.departement || "",
-          is_premium:  false,
-          photo_url,
-          auth_provider: _user.app_metadata?.provider || "email",
-        };
-        const { error: insertErr } = await supabase.from("users").upsert(newProfile, { onConflict: "id" });
-        if (insertErr) console.error("Erreur création profil:", insertErr);
-        _profile = newProfile;
+          const newProfile = {
+            id: _user.id,
+            matricule,
+            prenom,
+            nom,
+            email,
+            faculte:     meta.faculte || "",
+            departement: meta.departement || "",
+            is_premium:  false,
+            photo_url,
+            auth_provider: _user.app_metadata?.provider || "email",
+          };
+          const { error: insertErr } = await supabase.from("users").upsert(newProfile, { onConflict: "id" });
+          if (insertErr) console.error("Erreur création profil:", insertErr);
+          _profile = newProfile;
+        }
+
+        await renderAll();
+        checkOnboarding();
+        initAutoLogout();
+      } catch (error) {
+        console.error("Erreur initialisation dashboard:", error);
+        document.body.style.visibility = "visible";
+        showToast("Erreur de chargement. Veuillez rafraîchir la page.", "error");
       }
-
-      renderAll();
-      checkOnboarding();
-      initAutoLogout();
-    }
+    })();
 
     // ── Render tout ────────────────────────────────────────
     async function renderAll() {
@@ -1385,14 +1396,6 @@
           console.error("Erreur sauvegarde:", error);
           throw error;
         }
-        return savedQuestion;
-      } catch(e) {
-        console.error("Erreur génération question:", e);
-        return null;
-      }
-    }
-
-        if (error) throw error;
         return savedQuestion;
       } catch(e) {
         console.error("Erreur génération question:", e);
