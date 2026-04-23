@@ -1135,47 +1135,137 @@
     };
 
     // ── COMPTE À REBOURS EXAMENS ───────────────────────────
-    function loadExams() {
-      const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
-      const list  = document.getElementById("countdownList");
+    async function loadExams() {
+      const list = document.getElementById("countdownList");
       if (!list) return;
-      if (!exams.length) {
-        list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajouté. Ajoutez vos dates ci-dessous.</div>`;
-        return;
+      
+      try {
+        // Charger depuis la BDD
+        const { data: exams, error } = await supabase
+          .from("user_exams")
+          .select("*")
+          .eq("user_id", _user.id)
+          .eq("is_completed", false)
+          .order("exam_date", { ascending: true });
+        
+        if (error) throw error;
+        
+        // Fallback: charger depuis localStorage si BDD vide
+        let examsList = exams || [];
+        if (!examsList.length) {
+          const localExams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+          examsList = localExams.map(e => ({
+            id: null,
+            name: e.name,
+            exam_date: e.date,
+            matiere: null,
+            faculte: null
+          }));
+        }
+        
+        if (!examsList.length) {
+          list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajouté. Ajoutez vos dates ci-dessous.</div>`;
+          return;
+        }
+        
+        const today = new Date(); today.setHours(0,0,0,0);
+        list.innerHTML = examsList.map((ex) => {
+          const d = new Date(ex.exam_date); d.setHours(0,0,0,0);
+          const days = Math.round((d-today)/86400000);
+          const urgent = days <= 3 && days >= 0;
+          return `<div class="countdown-item">
+            <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Passé" : days+"j"}</div>
+            <div class="countdown-info">
+              <div class="countdown-name">${ex.name}</div>
+              <div class="countdown-date">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
+            </div>
+            <button class="countdown-del" onclick="deleteExam('${ex.id}')">✕</button>
+          </div>`;
+        }).join("");
+      } catch(e) {
+        console.error("Erreur chargement examens:", e);
+        // Fallback localStorage
+        const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+        if (!exams.length) {
+          list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajouté.</div>`;
+          return;
+        }
+        const today = new Date(); today.setHours(0,0,0,0);
+        list.innerHTML = exams.map((ex,i) => {
+          const d = new Date(ex.date); d.setHours(0,0,0,0);
+          const days = Math.round((d-today)/86400000);
+          const urgent = days <= 3;
+          return `<div class="countdown-item">
+            <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Passé" : days+"j"}</div>
+            <div class="countdown-info">
+              <div class="countdown-name">${ex.name}</div>
+              <div class="countdown-date">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
+            </div>
+            <button class="countdown-del" onclick="deleteExam(${i})">✕</button>
+          </div>`;
+        }).join("");
       }
-      const today = new Date(); today.setHours(0,0,0,0);
-      list.innerHTML = exams.map((ex,i) => {
-        const d    = new Date(ex.date); d.setHours(0,0,0,0);
-        const days = Math.round((d-today)/86400000);
-        const urgent = days <= 3;
-        return `<div class="countdown-item">
-          <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Passé" : days+"j"}</div>
-          <div class="countdown-info">
-            <div class="countdown-name">${ex.name}</div>
-            <div class="countdown-date">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
-          </div>
-          <button class="countdown-del" onclick="deleteExam(${i})">✕</button>
-        </div>`;
-      }).join("");
     }
-    window.addExam = function() {
+    
+    window.addExam = async function() {
       const name = document.getElementById("examName").value.trim();
       const date = document.getElementById("examDate").value;
       if (!name || !date) return showToast("Remplis le nom et la date.", "info");
-      const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
-      exams.push({name, date});
-      exams.sort((a,b) => new Date(a.date)-new Date(b.date));
-      localStorage.setItem("campusly_exams", JSON.stringify(exams));
-      document.getElementById("examName").value = "";
-      document.getElementById("examDate").value = "";
-      loadExams();
-      showToast("Examen ajouté !", "success");
+      
+      try {
+        // Sauvegarder en BDD
+        const { error } = await supabase.from("user_exams").insert({
+          user_id: _user.id,
+          name,
+          exam_date: date,
+          matiere: name,
+          faculte: _profile?.faculte || "",
+          departement: _profile?.departement || ""
+        });
+        
+        if (error) throw error;
+        
+        document.getElementById("examName").value = "";
+        document.getElementById("examDate").value = "";
+        await loadExams();
+        showToast("Examen ajouté ! 📅", "success");
+      } catch(e) {
+        console.error("Erreur ajout examen:", e);
+        // Fallback localStorage
+        const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+        exams.push({name, date});
+        exams.sort((a,b) => new Date(a.date)-new Date(b.date));
+        localStorage.setItem("campusly_exams", JSON.stringify(exams));
+        document.getElementById("examName").value = "";
+        document.getElementById("examDate").value = "";
+        loadExams();
+        showToast("Examen ajouté !", "success");
+      }
     };
-    window.deleteExam = function(i) {
-      const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
-      exams.splice(i,1);
-      localStorage.setItem("campusly_exams", JSON.stringify(exams));
-      loadExams();
+    
+    window.deleteExam = async function(examId) {
+      try {
+        if (typeof examId === 'string' && examId !== 'null' && examId !== 'undefined') {
+          // Supprimer de la BDD
+          const { error } = await supabase
+            .from("user_exams")
+            .delete()
+            .eq("id", examId);
+          
+          if (error) throw error;
+        } else {
+          // Supprimer du localStorage (fallback)
+          const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
+          exams.splice(parseInt(examId), 1);
+          localStorage.setItem("campusly_exams", JSON.stringify(exams));
+        }
+        
+        await loadExams();
+        showToast("Examen supprimé.", "info");
+      } catch(e) {
+        console.error("Erreur suppression examen:", e);
+        showToast("Erreur : " + e.message, "info");
+      }
     };
 
     // ── PLAN DE RÉVISION ───────────────────────────────────
@@ -1231,10 +1321,58 @@
       }
     };
 
-    function savePlan(plan) {
+    async function savePlan(plan) {
+      // Sauvegarder en localStorage (backup)
       localStorage.setItem("campusly_revision_plan", JSON.stringify(plan));
+      
+      // Sauvegarder en base de données
+      try {
+        const startDate = document.getElementById("planStartDate").value || new Date().toISOString().slice(0,10);
+        const hours = parseInt(document.getElementById("planHours").value || "2");
+        
+        const { error } = await supabase.from("revision_plans").insert({
+          user_id: _user.id,
+          title: "Mon plan de révision",
+          matieres: _planMatieres,
+          plan: plan,
+          start_date: startDate,
+          hours_per_day: hours,
+          progress: 0,
+          is_active: true
+        });
+        
+        if (error) console.warn("Erreur sauvegarde plan en BDD:", error);
+        else console.log("✅ Plan sauvegardé en BDD");
+      } catch(e) {
+        console.warn("Erreur sauvegarde plan:", e);
+      }
     }
-    function loadSavedPlan() {
+    
+    async function loadSavedPlan() {
+      // Essayer de charger depuis la BDD d'abord
+      try {
+        const { data: plans } = await supabase
+          .from("revision_plans")
+          .select("*")
+          .eq("user_id", _user.id)
+          .eq("is_active", true)
+          .order("created_at", { ascending: false })
+          .limit(1);
+        
+        if (plans && plans.length > 0) {
+          const savedPlan = plans[0];
+          _planMatieres = savedPlan.matieres || [{nom:"",dateExamen:""}];
+          renderPlan(savedPlan.plan);
+          document.getElementById("planSetupCard").style.display = "none";
+          document.getElementById("planResult").style.display = "block";
+          console.log("✅ Plan chargé depuis BDD");
+          return;
+        }
+      } catch(e) {
+        console.warn("Erreur chargement plan BDD:", e);
+      }
+      
+      // Fallback: charger depuis localStorage
       const saved = localStorage.getItem("campusly_revision_plan");
       if (!saved) return;
       try {
@@ -1242,6 +1380,7 @@
         renderPlan(plan);
         document.getElementById("planSetupCard").style.display = "none";
         document.getElementById("planResult").style.display = "block";
+        console.log("✅ Plan chargé depuis localStorage");
       } catch(e) {}
     }
     window.resetPlan = function() {
@@ -1633,31 +1772,104 @@
     async function loadGroups() {
       const el = document.getElementById("groupsList");
       if (!el) return;
-      const { data: groups } = await supabase.from("groups").select("*").order("created_at", { ascending:false }).limit(20);
-      if (!groups?.length) { el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Aucun groupe. Créez le premier !</p>`; return; }
-      el.innerHTML = groups.map(g => `
-        <div class="group-item">
-          <div class="group-icon">👥</div>
-          <div class="group-name">${g.name}</div>
-          <div class="group-count">${g.members||1} membre${(g.members||1)>1?"s":""}</div>
-          <button class="btn btn-outline btn-sm" onclick="joinGroup('${g.id}')">Rejoindre</button>
-        </div>`).join("");
+      
+      try {
+        const { data: groups, error } = await supabase
+          .from("groups")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(20);
+        
+        if (error) throw error;
+        
+        if (!groups?.length) {
+          el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Aucun groupe. Créez le premier !</p>`;
+          return;
+        }
+        
+        el.innerHTML = groups.map(g => `
+          <div class="group-item">
+            <div class="group-icon">👥</div>
+            <div style="flex:1;">
+              <div class="group-name">${g.name}</div>
+              ${g.faculte ? `<div style="font-size:0.72rem;color:var(--text-3);margin-top:2px;">${g.faculte}</div>` : ""}
+            </div>
+            <div class="group-count">${g.members||1} membre${(g.members||1)>1?"s":""}</div>
+            <button class="btn btn-outline btn-sm" onclick="joinGroup('${g.id}')">Rejoindre</button>
+          </div>`).join("");
+      } catch(e) {
+        console.error("Erreur chargement groupes:", e);
+        el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Erreur de chargement.</p>`;
+      }
     }
+    
     window.createGroup = async function() {
       const name = document.getElementById("groupName").value.trim();
       if (!name) return showToast("Entrez un nom de groupe.", "info");
-      const { error } = await supabase.from("groups").insert({ name, created_by: _user.id, members: 1 });
-      if (!error) {
+      
+      try {
+        const { error } = await supabase.from("groups").insert({
+          name,
+          faculte: _profile?.faculte || "",
+          created_by: _user.id,
+          members: 1
+        });
+        
+        if (error) throw error;
+        
         document.getElementById("groupName").value = "";
-        loadGroups();
-        showToast("Groupe créé !", "success");
-      } else { showToast("Erreur : "+error.message, "info"); }
+        await loadGroups();
+        showToast("Groupe créé ! 👥", "success");
+      } catch(e) {
+        console.error("Erreur création groupe:", e);
+        showToast("Erreur : " + e.message, "info");
+      }
     };
-    window.joinGroup = async function(id) {
-      const { data } = await supabase.from("groups").select("members").eq("id", id).single();
-      await supabase.from("groups").update({ members: (data?.members||1) + 1 }).eq("id", id);
-      loadGroups();
-      showToast("Vous avez rejoint le groupe !", "success");
+    
+    window.joinGroup = async function(groupId) {
+      try {
+        // Vérifier si déjà membre
+        const { data: existing } = await supabase
+          .from("group_members")
+          .select("*")
+          .eq("group_id", groupId)
+          .eq("user_id", _user.id)
+          .single();
+        
+        if (existing) {
+          showToast("Vous êtes déjà membre de ce groupe.", "info");
+          return;
+        }
+        
+        // Ajouter comme membre
+        const { error: memberError } = await supabase
+          .from("group_members")
+          .insert({
+            group_id: groupId,
+            user_id: _user.id,
+            role: "member"
+          });
+        
+        if (memberError) throw memberError;
+        
+        // Incrémenter le compteur de membres
+        const { data: group } = await supabase
+          .from("groups")
+          .select("members")
+          .eq("id", groupId)
+          .single();
+        
+        await supabase
+          .from("groups")
+          .update({ members: (group?.members || 1) + 1 })
+          .eq("id", groupId);
+        
+        await loadGroups();
+        showToast("Vous avez rejoint le groupe ! 🎉", "success");
+      } catch(e) {
+        console.error("Erreur rejoindre groupe:", e);
+        showToast("Erreur : " + e.message, "info");
+      }
     };
 
     // ── NOTIFICATIONS PUSH PWA ─────────────────────────────
