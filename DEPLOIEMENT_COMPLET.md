@@ -118,7 +118,7 @@ supabase functions list
 # Via Supabase Dashboard → Settings → Secrets
 
 # 1. GROQ_API_KEY
-# Valeur: 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
+# Valeur: gsk_VOTRE_CLE_GROQ_ICI
 
 # 2. FLUTTERWAVE_SECRET_KEY
 # Valeur: FLWSECK_TEST-votre-cle-secrete (Test)

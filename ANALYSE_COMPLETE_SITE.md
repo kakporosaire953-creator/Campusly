@@ -60,8 +60,9 @@
 
 **Solution Requise** :
 ```bash
-# Lire le fichier complet
-readFile dashboard.html start_line=484 end_line=1729
+# Configurer la clé dans Supabase Secrets
+# Dashboard → Settings → Secrets
+# Ajouter : GROQ_API_KEY = gsk_VOTRE_CLE_ICI
 ```
 
 ---
