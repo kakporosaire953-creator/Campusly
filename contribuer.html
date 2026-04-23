@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style id="body-hidden-guard">body{visibility:hidden}</style>
   <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
-  <title>Contribuer — Campusly</title>
-  <link rel="stylesheet" href="css/modern.css" />
+  <title>Contribuer � Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />`n  <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -80,8 +80,8 @@
     <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
   </a>
   <ul class="nav-links">
-    <li><a href="epreuves.html">Épreuves</a></li>
-    <li><a href="revision.html">Révision IA</a></li>
+    <li><a href="epreuves.html">�preuves</a></li>
+    <li><a href="revision.html">R�vision IA</a></li>
     <li><a href="chatbot.html">Assistant IA</a></li>
     <li><a href="forum.html">Forum</a></li>
     <li><a href="contribuer.html" style="color:var(--brand-3);">Contribuer</a></li>
@@ -94,8 +94,8 @@
 <main class="contrib-main">
   <div class="contrib-header">
     <div class="contrib-header-inner">
-      <h1>📤 Contribuer à Campusly</h1>
-      <p>Partagez vos épreuves avec la communauté UAC. Chaque contribution aide des milliers d'étudiants à mieux préparer leurs examens.</p>
+      <h1><i class="fas fa-upload"></i> Contribuer � Campusly</h1>
+      <p>Partagez vos �preuves avec la communaut� UAC. Chaque contribution aide des milliers d'�tudiants � mieux pr�parer leurs examens.</p>
     </div>
   </div>
 
@@ -104,36 +104,36 @@
     <div class="upload-card">
       <h2>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Soumettre une épreuve
+        Soumettre une �preuve
       </h2>
 
       <div id="uploadForm">
-        <!-- Zone de dépôt -->
+        <!-- Zone de d�p�t -->
         <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-          <div class="drop-zone-icon">📄</div>
+          <div class="drop-zone-icon">??</div>
           <h3>Glissez votre fichier ici</h3>
-          <p>ou cliquez pour sélectionner · PDF, DOC, DOCX, JPG, PNG · Max 10 MB</p>
+          <p>ou cliquez pour s�lectionner � PDF, DOC, DOCX, JPG, PNG � Max 10 MB</p>
           <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
         </div>
 
-        <!-- Aperçu fichier -->
+        <!-- Aper�u fichier -->
         <div class="file-preview" id="filePreview" style="display:none;">
-          <div class="file-preview-icon">📄</div>
-          <div class="file-preview-name" id="fileName">—</div>
-          <div class="file-preview-size" id="fileSize">—</div>
-          <button class="file-remove" onclick="removeFile()" title="Supprimer">✕</button>
+          <div class="file-preview-icon">??</div>
+          <div class="file-preview-name" id="fileName">�</div>
+          <div class="file-preview-size" id="fileSize">�</div>
+          <button class="file-remove" onclick="removeFile()" title="Supprimer"><i class="fas fa-times"></i></button>
         </div>
 
-        <!-- Infos épreuve -->
+        <!-- Infos �preuve -->
         <div class="form-grid">
           <div class="form-group">
-            <label class="form-label">Titre de l'épreuve *</label>
-            <input type="text" id="epTitre" class="form-input" placeholder="Ex : Microéconomie I — Examen final" />
+            <label class="form-label">Titre de l'�preuve *</label>
+            <input type="text" id="epTitre" class="form-input" placeholder="Ex : Micro�conomie I � Examen final" />
           </div>
           <div class="form-group">
-            <label class="form-label">Faculté *</label>
+            <label class="form-label">Facult� *</label>
             <select id="epFaculte" class="form-select">
-              <option value="">Sélectionner</option>
+              <option value="">S�lectionner</option>
               <option value="FASEG">FASEG</option>
               <option value="FADESP">FADESP</option>
               <option value="FAST">FAST</option>
@@ -147,13 +147,13 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Département / Filière</label>
-            <input type="text" id="epDept" class="form-input" placeholder="Ex : Économie, Informatique…" />
+            <label class="form-label">D�partement / Fili�re</label>
+            <input type="text" id="epDept" class="form-input" placeholder="Ex : �conomie, Informatique�" />
           </div>
           <div class="form-group">
             <label class="form-label">Semestre *</label>
             <select id="epSemestre" class="form-select">
-              <option value="">Sélectionner</option>
+              <option value="">S�lectionner</option>
               <option value="S1">S1</option><option value="S2">S2</option>
               <option value="S3">S3</option><option value="S4">S4</option>
               <option value="S5">S5</option><option value="S6">S6</option>
@@ -161,9 +161,9 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Année académique *</label>
+            <label class="form-label">Ann�e acad�mique *</label>
             <select id="epAnnee" class="form-select">
-              <option value="">Sélectionner</option>
+              <option value="">S�lectionner</option>
               <option value="2024">2024</option>
               <option value="2023">2023</option>
               <option value="2022">2022</option>
@@ -189,27 +189,27 @@
         </div>
 
         <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="submitEpreuve()" id="submitBtn">
-          📤 Soumettre l'épreuve
+          <i class="fas fa-upload"></i> Soumettre l'�preuve
         </button>
         <p style="text-align:center;font-size:0.78rem;color:var(--text-3);margin-top:10px;">
-          Votre contribution sera vérifiée avant publication. Merci pour votre aide ! 🙏
+          Votre contribution sera v�rifi�e avant publication. Merci pour votre aide ! ??
         </p>
       </div>
 
-      <!-- Message succès -->
+      <!-- Message succ�s -->
       <div class="success-msg" id="successMsg">
-        <div class="success-icon">🎉</div>
-        <h3>Épreuve soumise avec succès !</h3>
-        <p>Merci pour votre contribution. Elle sera vérifiée et publiée sous 24h.</p>
-        <button class="btn btn-primary" style="margin-top:20px;" onclick="resetForm()">Soumettre une autre épreuve</button>
+        <div class="success-icon">??</div>
+        <h3>�preuve soumise avec succ�s !</h3>
+        <p>Merci pour votre contribution. Elle sera v�rifi�e et publi�e sous 24h.</p>
+        <button class="btn btn-primary" style="margin-top:20px;" onclick="resetForm()">Soumettre une autre �preuve</button>
       </div>
     </div>
 
     <!-- Mes contributions -->
     <div class="contrib-list">
-      <h2>📋 Mes contributions</h2>
+      <h2><i class="fas fa-clipboard-list"></i> Mes contributions</h2>
       <div id="myContributions">
-        <div class="empty-state"><div class="empty-icon">📂</div><p>Aucune contribution pour l'instant.</p></div>
+        <div class="empty-state"><div class="empty-icon">??</div><p>Aucune contribution pour l'instant.</p></div>
       </div>
     </div>
   </div>
@@ -235,14 +235,14 @@
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
+      <button onclick="doLogout()" class="btn btn-outline btn-sm">D�connexion</button>`;
     loadMyContributions();
     initAutoLogout();
   });
 
   window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
 
-  // ── Drag & Drop ──────────────────────────────────────────
+  // -- Drag & Drop ------------------------------------------
   const dropZone = document.getElementById("dropZone");
   dropZone.addEventListener("dragover",  e => { e.preventDefault(); dropZone.classList.add("dragover"); });
   dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
@@ -258,7 +258,7 @@
   function handleFile(f) {
     const maxSize = 10 * 1024 * 1024; // 10 MB
     const allowed = ["application/pdf","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","image/jpeg","image/png"];
-    if (!allowed.includes(f.type)) { showToast("Format non supporté. PDF, DOC, DOCX, JPG, PNG uniquement.", "info"); return; }
+    if (!allowed.includes(f.type)) { showToast("Format non support�. PDF, DOC, DOCX, JPG, PNG uniquement.", "info"); return; }
     if (f.size > maxSize) { showToast("Fichier trop volumineux. Maximum 10 MB.", "info"); return; }
     _file = f;
     document.getElementById("dropZone").style.display = "none";
@@ -274,7 +274,7 @@
     document.getElementById("fileInput").value = "";
   };
 
-  // ── Soumission ───────────────────────────────────────────
+  // -- Soumission -------------------------------------------
   window.submitEpreuve = async function() {
     const titre    = document.getElementById("epTitre").value.trim();
     const faculte  = document.getElementById("epFaculte").value;
@@ -283,14 +283,14 @@
     const annee    = document.getElementById("epAnnee").value;
     const type     = document.getElementById("epType").value;
 
-    if (!_file)    { showToast("Veuillez sélectionner un fichier.", "info"); return; }
+    if (!_file)    { showToast("Veuillez s�lectionner un fichier.", "info"); return; }
     if (!titre)    { showToast("Le titre est requis.", "info"); return; }
-    if (!faculte)  { showToast("La faculté est requise.", "info"); return; }
+    if (!faculte)  { showToast("La facult� est requise.", "info"); return; }
     if (!semestre) { showToast("Le semestre est requis.", "info"); return; }
-    if (!annee)    { showToast("L'année est requise.", "info"); return; }
+    if (!annee)    { showToast("L'ann�e est requise.", "info"); return; }
 
     const btn = document.getElementById("submitBtn");
-    btn.disabled = true; btn.textContent = "Upload en cours…";
+    btn.disabled = true; btn.textContent = "Upload en cours�";
 
     const progressWrap = document.getElementById("progressWrap");
     const progressFill = document.getElementById("progressFill");
@@ -330,8 +330,8 @@
 
     } catch (err) {
       console.error(err);
-      showToast("Erreur lors de l'upload. Réessayez.", "info");
-      btn.disabled = false; btn.textContent = "📤 Soumettre l'épreuve";
+      showToast("Erreur lors de l'upload. R�essayez.", "info");
+      btn.disabled = false; btn.textContent = "<i class="fas fa-upload"></i> Soumettre l'�preuve";
       progressWrap.style.display = "none";
     }
   };
@@ -347,7 +347,7 @@
     document.getElementById("epFaculte").value = "";
     document.getElementById("epDept").value = "";
     document.getElementById("submitBtn").disabled = false;
-    document.getElementById("submitBtn").textContent = "📤 Soumettre l'épreuve";
+    document.getElementById("submitBtn").textContent = "<i class="fas fa-upload"></i> Soumettre l'�preuve";
     document.getElementById("progressFill").style.width = "0%";
   };
 
@@ -361,18 +361,18 @@
 
     const el = document.getElementById("myContributions");
     if (!data?.length) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><p>Aucune contribution pour l'instant.</p></div>`;
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">??</div><p>Aucune contribution pour l'instant.</p></div>`;
       return;
     }
     el.innerHTML = data.map(c => {
       const statusClass = c.status === "approved" ? "status-approved" : "status-pending";
-      const statusLabel = c.status === "approved" ? "✓ Publié" : "⏳ En attente";
+      const statusLabel = c.status === "approved" ? "<i class="fas fa-check"></i> Publi�" : "? En attente";
       return `
         <div class="contrib-item">
-          <div class="contrib-item-icon">📄</div>
+          <div class="contrib-item-icon">??</div>
           <div class="contrib-item-info">
             <div class="contrib-item-title">${c.titre}</div>
-            <div class="contrib-item-meta">${c.faculte} · ${c.annee}</div>
+            <div class="contrib-item-meta">${c.faculte} � ${c.annee}</div>
           </div>
           <span class="contrib-item-status ${statusClass}">${statusLabel}</span>
         </div>`;

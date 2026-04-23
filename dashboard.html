@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — Campusly</title>
+  <title>Dashboard � Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/theme-dark.css" />
@@ -12,19 +13,19 @@
   <link rel="stylesheet" href="css/interactive-buttons.css" />
   <link rel="stylesheet" href="css/skeleton-loaders.css" />
   <style>
-    /* ── XP / Niveau ── */
+    /* -- XP / Niveau -- */
     .xp-bar-wrap { background:var(--surface); border-radius:var(--r-full); height:8px; overflow:hidden; margin:8px 0 4px; }
     .xp-bar-fill { height:100%; background:linear-gradient(90deg,#6C63FF,#38BDF8); border-radius:var(--r-full); transition:width 0.6s ease; }
     .xp-label { font-size:0.72rem; color:var(--text-3); display:flex; justify-content:space-between; }
     .level-badge { display:inline-flex; align-items:center; gap:5px; background:linear-gradient(135deg,#6C63FF,#38BDF8); color:#fff; font-size:0.72rem; font-weight:700; padding:3px 10px; border-radius:var(--r-full); margin-top:6px; }
 
-    /* ── Streak ── */
+    /* -- Streak -- */
     .streak-card { background:linear-gradient(135deg,rgba(245,124,0,0.15),rgba(255,152,0,0.08)); border:1px solid rgba(245,124,0,0.3); border-radius:var(--r-xl); padding:16px 20px; display:flex; align-items:center; gap:16px; margin-bottom:16px; }
     .streak-fire { font-size:2rem; }
     .streak-count { font-size:1.8rem; font-weight:900; color:#F57C00; line-height:1; }
     .streak-label { font-size:0.78rem; color:var(--text-2); margin-top:2px; }
 
-    /* ── Badges ── */
+    /* -- Badges -- */
     .badges-grid { display:flex; flex-wrap:wrap; gap:10px; }
     .badge-item { display:flex; flex-direction:column; align-items:center; gap:4px; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-xl); min-width:80px; transition:all var(--t-fast) var(--ease); }
     .badge-item.unlocked { background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(56,189,248,0.1)); border-color:rgba(108,99,255,0.4); }
@@ -32,7 +33,7 @@
     .badge-icon { font-size:1.6rem; }
     .badge-name { font-size:0.68rem; font-weight:700; color:var(--text-2); text-align:center; }
 
-    /* ── Compte à rebours examens ── */
+    /* -- Compte � rebours examens -- */
     .countdown-list { display:flex; flex-direction:column; gap:10px; }
     .countdown-item { display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); }
     .countdown-days { font-size:1.4rem; font-weight:900; color:var(--brand-1); min-width:48px; text-align:center; }
@@ -45,7 +46,7 @@
     .add-exam-form { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; padding-top:16px; border-top:1px solid var(--border); }
     .add-exam-form input { flex:1; min-width:140px; }
 
-    /* ── Plan de révision ── */
+    /* -- Plan de r�vision -- */
     .plan-week { margin-bottom:20px; }
     .plan-week-title { font-size:0.78rem; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; padding:0 4px; }
     .plan-day { display:flex; align-items:flex-start; gap:12px; padding:12px 14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); margin-bottom:8px; transition:all var(--t-fast) var(--ease); }
@@ -58,10 +59,10 @@
     .plan-progress-bar { height:6px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:20px; }
     .plan-progress-fill { height:100%; background:linear-gradient(90deg,#6C63FF,#38BDF8); border-radius:999px; transition:width 0.5s ease; }
 
-    /* ── Confetti canvas ── */
+    /* -- Confetti canvas -- */
     #confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; display:none; }
 
-    /* ── Leaderboard ── */
+    /* -- Leaderboard -- */
     .lb-row { display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:var(--r-md); margin-bottom:8px; background:var(--surface); border:1px solid var(--border); transition:all var(--t-fast) var(--ease); }
     .lb-row.me { background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(56,189,248,0.1)); border-color:rgba(108,99,255,0.4); }
     .lb-rank { font-size:1.1rem; font-weight:900; min-width:32px; text-align:center; }
@@ -71,7 +72,7 @@
     .lb-faculty { font-size:0.72rem; color:var(--text-3); }
     .lb-score { font-size:1rem; font-weight:800; color:var(--brand-3); }
 
-    /* ── Groupes ── */
+    /* -- Groupes -- */
     .group-item { display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); margin-bottom:8px; }
     .group-icon { font-size:1.4rem; }
     .group-name { flex:1; font-size:0.875rem; font-weight:600; color:var(--text-1); }
@@ -105,12 +106,12 @@
         <div class="sidebar-avatar">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <div id="userName" class="sidebar-profile-name">Chargement…</div>
+        <div id="userName" class="sidebar-profile-name">Chargement�</div>
         <div id="userMatricule" class="sidebar-profile-sub"></div>
         <div id="premiumStatus" style="margin-top:8px;"></div>
         <!-- XP / Niveau -->
         <div style="margin-top:12px;">
-          <div class="level-badge" id="levelBadge">⭐ Niveau 1</div>
+          <div class="level-badge" id="levelBadge"><i class="fas fa-star"></i> Niveau 1</div>
           <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div></div>
           <div class="xp-label"><span id="xpCurrent">0 XP</span><span id="xpNext">100 XP</span></div>
         </div>
@@ -136,11 +137,11 @@
         <div class="sidebar-label">Ressources</div>
         <a class="sidebar-link" href="epreuves.html">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          Épreuves
+          �preuves
         </a>
         <a class="sidebar-link" href="revision.html">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          Révision IA
+          R�vision IA
           <span class="sidebar-badge">Nouveau</span>
         </a>
         <a class="sidebar-link" href="chatbot.html">
@@ -175,7 +176,7 @@
         </a>
         <a class="sidebar-link" data-section="planning" href="#">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          Plan de révision
+          Plan de r�vision
           <span class="sidebar-badge" style="background:var(--grad-accent);">IA</span>
         </a>
         <a class="sidebar-link" data-section="leaderboard" href="#">
@@ -188,7 +189,7 @@
         </a>
         <a class="sidebar-link sidebar-link-danger" href="#" onclick="logout()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          Déconnexion
+          D�connexion
         </a>
       </div>
     </aside>
@@ -199,20 +200,20 @@
       <!-- ACCUEIL -->
       <div class="dash-section" id="section-accueil">
         <div class="page-header">
-          <button id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('show')" aria-label="Menu">☰</button>
+          <button id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('show')" aria-label="Menu">?</button>
           <div>
             <div class="page-title" id="welcomeMsg">Tableau de bord</div>
-          <div class="page-subtitle" id="welcomeSub">Votre espace académique personnel</div>
+          <div class="page-subtitle" id="welcomeSub">Votre espace acad�mique personnel</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:8px;" id="welcomeDate"></div>
           </div>
         </div>
 
         <!-- Streak -->
         <div class="streak-card" id="streakCard">
-          <div class="streak-fire">🔥</div>
+          <div class="streak-fire"><i class="fas fa-fire"></i></div>
           <div>
             <div class="streak-count" id="streakCount">0</div>
-            <div class="streak-label">jours de révision consécutifs</div>
+            <div class="streak-label">jours de r�vision cons�cutifs</div>
           </div>
           <div style="margin-left:auto;font-size:0.78rem;color:var(--text-3);" id="streakMsg"></div>
         </div>
@@ -221,7 +222,7 @@
         <div class="card" id="dailyQuestionCard" style="margin-bottom:20px;background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(56,189,248,0.08));border-color:rgba(108,99,255,0.3);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:1.4rem;">🧠</span>
+              <span style="font-size:1.4rem;"><i class="fas fa-brain"></i></span>
               <div>
                 <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Question du jour</div>
                 <div style="font-size:0.72rem;color:var(--text-3);" id="dqMeta">Chargement...</div>
@@ -232,7 +233,7 @@
           <div id="dqContent" style="min-height:60px;">
             <div style="display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:0.85rem;">
               <div style="width:16px;height:16px;border:2px solid var(--border-2);border-top-color:#6C63FF;border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0;"></div>
-              Génération de votre question...
+              G�n�ration de votre question...
             </div>
           </div>
         </div>
@@ -244,7 +245,7 @@
             </div>
             <div>
               <div class="stat-card-value" id="statDownloads">0</div>
-              <div class="stat-card-label">Téléchargements</div>
+              <div class="stat-card-label">T�l�chargements</div>
             </div>
           </div>
           <div class="stat-card">
@@ -262,7 +263,7 @@
             </div>
             <div>
               <div class="stat-card-value" id="statQuiz">0</div>
-              <div class="stat-card-label">Quiz complétés</div>
+              <div class="stat-card-label">Quiz compl�t�s</div>
             </div>
           </div>
           <div class="stat-card">
@@ -277,16 +278,16 @@
         </div>
 
         <div class="card" style="margin-bottom:24px;">
-          <h3 class="card-title">Accès rapide</h3>
+          <h3 class="card-title">Acc�s rapide</h3>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a href="epreuves.html" class="btn btn-primary">Parcourir les épreuves</a>
-            <a href="revision.html" class="btn btn-accent">Révision IA</a>
+            <a href="epreuves.html" class="btn btn-primary">Parcourir les �preuves</a>
+            <a href="revision.html" class="btn btn-accent">R�vision IA</a>
           </div>
         </div>
 
         <div class="card">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <h3 class="card-title" style="margin:0;">Derniers téléchargements</h3>
+            <h3 class="card-title" style="margin:0;">Derniers t�l�chargements</h3>
             <a href="#" onclick="showSection('historique')" class="link-primary">Voir tout</a>
           </div>
           <div id="historyPreview"></div>
@@ -297,7 +298,7 @@
       <div class="dash-section" id="section-historique" style="display:none;">
         <div class="page-header">
           <div class="page-title">Historique</div>
-          <div class="page-subtitle">Toutes vos épreuves téléchargées</div>
+          <div class="page-subtitle">Toutes vos �preuves t�l�charg�es</div>
         </div>
         <div class="card"><div id="historyList"></div></div>
       </div>
@@ -306,7 +307,7 @@
       <div class="dash-section" id="section-favoris" style="display:none;">
         <div class="page-header">
           <div class="page-title">Favoris</div>
-          <div class="page-subtitle">Vos épreuves sauvegardées</div>
+          <div class="page-subtitle">Vos �preuves sauvegard�es</div>
         </div>
         <div class="card"><div id="favoritesList"></div></div>
       </div>
@@ -315,7 +316,7 @@
       <div class="dash-section" id="section-abonnement" style="display:none;">
         <div class="page-header">
           <div class="page-title">Abonnement Premium</div>
-          <div class="page-subtitle">Débloquez l'accès complet — MTN MoMo, Moov Money, carte bancaire</div>
+          <div class="page-subtitle">D�bloquez l'acc�s complet � MTN MoMo, Moov Money, carte bancaire</div>
         </div>
 
         <!-- Statut actuel -->
@@ -327,21 +328,21 @@
             <div class="pricing-duration">1 Semaine</div>
             <div class="pricing-price">500 <span>FCFA</span></div>
             <ul class="pricing-features">
-              <li><span class="check">✓</span> Accès illimité aux épreuves</li>
-              <li><span class="check">✓</span> Quiz IA illimités</li>
-              <li><span class="check">✓</span> Assistant IA GPT</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Acc�s illimit� aux �preuves</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Quiz IA illimit�s</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Assistant IA GPT</li>
             </ul>
             <button class="btn btn-outline" style="width:100%;" onclick="startPayment(500,7,'1 Semaine')">Choisir</button>
           </div>
           <div class="pricing-card popular">
-            <div class="popular-badge">⭐ Recommandé</div>
+            <div class="popular-badge"><i class="fas fa-star"></i> Recommand�</div>
             <div class="pricing-duration">1 Mois</div>
             <div class="pricing-price">1 500 <span>FCFA</span></div>
             <ul class="pricing-features">
-              <li><span class="check">✓</span> Accès illimité aux épreuves</li>
-              <li><span class="check">✓</span> Quiz IA illimités</li>
-              <li><span class="check">✓</span> Assistant IA GPT</li>
-              <li><span class="check">✓</span> Support prioritaire</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Acc�s illimit� aux �preuves</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Quiz IA illimit�s</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Assistant IA GPT</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Support prioritaire</li>
             </ul>
             <button class="btn btn-primary" style="width:100%;" onclick="startPayment(1500,30,'1 Mois')">Choisir</button>
           </div>
@@ -349,14 +350,14 @@
             <div class="pricing-duration">3 Mois</div>
             <div class="pricing-price">3 500 <span>FCFA</span></div>
             <ul class="pricing-features">
-              <li><span class="check">✓</span> Tout du plan 1 mois</li>
-              <li><span class="check">✓</span> Économisez 1 000 FCFA</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> Tout du plan 1 mois</li>
+              <li><span class="check"><i class="fas fa-check"></i></span> �conomisez 1 000 FCFA</li>
             </ul>
             <button class="btn btn-outline" style="width:100%;" onclick="startPayment(3500,90,'3 Mois')">Choisir</button>
           </div>
         </div>
         <p style="text-align:center;font-size:0.78rem;color:var(--text-3);margin-top:16px;">
-          Paiement sécurisé via <strong>FedaPay</strong> — MTN Mobile Money · Moov Money · Carte bancaire
+          Paiement s�curis� via <strong>FedaPay</strong> � MTN Mobile Money � Moov Money � Carte bancaire
         </p>
       </div>
 
@@ -371,7 +372,7 @@
           <div style="display:flex;align-items:center;gap:20px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);">
             <div style="position:relative;cursor:pointer;" onclick="document.getElementById('photoInput').click()">
               <div id="profileAvatarImg" style="width:72px;height:72px;border-radius:50%;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:1.8rem;font-weight:700;color:#fff;"></div>
-              <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;">✏️</div>
+              <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;"><i class="fas fa-edit"></i></div>
             </div>
             <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="uploadPhoto(this)" />
             <div>
@@ -380,10 +381,10 @@
               <div id="profilePremium" style="margin-top:4px;"></div>
             </div>
           </div>
-          <!-- Formulaire édition -->
+          <!-- Formulaire �dition -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
             <div class="form-group" style="margin:0;">
-              <label class="form-label">Prénom</label>
+              <label class="form-label">Pr�nom</label>
               <input type="text" id="editPrenom" class="form-input" style="margin:0;" />
             </div>
             <div class="form-group" style="margin:0;">
@@ -396,9 +397,9 @@
             <input type="text" id="editMatricule" class="form-input" maxlength="8" />
           </div>
           <div class="form-group" style="margin-bottom:14px;">
-            <label class="form-label">Faculté</label>
+            <label class="form-label">Facult�</label>
             <select id="editFaculte" class="form-select">
-              <option value="">Sélectionner</option>
+              <option value="">S�lectionner</option>
               <option value="FASEG">FASEG</option><option value="FADESP">FADESP</option>
               <option value="FAST">FAST</option><option value="FSS">FSS</option>
               <option value="FSA">FSA</option><option value="FASHS">FASHS</option>
@@ -407,16 +408,16 @@
             </select>
           </div>
           <div class="form-group" style="margin-bottom:24px;">
-            <label class="form-label">Département / Filière</label>
+            <label class="form-label">D�partement / Fili�re</label>
             <input type="text" id="editDept" class="form-input" placeholder="Ex : Informatique" />
           </div>
-          <button class="btn btn-primary" style="width:100%;" onclick="saveProfile()">💾 Enregistrer les modifications</button>
+          <button class="btn btn-primary" style="width:100%;" onclick="saveProfile()"><i class="fas fa-save"></i> Enregistrer les modifications</button>
           <!-- Danger zone -->
           <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
             <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:12px;">Zone dangereuse</p>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
-              <button onclick="doLogout()" class="btn btn-outline btn-sm" style="color:var(--text-2);">Se déconnecter</button>
-              <button onclick="confirmDeleteAccount()" class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);">🗑️ Supprimer mon compte</button>
+              <button onclick="doLogout()" class="btn btn-outline btn-sm" style="color:var(--text-2);">Se d�connecter</button>
+              <button onclick="confirmDeleteAccount()" class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);"><i class="fas fa-trash"></i> Supprimer mon compte</button>
             </div>
           </div>
         </div>
@@ -426,16 +427,16 @@
       <div class="dash-section" id="section-badges" style="display:none;">
         <div class="page-header">
           <div class="page-title">Badges & XP</div>
-          <div class="page-subtitle">Votre progression et vos récompenses</div>
+          <div class="page-subtitle">Votre progression et vos r�compenses</div>
         </div>
         <div class="card" style="margin-bottom:20px;">
           <h3 class="card-title">Votre niveau</h3>
-          <div class="level-badge" id="levelBadgeBig" style="font-size:1rem;padding:6px 16px;">⭐ Niveau 1</div>
+          <div class="level-badge" id="levelBadgeBig" style="font-size:1rem;padding:6px 16px;"><i class="fas fa-star"></i> Niveau 1</div>
           <div class="xp-bar-wrap" style="height:12px;margin:12px 0 6px;"><div class="xp-bar-fill" id="xpBarFillBig" style="width:0%"></div></div>
           <div class="xp-label"><span id="xpCurrentBig">0 XP</span><span id="xpNextBig">100 XP</span></div>
         </div>
         <div class="card">
-          <h3 class="card-title">Badges débloqués</h3>
+          <h3 class="card-title">Badges d�bloqu�s</h3>
           <div class="badges-grid" id="badgesGrid"></div>
         </div>
       </div>
@@ -443,50 +444,50 @@
       <!-- LEADERBOARD -->
       <div class="dash-section" id="section-leaderboard" style="display:none;">
         <div class="page-header">
-          <div class="page-title">🏆 Classement</div>
-          <div class="page-subtitle">Les étudiants les plus actifs de Campusly</div>
+          <div class="page-title"><i class="fas fa-trophy"></i> Classement</div>
+          <div class="page-subtitle">Les �tudiants les plus actifs de Campusly</div>
         </div>
         <div class="card" style="margin-bottom:16px;">
           <div style="display:flex;gap:8px;margin-bottom:20px;">
-            <button class="btn btn-primary btn-sm" onclick="loadLeaderboard('xp')" id="lbXpBtn">⭐ XP</button>
-            <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('quiz')" id="lbQuizBtn">🎯 Quiz</button>
-            <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('streak')" id="lbStreakBtn">🔥 Streak</button>
+            <button class="btn btn-primary btn-sm" onclick="loadLeaderboard('xp')" id="lbXpBtn"><i class="fas fa-star"></i> XP</button>
+            <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('quiz')" id="lbQuizBtn"><i class="fas fa-bullseye"></i> Quiz</button>
+            <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('streak')" id="lbStreakBtn"><i class="fas fa-fire"></i> Streak</button>
           </div>
           <div id="leaderboardList"></div>
         </div>
-        <!-- Groupes d'étude -->
+        <!-- Groupes d'�tude -->
         <div class="card">
-          <h3 class="card-title">👥 Groupes d'étude</h3>
+          <h3 class="card-title"><i class="fas fa-users"></i> Groupes d'�tude</h3>
           <div id="groupsList" style="margin-bottom:16px;"></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--border);">
             <input type="text" id="groupName" class="form-input" placeholder="Nom du groupe (ex: FASEG S3)" style="flex:1;margin:0;" />
-            <button class="btn btn-primary" onclick="createGroup()">+ Créer</button>
+            <button class="btn btn-primary" onclick="createGroup()">+ Cr�er</button>
           </div>
         </div>
       </div>
 
-      <!-- PLAN DE RÉVISION IA -->
+      <!-- PLAN DE R�VISION IA -->
       <div class="dash-section" id="section-planning" style="display:none;">
         <div class="page-header">
-          <div class="page-title">📋 Plan de révision</div>
-          <div class="page-subtitle">Votre planning personnalisé généré par IA</div>
+          <div class="page-title"><i class="fas fa-clipboard-list"></i> Plan de r�vision</div>
+          <div class="page-subtitle">Votre planning personnalis� g�n�r� par IA</div>
         </div>
 
-        <!-- Formulaire de création -->
+        <!-- Formulaire de cr�ation -->
         <div class="card" id="planSetupCard" style="margin-bottom:20px;">
-          <h3 class="card-title">Créer mon plan de révision</h3>
+          <h3 class="card-title">Cr�er mon plan de r�vision</h3>
           <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:20px;line-height:1.6;">
-            Entrez vos matières et vos dates d'examens. L'IA génère un planning jour par jour adapté à votre emploi du temps.
+            Entrez vos mati�res et vos dates d'examens. L'IA g�n�re un planning jour par jour adapt� � votre emploi du temps.
           </p>
           <div id="planMatieres" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
-          <button class="btn btn-ghost btn-sm" onclick="addMatiere()" style="margin-bottom:20px;">+ Ajouter une matière</button>
+          <button class="btn btn-ghost btn-sm" onclick="addMatiere()" style="margin-bottom:20px;">+ Ajouter une mati�re</button>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
             <div class="form-group" style="flex:1;min-width:180px;margin:0;">
-              <label class="form-label">Date de début</label>
+              <label class="form-label">Date de d�but</label>
               <input type="date" id="planStartDate" class="form-input" style="margin:0;" />
             </div>
             <div class="form-group" style="flex:1;min-width:180px;margin:0;">
-              <label class="form-label">Heures de révision/jour</label>
+              <label class="form-label">Heures de r�vision/jour</label>
               <select id="planHours" class="form-select" style="margin:0;">
                 <option value="1">1h par jour</option>
                 <option value="2" selected>2h par jour</option>
@@ -496,11 +497,11 @@
             </div>
           </div>
           <button class="btn btn-accent" style="width:100%;margin-top:16px;" onclick="generatePlan()" id="generatePlanBtn">
-            ✨ Générer mon plan IA
+            <i class="fas fa-sparkles"></i> G�n�rer mon plan IA
           </button>
         </div>
 
-        <!-- Plan généré -->
+        <!-- Plan g�n�r� -->
         <div id="planResult" style="display:none;">
           <div class="card" style="margin-bottom:16px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
@@ -508,22 +509,22 @@
               <span id="planProgressLabel" style="font-size:0.82rem;color:var(--text-3);">0%</span>
             </div>
             <div class="plan-progress-bar"><div class="plan-progress-fill" id="planProgressFill" style="width:0%"></div></div>
-            <button class="btn btn-ghost btn-sm" onclick="resetPlan()">↺ Recréer un plan</button>
+            <button class="btn btn-ghost btn-sm" onclick="resetPlan()"><i class="fas fa-redo"></i> Recr�er un plan</button>
           </div>
           <div id="planWeeks"></div>
         </div>
       </div>
 
-      <!-- COMPTE À REBOURS EXAMENS -->
+      <!-- COMPTE � REBOURS EXAMENS -->
       <div class="dash-section" id="section-examens" style="display:none;">
         <div class="page-header">
           <div class="page-title">Mes examens</div>
-          <div class="page-subtitle">Compte à rebours avant vos épreuves</div>
+          <div class="page-subtitle">Compte � rebours avant vos �preuves</div>
         </div>
         <div class="card">
           <div class="countdown-list" id="countdownList"></div>
           <div class="add-exam-form">
-            <input type="text" id="examName" class="form-input" placeholder="Nom de l'examen (ex: Microéconomie)" style="margin:0;" />
+            <input type="text" id="examName" class="form-input" placeholder="Nom de l'examen (ex: Micro�conomie)" style="margin:0;" />
             <input type="date" id="examDate" class="form-input" style="margin:0;max-width:180px;" />
             <button class="btn btn-primary" onclick="addExam()">+ Ajouter</button>
           </div>
@@ -539,30 +540,30 @@
   <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;padding:16px;">
     <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:36px;max-width:480px;width:100%;text-align:center;">
       <div id="onboardingStep1">
-        <div style="font-size:3rem;margin-bottom:16px;">🎓</div>
+        <div style="font-size:3rem;margin-bottom:16px;"><i class="fas fa-graduation-cap"></i></div>
         <h2 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Bienvenue sur Campusly !</h2>
-        <p style="color:var(--text-2);line-height:1.7;margin-bottom:24px;">La plateforme académique des étudiants de l'UAC. Voici comment tirer le meilleur parti de Campusly.</p>
+        <p style="color:var(--text-2);line-height:1.7;margin-bottom:24px;">La plateforme acad�mique des �tudiants de l'UAC. Voici comment tirer le meilleur parti de Campusly.</p>
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:left;">
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
-            <span style="font-size:1.4rem;">📚</span>
-            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">Épreuves</div><div style="color:var(--text-3);font-size:0.78rem;">Accédez à des centaines d'anciennes épreuves classées par faculté.</div></div>
+            <span style="font-size:1.4rem;"><i class="fas fa-book"></i></span>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">�preuves</div><div style="color:var(--text-3);font-size:0.78rem;">Acc�dez � des centaines d'anciennes �preuves class�es par facult�.</div></div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
-            <span style="font-size:1.4rem;">🤖</span>
-            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">Révision IA</div><div style="color:var(--text-3);font-size:0.78rem;">Générez des quiz personnalisés avec GPT-4o-mini.</div></div>
+            <span style="font-size:1.4rem;"><i class="fas fa-robot"></i></span>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">R�vision IA</div><div style="color:var(--text-3);font-size:0.78rem;">G�n�rez des quiz personnalis�s avec GPT-4o-mini.</div></div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
-            <span style="font-size:1.4rem;">🏆</span>
-            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">XP & Badges</div><div style="color:var(--text-3);font-size:0.78rem;">Gagnez des points en révisant et débloquez des badges.</div></div>
+            <span style="font-size:1.4rem;"><i class="fas fa-trophy"></i></span>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">XP & Badges</div><div style="color:var(--text-3);font-size:0.78rem;">Gagnez des points en r�visant et d�bloquez des badges.</div></div>
           </div>
         </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="nextOnboarding()">Commencer →</button>
+        <button class="btn btn-primary" style="width:100%;" onclick="nextOnboarding()">Commencer <i class="fas fa-arrow-right"></i></button>
       </div>
       <div id="onboardingStep2" style="display:none;">
-        <div style="font-size:3rem;margin-bottom:16px;">✏️</div>
-        <h2 style="font-size:1.3rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Complétez votre profil</h2>
-        <p style="color:var(--text-2);line-height:1.7;margin-bottom:20px;">Ajoutez votre matricule et votre faculté pour une expérience personnalisée.</p>
-        <button class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="showSection('profil');closeOnboarding()">Compléter mon profil</button>
+        <div style="font-size:3rem;margin-bottom:16px;"><i class="fas fa-edit"></i></div>
+        <h2 style="font-size:1.3rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Compl�tez votre profil</h2>
+        <p style="color:var(--text-2);line-height:1.7;margin-bottom:20px;">Ajoutez votre matricule et votre facult� pour une exp�rience personnalis�e.</p>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="showSection('profil');closeOnboarding()">Compl�ter mon profil</button>
         <button class="btn btn-ghost" style="width:100%;" onclick="closeOnboarding()">Plus tard</button>
       </div>
     </div>
@@ -577,7 +578,7 @@
 
     const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
 
-    // ── Toast ──────────────────────────────────────────────
+    // -- Toast ----------------------------------------------
     function showToast(msg, type = "info") {
       let t = document.getElementById("toast");
       if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }
@@ -585,15 +586,15 @@
       clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
     }
 
-    // ── Plans ──────────────────────────────────────────────
-    // (paiement désactivé temporairement)
+    // -- Plans ----------------------------------------------
+    // (paiement d�sactiv� temporairement)
 
     let _user = null, _profile = null;
 
-    // ── Fonction d'initialisation principale ──────────────
+    // -- Fonction d'initialisation principale --------------
     (async function initDashboard() {
       try {
-        // ── Auth guard ─────────────────────────────────────────
+        // -- Auth guard -----------------------------------------
         document.body.style.visibility = "hidden";
         const { data: { session: _session } } = await supabase.auth.getSession();
         if (!_session) { 
@@ -608,10 +609,10 @@
         _profile = profile;
 
         if (!_profile) {
-          // Créer le profil automatiquement (Google OAuth ou inscription sans profil)
+          // Cr�er le profil automatiquement (Google OAuth ou inscription sans profil)
           const email     = _user.email || "";
           const meta      = _user.user_metadata || {};
-          // Récupérer nom/prénom depuis les métadonnées Google ou Supabase
+          // R�cup�rer nom/pr�nom depuis les m�tadonn�es Google ou Supabase
           const fullName  = meta.full_name || meta.name || "";
           const nameParts = fullName.trim().split(" ");
           const prenom    = meta.given_name || nameParts[0] || "Utilisateur";
@@ -632,7 +633,7 @@
             auth_provider: _user.app_metadata?.provider || "email",
           };
           const { error: insertErr } = await supabase.from("users").upsert(newProfile, { onConflict: "id" });
-          if (insertErr) console.error("Erreur création profil:", insertErr);
+          if (insertErr) console.error("Erreur cr�ation profil:", insertErr);
           _profile = newProfile;
         }
 
@@ -642,11 +643,11 @@
       } catch (error) {
         console.error("Erreur initialisation dashboard:", error);
         document.body.style.visibility = "visible";
-        showToast("Erreur de chargement. Veuillez rafraîchir la page.", "error");
+        showToast("Erreur de chargement. Veuillez rafra�chir la page.", "error");
       }
     })();
 
-    // ── Render tout ────────────────────────────────────────
+    // -- Render tout ----------------------------------------
     async function renderAll() {
       renderUserInfo();
       renderNav();
@@ -668,18 +669,18 @@
       loadLeaderboard("xp");
       loadGroups();
       initSidebar();
-      initCharts(); // ← graphiques
+      initCharts(); // <i class="fas fa-arrow-left"></i> graphiques
       const hash = window.location.hash.replace("#","");
       if (hash) showSection(hash);
     }
 
-    // ── Graphiques Chart.js ────────────────────────────────
+    // -- Graphiques Chart.js --------------------------------
     async function initCharts() {
       const isDark = !document.documentElement.classList.contains('theme-light');
       const textColor = isDark ? 'rgba(176,208,240,0.7)' : 'rgba(42,74,107,0.7)';
       const gridColor = isDark ? 'rgba(21,101,192,0.1)' : 'rgba(21,101,192,0.08)';
 
-      // Récupérer les quiz des 7 derniers jours
+      // R�cup�rer les quiz des 7 derniers jours
       const since = new Date(); since.setDate(since.getDate() - 6);
       const { data: quizData } = await supabase
         .from("quiz_results")
@@ -690,7 +691,7 @@
 
       const results = quizData || [];
 
-      // ── Courbe quiz par jour ──────────────────────────────
+      // -- Courbe quiz par jour ------------------------------
       const days = Array.from({length:7}, (_,i) => {
         const d = new Date(); d.setDate(d.getDate() - (6-i));
         return d.toLocaleDateString('fr-FR', {weekday:'short'});
@@ -731,7 +732,7 @@
         });
       }
 
-      // ── Donut score moyen ─────────────────────────────────
+      // -- Donut score moyen ---------------------------------
       const avgScore = results.length
         ? Math.round(results.reduce((a,r) => a + (r.score/r.total)*100, 0) / results.length)
         : 0;
@@ -772,7 +773,7 @@
         });
       }
 
-      // ── Barres progression par matière ────────────────────
+      // -- Barres progression par mati�re --------------------
       const sujets = [...new Set(results.map(r => r.sujet))].slice(0, 5);
       const scores = sujets.map(s => {
         const sr = results.filter(r => r.sujet === s);
@@ -783,7 +784,7 @@
         new Chart(ctx3, {
           type: 'bar',
           data: {
-            labels: sujets.length ? sujets : ['Aucune donnée'],
+            labels: sujets.length ? sujets : ['Aucune donn�e'],
             datasets: [{
               label: 'Score %',
               data: sujets.length ? scores : [0],
@@ -804,13 +805,13 @@
       }
     }
 
-    // ── Navbar ─────────────────────────────────────────────
+    // -- Navbar ---------------------------------------------
     function renderNav() {
       const el = document.getElementById("navActions");
       if (!el) return;
       el.innerHTML = `
         <span style="font-size:0.875rem;font-weight:600;color:#1565C0;">${_profile.prenom || _profile.matricule}</span>
-        <button onclick="doLogout()" class="btn btn-ghost btn-sm">Déconnexion</button>`;
+        <button onclick="doLogout()" class="btn btn-ghost btn-sm">D�connexion</button>`;
     }
 
     window.doLogout = async () => {
@@ -819,7 +820,7 @@
     };
     window.logout = window.doLogout;
 
-    // ── Infos utilisateur ──────────────────────────────────
+    // -- Infos utilisateur ----------------------------------
     function renderUserInfo() {
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || ""; };
       const name = `${_profile.prenom||""} ${_profile.nom||""}`.trim() || _profile.matricule;
@@ -828,15 +829,15 @@
 
       // Message de bienvenue dynamique selon l'heure
       const hour = new Date().getHours();
-      const greeting = hour < 12 ? "Bonjour" : hour < 18 ? "Bon après-midi" : "Bonsoir";
-      set("welcomeMsg", `${greeting}, ${_profile.prenom || _profile.matricule} 👋`);
+      const greeting = hour < 12 ? "Bonjour" : hour < 18 ? "Bon apr�s-midi" : "Bonsoir";
+      set("welcomeMsg", `${greeting}, ${_profile.prenom || _profile.matricule} ??`);
 
-      // Sous-titre motivant aléatoire
+      // Sous-titre motivant al�atoire
       const subs = [
-        "Prêt à réviser aujourd'hui ?",
+        "Pr�t � r�viser aujourd'hui ?",
         "Votre prochaine session vous attend.",
-        "Continuez sur votre lancée !",
-        "Chaque révision vous rapproche du succès.",
+        "Continuez sur votre lanc�e !",
+        "Chaque r�vision vous rapproche du succ�s.",
       ];
       const subEl = document.getElementById("welcomeSub");
       if (subEl) subEl.textContent = subs[Math.floor(Math.random() * subs.length)];
@@ -845,7 +846,7 @@
       const dateEl = document.getElementById("welcomeDate");
       if (dateEl) {
         const today = new Date().toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
-        dateEl.innerHTML = `<span style="font-size:0.78rem;color:var(--text-3);background:var(--surface);padding:3px 10px;border-radius:999px;border:1px solid var(--border);">📅 ${today.charAt(0).toUpperCase()+today.slice(1)}</span>
+        dateEl.innerHTML = `<span style="font-size:0.78rem;color:var(--text-3);background:var(--surface);padding:3px 10px;border-radius:999px;border:1px solid var(--border);">?? ${today.charAt(0).toUpperCase()+today.slice(1)}</span>
           ${_profile.faculte ? `<span style="font-size:0.78rem;color:var(--brand-3);background:rgba(21,101,192,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(21,101,192,0.2);">${_profile.faculte}</span>` : ""}`;
       }
 
@@ -867,7 +868,7 @@
         sideAvatar.innerHTML = `<img src="${_profile.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
       }
 
-      // Pré-remplir formulaire édition
+      // Pr�-remplir formulaire �dition
       const setVal = (id, val) => { const el=document.getElementById(id); if(el) el.value = val||""; };
       setVal("editPrenom",    _profile.prenom);
       setVal("editNom",       _profile.nom);
@@ -879,7 +880,7 @@
       const premEl  = document.getElementById("premiumStatus");
       if (premEl) {
         premEl.innerHTML = premium
-          ? `<span class="premium-badge">⭐ Premium actif</span>`
+          ? `<span class="premium-badge"><i class="fas fa-star"></i> Premium actif</span>`
           : `<span style="color:var(--text-3);font-size:0.85rem;">Compte gratuit</span>`;
       }
       const pPrem = document.getElementById("profilePremium");
@@ -893,7 +894,7 @@
       return new Date(_profile.premium_expiry) > new Date();
     }
 
-    // ── Stats ──────────────────────────────────────────────
+    // -- Stats ----------------------------------------------
     async function renderStats() {
       try {
         const [{ count: dlCount }, { count: favCount }, { count: qzCount }] = await Promise.all([
@@ -912,7 +913,7 @@
       } catch(e) { console.error("Stats:", e); }
     }
 
-    // ── Historique ─────────────────────────────────────────
+    // -- Historique -----------------------------------------
     async function renderHistory() {
       try {
         const { data: items } = await supabase.from("history").select("*").eq("user_id", _user.id).order("created_at", { ascending:false }).limit(50);
@@ -924,37 +925,37 @@
       const el = document.getElementById(containerId);
       if (!el) return;
       if (!items.length) {
-        el.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><p>Aucun téléchargement.</p><a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:12px;">Consulter les épreuves</a></div>`;
+        el.innerHTML = `<div class="empty-state"><div class="empty-icon">??</div><p>Aucun t�l�chargement.</p><a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:12px;">Consulter les �preuves</a></div>`;
         return;
       }
       el.innerHTML = items.slice(0,limit).map(item => `
         <div class="history-row">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span class="history-row-title">${item.titre || "Épreuve"}</span>
+          <span class="history-row-title">${item.titre || "�preuve"}</span>
           <span class="history-row-date">${item.created_at ? new Date(item.created_at).toLocaleDateString("fr-FR") : ""}</span>
         </div>`).join("");
     }
 
-    // ── Favoris ────────────────────────────────────────────
+    // -- Favoris --------------------------------------------
     async function renderFavorites() {
       try {
         const { data: favs } = await supabase.from("favorites").select("epreuve_id").eq("user_id", _user.id);
         const el = document.getElementById("favoritesList");
         if (!el) return;
         if (!favs?.length) {
-          el.innerHTML = `<div class="empty-state"><div class="empty-icon">⭐</div><h3>Aucun favori</h3><a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:16px;">Parcourir les épreuves</a></div>`;
+          el.innerHTML = `<div class="empty-state"><div class="empty-icon"><i class="fas fa-star"></i></div><h3>Aucun favori</h3><a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:16px;">Parcourir les �preuves</a></div>`;
           return;
         }
         el.innerHTML = favs.map(f => `
           <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface);border-radius:var(--r-md);margin-bottom:10px;">
-            <span style="font-size:1.2rem;">⭐</span>
+            <span style="font-size:1.2rem;"><i class="fas fa-star"></i></span>
             <div style="flex:1;font-weight:600;font-size:0.9rem;color:var(--text-1);">${f.epreuve_id}</div>
             <a href="epreuves.html" class="btn btn-primary btn-sm">Voir</a>
           </div>`).join("");
       } catch(e) { console.error("Favorites:", e); }
     }
 
-    // ── Sidebar ────────────────────────────────────────────
+    // -- Sidebar --------------------------------------------
     function initSidebar() {
       document.querySelectorAll(".sidebar-link[data-section]").forEach(link => {
         link.addEventListener("click", e => { e.preventDefault(); showSection(link.dataset.section); });
@@ -978,27 +979,27 @@
       if (e.target.classList.contains("modal-overlay")) e.target.classList.remove("show");
     });
 
-    // ── Misc ───────────────────────────────────────────────
+    // -- Misc -----------------------------------------------
     window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
 
-    // ── ÉDITION PROFIL ─────────────────────────────────────
+    // -- �DITION PROFIL -------------------------------------
     window.saveProfile = async function() {
       const prenom = document.getElementById("editPrenom").value.trim();
       const nom    = document.getElementById("editNom").value.trim();
       const mat    = document.getElementById("editMatricule").value.trim();
       const fac    = document.getElementById("editFaculte").value;
       const dept   = document.getElementById("editDept").value.trim();
-      if (!prenom || !nom) return showToast("Prénom et nom requis.", "info");
+      if (!prenom || !nom) return showToast("Pr�nom et nom requis.", "info");
       if (mat && !/^\d{8}$/.test(mat)) return showToast("Matricule invalide (8 chiffres).", "info");
       const { error } = await supabase.from("users").update({ prenom, nom, matricule: mat||_profile.matricule, faculte: fac, departement: dept }).eq("id", _user.id);
       if (!error) {
         _profile = { ..._profile, prenom, nom, matricule: mat||_profile.matricule, faculte: fac, departement: dept };
         renderUserInfo();
-        showToast("Profil mis à jour !", "success");
+        showToast("Profil mis � jour !", "success");
       } else { showToast("Erreur : " + error.message, "info"); }
     };
 
-    // ── PHOTO DE PROFIL ────────────────────────────────────
+    // -- PHOTO DE PROFIL ------------------------------------
     window.uploadPhoto = async function(input) {
       const file = input.files[0];
       if (!file) return;
@@ -1010,15 +1011,15 @@
         if (!error) {
           _profile.photo_url = dataUrl;
           renderUserInfo();
-          showToast("Photo mise à jour !", "success");
+          showToast("Photo mise � jour !", "success");
         } else { showToast("Erreur upload : " + error.message, "info"); }
       };
       reader.readAsDataURL(file);
     };
 
-    // ── SUPPRESSION COMPTE ─────────────────────────────────
+    // -- SUPPRESSION COMPTE ---------------------------------
     window.confirmDeleteAccount = function() {
-      if (!confirm("Supprimer définitivement votre compte ? Cette action est irréversible.")) return;
+      if (!confirm("Supprimer d�finitivement votre compte ? Cette action est irr�versible.")) return;
       deleteAccount();
     };
     async function deleteAccount() {
@@ -1026,13 +1027,13 @@
         await supabase.from("users").delete().eq("id", _user.id);
         await supabase.auth.admin?.deleteUser(_user.id);
         await supabase.auth.signOut();
-        showToast("Compte supprimé.", "info");
+        showToast("Compte supprim�.", "info");
         setTimeout(() => window.location.href = "index.html", 1200);
       } catch(e) {
-        showToast("Erreur : " + e.message + " — Reconnectez-vous d'abord.", "info");
+        showToast("Erreur : " + e.message + " � Reconnectez-vous d'abord.", "info");
       }
     }
-    // ── XP & NIVEAUX ───────────────────────────────────────
+    // -- XP & NIVEAUX ---------------------------------------
     const XP_LEVELS = [0,100,250,500,900,1500,2500,4000,6000,10000];
     function getLevel(xp) {
       let lvl = 1;
@@ -1044,8 +1045,8 @@
       const cur   = XP_LEVELS[lvl-1] || 0;
       const next  = XP_LEVELS[lvl]   || XP_LEVELS[XP_LEVELS.length-1];
       const pct   = Math.min(100, Math.round(((xp - cur) / (next - cur)) * 100));
-      const names = ["","Débutant","Curieux","Studieux","Assidu","Expert","Maître","Champion","Légende","Dieu du savoir"];
-      const label = `⭐ Niv. ${lvl} — ${names[lvl]||""}`;
+      const names = ["","D�butant","Curieux","Studieux","Assidu","Expert","Ma�tre","Champion","L�gende","Dieu du savoir"];
+      const label = `<i class="fas fa-star"></i> Niv. ${lvl} � ${names[lvl]||""}`;
       ["levelBadge","levelBadgeBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=label; });
       ["xpBarFill","xpBarFillBig"].forEach(id => { const el=document.getElementById(id); if(el) el.style.width=pct+"%"; });
       ["xpCurrent","xpCurrentBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=xp+" XP"; });
@@ -1058,16 +1059,16 @@
       return cur + amount;
     }
 
-    // ── BADGES ─────────────────────────────────────────────
+    // -- BADGES ---------------------------------------------
     const ALL_BADGES = [
-      { id:"first_dl",    icon:"📥", name:"1er téléchargement",  check: (s) => s.downloads >= 1  },
-      { id:"dl10",        icon:"📚", name:"10 téléchargements",  check: (s) => s.downloads >= 10 },
-      { id:"first_quiz",  icon:"🎯", name:"1er quiz",            check: (s) => s.quizzes  >= 1  },
-      { id:"quiz10",      icon:"🧠", name:"10 quiz complétés",   check: (s) => s.quizzes  >= 10 },
-      { id:"streak3",     icon:"🔥", name:"Streak 3 jours",      check: (s) => s.streak   >= 3  },
-      { id:"streak7",     icon:"⚡", name:"Streak 7 jours",      check: (s) => s.streak   >= 7  },
-      { id:"contrib",     icon:"🤝", name:"Contributeur",        check: (s) => s.contribs >= 1  },
-      { id:"level5",      icon:"🏆", name:"Niveau 5",            check: (s) => s.level    >= 5  },
+      { id:"first_dl",    icon:"??", name:"1er t�l�chargement",  check: (s) => s.downloads >= 1  },
+      { id:"dl10",        icon:"<i class="fas fa-book"></i>", name:"10 t�l�chargements",  check: (s) => s.downloads >= 10 },
+      { id:"first_quiz",  icon:"<i class="fas fa-bullseye"></i>", name:"1er quiz",            check: (s) => s.quizzes  >= 1  },
+      { id:"quiz10",      icon:"<i class="fas fa-brain"></i>", name:"10 quiz compl�t�s",   check: (s) => s.quizzes  >= 10 },
+      { id:"streak3",     icon:"<i class="fas fa-fire"></i>", name:"Streak 3 jours",      check: (s) => s.streak   >= 3  },
+      { id:"streak7",     icon:"?", name:"Streak 7 jours",      check: (s) => s.streak   >= 7  },
+      { id:"contrib",     icon:"??", name:"Contributeur",        check: (s) => s.contribs >= 1  },
+      { id:"level5",      icon:"<i class="fas fa-trophy"></i>", name:"Niveau 5",            check: (s) => s.level    >= 5  },
     ];
     function renderBadges(stats) {
       const grid = document.getElementById("badgesGrid");
@@ -1081,14 +1082,14 @@
       }).join("");
     }
 
-    // ── STREAK ─────────────────────────────────────────────
+    // -- STREAK ---------------------------------------------
     function updateStreak(profile) {
       const today     = new Date().toISOString().slice(0,10);
       const lastVisit = profile.last_visit || "";
       const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
       let streak = profile.streak || 0;
       if (lastVisit === today) {
-        // déjà visité aujourd'hui
+        // d�j� visit� aujourd'hui
       } else if (lastVisit === yesterday) {
         streak++;
         supabase.from("users").update({ streak, last_visit: today }).eq("id", _user.id);
@@ -1099,11 +1100,11 @@
       const el = document.getElementById("streakCount");
       if (el) el.textContent = streak;
       const msg = document.getElementById("streakMsg");
-      if (msg) msg.textContent = streak >= 7 ? "🏆 Incroyable !" : streak >= 3 ? "💪 Continue !" : "Révise chaque jour !";
+      if (msg) msg.textContent = streak >= 7 ? "<i class="fas fa-trophy"></i> Incroyable !" : streak >= 3 ? "?? Continue !" : "R�vise chaque jour !";
       return streak;
     }
 
-    // ── CONFETTI ───────────────────────────────────────────
+    // -- CONFETTI -------------------------------------------
     window.launchConfetti = function() {
       const canvas = document.getElementById("confettiCanvas");
       if (!canvas) return;
@@ -1134,7 +1135,7 @@
       draw();
     };
 
-    // ── COMPTE À REBOURS EXAMENS ───────────────────────────
+    // -- COMPTE � REBOURS EXAMENS ---------------------------
     async function loadExams() {
       const list = document.getElementById("countdownList");
       if (!list) return;
@@ -1164,7 +1165,7 @@
         }
         
         if (!examsList.length) {
-          list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajouté. Ajoutez vos dates ci-dessous.</div>`;
+          list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajout�. Ajoutez vos dates ci-dessous.</div>`;
           return;
         }
         
@@ -1174,12 +1175,12 @@
           const days = Math.round((d-today)/86400000);
           const urgent = days <= 3 && days >= 0;
           return `<div class="countdown-item">
-            <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Passé" : days+"j"}</div>
+            <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Pass�" : days+"j"}</div>
             <div class="countdown-info">
               <div class="countdown-name">${ex.name}</div>
               <div class="countdown-date">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
             </div>
-            <button class="countdown-del" onclick="deleteExam('${ex.id}')">✕</button>
+            <button class="countdown-del" onclick="deleteExam('${ex.id}')"><i class="fas fa-times"></i></button>
           </div>`;
         }).join("");
       } catch(e) {
@@ -1187,7 +1188,7 @@
         // Fallback localStorage
         const exams = JSON.parse(localStorage.getItem("campusly_exams")||"[]");
         if (!exams.length) {
-          list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajouté.</div>`;
+          list.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-3);font-size:0.875rem;">Aucun examen ajout�.</div>`;
           return;
         }
         const today = new Date(); today.setHours(0,0,0,0);
@@ -1196,12 +1197,12 @@
           const days = Math.round((d-today)/86400000);
           const urgent = days <= 3;
           return `<div class="countdown-item">
-            <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Passé" : days+"j"}</div>
+            <div class="countdown-days ${urgent?"urgent":""}">${days < 0 ? "Pass�" : days+"j"}</div>
             <div class="countdown-info">
               <div class="countdown-name">${ex.name}</div>
               <div class="countdown-date">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
             </div>
-            <button class="countdown-del" onclick="deleteExam(${i})">✕</button>
+            <button class="countdown-del" onclick="deleteExam(${i})"><i class="fas fa-times"></i></button>
           </div>`;
         }).join("");
       }
@@ -1228,7 +1229,7 @@
         document.getElementById("examName").value = "";
         document.getElementById("examDate").value = "";
         await loadExams();
-        showToast("Examen ajouté ! 📅", "success");
+        showToast("Examen ajout� ! ??", "success");
       } catch(e) {
         console.error("Erreur ajout examen:", e);
         // Fallback localStorage
@@ -1239,7 +1240,7 @@
         document.getElementById("examName").value = "";
         document.getElementById("examDate").value = "";
         loadExams();
-        showToast("Examen ajouté !", "success");
+        showToast("Examen ajout� !", "success");
       }
     };
     
@@ -1261,14 +1262,14 @@
         }
         
         await loadExams();
-        showToast("Examen supprimé.", "info");
+        showToast("Examen supprim�.", "info");
       } catch(e) {
         console.error("Erreur suppression examen:", e);
         showToast("Erreur : " + e.message, "info");
       }
     };
 
-    // ── PLAN DE RÉVISION ───────────────────────────────────
+    // -- PLAN DE R�VISION -----------------------------------
     let _planMatieres = [{ nom: "", dateExamen: "" }];
 
     function renderPlanForm() {
@@ -1276,13 +1277,13 @@
       if (!container) return;
       container.innerHTML = _planMatieres.map((m, i) => `
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <input type="text" value="${m.nom}" placeholder="Matière (ex: Microéconomie)"
+          <input type="text" value="${m.nom}" placeholder="Mati�re (ex: Micro�conomie)"
             class="form-input" style="flex:1;min-width:160px;margin:0;"
             oninput="_planMatieres[${i}].nom=this.value" />
           <input type="date" value="${m.dateExamen}"
             class="form-input" style="max-width:160px;margin:0;"
             oninput="_planMatieres[${i}].dateExamen=this.value" />
-          ${_planMatieres.length > 1 ? `<button onclick="removeMatiere(${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:1.1rem;padding:4px;">✕</button>` : ""}
+          ${_planMatieres.length > 1 ? `<button onclick="removeMatiere(${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:1.1rem;padding:4px;"><i class="fas fa-times"></i></button>` : ""}
         </div>`).join("");
     }
     window.addMatiere    = () => { _planMatieres.push({nom:"",dateExamen:""}); renderPlanForm(); };
@@ -1290,34 +1291,34 @@
 
     window.generatePlan = async function() {
       const matieres = _planMatieres.filter(m => m.nom.trim() && m.dateExamen);
-      if (!matieres.length) return showToast("Ajoutez au moins une matière avec une date d'examen.", "info");
+      if (!matieres.length) return showToast("Ajoutez au moins une mati�re avec une date d'examen.", "info");
       const startDate = document.getElementById("planStartDate").value || new Date().toISOString().slice(0,10);
       const hours     = parseInt(document.getElementById("planHours").value || "2");
       const btn       = document.getElementById("generatePlanBtn");
-      btn.disabled = true; btn.textContent = "Génération en cours...";
+      btn.disabled = true; btn.textContent = "G�n�ration en cours...";
       try {
         const { data: { session } } = await supabase.auth.getSession();
         const res = await fetch(`${EDGE_BASE}/chat-ai`, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
           body: JSON.stringify({
-            messages: [{ role: "user", content: `Génère un plan de révision pour ces matières : ${matieres.map(m=>`${m.nom} (examen le ${m.dateExamen})`).join(", ")}. Date de début : ${startDate}. ${hours}h par jour. Réponds avec un JSON : [{"label":"Semaine du...","days":[{"date":"YYYY-MM-DD","tasks":"..."}]}]` }],
+            messages: [{ role: "user", content: `G�n�re un plan de r�vision pour ces mati�res : ${matieres.map(m=>`${m.nom} (examen le ${m.dateExamen})`).join(", ")}. Date de d�but : ${startDate}. ${hours}h par jour. R�ponds avec un JSON : [{"label":"Semaine du...","days":[{"date":"YYYY-MM-DD","tasks":"..."}]}]` }],
             mode: "chat"
           }),
         });
         const result = await res.json();
         let plan;
-        try { plan = JSON.parse(result.content); } catch(e) { throw new Error("Réponse IA invalide"); }
+        try { plan = JSON.parse(result.content); } catch(e) { throw new Error("R�ponse IA invalide"); }
         if (!Array.isArray(plan)) plan = plan.plan || plan.semaines || [];
         savePlan(plan);
         renderPlan(plan);
         document.getElementById("planSetupCard").style.display = "none";
         document.getElementById("planResult").style.display = "block";
-        showToast("Plan de révision créé ! 📋", "success");
+        showToast("Plan de r�vision cr<i class="fas fa-trophy"></i> ! <i class="fas fa-clipboard-list"></i>", "success");
       } catch(e) {
         showToast("Erreur : " + e.message, "info");
       } finally {
-        btn.disabled = false; btn.textContent = "✨ Générer mon plan IA";
+        btn.disabled = false; btn.textContent = "<i class="fas fa-sparkles"></i> G�n�rer mon plan IA";
       }
     };
 
@@ -1325,14 +1326,14 @@
       // Sauvegarder en localStorage (backup)
       localStorage.setItem("campusly_revision_plan", JSON.stringify(plan));
       
-      // Sauvegarder en base de données
+      // Sauvegarder en base de donn�es
       try {
         const startDate = document.getElementById("planStartDate").value || new Date().toISOString().slice(0,10);
         const hours = parseInt(document.getElementById("planHours").value || "2");
         
         const { error } = await supabase.from("revision_plans").insert({
           user_id: _user.id,
-          title: "Mon plan de révision",
+          title: "Mon plan de r�vision",
           matieres: _planMatieres,
           plan: plan,
           start_date: startDate,
@@ -1342,7 +1343,7 @@
         });
         
         if (error) console.warn("Erreur sauvegarde plan en BDD:", error);
-        else console.log("✅ Plan sauvegardé en BDD");
+        else console.log("? Plan sauvegard� en BDD");
       } catch(e) {
         console.warn("Erreur sauvegarde plan:", e);
       }
@@ -1365,7 +1366,7 @@
           renderPlan(savedPlan.plan);
           document.getElementById("planSetupCard").style.display = "none";
           document.getElementById("planResult").style.display = "block";
-          console.log("✅ Plan chargé depuis BDD");
+          console.log("? Plan charg� depuis BDD");
           return;
         }
       } catch(e) {
@@ -1380,7 +1381,7 @@
         renderPlan(plan);
         document.getElementById("planSetupCard").style.display = "none";
         document.getElementById("planResult").style.display = "block";
-        console.log("✅ Plan chargé depuis localStorage");
+        console.log("? Plan charg� depuis localStorage");
       } catch(e) {}
     }
     window.resetPlan = function() {
@@ -1400,26 +1401,26 @@
       const fillEl   = document.getElementById("planProgressFill");
       const labelEl  = document.getElementById("planProgressLabel");
       if (fillEl)  fillEl.style.width  = pct + "%";
-      if (labelEl) labelEl.textContent = pct + "% complété";
+      if (labelEl) labelEl.textContent = pct + "% compl�t�";
 
       const container = document.getElementById("planWeeks");
       if (!container) return;
       container.innerHTML = plan.map((week, wi) => `
         <div class="plan-week">
-          <div class="plan-week-title">Semaine ${wi+1} — ${week.label||""}</div>
+          <div class="plan-week-title">Semaine ${wi+1} � ${week.label||""}</div>
           ${week.days.map(day => {
             const isToday   = day.date === today;
             const isDone    = !!checked[day.date];
             const isPast    = day.date < today && !isDone;
             return `<div class="plan-day ${isDone?"done":""} ${isToday?"today":""}">
               <div class="plan-day-check ${isDone?"checked":""}" onclick="togglePlanDay('${day.date}')">
-                ${isDone ? "✓" : ""}
+                ${isDone ? "<i class="fas fa-check"></i>" : ""}
               </div>
               <div style="flex:1;">
-                <div class="plan-day-date">${new Date(day.date+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${isToday?" · <strong style='color:#6C63FF;'>Aujourd'hui</strong>":""}</div>
+                <div class="plan-day-date">${new Date(day.date+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${isToday?" � <strong style='color:#6C63FF;'>Aujourd'hui</strong>":""}</div>
                 <div class="plan-day-tasks">${day.tasks}</div>
               </div>
-              ${isPast ? '<span style="font-size:0.72rem;color:var(--danger);">Manqué</span>' : ""}
+              ${isPast ? '<span style="font-size:0.72rem;color:var(--danger);">Manqu�</span>' : ""}
             </div>`;
           }).join("")}
         </div>`).join("");
@@ -1432,21 +1433,21 @@
       localStorage.setItem("campusly_plan_checked", JSON.stringify(checked));
       const plan = JSON.parse(localStorage.getItem("campusly_revision_plan") || "[]");
       renderPlan(plan);
-      if (checked[date]) showToast("Session validée ! +15 XP 💪", "success");
+      if (checked[date]) showToast("Session valid�e ! +15 XP ??", "success");
     };
 
-    // Initialiser le formulaire et charger le plan sauvegardé
+    // Initialiser le formulaire et charger le plan sauvegard�
     renderPlanForm();
     loadSavedPlan();
 
-    // ── QUESTION DU JOUR ───────────────────────────────────
+    // -- QUESTION DU JOUR -----------------------------------
     async function loadDailyQuestion() {
       try {
         const today = new Date().toISOString().slice(0, 10);
         const faculte = _profile?.faculte || '';
         const departement = _profile?.departement || '';
 
-        // Vérifier si une question existe déjà pour aujourd'hui et cette filière
+        // V�rifier si une question existe d�j� pour aujourd'hui et cette fili�re
         let { data: existingQuestion } = await supabase
           .from('daily_questions')
           .select('*')
@@ -1455,13 +1456,13 @@
           .eq('departement', departement)
           .single();
 
-        // Si pas de question, en générer une nouvelle
+        // Si pas de question, en g�n�rer une nouvelle
         if (!existingQuestion) {
           existingQuestion = await generateDailyQuestion(today, faculte, departement);
         }
 
         if (existingQuestion) {
-          // Vérifier si l'utilisateur a déjà répondu
+          // V�rifier si l'utilisateur a d�j� r�pondu
           const { data: userAnswer } = await supabase
             .from('daily_question_answers')
             .select('*')
@@ -1476,7 +1477,7 @@
       } catch(e) {
         console.error("Erreur question du jour:", e);
         const el = document.getElementById("dqContent");
-        if (el) el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Question indisponible. Réessayez plus tard.</p>`;
+        if (el) el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Question indisponible. R�essayez plus tard.</p>`;
       }
     }
 
@@ -1499,23 +1500,23 @@
 
         if (!res.ok) {
           console.error("Erreur API:", res.status);
-          throw new Error("Erreur génération question");
+          throw new Error("Erreur g�n�ration question");
         }
 
         const result = await res.json();
         
         if (result.error) {
-          console.error("Erreur résultat:", result.error);
+          console.error("Erreur r�sultat:", result.error);
           throw new Error(result.error);
         }
 
-        // Vérifier que tous les champs sont présents
+        // V�rifier que tous les champs sont pr�sents
         if (!result.question || !result.options || result.reponseCorrecte === undefined) {
-          console.error("Réponse incomplète:", result);
-          throw new Error("Réponse IA incomplète");
+          console.error("R�ponse incompl�te:", result);
+          throw new Error("R�ponse IA incompl�te");
         }
 
-        // Sauvegarder la question dans la base de données
+        // Sauvegarder la question dans la base de donn�es
         const { data: savedQuestion, error } = await supabase
           .from('daily_questions')
           .insert({
@@ -1526,7 +1527,7 @@
             options: result.options,
             correct_answer: result.reponseCorrecte,
             explication: result.explication || "Pas d'explication disponible",
-            matiere: result.matiere || faculte || 'Culture générale'
+            matiere: result.matiere || faculte || 'Culture g�n�rale'
           })
           .select()
           .single();
@@ -1537,7 +1538,7 @@
         }
         return savedQuestion;
       } catch(e) {
-        console.error("Erreur génération question:", e);
+        console.error("Erreur g�n�ration question:", e);
         return null;
       }
     }
@@ -1545,9 +1546,9 @@
     function renderDailyQuestion(questionData, userAnswer) {
       const meta = document.getElementById("dqMeta");
       if (meta) {
-        const matiere = questionData.matiere || _profile?.faculte || "Culture générale";
+        const matiere = questionData.matiere || _profile?.faculte || "Culture g�n�rale";
         const dateStr = new Date().toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long"});
-        meta.textContent = `${matiere} · ${dateStr}`;
+        meta.textContent = `${matiere} � ${dateStr}`;
       }
 
       const el = document.getElementById("dqContent");
@@ -1581,13 +1582,13 @@
             </button>`;
           }).join("")}
         </div>
-        ${answered !== undefined && answered !== null ? `<div style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;">💡 ${questionData.explication}</div>` : ""}
-        ${answered !== undefined && answered !== null ? `<div style="margin-top:10px;text-align:center;font-size:0.75rem;color:var(--text-3);">✅ Vous avez déjà répondu aujourd'hui. Revenez demain pour une nouvelle question !</div>` : ""}`;
+        ${answered !== undefined && answered !== null ? `<div style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;">?? ${questionData.explication}</div>` : ""}
+        ${answered !== undefined && answered !== null ? `<div style="margin-top:10px;text-align:center;font-size:0.75rem;color:var(--text-3);">? Vous avez d�j� r�pondu aujourd'hui. Revenez demain pour une nouvelle question !</div>` : ""}`;
     }
 
     window.answerDailyQuestion = async function(questionId, chosen, correct, explication) {
       try {
-        // Sauvegarder la réponse dans la base de données
+        // Sauvegarder la r�ponse dans la base de donn�es
         const { error } = await supabase
           .from('daily_question_answers')
           .insert({
@@ -1598,12 +1599,12 @@
           });
 
         if (error) {
-          console.error("Erreur sauvegarde réponse:", error);
-          showToast("Erreur lors de la sauvegarde de votre réponse", "info");
+          console.error("Erreur sauvegarde r�ponse:", error);
+          showToast("Erreur lors de la sauvegarde de votre r�ponse", "info");
           return;
         }
 
-        // Mettre à jour l'interface
+        // Mettre � jour l'interface
         document.querySelectorAll("#dqOptions button").forEach((btn, i) => {
           btn.disabled = true;
           if (i === correct) {
@@ -1618,32 +1619,32 @@
         // Afficher l'explication
         const expl = document.createElement("div");
         expl.style.cssText = "margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);line-height:1.6;";
-        expl.textContent = "💡 " + explication;
+        expl.textContent = "?? " + explication;
         document.getElementById("dqOptions")?.after(expl);
 
         // Message de confirmation
         const confirmMsg = document.createElement("div");
         confirmMsg.style.cssText = "margin-top:10px;text-align:center;font-size:0.75rem;color:var(--text-3);";
-        confirmMsg.textContent = "✅ Vous avez déjà répondu aujourd'hui. Revenez demain pour une nouvelle question !";
+        confirmMsg.textContent = "? Vous avez d�j� r�pondu aujourd'hui. Revenez demain pour une nouvelle question !";
         expl.after(confirmMsg);
 
-        // Ajouter des XP si bonne réponse
+        // Ajouter des XP si bonne r�ponse
         if (chosen === correct) {
           await addXP(_user.id, 10);
           const newXP = (_profile.xp || 0) + 10;
           _profile.xp = newXP;
           renderXP(newXP);
-          showToast("Bonne réponse ! +10 XP 🎉", "success");
+          showToast("Bonne r�ponse ! +10 XP ??", "success");
         } else {
-          showToast("Pas tout à fait... Lis l'explication !", "info");
+          showToast("Pas tout � fait... Lis l'explication !", "info");
         }
       } catch(e) {
-        console.error("Erreur réponse question:", e);
+        console.error("Erreur r�ponse question:", e);
         showToast("Une erreur est survenue", "info");
       }
     };
 
-    // ── FEDAPAY PAIEMENT ───────────────────────────────────
+    // -- FEDAPAY PAIEMENT -----------------------------------
     window.startPayment = async function(amount, days, label) {
       if (!_user || !_profile) return showToast("Connectez-vous d'abord.", "info");
 
@@ -1659,7 +1660,7 @@
         }
       } catch(e) {
         console.error("Erreur chargement FedaPay:", e);
-        showToast("Erreur de chargement du système de paiement.", "info");
+        showToast("Erreur de chargement du syst�me de paiement.", "info");
       }
     };
 
@@ -1692,7 +1693,7 @@
             }
           },
           onComplete: async function(transaction) {
-            console.log("✅ Paiement complété:", transaction);
+            console.log("? Paiement compl�t�:", transaction);
             
             if (transaction.status === "approved") {
               const exp = new Date();
@@ -1708,7 +1709,7 @@
                 _profile = data;
                 renderUserInfo();
                 renderNav();
-                showToast("Premium activé pour " + label + " ! 🎉", "success");
+                showToast("Premium activ� pour " + label + " ! ??", "success");
                 showSection("accueil");
               } catch(e) { 
                 console.error("Erreur activation:", e);
@@ -1719,12 +1720,12 @@
             }
           },
           onCancel: function() {
-            console.log("❌ Paiement annulé");
-            showToast("Paiement annulé.", "info");
+            console.log("? Paiement annul�");
+            showToast("Paiement annul�.", "info");
           },
           onError: function(error) {
-            console.error("❌ Erreur paiement:", error);
-            showToast("Erreur lors du paiement. Réessayez.", "info");
+            console.error("? Erreur paiement:", error);
+            showToast("Erreur lors du paiement. R�essayez.", "info");
           }
         });
 
@@ -1744,16 +1745,16 @@
       if (prem) {
         const exp = _profile.premium_expiry ? new Date(_profile.premium_expiry) : null;
         el.innerHTML = `<div style="display:flex;align-items:center;gap:16px;padding:8px;">
-          <span style="font-size:2rem;">⭐</span>
+          <span style="font-size:2rem;"><i class="fas fa-star"></i></span>
           <div><div style="font-weight:700;color:var(--text-1);">Premium actif</div>
-          <div style="font-size:0.82rem;color:var(--text-3);">Expire le ${exp?.toLocaleDateString("fr-FR") || "—"}</div></div>
+          <div style="font-size:0.82rem;color:var(--text-3);">Expire le ${exp?.toLocaleDateString("fr-FR") || "�"}</div></div>
         </div>`;
       } else {
-        el.innerHTML = `<div style="padding:8px;color:var(--text-2);font-size:0.875rem;">Vous êtes sur le plan gratuit. Choisissez un plan ci-dessous pour débloquer tout le contenu.</div>`;
+        el.innerHTML = `<div style="padding:8px;color:var(--text-2);font-size:0.875rem;">Vous �tes sur le plan gratuit. Choisissez un plan ci-dessous pour d�bloquer tout le contenu.</div>`;
       }
     }
 
-    // ── ONBOARDING ─────────────────────────────────────────
+    // -- ONBOARDING -----------------------------------------
     function checkOnboarding() {
       const done = localStorage.getItem("campusly_onboarding_done");
       if (done) return;
@@ -1769,7 +1770,7 @@
       localStorage.setItem("campusly_onboarding_done", "1");
     };
 
-    // ── LEADERBOARD ────────────────────────────────────────
+    // -- LEADERBOARD ----------------------------------------
     let _lbMode = "xp";
     window.loadLeaderboard = async function(mode) {
       _lbMode = mode;
@@ -1784,11 +1785,11 @@
         const field = mode === "quiz" ? "quiz_count_today" : mode;
         const { data: users } = await supabase.from("users").select("id,prenom,nom,matricule,faculte,xp,streak,quiz_count_today,photo_url").order(field, { ascending:false }).limit(20);
         if (!users?.length) { list.innerHTML = `<p style="color:var(--text-3);text-align:center;padding:24px;">Aucun classement disponible.</p>`; return; }
-        const medals = ["🥇","🥈","🥉"];
+        const medals = ["??","??","??"];
         const rankClass = i => i===0?"gold":i===1?"silver":i===2?"bronze":"";
         list.innerHTML = users.map((u,i) => {
           const isMe = u.id === _user.id;
-          const name = `${u.prenom||""} ${u.nom||""}`.trim() || u.matricule || "Étudiant";
+          const name = `${u.prenom||""} ${u.nom||""}`.trim() || u.matricule || "�tudiant";
           const score = mode === "xp" ? (u.xp||0)+" XP" : mode === "quiz" ? (u.quiz_count_today||0)+" quiz" : (u.streak||0)+" jours";
           const initial = name[0]?.toUpperCase() || "?";
           const avatar = u.photo_url ? `<img src="${u.photo_url}" style="width:100%;height:100%;object-fit:cover;" />` : initial;
@@ -1802,7 +1803,7 @@
       } catch(e) { list.innerHTML = `<p style="color:var(--text-3);text-align:center;padding:24px;">Erreur de chargement.</p>`; }
     };
 
-    // ── GROUPES D'ÉTUDE ────────────────────────────────────
+    // -- GROUPES D'�TUDE ------------------------------------
     async function loadGroups() {
       const el = document.getElementById("groupsList");
       if (!el) return;
@@ -1817,13 +1818,13 @@
         if (error) throw error;
         
         if (!groups?.length) {
-          el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Aucun groupe. Créez le premier !</p>`;
+          el.innerHTML = `<p style="font-size:0.82rem;color:var(--text-3);">Aucun groupe. Cr�ez le premier !</p>`;
           return;
         }
         
         el.innerHTML = groups.map(g => `
           <div class="group-item">
-            <div class="group-icon">👥</div>
+            <div class="group-icon"><i class="fas fa-users"></i></div>
             <div style="flex:1;">
               <div class="group-name">${g.name}</div>
               ${g.faculte ? `<div style="font-size:0.72rem;color:var(--text-3);margin-top:2px;">${g.faculte}</div>` : ""}
@@ -1853,16 +1854,16 @@
         
         document.getElementById("groupName").value = "";
         await loadGroups();
-        showToast("Groupe créé ! 👥", "success");
+        showToast("Groupe cr<i class="fas fa-trophy"></i> ! <i class="fas fa-users"></i>", "success");
       } catch(e) {
-        console.error("Erreur création groupe:", e);
+        console.error("Erreur cr�ation groupe:", e);
         showToast("Erreur : " + e.message, "info");
       }
     };
     
     window.joinGroup = async function(groupId) {
       try {
-        // Vérifier si déjà membre
+        // V�rifier si d�j� membre
         const { data: existing } = await supabase
           .from("group_members")
           .select("*")
@@ -1871,7 +1872,7 @@
           .single();
         
         if (existing) {
-          showToast("Vous êtes déjà membre de ce groupe.", "info");
+          showToast("Vous �tes d�j� membre de ce groupe.", "info");
           return;
         }
         
@@ -1886,7 +1887,7 @@
         
         if (memberError) throw memberError;
         
-        // Incrémenter le compteur de membres
+        // Incr�menter le compteur de membres
         const { data: group } = await supabase
           .from("groups")
           .select("members")
@@ -1899,21 +1900,21 @@
           .eq("id", groupId);
         
         await loadGroups();
-        showToast("Vous avez rejoint le groupe ! 🎉", "success");
+        showToast("Vous avez rejoint le groupe ! ??", "success");
       } catch(e) {
         console.error("Erreur rejoindre groupe:", e);
         showToast("Erreur : " + e.message, "info");
       }
     };
 
-    // ── NOTIFICATIONS PUSH PWA ─────────────────────────────
+    // -- NOTIFICATIONS PUSH PWA -----------------------------
     async function initPushNotifications() {
       if (!("Notification" in window) || !("serviceWorker" in navigator)) return;
       if (Notification.permission === "default") {
         setTimeout(async () => {
           const perm = await Notification.requestPermission();
           if (perm === "granted") {
-            showToast("Notifications activées ! 🔔", "success");
+            showToast("Notifications activ�es ! ??", "success");
             scheduleRevisionReminder();
           }
         }, 3000);
@@ -1927,8 +1928,8 @@
       if (lastNotif === today) return;
       const hour = new Date().getHours();
       if (hour >= 18 && hour < 22) {
-        new Notification("Campusly 📚", {
-          body: "N'oublie pas ta révision du jour ! Lance un quiz maintenant.",
+        new Notification("Campusly <i class="fas fa-book"></i>", {
+          body: "N'oublie pas ta r�vision du jour ! Lance un quiz maintenant.",
           icon: "/campusly/assets/logo.png.jpg",
         });
         localStorage.setItem("campusly_last_notif", today);
@@ -1940,7 +1941,7 @@
     injectLogos();
     initPushNotifications();
 
-    // ── Bottom nav active state ─────────────────────────────
+    // -- Bottom nav active state -----------------------------
     window.setBottomActive = function(el) {
       document.querySelectorAll('.bottom-nav-item').forEach(i => i.classList.remove('active'));
       el.classList.add('active');
@@ -1954,11 +1955,11 @@
     </a>
     <a href="epreuves.html" class="bottom-nav-item">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      <span>Épreuves</span>
+      <span>�preuves</span>
     </a>
     <a href="revision.html" class="bottom-nav-item">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <span>Révision</span>
+      <span>R�vision</span>
     </a>
     <a href="chatbot.html" class="bottom-nav-item">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>

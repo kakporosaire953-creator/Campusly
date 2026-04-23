@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Campusly</title>
-  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />`n  <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -99,8 +99,8 @@
           <div style="font-size:0.72rem;color:var(--text-4);">Soumis le : ${new Date(c.created_at).toLocaleDateString('fr-FR')}</div>
         </div>
         ${c.file_url ? `<a href="${c.file_url}" target="_blank" class="btn btn-ghost btn-sm">👁 Voir le fichier</a>` : ""}
-        <button class="btn btn-primary btn-sm" onclick="approveContrib('${c.id}')">✓ Approuver</button>
-        <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);" onclick="rejectContrib('${c.id}')">✕ Rejeter</button>
+        <button class="btn btn-primary btn-sm" onclick="approveContrib('${c.id}')"><i class="fas fa-check"></i> Approuver</button>
+        <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);" onclick="rejectContrib('${c.id}')"><i class="fas fa-times"></i> Rejeter</button>
       </div>`).join("");
   }
 

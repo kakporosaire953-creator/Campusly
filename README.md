@@ -31,7 +31,7 @@ Campusly est une plateforme web moderne conçue pour les étudiants de l'UAC. El
 - 🏆 Système de gamification (XP, badges, streak)
 - 👥 Groupes d'étude
 - 📋 Plans de révision personnalisés
-- 💳 Abonnement Premium (Flutterwave)
+- 💳 Abonnement Premium (FedaPay)
 
 ## ✨ Fonctionnalités
 
@@ -215,7 +215,7 @@ const SUPABASE_ANON_KEY = "votre-anon-key";
 const GROQ_API_KEY = Deno.env.get("GROQ_API_KEY");
 ```
 
-#### Flutterwave
+#### FedaPay
 
 ```javascript
 // dashboard.html

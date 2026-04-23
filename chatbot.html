@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style id="body-hidden-guard">body{visibility:hidden}</style>
   <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
-  <title>Assistant IA — Campusly</title>
-  <link rel="stylesheet" href="css/modern.css" />
+  <title>Assistant IA � Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />`n  <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -50,7 +50,7 @@
     .msg-content ul,ol { padding-left:20px; margin:8px 0; }
     .msg-content li { margin:4px 0; }
 
-    /* Quiz intégré */
+    /* Quiz int�gr� */
     .quiz-block { background:var(--bg-2); border:1px solid var(--border-2); border-radius:var(--r-xl); padding:20px; margin-top:12px; }
     .quiz-block-title { font-size:0.85rem; font-weight:700; color:var(--brand-3); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
     .quiz-q { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid var(--border); }
@@ -105,8 +105,8 @@
     </span>
   </a>
   <ul class="nav-links">
-    <li><a href="epreuves.html">Épreuves</a></li>
-    <li><a href="revision.html">Révision</a></li>
+    <li><a href="epreuves.html">�preuves</a></li>
+    <li><a href="revision.html">R�vision</a></li>
     <li><a href="chatbot.html" style="color:var(--brand-3);">Assistant IA</a></li>
     <li><a href="forum.html">Forum</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
@@ -131,24 +131,24 @@
     <!-- Barre de mode -->
     <div class="chat-mode-bar">
       <span style="font-size:0.78rem;color:var(--text-3);margin-right:4px;">Mode :</span>
-      <button class="mode-btn active" id="modeChatBtn" onclick="setMode('chat')">💬 Conversation</button>
-      <button class="mode-btn" id="modeQuizBtn" onclick="setMode('quiz')">🎯 Quiz 50 questions</button>
-      <button class="mode-btn" id="modeExplainBtn" onclick="setMode('explain')">📚 Explication</button>
+      <button class="mode-btn active" id="modeChatBtn" onclick="setMode('chat')"><i class="fas fa-comments"></i> Conversation</button>
+      <button class="mode-btn" id="modeQuizBtn" onclick="setMode('quiz')"><i class="fas fa-bullseye"></i> Quiz 50 questions</button>
+      <button class="mode-btn" id="modeExplainBtn" onclick="setMode('explain')"><i class="fas fa-book"></i> Explication</button>
     </div>
 
     <!-- Messages -->
     <div class="chat-messages" id="chatMessages">
       <div class="chat-welcome" id="chatWelcome">
-        <div class="chat-welcome-icon">🎓</div>
+        <div class="chat-welcome-icon"><i class="fas fa-graduation-cap"></i></div>
         <h2>Assistant IA Campusly</h2>
-        <p>Posez vos questions, générez des quiz de 50 questions, ou demandez des explications sur n'importe quel sujet académique de l'UAC.</p>
+        <p>Posez vos questions, g�n�rez des quiz de 50 questions, ou demandez des explications sur n'importe quel sujet acad�mique de l'UAC.</p>
         <div class="chat-suggestions">
-          <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur la Microéconomie')">📝 Quiz Microéconomie</div>
-          <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur le Droit Civil')">⚖️ Quiz Droit Civil</div>
-          <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur l\'Anatomie')">🫀 Quiz Anatomie</div>
-          <div class="chat-suggestion" onclick="sendSuggestion('Explique-moi la loi de Hooke')">💡 Explication</div>
-          <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur l\'Algèbre Linéaire')">📐 Quiz Algèbre</div>
-          <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur la Comptabilité Générale')">📊 Quiz Comptabilité</div>
+          <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur la Micro�conomie')">?? Quiz Micro�conomie</div>
+          <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur le Droit Civil')">?? Quiz Droit Civil</div>
+          <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur l\'Anatomie')">?? Quiz Anatomie</div>
+          <div class="chat-suggestion" onclick="sendSuggestion('Explique-moi la loi de Hooke')">?? Explication</div>
+          <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur l\'Alg�bre Lin�aire')">?? Quiz Alg�bre</div>
+          <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur la Comptabilit� G�n�rale')"><i class="fas fa-chart-bar"></i> Quiz Comptabilit�</div>
         </div>
       </div>
     </div>
@@ -156,12 +156,12 @@
     <!-- Input -->
     <div class="chat-input-area">
       <div class="chat-input-wrap">
-        <textarea class="chat-textarea" id="chatInput" placeholder="Posez votre question ou demandez un quiz…" rows="1"></textarea>
+        <textarea class="chat-textarea" id="chatInput" placeholder="Posez votre question ou demandez un quiz�" rows="1"></textarea>
         <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
-      <div class="chat-hint">Entrée pour envoyer · Shift+Entrée pour nouvelle ligne</div>
+      <div class="chat-hint">Entr�e pour envoyer � Shift+Entr�e pour nouvelle ligne</div>
     </div>
   </div>
 </div>
@@ -184,44 +184,44 @@
   let sessions     = JSON.parse(localStorage.getItem("campusly_chat_sessions") || "[]");
   let currentSession = null;
 
-  // ── Système prompt selon le mode ─────────────────────────
+  // -- Syst�me prompt selon le mode -------------------------
   function getSystemPrompt() {
-    const base = "Tu es un assistant pédagogique expert pour les étudiants de l'Université d'Abomey-Calavi (UAC) au Bénin. Tu réponds dans toutes les langues, avec précision et pédagogie.";
-    if (mode === "quiz") return base + ` Quand on te demande de générer un quiz, génère EXACTEMENT 50 questions à choix multiples. Réponds UNIQUEMENT avec un JSON valide sans texte avant ou après. Format : {"questions":[{"question":"...","options":["A","B","C","D"],"reponseCorrecte":0,"explication":"..."}]}. Règles : 50 questions exactement, 4 options par question, reponseCorrecte = index 0-3, niveau universitaire, couvre tous les aspects du sujet.`;
-    if (mode === "explain") return base + " Tu fournis des explications très détaillées avec des exemples concrets adaptés au contexte béninois. Tu structures ta réponse avec des titres, des exemples et des analogies simples.";
-    return base + " Tu es conversationnel, précis et encourageant. Tu peux générer des quiz, expliquer des concepts, corriger des erreurs et aider à la révision. Si on demande un quiz sans préciser le nombre, génère 10 questions.";
+    const base = "Tu es un assistant p�dagogique expert pour les �tudiants de l'Universit� d'Abomey-Calavi (UAC) au B�nin. Tu r�ponds dans toutes les langues, avec pr�cision et p�dagogie.";
+    if (mode === "quiz") return base + ` Quand on te demande de g�n�rer un quiz, g�n�re EXACTEMENT 50 questions � choix multiples. R�ponds UNIQUEMENT avec un JSON valide sans texte avant ou apr�s. Format : {"questions":[{"question":"...","options":["A","B","C","D"],"reponseCorrecte":0,"explication":"..."}]}. R�gles : 50 questions exactement, 4 options par question, reponseCorrecte = index 0-3, niveau universitaire, couvre tous les aspects du sujet.`;
+    if (mode === "explain") return base + " Tu fournis des explications tr�s d�taill�es avec des exemples concrets adapt�s au contexte b�ninois. Tu structures ta r�ponse avec des titres, des exemples et des analogies simples.";
+    return base + " Tu es conversationnel, pr�cis et encourageant. Tu peux g�n�rer des quiz, expliquer des concepts, corriger des erreurs et aider � la r�vision. Si on demande un quiz sans pr�ciser le nombre, g�n�re 10 questions.";
   }
 
-  // ── Garde de route ───────────────────────────────────────
+  // -- Garde de route ---------------------------------------
   requireAuth((user) => {
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button onclick="window.signOutUser()" class="btn btn-outline btn-sm">Déconnexion</button>`;
+      <button onclick="window.signOutUser()" class="btn btn-outline btn-sm">D�connexion</button>`;
     renderHistory();
     initAutoLogout();
   });
 
   window.signOutUser = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
 
-  // ── Mode ─────────────────────────────────────────────────
+  // -- Mode -------------------------------------------------
   window.setMode = function(m) {
     mode = m;
     document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
     document.getElementById(`mode${m.charAt(0).toUpperCase()+m.slice(1)}Btn`).classList.add("active");
     const ta = document.getElementById("chatInput");
-    if (m === "quiz")    ta.placeholder = "Ex : Génère 50 questions sur la Microéconomie S1…";
-    if (m === "explain") ta.placeholder = "Ex : Explique-moi le principe de la partie double…";
-    if (m === "chat")    ta.placeholder = "Posez votre question ou demandez un quiz…";
+    if (m === "quiz")    ta.placeholder = "Ex : G�n�re 50 questions sur la Micro�conomie S1�";
+    if (m === "explain") ta.placeholder = "Ex : Explique-moi le principe de la partie double�";
+    if (m === "chat")    ta.placeholder = "Posez votre question ou demandez un quiz�";
   };
 
-  // ── Suggestions ──────────────────────────────────────────
+  // -- Suggestions ------------------------------------------
   window.sendSuggestion = function(text) {
     document.getElementById("chatInput").value = text;
     sendMessage();
   };
 
-  // ── Envoi message ─────────────────────────────────────────
+  // -- Envoi message -----------------------------------------
   window.sendMessage = async function() {
     const input = document.getElementById("chatInput");
     const text  = input.value.trim();
@@ -257,7 +257,7 @@
       const content = result.content;
       messages.push({ role: "assistant", content });
 
-      // Détecter si c'est un quiz JSON
+      // D�tecter si c'est un quiz JSON
       if (mode === "quiz" || (content.trim().startsWith("{") && content.includes("questions"))) {
         try {
           const parsed = JSON.parse(content.trim());
@@ -272,19 +272,19 @@
         }
       } else {
         appendMsg("ai", content);
-        saveSession(text, content.slice(0, 60) + "…");
+        saveSession(text, content.slice(0, 60) + "�");
       }
 
     } catch (err) {
       removeTyping(typingId);
-      appendMsg("ai", `❌ Erreur : ${err.message}`);
+      appendMsg("ai", `? Erreur : ${err.message}`);
     } finally {
       isLoading = false;
       document.getElementById("sendBtn").disabled = false;
     }
   };
 
-  // ── Rendu quiz 50 questions ───────────────────────────────
+  // -- Rendu quiz 50 questions -------------------------------
   function renderQuizBlock(questions) {
     quizData     = questions;
     quizAnswered = 0;
@@ -293,12 +293,12 @@
     const div = document.createElement("div");
     div.className = "msg ai";
     div.innerHTML = `
-      <div class="msg-avatar">🎓</div>
+      <div class="msg-avatar"><i class="fas fa-graduation-cap"></i></div>
       <div style="flex:1;max-width:720px;">
         <div class="quiz-block">
           <div class="quiz-block-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            Quiz — ${questions.length} questions
+            Quiz � ${questions.length} questions
           </div>
           <div id="quizQuestionsContainer">
             ${questions.map((q, qi) => `
@@ -310,7 +310,7 @@
                       <span class="quiz-opt-letter">${["A","B","C","D"][oi]}</span>${o}
                     </button>`).join("")}
                 </div>
-                <div class="quiz-explication" id="qe-${qi}">💡 ${q.explication}</div>
+                <div class="quiz-explication" id="qe-${qi}">?? ${q.explication}</div>
               </div>`).join("")}
           </div>
           <div class="quiz-score-bar" id="quizScoreBar" style="display:none;">
@@ -343,7 +343,7 @@
     }
   };
 
-  // ── Helpers UI ────────────────────────────────────────────
+  // -- Helpers UI --------------------------------------------
   function appendMsg(role, content) {
     const welcome = document.getElementById("chatWelcome");
     if (welcome) welcome.remove();
@@ -351,7 +351,7 @@
     const div = document.createElement("div");
     div.className = `msg ${role}`;
     div.innerHTML = `
-      <div class="msg-avatar">${role === "ai" ? "🎓" : "👤"}</div>
+      <div class="msg-avatar">${role === "ai" ? "<i class="fas fa-graduation-cap"></i>" : "??"}</div>
       <div class="msg-content">${formatContent(content)}</div>`;
     document.getElementById("chatMessages").appendChild(div);
     scrollBottom();
@@ -367,7 +367,7 @@
       .replace(/^### (.*)/gm,"<strong>$1</strong>")
       .replace(/^## (.*)/gm,"<strong>$1</strong>")
       .replace(/^# (.*)/gm,"<strong>$1</strong>")
-      .replace(/^- (.*)/gm,"• $1")
+      .replace(/^- (.*)/gm,"� $1")
       .replace(/\n/g,"<br>");
   }
 
@@ -375,7 +375,7 @@
     const id  = "typing-" + Date.now();
     const div = document.createElement("div");
     div.className = "msg ai"; div.id = id;
-    div.innerHTML = `<div class="msg-avatar">🎓</div><div class="msg-content"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    div.innerHTML = `<div class="msg-avatar"><i class="fas fa-graduation-cap"></i></div><div class="msg-content"><div class="typing"><span></span><span></span><span></span></div></div>`;
     document.getElementById("chatMessages").appendChild(div);
     scrollBottom();
     return id;
@@ -385,7 +385,7 @@
   function scrollBottom()   { const el = document.getElementById("chatMessages"); el.scrollTop = el.scrollHeight; }
   function hideWelcome()    { document.getElementById("chatWelcome")?.remove(); }
 
-  // ── Sessions ──────────────────────────────────────────────
+  // -- Sessions ----------------------------------------------
   function saveSession(question, preview) {
     const session = { id: Date.now(), question: question.slice(0,40), preview, messages: [...messages] };
     sessions.unshift(session);
@@ -399,7 +399,7 @@
     if (!el) return;
     el.innerHTML = sessions.slice(0, 15).map(s => `
       <div class="chat-history-item" onclick="loadSession(${s.id})" title="${s.question}">
-        💬 ${s.question}
+        <i class="fas fa-comments"></i> ${s.question}
       </div>`).join("") || `<div style="font-size:0.78rem;color:var(--text-4);padding:8px 4px;">Aucune conversation</div>`;
   }
 
@@ -416,19 +416,19 @@
     messages = [];
     const container = document.getElementById("chatMessages");
     container.innerHTML = `<div class="chat-welcome" id="chatWelcome">
-      <div class="chat-welcome-icon">🎓</div>
+      <div class="chat-welcome-icon"><i class="fas fa-graduation-cap"></i></div>
       <h2>Assistant IA Campusly</h2>
-      <p>Posez vos questions, générez des quiz de 50 questions, ou demandez des explications.</p>
+      <p>Posez vos questions, g�n�rez des quiz de 50 questions, ou demandez des explications.</p>
       <div class="chat-suggestions">
-        <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur la Microéconomie')">📝 Quiz Microéconomie</div>
-        <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur le Droit Civil')">⚖️ Quiz Droit Civil</div>
-        <div class="chat-suggestion" onclick="sendSuggestion('Génère 50 questions sur l\\'Anatomie')">🫀 Quiz Anatomie</div>
-        <div class="chat-suggestion" onclick="sendSuggestion('Explique-moi la loi de Hooke')">💡 Explication</div>
+        <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur la Micro�conomie')">?? Quiz Micro�conomie</div>
+        <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur le Droit Civil')">?? Quiz Droit Civil</div>
+        <div class="chat-suggestion" onclick="sendSuggestion('G�n�re 50 questions sur l\\'Anatomie')">?? Quiz Anatomie</div>
+        <div class="chat-suggestion" onclick="sendSuggestion('Explique-moi la loi de Hooke')">?? Explication</div>
       </div>
     </div>`;
   };
 
-  // ── Keyboard ──────────────────────────────────────────────
+  // -- Keyboard ----------------------------------------------
   document.getElementById("chatInput").addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });

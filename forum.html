@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style id="body-hidden-guard">body{visibility:hidden}</style>
   <style id="body-hidden">body{visibility:hidden}</style>
-  <title>Forum — Campusly</title>
-  <link rel="stylesheet" href="css/modern.css" />
+  <title>Forum � Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />`n  <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/theme-dark.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="css/interactive-buttons.css" />
   <link rel="stylesheet" href="css/skeleton-loaders.css" />
   <style>
-    /* ══════════════════════════════════════════════════════
+    /* ------------------------------------------------------
        FORUM SOCIAL FEED - Style Facebook
-       ══════════════════════════════════════════════════════ */
+       ------------------------------------------------------ */
     
     .forum-main { 
       padding-top: 68px; 
@@ -24,7 +24,7 @@
       background: #f0f2f5;
     }
     
-    /* ── Mode sombre ── */
+    /* -- Mode sombre -- */
     [data-theme="dark"] .forum-main {
       background: var(--bg);
     }
@@ -105,7 +105,7 @@
       }
     }
     
-    /* ── Zone de publication (remplace bouton) ── */
+    /* -- Zone de publication (remplace bouton) -- */
     .publish-box {
       background: white;
       border-radius: 12px;
@@ -180,7 +180,7 @@
       background: #f0f2f5;
     }
     
-    /* ── Filtres enrichis ── */
+    /* -- Filtres enrichis -- */
     .filters-container {
       background: white;
       border-radius: 12px;
@@ -221,7 +221,7 @@
       color: white;
     }
     
-    /* ── Post Card ── */
+    /* -- Post Card -- */
     .post-card {
       background: white;
       border-radius: 12px;
@@ -338,7 +338,7 @@
       color: #f59e0b;
     }
     
-    /* ── Section commentaires ── */
+    /* -- Section commentaires -- */
     .comments-section {
       padding: 0 16px 16px;
       display: none;
@@ -416,7 +416,7 @@
       background: #e4e6eb;
     }
     
-    /* ── Sidebar droite (desktop) ── */
+    /* -- Sidebar droite (desktop) -- */
     .sidebar {
       display: none;
     }
@@ -546,7 +546,7 @@
       color: #65676b;
     }
     
-    /* ── Toast notification ── */
+    /* -- Toast notification -- */
     .new-post-toast {
       position: fixed;
       bottom: 20px;
@@ -570,7 +570,7 @@
       opacity: 1;
     }
     
-    /* ── Modal création post ── */
+    /* -- Modal cr�ation post -- */
     .create-post-modal {
       position: fixed;
       inset: 0;
@@ -694,7 +694,7 @@
       cursor: not-allowed;
     }
     
-    /* ── Responsive ── */
+    /* -- Responsive -- */
     @media (max-width: 768px) {
       .forum-container {
         padding: 12px;
@@ -727,8 +727,8 @@
     <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
   </a>
   <ul class="nav-links">
-    <li><a href="epreuves.html">Épreuves</a></li>
-    <li><a href="revision.html">Révision IA</a></li>
+    <li><a href="epreuves.html">�preuves</a></li>
+    <li><a href="revision.html">R�vision IA</a></li>
     <li><a href="forum.html" style="color:var(--brand-3);">Forum</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
@@ -740,7 +740,7 @@
 </nav>
 
 
-<!-- Contenu principal transformé en feed social -->
+<!-- Contenu principal transform� en feed social -->
 <main class="forum-main">
   <div class="forum-container">
     
@@ -751,17 +751,17 @@
       <div class="publish-box">
         <div class="publish-header">
           <div class="publish-avatar" id="publishAvatar">U</div>
-          <div class="publish-input" onclick="openCreatePost()">Quoi de neuf à l'UAC ?</div>
+          <div class="publish-input" onclick="openCreatePost()">Quoi de neuf � l'UAC ?</div>
         </div>
         <div class="publish-actions">
           <button class="publish-action-btn" onclick="openCreatePost('photo')">
-            📷 Photo
+            ?? Photo
           </button>
           <button class="publish-action-btn" onclick="openCreatePost('faculte')">
-            🏷️ Faculté
+            ??? Facult�
           </button>
           <button class="publish-action-btn" onclick="openCreatePost()">
-            📌 Type de post
+            ?? Type de post
           </button>
         </div>
       </div>
@@ -769,11 +769,11 @@
       <!-- Filtres enrichis -->
       <div class="filters-container">
         <div class="filters-row">
-          <button class="filter-chip active" data-filter="all">🔥 Tendances</button>
-          <button class="filter-chip" data-filter="recent">🕐 Récents</button>
-          <button class="filter-chip" data-filter="question">❓ Questions</button>
-          <button class="filter-chip" data-filter="annonce">📢 Annonces</button>
-          <button class="filter-chip" data-filter="resolved">✅ Résolus</button>
+          <button class="filter-chip active" data-filter="all"><i class="fas fa-fire"></i> Tendances</button>
+          <button class="filter-chip" data-filter="recent">?? R�cents</button>
+          <button class="filter-chip" data-filter="question">? Questions</button>
+          <button class="filter-chip" data-filter="annonce">?? Annonces</button>
+          <button class="filter-chip" data-filter="resolved">? R�solus</button>
         </div>
         <div class="filters-row">
           <button class="filter-chip" data-filter="">Toutes</button>
@@ -796,21 +796,21 @@
     <!-- Sidebar droite (desktop uniquement) -->
     <div class="sidebar">
       
-      <!-- Étudiants actifs -->
+      <!-- �tudiants actifs -->
       <div class="sidebar-card">
-        <div class="sidebar-title">🟢 Étudiants actifs</div>
+        <div class="sidebar-title">?? �tudiants actifs</div>
         <div id="activeUsers"></div>
       </div>
       
       <!-- Top contributeurs -->
       <div class="sidebar-card">
-        <div class="sidebar-title">🏆 Top contributeurs</div>
+        <div class="sidebar-title"><i class="fas fa-trophy"></i> Top contributeurs</div>
         <div id="topContributors"></div>
       </div>
       
-      <!-- Questions sans réponse -->
+      <!-- Questions sans r�ponse -->
       <div class="sidebar-card">
-        <div class="sidebar-title">❓ Besoin d'aide</div>
+        <div class="sidebar-title">? Besoin d'aide</div>
         <div id="unansweredQuestions"></div>
       </div>
       
@@ -820,22 +820,22 @@
 </main>
 
 
-<!-- Modal création de post -->
+<!-- Modal cr�ation de post -->
 <div class="create-post-modal" id="createPostModal">
   <div class="create-post-box">
     <div class="create-post-header">
-      <div class="create-post-title">Créer une publication</div>
-      <button class="create-post-close" onclick="closeCreatePost()">✕</button>
+      <div class="create-post-title">Cr�er une publication</div>
+      <button class="create-post-close" onclick="closeCreatePost()"><i class="fas fa-times"></i></button>
     </div>
     <div class="create-post-body">
       <div class="post-type-selector">
-        <button class="post-type-btn active" data-type="discussion">💬 Discussion</button>
-        <button class="post-type-btn" data-type="question">❓ Question</button>
-        <button class="post-type-btn" data-type="annonce">📢 Annonce</button>
-        <button class="post-type-btn" data-type="ressource">📚 Ressource</button>
+        <button class="post-type-btn active" data-type="discussion"><i class="fas fa-comments"></i> Discussion</button>
+        <button class="post-type-btn" data-type="question">? Question</button>
+        <button class="post-type-btn" data-type="annonce">?? Annonce</button>
+        <button class="post-type-btn" data-type="ressource"><i class="fas fa-book"></i> Ressource</button>
       </div>
       <select id="postFaculte" class="form-select" style="margin-bottom:12px;">
-        <option value="">Toutes les facultés</option>
+        <option value="">Toutes les facult�s</option>
         <option value="FASEG">FASEG</option>
         <option value="FADESP">FADESP</option>
         <option value="FAST">FAST</option>
@@ -848,7 +848,7 @@
       <textarea 
         id="postContent" 
         class="create-post-textarea" 
-        placeholder="Partagez quelque chose avec la communauté UAC..."
+        placeholder="Partagez quelque chose avec la communaut� UAC..."
       ></textarea>
     </div>
     <div class="create-post-footer">
@@ -859,7 +859,7 @@
 
 <!-- Toast notification nouveau post -->
 <div class="new-post-toast" id="newPostToast" onclick="refreshFeed()">
-  <div style="font-size:1.5rem;">🔔</div>
+  <div style="font-size:1.5rem;">??</div>
   <div>
     <div style="font-weight:700;font-size:0.875rem;color:#050505;">Nouveau post disponible</div>
     <div style="font-size:0.75rem;color:#65676b;">Cliquez pour actualiser</div>
@@ -872,9 +872,9 @@
   import { supabase } from './js/supabase-config.js';
   import { initAutoLogout } from './js/auto-logout.js';
 
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // VARIABLES GLOBALES
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   let _user = null;
   let _profile = null;
@@ -886,9 +886,9 @@
   let _saved = JSON.parse(localStorage.getItem('campusly_saved') || '{}');
 
   
-  // ══════════════════════════════════════════════════════
-  // DONNÉES FICTIVES (5 posts de démonstration)
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
+  // DONN�ES FICTIVES (5 posts de d�monstration)
+  // ------------------------------------------------------
   
   const DEMO_POSTS = [
     {
@@ -898,7 +898,7 @@
       author_color: '#1a56db',
       faculte: 'FASEG',
       type: 'question',
-      content: 'Bonjour ! Quelqu\'un aurait-il des notes de cours sur la Microéconomie S3 ? J\'ai raté quelques séances et j\'aimerais me rattraper avant le partiel de la semaine prochaine. Merci d\'avance ! 📚',
+      content: 'Bonjour ! Quelqu\'un aurait-il des notes de cours sur la Micro�conomie S3 ? J\'ai rat� quelques s�ances et j\'aimerais me rattraper avant le partiel de la semaine prochaine. Merci d\'avance ! <i class="fas fa-book"></i>',
       created_at: new Date(Date.now() - 2 * 60 * 60 * 1000), // Il y a 2h
       likes: 12,
       comments_count: 5,
@@ -906,12 +906,12 @@
     },
     {
       id: 'demo2',
-      author_name: 'Aïcha Dossou',
+      author_name: 'A�cha Dossou',
       author_initials: 'AD',
       author_color: '#10b981',
       faculte: 'FAST',
       type: 'annonce',
-      content: '📢 IMPORTANT : Le groupe de révision pour l\'examen d\'Algèbre Linéaire se réunit demain à 14h à la bibliothèque centrale. Tous les étudiants de FAST S2 sont les bienvenus ! On va revoir les espaces vectoriels et les matrices.',
+      content: '?? IMPORTANT : Le groupe de r�vision pour l\'examen d\'Alg�bre Lin�aire se r�unit demain � 14h � la biblioth�que centrale. Tous les �tudiants de FAST S2 sont les bienvenus ! On va revoir les espaces vectoriels et les matrices.',
       created_at: new Date(Date.now() - 5 * 60 * 60 * 1000), // Il y a 5h
       likes: 28,
       comments_count: 8,
@@ -924,7 +924,7 @@
       author_color: '#f59e0b',
       faculte: 'FSS',
       type: 'ressource',
-      content: 'Je partage avec vous un PDF super complet sur l\'Anatomie du système nerveux. C\'est ce qui m\'a aidé à avoir 16/20 au dernier partiel. Le lien est dans les commentaires. Bon courage à tous ! 💪',
+      content: 'Je partage avec vous un PDF super complet sur l\'Anatomie du syst�me nerveux. C\'est ce qui m\'a aid� � avoir 16/20 au dernier partiel. Le lien est dans les commentaires. Bon courage � tous ! ??',
       created_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // Il y a 1 jour
       likes: 45,
       comments_count: 12,
@@ -937,7 +937,7 @@
       author_color: '#ef4444',
       faculte: 'FADESP',
       type: 'discussion',
-      content: 'Petite question : est-ce que quelqu\'un sait si le cours de Droit Constitutionnel de demain est maintenu ? J\'ai entendu dire que le prof était absent mais je ne suis pas sûre. Merci de confirmer !',
+      content: 'Petite question : est-ce que quelqu\'un sait si le cours de Droit Constitutionnel de demain est maintenu ? J\'ai entendu dire que le prof �tait absent mais je ne suis pas s�re. Merci de confirmer !',
       created_at: new Date(Date.now() - 30 * 60 * 1000), // Il y a 30 min
       likes: 8,
       comments_count: 3,
@@ -950,7 +950,7 @@
       author_color: '#8b5cf6',
       faculte: 'EPAC',
       type: 'question',
-      content: 'Urgent ! Quelqu\'un peut m\'expliquer comment calculer les moments fléchissants en Résistance des Matériaux ? J\'ai l\'examen dans 2 jours et je bloque complètement sur ce chapitre 😰',
+      content: 'Urgent ! Quelqu\'un peut m\'expliquer comment calculer les moments fl�chissants en R�sistance des Mat�riaux ? J\'ai l\'examen dans 2 jours et je bloque compl�tement sur ce chapitre ??',
       created_at: new Date(Date.now() - 4 * 60 * 60 * 1000), // Il y a 4h
       likes: 15,
       comments_count: 7,
@@ -959,9 +959,9 @@
   ];
 
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // FONCTIONS UTILITAIRES
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   function showToast(msg, type="info") {
     let t = document.getElementById("toast");
@@ -980,7 +980,7 @@
   function timeAgo(date) {
     if (!date) return "";
     const diff = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (diff < 60) return "à l'instant";
+    if (diff < 60) return "� l'instant";
     if (diff < 3600) return Math.floor(diff/60) + " min";
     if (diff < 86400) return Math.floor(diff/3600) + "h";
     if (diff < 604800) return Math.floor(diff/86400) + "j";
@@ -1001,22 +1001,22 @@
     return colors[Math.floor(Math.random() * colors.length)];
   }
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // INITIALISATION
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   requireAuth(async (user) => {
     _user = user;
     const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
     _profile = profile;
     
-    // Mettre à jour la navbar
+    // Mettre � jour la navbar
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
+      <button onclick="doLogout()" class="btn btn-outline btn-sm">D�connexion</button>`;
     
-    // Mettre à jour l'avatar de publication
+    // Mettre � jour l'avatar de publication
     const publishAvatar = document.getElementById('publishAvatar');
     if (publishAvatar && _profile) {
       const initials = getInitials(`${_profile.prenom || ''} ${_profile.nom || ''}`);
@@ -1035,7 +1035,7 @@
     // Initialiser auto-logout
     initAutoLogout();
     
-    // Écouter les nouveaux posts en temps réel (Supabase Realtime)
+    // �couter les nouveaux posts en temps r�el (Supabase Realtime)
     subscribeToNewPosts();
   });
   
@@ -1045,14 +1045,14 @@
   };
 
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // GESTION DES FILTRES
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   function initFilters() {
     document.querySelectorAll('.filter-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        // Retirer active de la même rangée
+        // Retirer active de la m�me rang�e
         const row = chip.parentElement;
         row.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
@@ -1070,17 +1070,17 @@
     });
   }
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // CHARGEMENT DU FEED
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   async function loadFeed() {
     const container = document.getElementById('feedContainer');
     container.innerHTML = '<div style="text-align:center;padding:48px;color:#65676b;">Chargement...</div>';
     
     try {
-      // Pour la démo, utiliser les posts fictifs
-      // En production, remplacer par une vraie requête Supabase
+      // Pour la d�mo, utiliser les posts fictifs
+      // En production, remplacer par une vraie requ�te Supabase
       let posts = [...DEMO_POSTS];
       
       // Appliquer les filtres
@@ -1101,7 +1101,7 @@
       _posts = posts;
       
       if (posts.length === 0) {
-        container.innerHTML = '<div style="text-align:center;padding:48px;color:#65676b;">Aucun post trouvé</div>';
+        container.innerHTML = '<div style="text-align:center;padding:48px;color:#65676b;">Aucun post trouv�</div>';
         return;
       }
       
@@ -1113,9 +1113,9 @@
     }
   }
 
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // RENDU DES POSTS
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   function renderPost(post) {
     const isLiked = _likes[post.id];
@@ -1129,24 +1129,24 @@
           <div class="post-info">
             <div class="post-author">
               ${post.author_name}
-              ${post.resolved ? '<span style="color:#10b981;">✓</span>' : ''}
+              ${post.resolved ? '<span style="color:#10b981;"><i class="fas fa-check"></i></span>' : ''}
             </div>
             <div class="post-meta">
               ${timeAgo(post.created_at)}
-              ${post.faculte ? `· <span class="post-badge ${badgeClass}">${post.faculte}</span>` : ''}
+              ${post.faculte ? `� <span class="post-badge ${badgeClass}">${post.faculte}</span>` : ''}
             </div>
           </div>
         </div>
         <div class="post-content">${post.content}</div>
         <div class="post-actions">
           <button class="post-action-btn ${isLiked?'liked':''}" onclick="toggleLike('${post.id}')">
-            👍 ${post.likes}
+            ?? ${post.likes}
           </button>
           <button class="post-action-btn" onclick="toggleComments('${post.id}')">
-            💬 ${post.comments_count}
+            <i class="fas fa-comments"></i> ${post.comments_count}
           </button>
           <button class="post-action-btn ${isSaved?'saved':''}" onclick="toggleSave('${post.id}')">
-            🔖 Sauvegarder
+            ?? Sauvegarder
           </button>
         </div>
         <div class="comments-section" id="comments-${post.id}"></div>
@@ -1154,9 +1154,9 @@
     `;
   }
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // ACTIONS
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   window.toggleLike = function(postId) {
     if (_likes[postId]) {
@@ -1171,10 +1171,10 @@
   window.toggleSave = function(postId) {
     if (_saved[postId]) {
       delete _saved[postId];
-      showToast('Post retiré des favoris', 'info');
+      showToast('Post retir� des favoris', 'info');
     } else {
       _saved[postId] = true;
-      showToast('Post sauvegardé !', 'success');
+      showToast('Post sauvegard� !', 'success');
     }
     localStorage.setItem('campusly_saved', JSON.stringify(_saved));
     loadFeed();
@@ -1199,11 +1199,11 @@
   window.submitPost = async function() {
     const content = document.getElementById('postContent').value.trim();
     if (!content) {
-      showToast('Écrivez quelque chose', 'info');
+      showToast('�crivez quelque chose', 'info');
       return;
     }
     
-    showToast('Post publié ! 🎉', 'success');
+    showToast('Post publi� ! ??', 'success');
     closeCreatePost();
     document.getElementById('postContent').value = '';
     
@@ -1216,12 +1216,12 @@
     loadFeed();
   };
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // SIDEBAR
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   function loadSidebar() {
-    // Étudiants actifs (démo)
+    // �tudiants actifs (d�mo)
     const activeUsers = document.getElementById('activeUsers');
     if (activeUsers) {
       activeUsers.innerHTML = `
@@ -1230,7 +1230,7 @@
             AM
             <div class="active-indicator"></div>
           </div>
-          <div class="active-user-name">Aïcha Mensah</div>
+          <div class="active-user-name">A�cha Mensah</div>
         </div>
         <div class="active-user">
           <div class="active-user-avatar" style="background:#10b981">
@@ -1257,33 +1257,33 @@
       `;
     }
     
-    // Questions sans réponse
+    // Questions sans r�ponse
     const unanswered = document.getElementById('unansweredQuestions');
     if (unanswered) {
       unanswered.innerHTML = `
         <div class="unanswered-question">
-          <div class="unanswered-title">Aide pour l'examen de Microéconomie</div>
-          <div class="unanswered-meta">FASEG · Il y a 2h</div>
+          <div class="unanswered-title">Aide pour l'examen de Micro�conomie</div>
+          <div class="unanswered-meta">FASEG � Il y a 2h</div>
         </div>
       `;
     }
   }
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // REALTIME
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   function subscribeToNewPosts() {
-    // Simuler une notification après 30 secondes
+    // Simuler une notification apr�s 30 secondes
     setTimeout(() => {
       const toast = document.getElementById('newPostToast');
       if (toast) toast.classList.add('show');
     }, 30000);
   }
   
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   // INIT
-  // ══════════════════════════════════════════════════════
+  // ------------------------------------------------------
   
   window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
   document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));

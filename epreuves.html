@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style id="body-hidden-guard">body{visibility:hidden}</style>
   <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
-  <title>Épreuves — Campusly</title>
-  <link rel="stylesheet" href="css/modern.css" />
+  <title>�preuves � Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />`n  <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -63,8 +63,8 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Accueil</a></li>
-    <li><a href="epreuves.html" style="color:#1E88E5;">Épreuves</a></li>
-    <li><a href="revision.html">Révision IA</a></li>
+    <li><a href="epreuves.html" style="color:#1E88E5;">�preuves</a></li>
+    <li><a href="revision.html">R�vision IA</a></li>
     <li><a href="chatbot.html">Assistant IA</a></li>
     <li><a href="forum.html">Forum</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
@@ -79,9 +79,9 @@
 <main class="epreuves-main">
   <div class="ep-header">
     <div class="ep-header-inner">
-      <h1>Bibliothèque d'épreuves</h1>
-      <p>Anciennes épreuves de l'UAC classées par faculté, département et année académique.</p>
-      <div class="ep-count" id="epreuvesCount">📚 Chargement...</div>
+      <h1>Biblioth�que d'�preuves</h1>
+      <p>Anciennes �preuves de l'UAC class�es par facult�, d�partement et ann�e acad�mique.</p>
+      <div class="ep-count" id="epreuvesCount"><i class="fas fa-book"></i> Chargement...</div>
     </div>
   </div>
 
@@ -89,10 +89,10 @@
     <div class="filters-bar">
       <div class="filter-group" style="flex:2;min-width:200px;">
         <label class="filter-label">Rechercher</label>
-        <input type="text" id="searchInput" class="form-input" placeholder="Nom du cours, département…" style="margin:0;" />
+        <input type="text" id="searchInput" class="form-input" placeholder="Nom du cours, d�partement�" style="margin:0;" />
       </div>
       <div class="filter-group">
-        <label class="filter-label">Faculté</label>
+        <label class="filter-label">Facult�</label>
         <select id="filterFaculte" class="form-select" style="margin:0;">
           <option value="">Toutes</option>
           <option value="FASEG">FASEG</option>
@@ -117,7 +117,7 @@
         </select>
       </div>
       <div class="filter-group">
-        <label class="filter-label">Année</label>
+        <label class="filter-label">Ann�e</label>
         <select id="filterAnnee" class="form-select" style="margin:0;">
           <option value="">Toutes</option>
           <option value="2024">2024</option>
@@ -128,7 +128,7 @@
       </div>
       <div class="filter-group" style="min-width:auto;justify-content:flex-end;">
         <label class="filter-label">&nbsp;</label>
-        <button id="resetFilters" class="btn btn-ghost btn-sm">↺ Réinitialiser</button>
+        <button id="resetFilters" class="btn btn-ghost btn-sm"><i class="fas fa-redo"></i> R�initialiser</button>
       </div>
     </div>
     <div class="epreuves-grid" id="epreuvesGrid"></div>
@@ -138,14 +138,14 @@
 <!-- MODAL PREMIUM -->
 <div class="modal-overlay" id="premiumModal">
   <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('premiumModal').classList.remove('show')">✕</button>
+    <button class="modal-close" onclick="document.getElementById('premiumModal').classList.remove('show')"><i class="fas fa-times"></i></button>
     <div style="text-align:center;margin-bottom:20px;">
-      <div style="width:60px;height:60px;background:rgba(245,124,0,0.15);border:1px solid rgba(245,124,0,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.5rem;">🔒</div>
+      <div style="width:60px;height:60px;background:rgba(245,124,0,0.15);border:1px solid rgba(245,124,0,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.5rem;">??</div>
     </div>
     <div class="modal-title">Contenu Premium</div>
-    <div class="modal-desc">Cette épreuve est accessible uniquement avec un abonnement Premium, à partir de 500 FCFA.</div>
+    <div class="modal-desc">Cette �preuve est accessible uniquement avec un abonnement Premium, � partir de 500 FCFA.</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <a href="dashboard.html#abonnement" class="btn btn-accent" style="justify-content:center;">⭐ Voir les offres Premium</a>
+      <a href="dashboard.html#abonnement" class="btn btn-accent" style="justify-content:center;"><i class="fas fa-star"></i> Voir les offres Premium</a>
       <button onclick="document.getElementById('premiumModal').classList.remove('show')" class="btn btn-ghost" style="justify-content:center;">Plus tard</button>
     </div>
   </div>

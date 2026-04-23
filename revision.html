@@ -6,6 +6,7 @@
   <style id="body-hidden-guard">body{visibility:hidden}</style>
   <style id="body-hidden">body{visibility:hidden}</style>`n  <style>body{visibility:hidden}</style>
   <title>Révision IA — Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
@@ -165,14 +166,14 @@
         <p data-i18n="rev_empty_desc">Entrez un sujet de révision et l'IA génère un quiz personnalisé pour vous.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:480px;">
           <input type="text" id="quizSujetInput" class="form-input" data-i18n-placeholder="rev_placeholder" placeholder="Ex : Microéconomie, Droit Civil, Anatomie…" style="flex:1;" />
-          <button id="generateQuizBtn" class="btn btn-accent" data-i18n="rev_generate">Générer le quiz ✨</button>
+          <button id="generateQuizBtn" class="btn btn-accent" data-i18n="rev_generate">Générer le quiz <i class="fas fa-sparkles"></i></button>
         </div>
       </div>
 
       <div class="rev-quiz-container" id="quizContainer" style="display:none;">
         <div class="quiz-header">
           <div><div class="quiz-matiere" id="quizMatiere">—</div><div class="quiz-meta" id="quizMeta">—</div></div>
-          <button class="btn btn-ghost btn-sm" id="quitQuizBtn">✕ Quitter</button>
+          <button class="btn btn-ghost btn-sm" id="quitQuizBtn"><i class="fas fa-times"></i> Quitter</button>
         </div>
         <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div></div>
         <div class="quiz-progress-label"><span id="questionIndex">Question 1</span><span id="questionTotal">sur 7</span></div>
@@ -189,26 +190,26 @@
           <p class="results-desc" id="resultsDesc">—</p>
           <div class="results-breakdown" id="resultsBreakdown"></div>
           <div class="results-actions">
-            <button class="btn btn-primary" id="retryBtn">↺ Recommencer</button>
+            <button class="btn btn-primary" id="retryBtn"><i class="fas fa-redo"></i> Recommencer</button>
             <button class="btn btn-ghost" id="changeSubjectBtn">Nouveau sujet</button>
           </div>
           <!-- Partage -->
           <div class="share-card">
-            <p>Partagez votre résultat avec vos amis 🎉</p>
+            <p>Partagez votre résultat avec vos amis <i class="fas fa-trophy"></i></p>
             <div class="share-btns">
-              <button class="btn btn-outline btn-sm" onclick="shareResult('copy')">📋 Copier le lien</button>
-              <button class="btn btn-outline btn-sm" onclick="shareResult('whatsapp')">💬 WhatsApp</button>
-              <button class="btn btn-outline btn-sm" onclick="shareResult('twitter')">🐦 Twitter</button>
+              <button class="btn btn-outline btn-sm" onclick="shareResult('copy')"><i class="fas fa-clipboard"></i> Copier le lien</button>
+              <button class="btn btn-outline btn-sm" onclick="shareResult('whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+              <button class="btn btn-outline btn-sm" onclick="shareResult('twitter')"><i class="fab fa-twitter"></i> Twitter</button>
             </div>
           </div>
           <!-- Résumé IA -->
           <div class="summary-box" id="summaryBox" style="display:none;">
-            <h4>🤖 Résumé IA du sujet</h4>
+            <h4><i class="fas fa-robot"></i> Résumé IA du sujet</h4>
             <div class="summary-content" id="summaryContent">
               <div class="summary-loading"><div class="summary-spinner"></div> Génération du résumé...</div>
             </div>
           </div>
-          <button class="btn btn-accent btn-sm" id="summaryBtn" style="margin-top:12px;width:100%;" onclick="generateSummary()">✨ Obtenir un résumé IA du sujet</button>
+          <button class="btn btn-accent btn-sm" id="summaryBtn" style="margin-top:12px;width:100%;" onclick="generateSummary()"><i class="fas fa-sparkles"></i> Obtenir un résumé IA du sujet</button>
         </div>
       </div>
     </section>
@@ -327,12 +328,17 @@
     fb.style.display = "block";
     fb.className = `quiz-feedback ${i === q.reponseCorrecte ? "correct-fb" : "wrong-fb"}`;
     fb.innerHTML = i === q.reponseCorrecte
-      ? `<strong>✓ Correct.</strong> ${q.explication}`
-      : `<strong>✗ Incorrect.</strong> Bonne réponse : <strong>${q.options[q.reponseCorrecte]}</strong>. ${q.explication}`;
+      ? `<strong><i class="fas fa-check"></i> Correct.</strong> ${q.explication}`
+      : `<strong><i class="fas fa-times"></i> Incorrect.</strong> Bonne réponse : <strong>${q.options[q.reponseCorrecte]}</strong>. ${q.explication}`;
     if (i === q.reponseCorrecte) score++;
     const nb = document.getElementById("nextBtn");
     nb.style.display = "inline-flex";
-    nb.textContent   = idx < questions.length-1 ? "Question suivante →" : "Voir les résultats";
+    nb.textContent   = idx < questions.length-1 ? "Question suivante" : "Voir les résultats";
+    if (idx < questions.length-1) {
+      nb.innerHTML = 'Question suivante <i class="fas fa-arrow-right"></i>';
+    } else {
+      nb.textContent = "Voir les résultats";
+    }
   };
 
   function nextQ() { idx++; idx < questions.length ? renderQ() : showResults(); }

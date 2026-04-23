@@ -20,6 +20,7 @@
   <meta name="twitter:image"       content="https://campusly.uac.bj/campusly/assets/logo.png.jpg" />
 
   <title>Campusly — Plateforme Académique UAC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
@@ -36,6 +37,7 @@
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
+  
   <a href="index.html" class="nav-logo">
     <span class="logo-text">
       <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
@@ -62,7 +64,7 @@
       <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer" style="display:none;">✕</button>
+    <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer" style="display:none;"><i class="fas fa-times"></i></button>
   </div>
 </nav>
 
@@ -102,7 +104,7 @@
   </style>
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-badge hero-badge-pulse" data-i18n="hero_badge">🎓 Université d'Abomey-Calavi</div>
+      <div class="hero-badge hero-badge-pulse" data-i18n="hero_badge"><i class="fas fa-graduation-cap"></i> Université d'Abomey-Calavi</div>
       <h1 class="hero-title">
         <span data-i18n="hero_title">La plateforme académique</span><br/>
         <span data-i18n="hero_title_span">des étudiants de l'UAC</span>
@@ -177,32 +179,32 @@
 <section id="loggedInDash" style="display:none;padding:40px 5%;max-width:1200px;margin:0 auto;position:relative;z-index:1;">
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
     <a href="epreuves.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;">📚</div>
+      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-book"></i></div>
       <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Épreuves</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Bibliothèque complète</div>
     </a>
     <a href="revision.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;">🤖</div>
+      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-robot"></i></div>
       <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Révision IA</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Quiz personnalisés</div>
     </a>
     <a href="chatbot.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;">💬</div>
+      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-comments"></i></div>
       <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Assistant IA</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">GPT-4o-mini</div>
     </a>
     <a href="forum.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;">🗣️</div>
+      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-comment-dots"></i></div>
       <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Forum</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Entraide étudiante</div>
     </a>
     <a href="dashboard.html" style="text-decoration:none;" class="home-quick-card" style="border-color:rgba(21,101,192,0.3);">
-      <div style="font-size:1.8rem;margin-bottom:8px;">📊</div>
+      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-chart-bar"></i></div>
       <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Dashboard</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Ma progression</div>
     </a>
     <a href="contribuer.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;">📤</div>
+      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-upload"></i></div>
       <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Contribuer</div>
       <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Partager une épreuve</div>
     </a>
@@ -293,9 +295,9 @@
       <div class="pricing-duration" data-i18n="plan_free">Gratuit</div>
       <div class="pricing-price">0 <span>FCFA</span></div>
       <ul class="pricing-features">
-        <li><span class="check">✓</span> <span data-i18n="plan_free_feat1">Accès aux épreuves gratuites</span></li>
-        <li><span class="check">✓</span> <span data-i18n="plan_free_feat2">Recherche et filtres</span></li>
-        <li><span class="check">✓</span> <span data-i18n="plan_free_feat3">Favoris et historique</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_free_feat1">Accès aux épreuves gratuites</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_free_feat2">Recherche et filtres</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_free_feat3">Favoris et historique</span></li>
         <li class="disabled" data-i18n="plan_free_feat4">Épreuves Premium</li>
         <li class="disabled" data-i18n="plan_free_feat5">Quiz IA illimités</li>
       </ul>
@@ -306,11 +308,11 @@
       <div class="pricing-duration" data-i18n="plan_month">1 Mois</div>
       <div class="pricing-price">1 500 <span>FCFA</span></div>
       <ul class="pricing-features">
-        <li><span class="check">✓</span> <span data-i18n="plan_feat1">Tout du plan gratuit</span></li>
-        <li><span class="check">✓</span> <span data-i18n="plan_feat2">Accès illimité Premium</span></li>
-        <li><span class="check">✓</span> <span data-i18n="plan_feat3">Quiz IA illimités</span></li>
-        <li><span class="check">✓</span> <span data-i18n="plan_feat4">Suivi de progression</span></li>
-        <li><span class="check">✓</span> <span data-i18n="plan_feat5">Support prioritaire</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat1">Tout du plan gratuit</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat2">Accès illimité Premium</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat3">Quiz IA illimités</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat4">Suivi de progression</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat5">Support prioritaire</span></li>
       </ul>
       <a href="auth.html?tab=register" class="btn btn-primary" style="width:100%;" data-i18n="plan_cta">Choisir ce plan</a>
     </div>
@@ -342,7 +344,7 @@
     <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden;">
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-brand);"></div>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:1.4rem;">🎯</span>
+        <span style="font-size:1.4rem;"><i class="fas fa-bullseye"></i></span>
         <div>
           <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Quiz IA — Microéconomie</div>
           <div style="font-size:0.72rem;color:var(--text-3);">7 questions · GPT-4o-mini</div>
@@ -356,7 +358,7 @@
       <div style="display:flex;flex-direction:column;gap:8px;">
         <div style="padding:9px 14px;background:rgba(16,185,129,0.15);border:1px solid #10B981;border-radius:var(--r-md);font-size:0.8rem;color:#10B981;display:flex;align-items:center;gap:8px;">
           <span style="width:20px;height:20px;background:#10B981;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700;flex-shrink:0;">A</span>
-          La variation relative de la quantité demandée suite à une variation relative du prix ✓
+          La variation relative de la quantité demandée suite à une variation relative du prix <i class="fas fa-check"></i>
         </div>
         <div style="padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);display:flex;align-items:center;gap:8px;opacity:0.5;">
           <span style="width:20px;height:20px;background:var(--surface-2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">B</span>
@@ -372,7 +374,7 @@
     <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden;">
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6C63FF,#38BDF8);"></div>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:1.4rem;">📋</span>
+        <span style="font-size:1.4rem;"><i class="fas fa-clipboard-list"></i></span>
         <div>
           <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Plan de révision IA</div>
           <div style="font-size:0.72rem;color:var(--text-3);">Semaine 2 sur 3</div>
@@ -384,7 +386,7 @@
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;">
         <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:var(--r-md);opacity:0.6;">
-          <div style="width:18px;height:18px;background:#10B981;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;flex-shrink:0;">✓</div>
+          <div style="width:18px;height:18px;background:#10B981;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;flex-shrink:0;"><i class="fas fa-check"></i></div>
           <div style="font-size:0.78rem;color:var(--text-2);">Lundi — Microéconomie Ch.3 (2h)</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.4);border-radius:var(--r-md);">
@@ -401,7 +403,7 @@
     <!-- Demo Question du jour -->
     <div style="background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(56,189,248,0.08));border:1px solid rgba(108,99,255,0.3);border-radius:var(--r-xl);padding:24px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-        <span style="font-size:1.4rem;">🧠</span>
+        <span style="font-size:1.4rem;"><i class="fas fa-brain"></i></span>
         <div>
           <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Question du jour</div>
           <div style="font-size:0.72rem;color:var(--text-3);">Droit Civil · Aujourd'hui</div>
@@ -419,13 +421,13 @@
           Le droit de voter aux élections
         </div>
       </div>
-      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Répondre →</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Répondre <i class="fas fa-arrow-right"></i></a>
     </div>
 
     <!-- Demo Forum -->
     <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:1.4rem;">💬</span>
+        <span style="font-size:1.4rem;"><i class="fas fa-comments"></i></span>
         <div>
           <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Forum étudiant</div>
           <div style="font-size:0.72rem;color:var(--text-3);">Questions récentes</div>
@@ -434,18 +436,18 @@
       <div style="display:flex;flex-direction:column;gap:10px;">
         <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);border-left:3px solid #10B981;">
           <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Comment résoudre les équations différentielles ?</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">FAST · 2 réponses · ✓ Résolu</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">FAST · 2 réponses · <i class="fas fa-check"></i> Résolu</div>
         </div>
         <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);">
           <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Différence entre droit public et privé ?</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">FADESP · 1 réponse · ✓ Résolu</div>
+          <div style="font-size:0.72rem;color:var(--text-3);">FADESP · 1 réponse · <i class="fas fa-check"></i> Résolu</div>
         </div>
         <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);">
           <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Comment préparer Microéconomie en 2 semaines ?</div>
           <div style="font-size:0.72rem;color:var(--text-3);">FASEG · 0 réponse · En attente</div>
         </div>
       </div>
-      <a href="auth.html?tab=register" class="btn btn-outline btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Rejoindre le forum →</a>
+      <a href="auth.html?tab=register" class="btn btn-outline btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Rejoindre le forum <i class="fas fa-arrow-right"></i></a>
     </div>
 
   </div>

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion / Inscription — Campusly</title>
-  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />`n  <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -260,7 +260,7 @@
   const params = new URLSearchParams(window.location.search);
   if (params.get("tab") === "register") switchTab("register");
 
-  // Si déjà connecté → dashboard
+  // Si déjà connecté <i class="fas fa-arrow-right"></i> dashboard
   const { data: { session } } = await supabase.auth.getSession();
   if (session) window.location.href = "dashboard.html";
 
@@ -281,7 +281,7 @@
       // Connexion Supabase avec email/password
       let { error: loginErr } = await supabase.auth.signInWithPassword({ email, password: pwd });
       if (loginErr) {
-        // Nouveau compte → créer
+        // Nouveau compte <i class="fas fa-arrow-right"></i> créer
         const { data, error: signupErr } = await supabase.auth.signUp({ email, password: pwd });
         if (signupErr) throw signupErr;
         if (data.user) {
