@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS payments (
   status TEXT DEFAULT 'pending', -- 'pending', 'successful', 'failed', 'cancelled'
   payment_method TEXT, -- 'mobilemoney', 'card'
   transaction_id TEXT UNIQUE,
-  flutterwave_tx_ref TEXT UNIQUE,
+  fedapay_reference TEXT UNIQUE,
   metadata JSONB,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

@@ -1,17 +1,17 @@
 // ============================================================
-// CAMPUSLY — Webhook Flutterwave
-// Gère les notifications de paiement de Flutterwave
+// CAMPUSLY — Webhook FedaPay
+// Gère les notifications de paiement de FedaPay
 // ============================================================
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const FLW_SECRET_KEY = Deno.env.get("FLUTTERWAVE_SECRET_KEY");
+const FEDAPAY_SECRET_KEY = Deno.env.get("FEDAPAY_SECRET_KEY");
 
 // Configuration CORS
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, verif-hash",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-fedapay-signature",
 };
 
 serve(async (req) => {
@@ -21,61 +21,70 @@ serve(async (req) => {
   }
 
   try {
-    console.log("🔔 Webhook Flutterwave reçu");
+    console.log("🔔 Webhook FedaPay reçu");
 
     // Vérifier la clé secrète
-    if (!FLW_SECRET_KEY) {
-      console.error("❌ FLUTTERWAVE_SECRET_KEY non configurée");
+    if (!FEDAPAY_SECRET_KEY) {
+      console.error("❌ FEDAPAY_SECRET_KEY non configurée");
       throw new Error("Configuration manquante");
-    }
-
-    // Vérifier la signature Flutterwave
-    const signature = req.headers.get("verif-hash");
-    console.log("🔐 Signature reçue:", signature ? "Oui" : "Non");
-
-    if (!signature || signature !== FLW_SECRET_KEY) {
-      console.error("❌ Signature invalide");
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
     }
 
     // Parser le payload
     const payload = await req.json();
     console.log("📦 Payload reçu:", JSON.stringify(payload, null, 2));
 
-    // Vérifier que le paiement est réussi
-    if (payload.status !== "successful") {
-      console.log("⚠️ Paiement non réussi:", payload.status);
+    // Vérifier la signature FedaPay (optionnel mais recommandé)
+    const signature = req.headers.get("x-fedapay-signature");
+    console.log("🔐 Signature reçue:", signature ? "Oui" : "Non");
+
+    // FedaPay envoie les événements avec une structure spécifique
+    const { entity, event } = payload;
+
+    // Vérifier que c'est un événement de transaction
+    if (entity !== "transaction" || event !== "transaction.approved") {
+      console.log("⚠️ Événement non géré:", entity, event);
       return new Response(
-        JSON.stringify({ message: "Payment not successful" }),
+        JSON.stringify({ message: "Event not handled" }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Extraire les données
+    // Extraire les données de la transaction
+    const transaction = payload.transaction || {};
     const {
-      tx_ref,
-      transaction_id,
+      id: transactionId,
+      reference,
       amount,
       currency,
+      status,
       customer,
-      payment_type,
-      meta,
-    } = payload;
+      custom_metadata,
+    } = transaction;
 
-    const userId = meta?.userId;
-    const days = parseInt(meta?.days || "30");
-    const planName = meta?.plan || "1 Mois";
+    console.log("💰 Transaction ID:", transactionId);
+    console.log("💰 Montant:", amount, currency);
+    console.log("📋 Statut:", status);
+
+    // Vérifier que le paiement est approuvé
+    if (status !== "approved") {
+      console.log("⚠️ Paiement non approuvé:", status);
+      return new Response(
+        JSON.stringify({ message: "Payment not approved" }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Extraire les métadonnées personnalisées
+    const userId = custom_metadata?.userId || custom_metadata?.user_id;
+    const days = parseInt(custom_metadata?.days || "30");
+    const planName = custom_metadata?.plan || custom_metadata?.planName || "1 Mois";
 
     console.log("👤 User ID:", userId);
-    console.log("💰 Montant:", amount, currency);
     console.log("📅 Durée:", days, "jours");
     console.log("📋 Plan:", planName);
 
     if (!userId) {
-      console.error("❌ User ID manquant dans meta");
+      console.error("❌ User ID manquant dans custom_metadata");
       throw new Error("User ID manquant");
     }
 
@@ -109,9 +118,9 @@ serve(async (req) => {
         duration_days: days,
         plan_name: planName,
         status: "successful",
-        payment_method: payment_type,
-        transaction_id: transaction_id,
-        flutterwave_tx_ref: tx_ref,
+        payment_method: "fedapay",
+        transaction_id: transactionId.toString(),
+        fedapay_reference: reference,
         metadata: payload,
       })
       .select()
@@ -163,9 +172,6 @@ serve(async (req) => {
     } else {
       console.log("✅ Notification créée");
     }
-
-    // Envoyer un email de confirmation (optionnel)
-    // TODO: Implémenter l'envoi d'email via Resend ou SendGrid
 
     console.log("🎉 Webhook traité avec succès");
 

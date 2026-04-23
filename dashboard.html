@@ -356,7 +356,7 @@
           </div>
         </div>
         <p style="text-align:center;font-size:0.78rem;color:var(--text-3);margin-top:16px;">
-          Paiement sécurisé via <strong>Flutterwave</strong> — MTN Mobile Money · Moov Money · Carte bancaire
+          Paiement sécurisé via <strong>FedaPay</strong> — MTN Mobile Money · Moov Money · Carte bancaire
         </p>
       </div>
 
@@ -1643,64 +1643,98 @@
       }
     };
 
-    // ── FLUTTERWAVE PAIEMENT ───────────────────────────────
-    window.startPayment = function(amount, days, label) {
+    // ── FEDAPAY PAIEMENT ───────────────────────────────────
+    window.startPayment = async function(amount, days, label) {
       if (!_user || !_profile) return showToast("Connectez-vous d'abord.", "info");
 
-      // Charger le SDK Flutterwave dynamiquement
-      if (!window.FlutterwaveCheckout) {
-        const s = document.createElement("script");
-        s.src = "https://checkout.flutterwave.com/v3.js";
-        s.onload = () => launchFlutterwave(amount, days, label);
-        document.head.appendChild(s);
-      } else {
-        launchFlutterwave(amount, days, label);
+      try {
+        // Charger le SDK FedaPay dynamiquement
+        if (!window.FedaPay) {
+          const s = document.createElement("script");
+          s.src = "https://cdn.fedapay.com/checkout.js?v=1.1.7";
+          s.onload = () => launchFedaPay(amount, days, label);
+          document.head.appendChild(s);
+        } else {
+          launchFedaPay(amount, days, label);
+        }
+      } catch(e) {
+        console.error("Erreur chargement FedaPay:", e);
+        showToast("Erreur de chargement du système de paiement.", "info");
       }
     };
 
-    function launchFlutterwave(amount, days, label) {
-      FlutterwaveCheckout({
-        public_key: "REMPLACE_PAR_TA_CLE_PUBLIQUE_FLUTTERWAVE",
-        tx_ref:     "campusly_" + _user.uid + "_" + Date.now(),
-        amount,
-        currency:   "XOF",
-        payment_options: "mobilemoney,card",
-        customer: {
-          email:      _user.email || _user.uid + "@campusly.uac.bj",
-          name:       (_profile.prenom || "") + " " + (_profile.nom || ""),
-          phone_number: "",
-        },
-        customizations: {
-          title:       "Campusly Premium",
-          description: `Abonnement ${label}`,
-          logo:        "https://campusly.uac.bj/campusly/assets/logo.png.jpg",
-        },
-        meta: {
-          userId: _user.uid,
-          days,
-          plan: label,
-        },
-        callback: async function(response) {
-          if (response.status === "successful") {
-            const exp = new Date();
-            exp.setDate(exp.getDate() + days);
-            try {
-              await supabase.from("users").update({ is_premium: true, premium_expiry: exp.toISOString() }).eq("id", _user.id);
-              const { data } = await supabase.from("users").select("*").eq("id", _user.id).single();
-              _profile = data;
-              renderUserInfo();
-              renderNav();
-              showToast("Premium activé pour " + label + " ! 🎉", "success");
-              showSection("accueil");
-            } catch(e) { showToast("Erreur activation : " + e.message, "info"); }
-          } else {
-            showToast("Paiement non complété.", "info");
+    async function launchFedaPay(amount, days, label) {
+      try {
+        // Configuration FedaPay
+        const FEDAPAY_PUBLIC_KEY = "pk_sandbox_VOTRE_CLE_PUBLIQUE_FEDAPAY"; // MODE TEST
+        // const FEDAPAY_PUBLIC_KEY = "pk_live_VOTRE_CLE_PUBLIQUE_FEDAPAY"; // MODE PRODUCTION
+        
+        FedaPay.init({
+          public_key: FEDAPAY_PUBLIC_KEY,
+          transaction: {
+            amount: amount,
+            description: `Campusly Premium - ${label}`,
+            custom_metadata: {
+              userId: _user.id,
+              days: days,
+              plan: label,
+              email: _user.email || "",
+              name: `${_profile.prenom || ""} ${_profile.nom || ""}`.trim()
+            }
+          },
+          customer: {
+            firstname: _profile.prenom || "Utilisateur",
+            lastname: _profile.nom || "Campusly",
+            email: _user.email || _user.id + "@campusly.uac.bj",
+            phone_number: {
+              number: "",
+              country: "bj"
+            }
+          },
+          onComplete: async function(transaction) {
+            console.log("✅ Paiement complété:", transaction);
+            
+            if (transaction.status === "approved") {
+              const exp = new Date();
+              exp.setDate(exp.getDate() + days);
+              
+              try {
+                await supabase.from("users").update({ 
+                  is_premium: true, 
+                  premium_expiry: exp.toISOString() 
+                }).eq("id", _user.id);
+                
+                const { data } = await supabase.from("users").select("*").eq("id", _user.id).single();
+                _profile = data;
+                renderUserInfo();
+                renderNav();
+                showToast("Premium activé pour " + label + " ! 🎉", "success");
+                showSection("accueil");
+              } catch(e) { 
+                console.error("Erreur activation:", e);
+                showToast("Erreur activation : " + e.message, "info"); 
+              }
+            } else {
+              showToast("Paiement en attente de confirmation.", "info");
+            }
+          },
+          onCancel: function() {
+            console.log("❌ Paiement annulé");
+            showToast("Paiement annulé.", "info");
+          },
+          onError: function(error) {
+            console.error("❌ Erreur paiement:", error);
+            showToast("Erreur lors du paiement. Réessayez.", "info");
           }
-        },
-        onclose: function() {
-          showToast("Paiement annulé.", "info");
-        },
-      });
+        });
+
+        // Ouvrir le modal de paiement
+        FedaPay.open();
+        
+      } catch(e) {
+        console.error("Erreur lancement FedaPay:", e);
+        showToast("Erreur : " + e.message, "info");
+      }
     }
 
     function renderPremiumStatus() {

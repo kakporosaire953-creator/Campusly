@@ -23,18 +23,18 @@
 ### 2. Edge Functions Supabase
 
 - [ ] `groq-ai` déployée
-- [ ] `flutterwave-webhook` déployée
+- [ ] `fedapay-webhook` déployée
 - [ ] Secrets configurés:
   - [ ] `GROQ_API_KEY`
-  - [ ] `FLUTTERWAVE_SECRET_KEY`
+  - [ ] `FEDAPAY_SECRET_KEY`
 
-### 3. Configuration Flutterwave
+### 3. Configuration FedaPay
 
 - [ ] Compte créé et vérifié
 - [ ] KYC complété
 - [ ] Clés API obtenues (Test et Live)
 - [ ] Clé publique ajoutée dans `dashboard.html`
-- [ ] Webhook URL configurée dans Flutterwave Dashboard
+- [ ] Webhook URL configurée dans FedaPay Dashboard
 - [ ] Paiement test réussi
 
 ### 4. Tests Fonctionnels
@@ -105,8 +105,8 @@ supabase db push
 # 1. Déployer groq-ai (déjà fait normalement)
 supabase functions deploy groq-ai
 
-# 2. Déployer flutterwave-webhook
-supabase functions deploy flutterwave-webhook
+# 2. Déployer fedapay-webhook
+supabase functions deploy fedapay-webhook
 
 # 3. Vérifier les déploiements
 supabase functions list
@@ -120,38 +120,38 @@ supabase functions list
 # 1. GROQ_API_KEY
 # Valeur: gsk_VOTRE_CLE_GROQ_ICI
 
-# 2. FLUTTERWAVE_SECRET_KEY
-# Valeur: FLWSECK_TEST-votre-cle-secrete (Test)
-# Valeur: FLWSECK-votre-cle-secrete (Production)
+# 2. FEDAPAY_SECRET_KEY
+# Valeur: sk_sandbox_votre-cle-secrete (Test)
+# Valeur: sk_live_votre-cle-secrete (Production)
 ```
 
-### Étape 5: Configurer Flutterwave
+### Étape 5: Configurer FedaPay
 
 ```javascript
 // Dans dashboard.html, ligne ~1650
-function launchFlutterwave(amount, days, label) {
+async function launchFedaPay(amount, days, label) {
   // MODE TEST
-  const FLW_PUBLIC_KEY = "FLWPUBK_TEST-votre-cle-publique-test";
+  const FEDAPAY_PUBLIC_KEY = "pk_sandbox_votre-cle-publique-test";
   
   // MODE PRODUCTION (décommenter après tests)
-  // const FLW_PUBLIC_KEY = "FLWPUBK-votre-cle-publique-live";
+  // const FEDAPAY_PUBLIC_KEY = "pk_live_votre-cle-publique-live";
   
-  FlutterwaveCheckout({
-    public_key: FLW_PUBLIC_KEY,
+  FedaPay.init({
+    public_key: FEDAPAY_PUBLIC_KEY,
     // ... reste du code
   });
 }
 ```
 
-### Étape 6: Configurer le Webhook Flutterwave
+### Étape 6: Configurer le Webhook FedaPay
 
 ```bash
 # 1. Obtenir l'URL du webhook
-# Format: https://VOTRE_PROJECT_REF.supabase.co/functions/v1/flutterwave-webhook
+# Format: https://VOTRE_PROJECT_REF.supabase.co/functions/v1/fedapay-webhook
 
-# 2. Aller dans Flutterwave Dashboard → Settings → Webhooks
+# 2. Aller dans FedaPay Dashboard → Paramètres → Webhooks
 # 3. Ajouter l'URL
-# 4. Sélectionner les événements: charge.completed, transfer.completed
+# 4. Sélectionner les événements: transaction.approved, transaction.declined
 # 5. Sauvegarder
 ```
 
@@ -226,7 +226,7 @@ function launchFlutterwave(amount, days, label) {
 ### Étape 10: Passer en Production
 
 ```bash
-# 1. Mettre à jour les clés Flutterwave (Live)
+# 1. Mettre à jour les clés FedaPay (Live)
 # 2. Tester un paiement réel de faible montant
 # 3. Vérifier que tout fonctionne
 # 4. Activer le monitoring
@@ -311,7 +311,7 @@ vercel domains add campusly.uac.bj
 - Webhooks échoués
 ```
 
-### 2. Monitoring Flutterwave
+### 2. Monitoring FedaPay
 
 ```bash
 # Dashboard → Transactions
@@ -364,7 +364,7 @@ vercel domains add campusly.uac.bj
 
 ## 🐛 Résolution des Problèmes Courants
 
-### Problème: Webhook Flutterwave ne fonctionne pas
+### Problème: Webhook FedaPay ne fonctionne pas
 
 **Solutions**:
 1. Vérifier que l'URL est correcte
@@ -401,7 +401,7 @@ vercel domains add campusly.uac.bj
 ### Documentation
 
 - [Supabase Docs](https://supabase.com/docs)
-- [Flutterwave Docs](https://developer.flutterwave.com/docs)
+- [FedaPay Docs](https://docs.fedapay.com)
 - [Groq Docs](https://console.groq.com/docs)
 - [Vercel Docs](https://vercel.com/docs)
 

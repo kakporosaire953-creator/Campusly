@@ -78,7 +78,7 @@ Campusly est une plateforme web moderne conçue pour les étudiants de l'UAC. El
 - Notifications de rappel
 
 ### 💳 Premium
-- Abonnement via Flutterwave
+- Abonnement via FedaPay
 - 3 plans: 1 Semaine (500 FCFA), 1 Mois (1500 FCFA), 3 Mois (3500 FCFA)
 - Paiement Mobile Money (MTN, Moov) et Carte bancaire
 - Accès illimité aux épreuves Premium
@@ -116,7 +116,7 @@ Campusly est une plateforme web moderne conçue pour les étudiants de l'UAC. El
   - mixtral-8x7b-32768
 
 ### Paiement
-- Flutterwave
+- FedaPay
   - Mobile Money (MTN, Moov)
   - Carte bancaire
   - Webhooks
@@ -134,7 +134,7 @@ Campusly est une plateforme web moderne conçue pour les étudiants de l'UAC. El
 - Git
 - Compte Supabase
 - Compte Groq
-- Compte Flutterwave (optionnel)
+- Compte FedaPay (optionnel)
 
 ### Étapes
 
@@ -169,23 +169,23 @@ supabase db push
 Dans Supabase Dashboard → Settings → Secrets:
 
 ```
-GROQ_API_KEY=gsk_votre_cle_groq
-FLUTTERWAVE_SECRET_KEY=FLWSECK_TEST-votre_cle_flutterwave
+GROQ_API_KEY=gsk_VOTRE_CLE_GROQ_ICI
+FEDAPAY_SECRET_KEY=sk_sandbox_votre_cle_fedapay
 ```
 
 6. **Déployer les Edge Functions**
 
 ```bash
 supabase functions deploy groq-ai
-supabase functions deploy flutterwave-webhook
+supabase functions deploy fedapay-webhook
 ```
 
-7. **Configurer Flutterwave**
+7. **Configurer FedaPay**
 
 Dans `dashboard.html`, ligne ~1650:
 
 ```javascript
-const FLW_PUBLIC_KEY = "FLWPUBK_TEST-votre-cle-publique";
+const FEDAPAY_PUBLIC_KEY = "pk_sandbox_votre-cle-publique";
 ```
 
 8. **Lancer en local**
@@ -219,12 +219,12 @@ const GROQ_API_KEY = Deno.env.get("GROQ_API_KEY");
 
 ```javascript
 // dashboard.html
-const FLW_PUBLIC_KEY = "FLWPUBK_TEST-votre-cle";
+const FEDAPAY_PUBLIC_KEY = "pk_sandbox_votre-cle";
 ```
 
 ```typescript
-// supabase/functions/flutterwave-webhook/index.ts
-const FLW_SECRET_KEY = Deno.env.get("FLUTTERWAVE_SECRET_KEY");
+// supabase/functions/fedapay-webhook/index.ts
+const FEDAPAY_SECRET_KEY = Deno.env.get("FEDAPAY_SECRET_KEY");
 ```
 
 ### Base de Données
@@ -234,11 +234,11 @@ Les migrations SQL sont dans `supabase/migrations/`:
 - `20260410_daily_questions.sql` - Questions quotidiennes
 - `20260423_missing_tables.sql` - Tables manquantes (groups, revision_plans, etc.)
 
-### Webhook Flutterwave
+### Webhook FedaPay
 
-URL: `https://VOTRE_PROJECT_REF.supabase.co/functions/v1/flutterwave-webhook`
+URL: `https://VOTRE_PROJECT_REF.supabase.co/functions/v1/fedapay-webhook`
 
-Configurer dans Flutterwave Dashboard → Settings → Webhooks
+Configurer dans FedaPay Dashboard → Paramètres → Webhooks
 
 ## 🚀 Déploiement
 
@@ -293,7 +293,7 @@ lighthouse https://campusly.uac.bj --view
 ## 📚 Documentation
 
 - [Guide de Déploiement Complet](DEPLOIEMENT_COMPLET.md)
-- [Configuration Flutterwave](CONFIGURATION_FLUTTERWAVE.md)
+- [Configuration FedaPay](CONFIGURATION_FEDAPAY.md)
 - [Guide d'Application Migration](GUIDE_APPLICATION_MIGRATION.md)
 - [Tests Automatisés](TESTS_AUTOMATISES.md)
 - [Corrections Prioritaires](CORRECTIONS_PRIORITAIRES.md)
@@ -333,7 +333,7 @@ Les contributions sont les bienvenues!
 ### Technologies
 - [Supabase](https://supabase.com) - Backend as a Service
 - [Groq](https://groq.com) - IA ultra-rapide
-- [Flutterwave](https://flutterwave.com) - Paiements Afrique
+- [FedaPay](https://fedapay.com) - Paiements Afrique de l'Ouest
 - [Chart.js](https://chartjs.org) - Graphiques
 - [Vercel](https://vercel.com) - Hosting
 

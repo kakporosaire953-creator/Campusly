@@ -222,9 +222,9 @@ CREATE TABLE payments (
 // Génère un plan personnalisé basé sur les matières et dates
 ```
 
-#### C. Webhook Flutterwave
+#### C. Webhook FedaPay
 ```typescript
-// supabase/functions/flutterwave-webhook/index.ts
+// supabase/functions/fedapay-webhook/index.ts
 // Gère les notifications de paiement
 ```
 
@@ -309,7 +309,7 @@ showToast("Service IA indisponible. Vérifiez votre connexion et réessayez.", "
 ### 🟡 IMPORTANT (À Corriger Bientôt)
 
 5. **Créer les tables Supabase manquantes** (groupes, plans, examens)
-6. **Implémenter le système de paiement** (Flutterwave)
+6. **Implémenter le système de paiement** (FedaPay)
 7. **Implémenter le leaderboard** (calcul scores)
 8. **Implémenter les groupes d'étude** (création, membres)
 9. **Remplacer les données statiques** (vraies données Supabase)
@@ -343,7 +343,7 @@ showToast("Service IA indisponible. Vérifiez votre connexion et réessayez.", "
 
 ### Phase 3 : Système de Paiement (2-3 heures)
 ```bash
-1. Intégrer Flutterwave
+1. Intégrer FedaPay
 2. Créer webhook de paiement
 3. Implémenter vérification premium
 4. Tester le flow complet
