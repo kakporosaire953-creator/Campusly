@@ -304,6 +304,23 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- ============================================================
+-- 8. Configuration du Bucket de Stockage 'epreuves'
+-- ============================================================
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('epreuves', 'epreuves', true)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Accès public en lecture pour epreuves" ON storage.objects;
+CREATE POLICY "Accès public en lecture pour epreuves"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'epreuves');
+
+DROP POLICY IF EXISTS "Upload authentifié pour epreuves" ON storage.objects;
+CREATE POLICY "Upload authentifié pour epreuves"
+ON storage.objects FOR INSERT
+WITH CHECK (bucket_id = 'epreuves' AND auth.role() = 'authenticated');
+
+-- ============================================================
 -- DONNÉES DE TEST (optionnel, à commenter en production)
 -- ============================================================
 

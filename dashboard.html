@@ -458,7 +458,7 @@
       <div class="dash-section" id="section-leaderboard" style="display:none;">
         <div class="page-header">
           <div class="page-title"><i class="fas fa-trophy"></i> Classement</div>
-          <div class="page-subtitle">Les tudiants les plus actifs de Campusly</div>
+          <div class="page-subtitle">Les étudiants les plus actifs de Campusly</div>
         </div>
         <div class="card" style="margin-bottom:16px;">
           <div style="display:flex;gap:8px;margin-bottom:20px;">
@@ -530,22 +530,22 @@
               <span id="planProgressLabel" style="font-size:0.82rem;color:var(--text-3);">0%</span>
             </div>
             <div class="plan-progress-bar"><div class="plan-progress-fill" id="planProgressFill" style="width:0%"></div></div>
-            <button class="btn btn-ghost btn-sm" onclick="resetPlan()"><i class="fas fa-redo"></i> Recr�er un plan</button>
+            <button class="btn btn-ghost btn-sm" onclick="resetPlan()"><i class="fas fa-redo"></i> Recrer un plan</button>
           </div>
           <div id="planWeeks"></div>
         </div>
       </div>
 
-      <!-- COMPTE � REBOURS EXAMENS -->
+      <!-- COMPTE  REBOURS EXAMENS -->
       <div class="dash-section" id="section-examens" style="display:none;">
         <div class="page-header">
           <div class="page-title">Mes examens</div>
-          <div class="page-subtitle">Compte � rebours avant vos �preuves</div>
+          <div class="page-subtitle">Compte à rebours avant vos épreuves</div>
         </div>
         <div class="card">
           <div class="countdown-list" id="countdownList"></div>
           <div class="add-exam-form">
-            <input type="text" id="examName" class="form-input" placeholder="Nom de l'examen (ex: Micro�conomie)" style="margin:0;" />
+            <input type="text" id="examName" class="form-input" placeholder="Nom de l'examen (ex: Microéconomie)" style="margin:0;" />
             <input type="date" id="examDate" class="form-input" style="margin:0;max-width:180px;" />
             <button class="btn btn-primary" onclick="addExam()">+ Ajouter</button>
           </div>
@@ -563,28 +563,28 @@
       <div id="onboardingStep1">
         <div style="font-size:3rem;margin-bottom:16px;"><i class="fas fa-graduation-cap"></i></div>
         <h2 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Bienvenue sur Campusly !</h2>
-        <p style="color:var(--text-2);line-height:1.7;margin-bottom:24px;">La plateforme acad�mique des �tudiants de l'UAC. Voici comment tirer le meilleur parti de Campusly.</p>
+        <p style="color:var(--text-2);line-height:1.7;margin-bottom:24px;">La plateforme académique des étudiants de l'UAC. Voici comment tirer le meilleur parti de Campusly.</p>
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:left;">
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
             <span style="font-size:1.4rem;"><i class="fas fa-book"></i></span>
-            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">�preuves</div><div style="color:var(--text-3);font-size:0.78rem;">Acc�dez � des centaines d'anciennes �preuves class�es par facult�.</div></div>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">Épreuves</div><div style="color:var(--text-3);font-size:0.78rem;">Accédez à des centaines d'anciennes épreuves classées par faculté.</div></div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
             <span style="font-size:1.4rem;"><i class="fas fa-robot"></i></span>
-            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">R�vision IA</div><div style="color:var(--text-3);font-size:0.78rem;">G�n�rez des quiz personnalis�s avec GPT-4o-mini.</div></div>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">Révision IA</div><div style="color:var(--text-3);font-size:0.78rem;">Générez des quiz personnalisés avec Groq.</div></div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface);border-radius:var(--r-md);">
             <span style="font-size:1.4rem;"><i class="fas fa-trophy"></i></span>
-            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">XP & Badges</div><div style="color:var(--text-3);font-size:0.78rem;">Gagnez des points en r�visant et d�bloquez des badges.</div></div>
+            <div><div style="font-weight:600;color:var(--text-1);font-size:0.875rem;">XP & Badges</div><div style="color:var(--text-3);font-size:0.78rem;">Gagnez des points en révisant et débloquez des badges.</div></div>
           </div>
         </div>
         <button class="btn btn-primary" style="width:100%;" onclick="nextOnboarding()">Commencer <i class="fas fa-arrow-right"></i></button>
       </div>
       <div id="onboardingStep2" style="display:none;">
         <div style="font-size:3rem;margin-bottom:16px;"><i class="fas fa-edit"></i></div>
-        <h2 style="font-size:1.3rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Compl�tez votre profil</h2>
-        <p style="color:var(--text-2);line-height:1.7;margin-bottom:20px;">Ajoutez votre matricule et votre facult� pour une exp�rience personnalis�e.</p>
-        <button class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="showSection('profil');closeOnboarding()">Compl�ter mon profil</button>
+        <h2 style="font-size:1.3rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Complétez votre profil</h2>
+        <p style="color:var(--text-2);line-height:1.7;margin-bottom:20px;">Ajoutez votre matricule et votre faculté pour une expérience personnalisée.</p>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="showSection('profil');closeOnboarding()">Compléter mon profil</button>
         <button class="btn btn-ghost" style="width:100%;" onclick="closeOnboarding()">Plus tard</button>
       </div>
     </div>
@@ -1066,9 +1066,9 @@
       const cur   = XP_LEVELS[lvl-1] || 0;
       const next  = XP_LEVELS[lvl]   || XP_LEVELS[XP_LEVELS.length-1];
       const pct   = Math.min(100, Math.round(((xp - cur) / (next - cur)) * 100));
-      const names = ["","D�butant","Curieux","Studieux","Assidu","Expert","Ma�tre","Champion","L�gende","Dieu du savoir"];
-      const label = `<i class="fas fa-star"></i> Niv. ${lvl} � ${names[lvl]||""}`;
-      ["levelBadge","levelBadgeBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=label; });
+      const names = ["","Débutant","Curieux","Studieux","Assidu","Expert","Maître","Champion","Légende","Dieu du savoir"];
+      const label = `<i class="fas fa-star"></i> Niv. ${lvl} — ${names[lvl]||""}`;
+      ["levelBadge","levelBadgeBig"].forEach(id => { const el=document.getElementById(id); if(el) el.innerHTML=label; });
       ["xpBarFill","xpBarFillBig"].forEach(id => { const el=document.getElementById(id); if(el) el.style.width=pct+"%"; });
       ["xpCurrent","xpCurrentBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=xp+" XP"; });
       ["xpNext","xpNextBig"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=next+" XP"; });
@@ -1082,14 +1082,14 @@
 
     // -- BADGES ---------------------------------------------
     const ALL_BADGES = [
-      { id:"first_dl",    icon:"??", name:"1er t�l�chargement",  check: (s) => s.downloads >= 1  },
-      { id:"dl10",        icon:"<i class="fas fa-book"></i>", name:"10 t�l�chargements",  check: (s) => s.downloads >= 10 },
-      { id:"first_quiz",  icon:"<i class="fas fa-bullseye"></i>", name:"1er quiz",            check: (s) => s.quizzes  >= 1  },
-      { id:"quiz10",      icon:"<i class="fas fa-brain"></i>", name:"10 quiz compl�t�s",   check: (s) => s.quizzes  >= 10 },
-      { id:"streak3",     icon:"<i class="fas fa-fire"></i>", name:"Streak 3 jours",      check: (s) => s.streak   >= 3  },
-      { id:"streak7",     icon:"?", name:"Streak 7 jours",      check: (s) => s.streak   >= 7  },
-      { id:"contrib",     icon:"??", name:"Contributeur",        check: (s) => s.contribs >= 1  },
-      { id:"level5",      icon:"<i class="fas fa-trophy"></i>", name:"Niveau 5",            check: (s) => s.level    >= 5  },
+      { id:"first_dl",    icon:"<i class='fas fa-file-download'></i>", name:"1er téléchargement",  check: (s) => s.downloads >= 1  },
+      { id:"dl10",        icon:"<i class='fas fa-book'></i>", name:"10 téléchargements",  check: (s) => s.downloads >= 10 },
+      { id:"first_quiz",  icon:"<i class='fas fa-bullseye'></i>", name:"1er quiz",            check: (s) => s.quizzes  >= 1  },
+      { id:"quiz10",      icon:"<i class='fas fa-brain'></i>", name:"10 quiz complétés",   check: (s) => s.quizzes  >= 10 },
+      { id:"streak3",     icon:"<i class='fas fa-fire'></i>", name:"Streak 3 jours",      check: (s) => s.streak   >= 3  },
+      { id:"streak7",     icon:"<i class='fas fa-fire-alt'></i>", name:"Streak 7 jours",      check: (s) => s.streak   >= 7  },
+      { id:"contrib",     icon:"<i class='fas fa-hands-helping'></i>", name:"Contributeur",        check: (s) => s.contribs >= 1  },
+      { id:"level5",      icon:"<i class='fas fa-trophy'></i>", name:"Niveau 5",            check: (s) => s.level    >= 5  },
     ];
     function renderBadges(stats) {
       const grid = document.getElementById("badgesGrid");
@@ -1110,7 +1110,7 @@
       const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
       let streak = profile.streak || 0;
       if (lastVisit === today) {
-        // d�j� visit� aujourd'hui
+        // déjà visité aujourd'hui
       } else if (lastVisit === yesterday) {
         streak++;
         supabase.from("users").update({ streak, last_visit: today }).eq("id", _user.id);
@@ -1121,7 +1121,7 @@
       const el = document.getElementById("streakCount");
       if (el) el.textContent = streak;
       const msg = document.getElementById("streakMsg");
-      if (msg) msg.textContent = streak >= 7 ? "<i class="fas fa-trophy"></i> Incroyable !" : streak >= 3 ? "?? Continue !" : "R�vise chaque jour !";
+      if (msg) msg.innerHTML = streak >= 7 ? "<i class='fas fa-trophy'></i> Incroyable !" : streak >= 3 ? "🔥 Continue !" : "Révise chaque jour !";
       return streak;
     }
 
@@ -1312,34 +1312,35 @@
 
     window.generatePlan = async function() {
       const matieres = _planMatieres.filter(m => m.nom.trim() && m.dateExamen);
-      if (!matieres.length) return showToast("Ajoutez au moins une mati�re avec une date d'examen.", "info");
+      if (!matieres.length) return showToast("Ajoutez au moins une matière avec une date d'examen.", "info");
       const startDate = document.getElementById("planStartDate").value || new Date().toISOString().slice(0,10);
       const hours     = parseInt(document.getElementById("planHours").value || "2");
       const btn       = document.getElementById("generatePlanBtn");
-      btn.disabled = true; btn.textContent = "G�n�ration en cours...";
+      btn.disabled = true; btn.textContent = "Génération en cours...";
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        const res = await fetch(`${EDGE_BASE}/chat-ai`, {
+        const res = await fetch(`${EDGE_BASE}/groq-ai`, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
           body: JSON.stringify({
-            messages: [{ role: "user", content: `G�n�re un plan de r�vision pour ces mati�res : ${matieres.map(m=>`${m.nom} (examen le ${m.dateExamen})`).join(", ")}. Date de d�but : ${startDate}. ${hours}h par jour. R�ponds avec un JSON : [{"label":"Semaine du...","days":[{"date":"YYYY-MM-DD","tasks":"..."}]}]` }],
-            mode: "chat"
+            messages: [{ role: "user", content: `Génère un plan de révision pour ces matières : ${matieres.map(m=>`${m.nom} (examen le ${m.dateExamen})`).join(", ")}. Date de début : ${startDate}. ${hours}h par jour. Réponds avec un JSON : [{"label":"Semaine du...","days":[{"date":"YYYY-MM-DD","tasks":"..."}]}]` }],
+            mode: "chat",
+            model: "balanced"
           }),
         });
         const result = await res.json();
         let plan;
-        try { plan = JSON.parse(result.content); } catch(e) { throw new Error("R�ponse IA invalide"); }
+        try { plan = JSON.parse(result.content); } catch(e) { throw new Error("Rponse IA invalide"); }
         if (!Array.isArray(plan)) plan = plan.plan || plan.semaines || [];
         savePlan(plan);
         renderPlan(plan);
         document.getElementById("planSetupCard").style.display = "none";
         document.getElementById("planResult").style.display = "block";
-        showToast("Plan de r�vision cr<i class="fas fa-trophy"></i> ! <i class="fas fa-clipboard-list"></i>", "success");
+        showToast("Plan de révision créé <i class='fas fa-trophy'></i> ! <i class='fas fa-clipboard-list'></i>", "success");
       } catch(e) {
         showToast("Erreur : " + e.message, "info");
       } finally {
-        btn.disabled = false; btn.textContent = "<i class="fas fa-sparkles"></i> G�n�rer mon plan IA";
+        btn.disabled = false; btn.innerHTML = "<i class='fas fa-sparkles'></i> Générer mon plan IA";
       }
     };
 
@@ -1422,26 +1423,26 @@
       const fillEl   = document.getElementById("planProgressFill");
       const labelEl  = document.getElementById("planProgressLabel");
       if (fillEl)  fillEl.style.width  = pct + "%";
-      if (labelEl) labelEl.textContent = pct + "% compl�t�";
+      if (labelEl) labelEl.innerHTML = pct + "% complété";
 
       const container = document.getElementById("planWeeks");
       if (!container) return;
       container.innerHTML = plan.map((week, wi) => `
         <div class="plan-week">
-          <div class="plan-week-title">Semaine ${wi+1} � ${week.label||""}</div>
+          <div class="plan-week-title">Semaine ${wi+1} — ${week.label||""}</div>
           ${week.days.map(day => {
             const isToday   = day.date === today;
             const isDone    = !!checked[day.date];
             const isPast    = day.date < today && !isDone;
             return `<div class="plan-day ${isDone?"done":""} ${isToday?"today":""}">
               <div class="plan-day-check ${isDone?"checked":""}" onclick="togglePlanDay('${day.date}')">
-                ${isDone ? "<i class="fas fa-check"></i>" : ""}
+                ${isDone ? "<i class='fas fa-check'></i>" : ""}
               </div>
               <div style="flex:1;">
-                <div class="plan-day-date">${new Date(day.date+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${isToday?" � <strong style='color:#6C63FF;'>Aujourd'hui</strong>":""}</div>
+                <div class="plan-day-date">${new Date(day.date+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${isToday?" — <strong style='color:#6C63FF;'>Aujourd'hui</strong>":""}</div>
                 <div class="plan-day-tasks">${day.tasks}</div>
               </div>
-              ${isPast ? '<span style="font-size:0.72rem;color:var(--danger);">Manqu�</span>' : ""}
+              ${isPast ? '<span style="font-size:0.72rem;color:var(--danger);">Manqué</span>' : ""}
             </div>`;
           }).join("")}
         </div>`).join("");
@@ -1810,7 +1811,7 @@
         const rankClass = i => i===0?"gold":i===1?"silver":i===2?"bronze":"";
         list.innerHTML = users.map((u,i) => {
           const isMe = u.id === _user.id;
-          const name = `${u.prenom||""} ${u.nom||""}`.trim() || u.matricule || "�tudiant";
+          const name = `${u.prenom||""} ${u.nom||""}`.trim() || u.matricule || "étudiant";
           const score = mode === "xp" ? (u.xp||0)+" XP" : mode === "quiz" ? (u.quiz_count_today||0)+" quiz" : (u.streak||0)+" jours";
           const initial = name[0]?.toUpperCase() || "?";
           const avatar = u.photo_url ? `<img src="${u.photo_url}" style="width:100%;height:100%;object-fit:cover;" />` : initial;
@@ -1861,7 +1862,7 @@
     
     window.createGroup = async function() {
       const name = document.getElementById("groupName").value.trim();
-      if (!name) return showToast("Entrez un nom de groupe.", "info");
+      if (!name) return showToast('Entrez un nom de groupe.', 'info');
       
       try {
         const { error } = await supabase.from("groups").insert({
@@ -1875,7 +1876,7 @@
         
         document.getElementById("groupName").value = "";
         await loadGroups();
-        showToast("Groupe cr<i class="fas fa-trophy"></i> ! <i class="fas fa-users"></i>", "success");
+        showToast("Groupe créé <i class='fas fa-trophy'></i> ! <i class='fas fa-users'></i>", "success");
       } catch(e) {
         console.error("Erreur cr�ation groupe:", e);
         showToast("Erreur : " + e.message, "info");
@@ -1935,7 +1936,7 @@
         setTimeout(async () => {
           const perm = await Notification.requestPermission();
           if (perm === "granted") {
-            showToast("Notifications activ�es ! ??", "success");
+            showToast("Notifications actives ! ??", "success");
             scheduleRevisionReminder();
           }
         }, 3000);
@@ -1949,8 +1950,8 @@
       if (lastNotif === today) return;
       const hour = new Date().getHours();
       if (hour >= 18 && hour < 22) {
-        new Notification("Campusly <i class="fas fa-book"></i>", {
-          body: "N'oublie pas ta r�vision du jour ! Lance un quiz maintenant.",
+        new Notification("Campusly", {
+          body: "N'oublie pas ta révision du jour ! Lance un quiz maintenant.",
           icon: "/campusly/assets/logo.png.jpg",
         });
         localStorage.setItem("campusly_last_notif", today);
