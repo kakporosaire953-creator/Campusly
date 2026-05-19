@@ -398,18 +398,23 @@
             <input type="text" id="editMatricule" class="form-input" maxlength="8" />
           </div>
           <div class="form-group" style="margin-bottom:14px;">
-            <label class="form-label">Facult�</label>
+            <label class="form-label">Facult</label>
             <select id="editFaculte" class="form-select">
-              <option value="">S�lectionner</option>
-              <option value="FASEG">FASEG</option><option value="FADESP">FADESP</option>
-              <option value="FAST">FAST</option><option value="FSS">FSS</option>
-              <option value="FSA">FSA</option><option value="FASHS">FASHS</option>
-              <option value="FLLAC">FLLAC</option><option value="EPAC">EPAC</option>
-              <option value="INJEPS">INJEPS</option><option value="ENEAM">ENEAM</option>
+              <option value="">Slectionner</option>
+              <option value="FASEG">FASEG</option>
+              <option value="FADESP">FADESP</option>
+              <option value="FAST">FAST</option>
+              <option value="FSS">FSS</option>
+              <option value="FSA">FSA</option>
+              <option value="FASHS">FASHS</option>
+              <option value="FLLAC">FLLAC</option>
+              <option value="EPAC">EPAC</option>
+              <option value="INJEPS">INJEPS</option>
+              <option value="ENEAM">ENEAM</option>
             </select>
           </div>
           <div class="form-group" style="margin-bottom:24px;">
-            <label class="form-label">D�partement / Fili�re</label>
+            <label class="form-label">Dpartement / Filire</label>
             <input type="text" id="editDept" class="form-input" placeholder="Ex : Informatique" />
           </div>
           <button class="btn btn-primary" style="width:100%;" onclick="saveProfile()"><i class="fas fa-save"></i> Enregistrer les modifications</button>
@@ -417,7 +422,7 @@
           <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
             <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:12px;">Zone dangereuse</p>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
-              <button onclick="doLogout()" class="btn btn-outline btn-sm" style="color:var(--text-2);">Se d�connecter</button>
+              <button onclick="doLogout()" class="btn btn-outline btn-sm" style="color:var(--text-2);">Se dconnecter</button>
               <button onclick="confirmDeleteAccount()" class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger);"><i class="fas fa-trash"></i> Supprimer mon compte</button>
             </div>
           </div>
@@ -428,7 +433,7 @@
       <div class="dash-section" id="section-badges" style="display:none;">
         <div class="page-header">
           <div class="page-title">Badges & XP</div>
-          <div class="page-subtitle">Votre progression et vos r�compenses</div>
+          <div class="page-subtitle">Votre progression et vos rcompenses</div>
         </div>
         <div class="card" style="margin-bottom:20px;">
           <h3 class="card-title">Votre niveau</h3>
@@ -437,8 +442,15 @@
           <div class="xp-label"><span id="xpCurrentBig">0 XP</span><span id="xpNextBig">100 XP</span></div>
         </div>
         <div class="card">
-          <h3 class="card-title">Badges d�bloqu�s</h3>
-          <div class="badges-grid" id="badgesGrid"></div>
+          <h3 class="card-title">Badges débloqués</h3>
+          <div class="badges-grid" id="badgesGrid">
+            <!-- État vide -->
+            <div style="grid-column:1/-1;text-align:center;padding:32px 16px;background:var(--surface);border-radius:var(--r-md);color:var(--text-3);font-size:0.9rem;">
+              <div style="font-size:2rem;margin-bottom:12px;color:var(--text-4);">🏆</div>
+              <p>Vous n'avez pas encore de badges.</p>
+              <a href="epreuves.html" class="btn btn-ghost btn-sm" style="margin-top:12px;">Télécharger une épreuve pour commencer</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -446,7 +458,7 @@
       <div class="dash-section" id="section-leaderboard" style="display:none;">
         <div class="page-header">
           <div class="page-title"><i class="fas fa-trophy"></i> Classement</div>
-          <div class="page-subtitle">Les �tudiants les plus actifs de Campusly</div>
+          <div class="page-subtitle">Les tudiants les plus actifs de Campusly</div>
         </div>
         <div class="card" style="margin-bottom:16px;">
           <div style="display:flex;gap:8px;margin-bottom:20px;">
@@ -454,15 +466,23 @@
             <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('quiz')" id="lbQuizBtn"><i class="fas fa-bullseye"></i> Quiz</button>
             <button class="btn btn-ghost btn-sm" onclick="loadLeaderboard('streak')" id="lbStreakBtn"><i class="fas fa-fire"></i> Streak</button>
           </div>
-          <div id="leaderboardList"></div>
+          <div id="leaderboardList">
+            <!-- État vide -->
+            <div style="text-align:center;padding:32px 16px;background:var(--surface);border-radius:var(--r-md);color:var(--text-3);font-size:0.9rem;">
+              <div style="font-size:2rem;margin-bottom:12px;color:var(--text-4);">🌟</div>
+              <p>Le classement est en cours de calcul.</p>
+              <p>Soyez le premier à accumuler des points !</p>
+            </div>
+          </div>
         </div>
-        <!-- Groupes d'�tude -->
+        <!-- Groupes d'étude -->
         <div class="card">
-          <h3 class="card-title"><i class="fas fa-users"></i> Groupes d'�tude</h3>
+          <h3 class="card-title"><i class="fas fa-users"></i> Groupes d'étude</h3>
+          <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:16px;">Rejoignez ou créez un groupe d'étude privé avec vos camarades de classe pour partager des ressources.</p>
           <div id="groupsList" style="margin-bottom:16px;"></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--border);">
             <input type="text" id="groupName" class="form-input" placeholder="Nom du groupe (ex: FASEG S3)" style="flex:1;margin:0;" />
-            <button class="btn btn-primary" onclick="createGroup()">+ Cr�er</button>
+            <button class="btn btn-primary" onclick="createGroup()">+ Créer</button>
           </div>
         </div>
       </div>
