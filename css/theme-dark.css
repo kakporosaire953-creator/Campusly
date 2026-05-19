@@ -1,0 +1,333 @@
+/* ============================================================
+   CAMPUSLY — Thème Sombre
+   ============================================================ */
+
+[data-theme="dark"] {
+  /* ── Couleurs de base ── */
+  --bg: #0a0e27;
+  --bg-2: #111827;
+  --surface: #1f2937;
+  --surface-2: #374151;
+  --surface-3: #4b5563;
+
+  /* ── Texte ── */
+  --text-1: #f9fafb;
+  --text-2: #e5e7eb;
+  --text-3: #9ca3af;
+  --text-4: #6b7280;
+
+  /* ── Bordures ── */
+  --border: #374151;
+  --border-2: #4b5563;
+
+  /* ── Brand ── */
+  --brand-1: #3b82f6;
+  --brand-2: #60a5fa;
+  --brand-3: #93c5fd;
+
+  /* ── Accent ── */
+  --accent-1: #f59e0b;
+  --accent-2: #fbbf24;
+
+  /* ── États ── */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* ── Gradients ── */
+  --grad-brand: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --grad-accent: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --grad-card: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.9) 100%);
+
+  /* ── Ombres ── */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --shadow-brand: 0 4px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* ── Orbes de fond en mode sombre ── */
+[data-theme="dark"] .bg-orb-1 {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .bg-orb-2 {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+}
+
+/* ── Navbar en mode sombre ── */
+[data-theme="dark"] .navbar {
+  background: rgba(10, 14, 39, 0.95);
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .navbar.scrolled {
+  background: rgba(10, 14, 39, 0.98);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Cards en mode sombre ── */
+[data-theme="dark"] .card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .ep-card,
+[data-theme="dark"] .q-card {
+  background: var(--grad-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .card:hover,
+[data-theme="dark"] .ep-card:hover,
+[data-theme="dark"] .q-card:hover {
+  border-color: var(--border-2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Inputs en mode sombre ── */
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-textarea {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text-1);
+}
+
+[data-theme="dark"] .form-input:focus,
+[data-theme="dark"] .form-select:focus,
+[data-theme="dark"] .form-textarea:focus {
+  border-color: var(--brand-1);
+  background: var(--surface-2);
+}
+
+[data-theme="dark"] .form-input::placeholder {
+  color: var(--text-4);
+}
+
+/* ── Boutons en mode sombre ── */
+[data-theme="dark"] .btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-2);
+}
+
+[data-theme="dark"] .btn-ghost:hover {
+  background: var(--surface-2);
+  border-color: var(--border-2);
+  color: var(--text-1);
+}
+
+[data-theme="dark"] .btn-outline {
+  background: transparent;
+  border-color: var(--border-2);
+  color: var(--text-1);
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  background: var(--surface);
+}
+
+/* ── Sidebar en mode sombre ── */
+[data-theme="dark"] .sidebar {
+  background: var(--bg-2);
+  border-right-color: var(--border);
+}
+
+[data-theme="dark"] .sidebar-link {
+  color: var(--text-3);
+}
+
+[data-theme="dark"] .sidebar-link:hover,
+[data-theme="dark"] .sidebar-link.active {
+  background: var(--surface);
+  color: var(--text-1);
+}
+
+/* ── Modal en mode sombre ── */
+[data-theme="dark"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="dark"] .modal {
+  background: var(--bg-2);
+  border-color: var(--border);
+}
+
+/* ── Toast en mode sombre ── */
+[data-theme="dark"] .toast {
+  background: var(--surface);
+  color: var(--text-1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Tables en mode sombre ── */
+[data-theme="dark"] table {
+  border-color: var(--border);
+}
+
+[data-theme="dark"] th {
+  background: var(--surface);
+  color: var(--text-1);
+}
+
+[data-theme="dark"] td {
+  border-color: var(--border);
+  color: var(--text-2);
+}
+
+[data-theme="dark"] tr:hover {
+  background: var(--surface);
+}
+
+/* ── Code blocks en mode sombre ── */
+[data-theme="dark"] pre,
+[data-theme="dark"] code {
+  background: var(--surface-3);
+  color: #e5e7eb;
+}
+
+/* ── Scrollbar en mode sombre ── */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--bg-2);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 5px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--surface-3);
+}
+
+/* ── Selection en mode sombre ── */
+[data-theme="dark"] ::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: var(--text-1);
+}
+
+/* ── Badges en mode sombre ── */
+[data-theme="dark"] .badge,
+[data-theme="dark"] .ep-badge-faculte,
+[data-theme="dark"] .q-faculte {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: var(--brand-3);
+}
+
+/* ── Stats cards en mode sombre ── */
+[data-theme="dark"] .stat-card-icon.blue {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--brand-2);
+}
+
+[data-theme="dark"] .stat-card-icon.orange {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--accent-2);
+}
+
+[data-theme="dark"] .stat-card-icon.green {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+[data-theme="dark"] .stat-card-icon.purple {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+}
+
+/* ── Transitions douces ── */
+[data-theme="dark"] * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Images en mode sombre (réduction luminosité) ── */
+[data-theme="dark"] img:not(.no-dark-filter) {
+  filter: brightness(0.9);
+}
+
+/* ── Amélioration contraste liens ── */
+[data-theme="dark"] a {
+  color: var(--brand-2);
+}
+
+[data-theme="dark"] a:hover {
+  color: var(--brand-3);
+}
+
+/* ── Empty states en mode sombre ── */
+[data-theme="dark"] .empty-state,
+[data-theme="dark"] .ep-empty,
+[data-theme="dark"] .rev-empty {
+  background: var(--grad-card);
+  border-color: var(--border);
+}
+
+/* ── Pricing cards en mode sombre ── */
+[data-theme="dark"] .pricing-card {
+  background: var(--grad-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .pricing-card.popular {
+  border-color: var(--brand-1);
+  box-shadow: 0 0 0 2px var(--brand-1);
+}
+
+/* ── Forum en mode sombre ── */
+[data-theme="dark"] .answer-item {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .answer-item.best {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--success);
+}
+
+/* ── Chat en mode sombre ── */
+[data-theme="dark"] .chat-messages {
+  background: var(--bg);
+}
+
+[data-theme="dark"] .msg-content {
+  background: var(--grad-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .msg.user .msg-content {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* ── Quiz en mode sombre ── */
+[data-theme="dark"] .quiz-option {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .quiz-option:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--brand-1);
+}
+
+/* ── Leaderboard en mode sombre ── */
+[data-theme="dark"] .lb-row {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .lb-row.me {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* ── Amélioration lisibilité ── */
+[data-theme="dark"] {
+  color-scheme: dark;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page introuvable — Campusly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px; }
+    .not-found { text-align:center; max-width:480px; }
+    .not-found-code {
+      font-size:8rem; font-weight:900; line-height:1;
+      background: linear-gradient(135deg, #1565C0, #F57C00);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      margin-bottom:16px;
+    }
+    .not-found-title { font-size:1.5rem; font-weight:700; color:var(--text-1); margin-bottom:12px; }
+    .not-found-desc  { color:var(--text-2); font-size:0.95rem; line-height:1.7; margin-bottom:32px; }
+    .not-found-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .logo-text { font-size:1.4rem; font-weight:800; letter-spacing:-0.03em; text-decoration:none; display:inline-block; margin-bottom:32px; }
+    .logo-campus { color:var(--text-1); }
+    .logo-ly     { color:#1565C0; }
+  </style>
+</head>
+<body>
+<script src="js/theme.js"></script>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+<div class="not-found">
+  <a href="index.html" class="logo-text">
+    <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
+  </a>
+  <div class="not-found-code">404</div>
+  <h1 class="not-found-title">Page introuvable</h1>
+  <p class="not-found-desc">
+    Oups ! Cette page n'existe pas ou a été déplacée.<br>
+    Retournez à l'accueil pour continuer votre révision.
+  </p>
+  <div class="not-found-actions">
+    <a href="index.html" class="btn btn-primary"><i class="fas fa-home"></i> Retour à l'accueil</a>
+    <a href="epreuves.html" class="btn btn-ghost"><i class="fas fa-book"></i> Voir les épreuves</a>
+  </div>
+</div>
+</body>
+</html>

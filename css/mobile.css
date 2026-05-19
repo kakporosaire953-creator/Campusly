@@ -1,0 +1,419 @@
+/* ============================================================
+   CAMPUSLY — Mobile CSS (style Chariow)
+   Même design, disposition mobile fluide
+   ============================================================ */
+
+/* ── Reset débordement global ────────────────────────────── */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+img, svg, video, iframe { max-width: 100%; }
+.bg-orbs { overflow: hidden; }
+
+/* ── Nav-right wrapper ───────────────────────────────────── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Hamburger caché sur desktop ─────────────────────────── */
+.hamburger { display: none; }
+#sidebarToggle { display: none; }
+
+/* ── Bottom nav (dashboard mobile) ──────────────────────── */
+.bottom-nav { display: none; }
+
+/* ============================================================
+   TABLETTE ≤ 1024px
+   ============================================================ */
+@media (max-width: 1024px) {
+  .hero-content  { grid-template-columns: 1fr !important; text-align: center; }
+  .hero-visual   { display: none !important; }
+  .hero-stats    { justify-content: center; }
+  .hero-actions  { justify-content: center; }
+  .footer-grid   { grid-template-columns: 1fr 1fr; }
+  .sidebar       { transform: translateX(-100%); }
+  .sidebar.open  { transform: translateX(0); }
+  .dashboard-main { margin-left: 0 !important; }
+}
+
+/* ============================================================
+   MOBILE ≤ 768px
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ── Navbar style Chariow ───────────────────────────────── */
+  .navbar {
+    padding: 0 16px !important;
+    height: 56px !important;
+    background: var(--bg) !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  /* Cacher tout sauf logo, lang FR/EN et hamburger */
+  .nav-links { display: none !important; }
+  .nav-right .nav-actions { display: none !important; }
+  .nav-right #globalSearchWrap { display: none !important; }
+  .nav-user-name { display: none !important; }
+
+  /* Lang switcher compact — FR et EN seulement */
+  .nav-right #langSwitcher {
+    display: flex !important;
+    gap: 3px;
+  }
+  .nav-right #langSwitcher .lang-btn[data-lang="de"],
+  .nav-right #langSwitcher .lang-btn[data-lang="es"] { display: none !important; }
+  .nav-right #langSwitcher .lang-btn {
+    padding: 4px 7px !important;
+    font-size: 0.68rem !important;
+    border-radius: 6px !important;
+  }
+
+  /* Hamburger visible */
+  .hamburger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 6px;
+    flex-shrink: 0;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-1);
+    border-radius: 2px;
+    transition: all 0.25s ease;
+  }
+
+  /* ── Menu mobile compact ────────────────────────────────── */
+  .nav-links.open {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 56px; left: 0; right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 4px 16px 8px;
+    gap: 0;
+    z-index: 1001;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  .nav-links.open li { width: 100%; border-bottom: 1px solid rgba(21,101,192,0.06); }
+  .nav-links.open li:last-child { border-bottom: none; }
+  .nav-links.open a {
+    display: block;
+    width: 100%;
+    padding: 10px 4px;
+    color: var(--text-1) !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  /* Sélecteur langue dans menu */
+  .mobile-lang-switcher { padding: 8px 4px 4px !important; }
+
+  /* Bouton ✕ dans la navbar */
+  .nav-close-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-1);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .nav-close-btn.show { display: flex !important; }
+  .hamburger.hidden { display: none !important; }
+
+  /* Connexion/Inscription en bas du menu */
+  .nav-links.open::after {
+    content: '';
+    display: block;
+    flex: 1;
+  }
+  /* Ajouter les boutons auth en bas du menu via CSS */
+  .nav-links-auth-bottom {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 16px 24px;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1002;
+  }
+  .nav-links-auth-bottom.show { display: flex; }
+  .nav-links-auth-bottom .btn { width: 100%; justify-content: center; }
+
+  /* ── Padding-top pages ──────────────────────────────────── */
+  .dashboard-layout { padding-top: 56px !important; }
+  .epreuves-main    { padding-top: 56px !important; }
+  .revision-main    { padding-top: 56px !important; }
+  .forum-main       { padding-top: 56px !important; }
+  .chatbot-layout   { padding-top: 56px !important; }
+
+  /* ── Hero style Chariow ─────────────────────────────────── */
+  .hero {
+    padding: 72px 20px 48px !important;
+    min-height: auto !important;
+    text-align: center;
+  }
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    gap: 24px;
+    text-align: center;
+  }
+  .hero-visual { display: none !important; }
+  .hero-badge  { font-size: 0.75rem; margin-bottom: 16px; }
+  .hero-title  {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 16px !important;
+  }
+  .hero-desc {
+    font-size: 0.95rem;
+    max-width: 100%;
+    margin-bottom: 28px !important;
+  }
+  /* 1 seul bouton CTA pleine largeur */
+  .hero-actions {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-actions .btn {
+    width: 100% !important;
+    max-width: 100%;
+    justify-content: center;
+    padding: 14px 20px !important;
+    font-size: 1rem !important;
+    border-radius: var(--r-full) !important;
+  }
+  .hero-stats {
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .hero-text > div[style*="display:flex"] {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* ── Sections ───────────────────────────────────────────── */
+  .section { padding: 40px 20px !important; }
+  .section-title { font-size: clamp(1.5rem, 5vw, 2rem) !important; }
+  .section-desc  { font-size: 0.9rem; }
+
+  /* ── Grilles → 1 colonne ────────────────────────────────── */
+  .features-grid,
+  .steps-grid,
+  .pricing-grid,
+  .demo-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .pricing-card.popular { transform: none !important; }
+
+  /* ── CTA ────────────────────────────────────────────────── */
+  .cta-section { padding: 40px 20px !important; }
+  .cta-actions { flex-direction: column !important; align-items: center; gap: 12px; }
+  .cta-actions .btn {
+    width: 100% !important;
+    border-radius: var(--r-full) !important;
+    padding: 14px 20px !important;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  .footer { padding: 40px 20px 24px !important; }
+  .footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .footer-flag { display: none !important; }
+
+  /* ── Auth ───────────────────────────────────────────────── */
+  .auth-page { grid-template-columns: 1fr !important; }
+  .auth-left { display: none !important; }
+  .auth-right { padding: 72px 20px 24px !important; align-items: flex-start; }
+  .auth-form-container { padding: 24px 20px !important; width: 100%; }
+  .auth-form-header h1 { font-size: 1.6rem !important; }
+  .form-btn { border-radius: var(--r-full) !important; }
+
+  /* ── Dashboard ──────────────────────────────────────────── */
+  .dashboard-main {
+    margin-left: 0 !important;
+    padding: 16px 16px 80px !important; /* espace pour bottom nav */
+    width: 100%;
+    min-width: 0;
+  }
+  .sidebar {
+    width: 280px !important;
+    transform: translateX(-100%);
+    top: 56px !important;
+    z-index: 200;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    top: 56px;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+  }
+  .sidebar-overlay.show { display: block; }
+
+  /* Cacher le bouton toggle sidebar (remplacé par bottom nav) */
+  #sidebarToggle { display: none !important; }
+  .page-header { margin-bottom: 16px !important; }
+  .page-title  { font-size: 1.3rem !important; }
+
+  /* ── Bottom nav style Chariow ───────────────────────────── */
+  .bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    z-index: 150;
+    padding: 0;
+    height: 60px;
+  }
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-decoration: none;
+    color: var(--text-3);
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 6px 4px;
+    transition: color 0.15s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--font-sans);
+  }
+  .bottom-nav-item.active,
+  .bottom-nav-item:hover { color: var(--brand-2); }
+  .bottom-nav-item svg { flex-shrink: 0; }
+
+  /* Cards dashboard */
+  .stat-card { padding: 14px !important; }
+  .stat-card-value { font-size: 1.4rem !important; }
+  .stat-card-icon  { width: 36px !important; height: 36px !important; }
+  .card { padding: 16px !important; }
+  .premium-banner { flex-direction: column !important; text-align: center; gap: 12px; }
+  .streak-card { flex-wrap: wrap !important; gap: 10px !important; padding: 14px !important; }
+  #welcomeDate { flex-wrap: wrap !important; gap: 4px !important; }
+  .add-exam-form { flex-direction: column !important; }
+  .add-exam-form input, .add-exam-form .btn { width: 100% !important; }
+
+  /* ── Révision ───────────────────────────────────────────── */
+  .revision-body {
+    grid-template-columns: 1fr !important;
+    padding: 16px !important;
+    gap: 16px !important;
+  }
+  .rev-quiz-container { padding: 18px !important; }
+  .quiz-header { flex-direction: column !important; gap: 8px; }
+  .quiz-option { padding: 14px !important; font-size: 0.9rem !important; border-radius: var(--r-lg) !important; }
+  .results-actions { flex-direction: column !important; align-items: center; }
+  .results-actions .btn { width: 100% !important; max-width: 300px; border-radius: var(--r-full) !important; }
+
+  /* ── Épreuves ───────────────────────────────────────────── */
+  .ep-header { padding: 24px 20px 20px !important; }
+  .epreuves-grid { grid-template-columns: 1fr !important; }
+  .filters-bar { flex-direction: column !important; padding: 16px !important; gap: 10px !important; }
+  .filter-group { min-width: 100% !important; width: 100% !important; }
+  .ep-actions { flex-wrap: wrap; gap: 8px !important; }
+  .ep-btn-dl, .ep-btn-premium { border-radius: var(--r-full) !important; }
+
+  /* ── Forum ──────────────────────────────────────────────── */
+  .forum-header-inner { flex-direction: column !important; gap: 12px !important; }
+  .forum-header-inner .btn { width: 100% !important; border-radius: var(--r-full) !important; }
+  .forum-body { flex-direction: column !important; }
+  .forum-sidebar-col { width: 100% !important; }
+
+  /* ── Chatbot ────────────────────────────────────────────── */
+  .chatbot-layout { flex-direction: column !important; height: calc(100vh - 56px) !important; }
+  .chat-sidebar { display: none !important; }
+  .chat-main { flex: 1; min-height: 0; overflow: hidden; }
+  .chat-messages { padding: 14px !important; }
+  .msg-content { max-width: calc(100vw - 70px) !important; font-size: 0.875rem !important; }
+  .chat-input-area { padding: 10px 14px !important; }
+  .chat-mode-bar { padding: 6px 14px !important; overflow-x: auto; }
+
+  /* ── Modals style Chariow (slide du bas) ────────────────── */
+  .modal-overlay { align-items: flex-end !important; padding: 0 !important; }
+  .modal {
+    border-radius: 24px 24px 0 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 24px 20px !important;
+    animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── Inline grids → 1 colonne ───────────────────────────── */
+  [style*="grid-template-columns:1fr 1fr"],
+  [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Désactiver hover sur touch ─────────────────────────── */
+  .feature-card:hover, .stat-card:hover,
+  .pricing-card:hover, .step-card:hover,
+  .q-card:hover, .ep-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* ── Tables ─────────────────────────────────────────────── */
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* ============================================================
+   PETIT MOBILE ≤ 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  .hero-title  { font-size: clamp(1.7rem, 8vw, 2.4rem) !important; }
+  .section-title { font-size: clamp(1.3rem, 6vw, 1.8rem) !important; }
+  .hero-stats .stat-number { font-size: 1.5rem; }
+}
+
+/* ============================================================
+   TOUCH — taille minimale éléments interactifs
+   ============================================================ */
+@media (max-width: 768px) {
+  .btn          { min-height: 44px; }
+  .sidebar-link { min-height: 44px; }
+  .auth-tab     { min-height: 42px; }
+  .quiz-option  { min-height: 50px; }
+  .bottom-nav-item { min-height: 44px; }
+  .form-input, .form-select {
+    min-height: 48px;
+    font-size: 16px !important;
+  }
+}
+
+/* ── Charts grid mobile ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .charts-grid { grid-template-columns: 1fr !important; }
+}

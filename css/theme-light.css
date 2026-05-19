@@ -1,0 +1,44 @@
+html.theme-light {
+  --bg: #F0F4F8;
+  --bg-2: #E8EEF5;
+  --bg-3: #DDE5EF;
+  --surface: rgba(21,101,192,0.06);
+  --surface-2: rgba(21,101,192,0.10);
+  --border: rgba(21,101,192,0.12);
+  --border-2: rgba(21,101,192,0.25);
+  --text-1: #0D1F3C;
+  --text-2: #2A4A6B;
+  --text-3: #5A7FA8;
+  --text-4: #9BB5CC;
+  --grad-card: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,244,248,0.8));
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+}
+html.theme-light body { background: var(--bg); color: var(--text-1); }
+html.theme-light .navbar { background: rgba(240,244,248,0.96) !important; border-bottom: 1px solid var(--border); }
+html.theme-light .sidebar { background: var(--bg-2); border-right-color: var(--border); }
+html.theme-light .card { background: #fff; border-color: var(--border); }
+html.theme-light .rev-panel { background: #fff; }
+html.theme-light .upload-card { background: #fff; }
+html.theme-light .modal-box { background: #fff; }
+html.theme-light .form-input { background: #fff; color: var(--text-1); border-color: var(--border-2); }
+html.theme-light .form-select { background: #fff; color: var(--text-1); border-color: var(--border-2); }
+html.theme-light .btn-ghost { color: var(--text-1); }
+html.theme-light .bg-orb { opacity: 0.1; }
+html.theme-light .dashboard-main { background: var(--bg); }
+html.theme-light .stat-card { background: #fff; border-color: var(--border); }
+html.theme-light .sidebar-link { color: var(--text-2); }
+html.theme-light .sidebar-link:hover { background: var(--surface); color: var(--text-1); }
+html.theme-light .history-row { background: var(--surface); }
+html.theme-light .chat-main { background: var(--bg); }
+html.theme-light .chat-input-area { background: var(--bg-2); border-top-color: var(--border); }
+html.theme-light .chat-input-wrap { background: #fff; border-color: var(--border-2); }
+html.theme-light .msg-content { background: #fff; border-color: var(--border); color: var(--text-1); }
+html.theme-light .msg.user .msg-content { background: rgba(21,101,192,0.08); }
+html.theme-light .ep-card { background: #fff; border-color: var(--border); }
+html.theme-light .rev-quiz-container { background: #fff; border-color: var(--border); }
+html.theme-light .results-card { background: #fff; border-color: var(--border); }
+html.theme-light .auth-page { background: var(--bg); }
+html.theme-light .auth-right { background: #fff; }
+html.theme-light .pricing-card { background: #fff; border-color: var(--border); }
+html.theme-light .footer { background: var(--bg-2); border-top-color: var(--border); }
