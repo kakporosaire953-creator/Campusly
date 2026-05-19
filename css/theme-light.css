@@ -1,21 +1,21 @@
 html.theme-light {
-  --bg: #F0F4F8;
-  --bg-2: #E8EEF5;
-  --bg-3: #DDE5EF;
-  --surface: rgba(21,101,192,0.06);
-  --surface-2: rgba(21,101,192,0.10);
-  --border: rgba(21,101,192,0.12);
-  --border-2: rgba(21,101,192,0.25);
-  --text-1: #0D1F3C;
-  --text-2: #2A4A6B;
-  --text-3: #5A7FA8;
-  --text-4: #9BB5CC;
-  --grad-card: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,244,248,0.8));
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+  --bg: #FAFAFC;
+  --bg-2: #F1F5F9;
+  --bg-3: #E2E8F0;
+  --surface: rgba(79,70,229,0.03);
+  --surface-2: rgba(79,70,229,0.06);
+  --border: rgba(79,70,229,0.08);
+  --border-2: rgba(79,70,229,0.18);
+  --text-1: #0F172A;
+  --text-2: #334155;
+  --text-3: #64748B;
+  --text-4: #94A3B8;
+  --grad-card: linear-gradient(145deg, #FFFFFF, #F8FAFC);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.05);
 }
 html.theme-light body { background: var(--bg); color: var(--text-1); }
-html.theme-light .navbar { background: rgba(240,244,248,0.96) !important; border-bottom: 1px solid var(--border); }
+html.theme-light .navbar { background: rgba(250,250,252,0.96) !important; border-bottom: 1px solid var(--border); }
 html.theme-light .sidebar { background: var(--bg-2); border-right-color: var(--border); }
 html.theme-light .card { background: #fff; border-color: var(--border); }
 html.theme-light .rev-panel { background: #fff; }
@@ -34,7 +34,7 @@ html.theme-light .chat-main { background: var(--bg); }
 html.theme-light .chat-input-area { background: var(--bg-2); border-top-color: var(--border); }
 html.theme-light .chat-input-wrap { background: #fff; border-color: var(--border-2); }
 html.theme-light .msg-content { background: #fff; border-color: var(--border); color: var(--text-1); }
-html.theme-light .msg.user .msg-content { background: rgba(21,101,192,0.08); }
+html.theme-light .msg.user .msg-content { background: rgba(79, 70, 229, 0.08); }
 html.theme-light .ep-card { background: #fff; border-color: var(--border); }
 html.theme-light .rev-quiz-container { background: #fff; border-color: var(--border); }
 html.theme-light .results-card { background: #fff; border-color: var(--border); }

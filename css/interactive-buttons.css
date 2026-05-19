@@ -41,14 +41,14 @@
 
 /* ── Bouton Primary avec gradient animé ── */
 .btn-primary {
-  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
+  background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
   background-size: 200% 200%;
   animation: gradientShift 3s ease infinite;
 }
 
 .btn-primary:hover {
   background-position: right center;
-  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.4);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
 }
 
 @keyframes gradientShift {
@@ -58,8 +58,8 @@
 
 /* ── Bouton Accent avec effet glow ── */
 .btn-accent {
-  background: linear-gradient(135deg, #F57C00 0%, #FF8F00 100%);
-  box-shadow: 0 4px 16px rgba(245, 124, 0, 0.3);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
   position: relative;
 }
 
@@ -67,7 +67,7 @@
   content: '';
   position: absolute;
   inset: -2px;
-  background: linear-gradient(135deg, #F57C00, #FF8F00);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   border-radius: inherit;
   opacity: 0;
   filter: blur(10px);
@@ -80,7 +80,7 @@
 }
 
 .btn-accent:hover {
-  box-shadow: 0 8px 32px rgba(245, 124, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.5);
 }
 
 /* ── Bouton Ghost avec effet border ── */
@@ -96,7 +96,7 @@
   inset: 0;
   border-radius: inherit;
   padding: 2px;
-  background: linear-gradient(135deg, #1565C0, #F57C00);
+  background: linear-gradient(135deg, var(--brand-1), var(--accent));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -157,11 +157,11 @@
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 4px 16px rgba(21, 101, 192, 0.3);
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 8px 32px rgba(21, 101, 192, 0.5);
+    box-shadow: 0 8px 32px rgba(79, 70, 229, 0.5);
   }
 }
 
@@ -223,9 +223,9 @@
 .btn-shimmer {
   background: linear-gradient(
     90deg,
-    #1565C0 0%,
-    #42A5F5 50%,
-    #1565C0 100%
+    var(--brand-1) 0%,
+    var(--brand-2) 50%,
+    var(--brand-1) 100%
   );
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
@@ -289,7 +289,7 @@
 
 /* ── Accessibilité ── */
 .btn:focus-visible {
-  outline: 3px solid rgba(21, 101, 192, 0.5);
+  outline: 3px solid rgba(79, 70, 229, 0.5);
   outline-offset: 2px;
 }
 
