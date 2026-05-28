@@ -8,7 +8,7 @@
 
 /* EN-TÊTE */
 .revision-header {
-  background: linear-gradient(135deg, #0D1B2A 0%, #1E3A5F 100%);
+  background: #0D1B2A;
   padding: 40px 5%;
 }
 
@@ -235,7 +235,7 @@
 
 .quiz-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  background: #1565C0;
   border-radius: 50px;
   transition: width 0.4s ease;
 }
@@ -389,14 +389,14 @@
   font-size: 2rem;
   font-weight: 800;
   color: var(--white);
-  background: conic-gradient(var(--primary) 0%, var(--accent) 100%);
+  background: #1565C0;
   position: relative;
 }
 
-.results-score-circle.excellent { background: conic-gradient(var(--success), #81C784); }
-.results-score-circle.good      { background: conic-gradient(var(--primary), var(--accent)); }
-.results-score-circle.average   { background: conic-gradient(var(--accent), #FFB74D); }
-.results-score-circle.low       { background: conic-gradient(var(--danger), #EF9A9A); }
+.results-score-circle.excellent { background: #10B981; }
+.results-score-circle.good      { background: #1565C0; }
+.results-score-circle.average   { background: #F57C00; }
+.results-score-circle.low       { background: #EF4444; }
 
 .results-title {
   font-size: 1.4rem;

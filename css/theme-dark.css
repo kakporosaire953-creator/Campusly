@@ -21,31 +21,31 @@
   --border-2: rgba(255,255,255,0.12);
 
   /* ── Brand ── */
-  --brand-1: #4F46E5;
-  --brand-2: #6366F1;
-  --brand-3: #818CF8;
+  --brand-1: #1565C0;
+  --brand-2: #42A5F5;
+  --brand-3: #64B5F6;
 
   /* ── Accent ── */
-  --accent-1: #f59e0b;
-  --accent-2: #d97706;
+  --accent-1: #F57C00;
+  --accent-2: #FB8C00;
 
   /* ── États ── */
   --success: #10b981;
-  --warning: #f59e0b;
+  --warning: #F57C00;
   --danger: #ef4444;
-  --info: #4F46E5;
+  --info: #1565C0;
 
-  /* ── Gradients ── */
-  --grad-brand: linear-gradient(135deg, #3730A3 0%, #4F46E5 100%);
-  --grad-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-  --grad-card: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.005) 100%);
+  /* ── Gradients (remplacés par couleurs solides) ── */
+  --grad-brand: #1565C0;
+  --grad-accent: #F57C00;
+  --grad-card: rgba(255,255,255,0.03);
 
   /* ── Ombres ── */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-  --shadow-brand: 0 4px 16px rgba(79, 70, 229, 0.25);
+  --shadow-brand: 0 4px 16px rgba(21, 101, 192, 0.25);
 }
 
 /* ── Orbes de fond en mode sombre ── */
@@ -73,7 +73,7 @@
 [data-theme="dark"] .stat-card,
 [data-theme="dark"] .ep-card,
 [data-theme="dark"] .q-card {
-  background: var(--grad-card);
+  background: rgba(255,255,255,0.03);
   border-color: var(--border);
 }
 
@@ -215,20 +215,20 @@
 [data-theme="dark"] .badge,
 [data-theme="dark"] .ep-badge-faculte,
 [data-theme="dark"] .q-faculte {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.4);
-  color: var(--brand-3);
+  background: rgba(21, 101, 192, 0.2);
+  border-color: rgba(21, 101, 192, 0.4);
+  color: #64B5F6;
 }
 
 /* ── Stats cards en mode sombre ── */
 [data-theme="dark"] .stat-card-icon.blue {
-  background: rgba(59, 130, 246, 0.2);
-  color: var(--brand-2);
+  background: rgba(21, 101, 192, 0.2);
+  color: #42A5F5;
 }
 
 [data-theme="dark"] .stat-card-icon.orange {
-  background: rgba(245, 158, 11, 0.2);
-  color: var(--accent-2);
+  background: rgba(245, 124, 0, 0.2);
+  color: #FB8C00;
 }
 
 [data-theme="dark"] .stat-card-icon.green {
@@ -253,30 +253,30 @@
 
 /* ── Amélioration contraste liens ── */
 [data-theme="dark"] a {
-  color: var(--brand-2);
+  color: #42A5F5;
 }
 
 [data-theme="dark"] a:hover {
-  color: var(--brand-3);
+  color: #64B5F6;
 }
 
 /* ── Empty states en mode sombre ── */
 [data-theme="dark"] .empty-state,
 [data-theme="dark"] .ep-empty,
 [data-theme="dark"] .rev-empty {
-  background: var(--grad-card);
+  background: rgba(255,255,255,0.03);
   border-color: var(--border);
 }
 
 /* ── Pricing cards en mode sombre ── */
 [data-theme="dark"] .pricing-card {
-  background: var(--grad-card);
+  background: rgba(255,255,255,0.03);
   border-color: var(--border);
 }
 
 [data-theme="dark"] .pricing-card.popular {
-  border-color: var(--brand-1);
-  box-shadow: 0 0 0 2px var(--brand-1);
+  border-color: #1565C0;
+  box-shadow: 0 0 0 2px #1565C0;
 }
 
 /* ── Forum en mode sombre ── */
@@ -296,13 +296,13 @@
 }
 
 [data-theme="dark"] .msg-content {
-  background: var(--grad-card);
+  background: rgba(255,255,255,0.03);
   border-color: var(--border);
 }
 
 [data-theme="dark"] .msg.user .msg-content {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(21, 101, 192, 0.2);
+  border-color: rgba(21, 101, 192, 0.4);
 }
 
 /* ── Quiz en mode sombre ── */
@@ -323,8 +323,8 @@
 }
 
 [data-theme="dark"] .lb-row.me {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(21, 101, 192, 0.2);
+  border-color: rgba(21, 101, 192, 0.4);
 }
 
 /* ── Amélioration lisibilité ── */

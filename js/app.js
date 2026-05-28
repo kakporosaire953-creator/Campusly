@@ -1,7 +1,9 @@
 // ============================================================
-// CAMPUSLY — app.js (Supabase)
+// CAMPUSLY — app.js (Supabase) - REFACTORÉ
 // ============================================================
 import { supabase } from "./supabase-config.js";
+import { showToast } from "./utils.js";
+import { handleError, handleSupabaseResponse, initGlobalErrorHandler } from "./error-handler.js";
 
 let _currentUser   = null;
 let _userProfile   = null;
@@ -18,28 +20,22 @@ export function isPremium() {
 
 // ── Déconnexion ──────────────────────────────────────────────
 export async function logout() {
-  await supabase.auth.signOut();
-  _currentUser = null;
-  _userProfile = null;
-  showToast("Vous avez été déconnecté.", "info");
-  setTimeout(() => { window.location.href = "index.html"; }, 900);
+  try {
+    const response = await supabase.auth.signOut();
+    handleSupabaseResponse(response);
+    
+    _currentUser = null;
+    _userProfile = null;
+    showToast("Vous avez été déconnecté.", "info");
+    setTimeout(() => { window.location.href = "index.html"; }, 900);
+  } catch (error) {
+    handleError(error, { 
+      showToUser: true,
+      customMessage: "Erreur lors de la déconnexion"
+    });
+  }
 }
 window.logout = logout;
-
-// ── Toast ────────────────────────────────────────────────────
-window.showToast = function showToast(message, type = "info") {
-  let toast = document.getElementById("toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "toast";
-    toast.className = "toast";
-    document.body.appendChild(toast);
-  }
-  toast.textContent = message;
-  toast.className = `toast ${type} show`;
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => toast.classList.remove("show"), 3500);
-};
 
 // ── Navbar dynamique ─────────────────────────────────────────
 function updateNavAuth() {
@@ -183,34 +179,49 @@ if (hamburger && navLinks) {
 
 // ── Init ─────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  _currentUser = session?.user ?? null;
-
-  if (_currentUser) {
-    const { data } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", _currentUser.id)
-      .single();
-    _userProfile = data;
-  }
-
-  updateNavAuth();
-  initScrollAnimations();
-
-  document.dispatchEvent(new CustomEvent("authReady", {
-    detail: { user: _currentUser, profile: _userProfile }
-  }));
-
-  // Écouter les changements de session
-  supabase.auth.onAuthStateChange(async (event, session) => {
+  // Initialiser le gestionnaire d'erreurs global
+  initGlobalErrorHandler();
+  
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
     _currentUser = session?.user ?? null;
+
     if (_currentUser) {
-      const { data } = await supabase.from("users").select("*").eq("id", _currentUser.id).single();
-      _userProfile = data;
-    } else {
-      _userProfile = null;
+      const response = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", _currentUser.id)
+        .single();
+      _userProfile = handleSupabaseResponse(response);
     }
+
     updateNavAuth();
-  });
+    initScrollAnimations();
+
+    document.dispatchEvent(new CustomEvent("authReady", {
+      detail: { user: _currentUser, profile: _userProfile }
+    }));
+
+    // Écouter les changements de session
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      _currentUser = session?.user ?? null;
+      if (_currentUser) {
+        try {
+          const response = await supabase.from("users").select("*").eq("id", _currentUser.id).single();
+          _userProfile = handleSupabaseResponse(response);
+        } catch (error) {
+          handleError(error, { showToUser: false });
+          _userProfile = null;
+        }
+      } else {
+        _userProfile = null;
+      }
+      updateNavAuth();
+    });
+  } catch (error) {
+    handleError(error, { 
+      showToUser: true,
+      customMessage: "Erreur lors de l'initialisation de l'application"
+    });
+  }
 });

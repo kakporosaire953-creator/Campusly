@@ -13,12 +13,7 @@
 }
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface) 0%,
-    var(--surface-2) 50%,
-    var(--surface) 100%
-  );
+  background: var(--surface);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
   border-radius: var(--r-md);
@@ -376,12 +371,7 @@
 
 /* ── Mode sombre ── */
 [data-theme="dark"] .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface) 0%,
-    var(--surface-2) 50%,
-    var(--surface) 100%
-  );
+  background: var(--surface);
 }
 
 [data-theme="dark"] .skeleton::after {

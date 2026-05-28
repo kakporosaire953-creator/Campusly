@@ -1,7 +1,10 @@
 // ============================================================
-// CAMPUSLY — auth.js (Supabase Auth)
+// CAMPUSLY — auth.js (Supabase Auth) - REFACTORÉ
 // ============================================================
 import { supabase } from "./supabase-config.js";
+import { showToast, clearErrors } from "./utils.js";
+import { validateMatricule, validatePassword, validateName, validateFaculty } from "./validators.js";
+import { handleError, handleSupabaseResponse, AppError, ErrorType } from "./error-handler.js";
 
 // ── Utilitaires ──────────────────────────────────────────────
 export function matriculeToEmail(matricule) {
@@ -10,24 +13,9 @@ export function matriculeToEmail(matricule) {
   return `${matricule.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9._-]/g, "")}@campusly.app`;
 }
 
-export function validatePassword(password) {
-  const rules = [
-    { test: password.length >= 8,          msg: "Au moins 8 caractères" },
-    { test: /[A-Z]/.test(password),        msg: "Au moins une lettre majuscule" },
-    { test: /[0-9]/.test(password),        msg: "Au moins un chiffre" },
-    { test: /[^A-Za-z0-9]/.test(password), msg: "Au moins un symbole (@, #, !, %…)" },
-  ];
-  const failed = rules.filter(r => !r.test);
-  return failed.length === 0 ? null : failed.map(r => r.msg).join(" · ");
-}
-
 function showError(id, message) {
   const el = document.getElementById(id);
   if (el) { el.textContent = message; el.classList.add("show"); }
-}
-
-function clearErrors() {
-  document.querySelectorAll(".form-error").forEach(el => el.classList.remove("show"));
 }
 
 // ── Tabs ─────────────────────────────────────────────────────
@@ -61,60 +49,83 @@ async function handleRegister(e) {
   const confirm     = document.getElementById("regConfirm").value;
   const btn         = document.getElementById("registerBtn");
 
-  if (!prenom)                         return showError("regPrenomError",    "Le prénom est requis.");
-  if (!nom)                            return showError("regNomError",       "Le nom est requis.");
-  if (!matricule) return showError("regMatriculeError", "L'identifiant est requis.");
-  if (matricule.length < 3) return showError("regMatriculeError", "Identifiant trop court (min 3 caractères).");
-  if (!faculte)                        return showError("regFaculteError",   "Veuillez sélectionner une faculté.");
-  const pwError = validatePassword(password);
-  if (pwError)                         return showError("regPasswordError",  pwError);
-  if (password !== confirm)            return showError("regConfirmError",   "Les mots de passe ne correspondent pas.");
+  // Validation avec les nouveaux validators
+  const prenomValidation = validateName(prenom, "Le prénom");
+  if (!prenomValidation.valid) return showError("regPrenomError", prenomValidation.error);
+  
+  const nomValidation = validateName(nom, "Le nom");
+  if (!nomValidation.valid) return showError("regNomError", nomValidation.error);
+  
+  const matriculeValidation = validateMatricule(matricule);
+  if (!matriculeValidation.valid) return showError("regMatriculeError", matriculeValidation.error);
+  
+  const faculteValidation = validateFaculty(faculte);
+  if (!faculteValidation.valid) return showError("regFaculteError", faculteValidation.error);
+  
+  const passwordValidation = validatePassword(password);
+  if (!passwordValidation.valid) {
+    return showError("regPasswordError", passwordValidation.errors.join(" · "));
+  }
+  
+  if (password !== confirm) {
+    return showError("regConfirmError", "Les mots de passe ne correspondent pas.");
+  }
 
   btn.disabled = true;
   btn.textContent = "Création du compte…";
 
-  const email = matriculeToEmail(matricule);
+  try {
+    const email = matriculeToEmail(matricule);
 
-  // 1. Créer le compte Supabase Auth
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { prenom, nom, faculte, departement, matricule }
+    // 1. Créer le compte Supabase Auth
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { prenom, nom, faculte, departement, matricule }
+      }
+    });
+
+    if (error) {
+      if (error.message.includes("already registered") || error.message.includes("already been registered")) {
+        throw new AppError(ErrorType.VALIDATION, "Un compte existe déjà avec cet identifiant.", error);
+      }
+      throw error;
     }
-  });
 
-  if (error) {
+    if (!data.user) {
+      throw new AppError(ErrorType.SERVER, "Erreur lors de la création. Réessayez.", null);
+    }
+
+    // 2. Créer le profil dans la table users
+    const profileResponse = await supabase.from("users").upsert({
+      id:          data.user.id,
+      matricule:   matricule || data.user.id.slice(0, 8).toUpperCase(),
+      prenom,
+      nom,
+      email,
+      faculte,
+      departement: departement || "",
+      is_premium:  false,
+    }, { onConflict: "id" });
+
+    handleSupabaseResponse(profileResponse);
+
+    showToast(`Compte créé. Bienvenue, ${prenom} !`, "success");
+    setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
+
+  } catch (error) {
     btn.disabled = false;
     btn.textContent = "Créer mon compte";
-    if (error.message.includes("already registered") || error.message.includes("already been registered")) {
-      return showError("regMatriculeError", "Un compte existe déjà avec cet identifiant.");
+    
+    const appError = handleError(error, { showToUser: false });
+    
+    if (appError.type === ErrorType.VALIDATION) {
+      showError("regMatriculeError", appError.message);
+    } else {
+      showError("regPasswordError", appError.message);
     }
-    return showError("regPasswordError", `Erreur : ${error.message}`);
   }
-
-  if (!data.user) {
-    btn.disabled = false;
-    btn.textContent = "Créer mon compte";
-    return showError("regPasswordError", "Erreur lors de la création. Réessayez.");
-  }
-
-  // 2. Créer le profil dans la table users
-  const { error: profileError } = await supabase.from("users").upsert({
-    id:          data.user.id,
-    matricule:   matricule || data.user.id.slice(0, 8).toUpperCase(),
-    prenom,
-    nom,
-    email,
-    faculte,
-    departement: departement || "",
-    is_premium:  false,
-  }, { onConflict: "id" });
-
-  if (profileError) console.error("Erreur profil:", profileError);
-
-  window.showToast?.(`Compte créé. Bienvenue, ${prenom} !`, "success");
-  setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
 }
 
 // ── Connexion ────────────────────────────────────────────────
@@ -126,23 +137,35 @@ async function handleLogin(e) {
   const password  = document.getElementById("loginPassword").value;
   const btn       = document.getElementById("loginBtn");
 
-  if (!matricule) return showError("loginMatriculeError", "Veuillez entrer votre identifiant.");
-  if (!password)  return showError("loginPasswordError",  "Veuillez entrer votre mot de passe.");
+  // Validation
+  const matriculeValidation = validateMatricule(matricule);
+  if (!matriculeValidation.valid) {
+    return showError("loginMatriculeError", matriculeValidation.error);
+  }
+  
+  if (!password) {
+    return showError("loginPasswordError", "Veuillez entrer votre mot de passe.");
+  }
 
   btn.disabled = true;
   btn.textContent = "Connexion en cours…";
 
-  const email = matriculeToEmail(matricule);
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  try {
+    const email = matriculeToEmail(matricule);
+    const response = await supabase.auth.signInWithPassword({ email, password });
+    
+    handleSupabaseResponse(response);
 
-  if (error) {
+    showToast("Connexion réussie !", "success");
+    setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
+
+  } catch (error) {
     btn.disabled = false;
     btn.textContent = "Se connecter";
-    return showError("loginPasswordError", "Identifiants incorrects. Vérifiez votre matricule et mot de passe.");
+    
+    handleError(error, { showToUser: false });
+    showError("loginPasswordError", "Identifiants incorrects. Vérifiez votre matricule et mot de passe.");
   }
-
-  window.showToast?.("Connexion réussie !", "success");
-  setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
 }
 
 // ── Google OAuth via Firebase ────────────────────────────────
@@ -167,15 +190,13 @@ async function handleGoogle() {
 
     if (loginError) {
       // Compte inexistant → créer
-      const { data, error: signupError } = await supabase.auth.signUp({ email, password });
-      if (signupError) {
-        window.showToast?.("Erreur connexion Google. Réessayez.", "error");
-        return;
-      }
+      const signupResponse = await supabase.auth.signUp({ email, password });
+      handleSupabaseResponse(signupResponse);
+      
       // Créer le profil
-      if (data.user) {
-        await supabase.from("users").upsert({
-          id:           data.user.id,
+      if (signupResponse.data.user) {
+        const profileResponse = await supabase.from("users").upsert({
+          id:           signupResponse.data.user.id,
           matricule:    email.split("@")[0].toUpperCase().slice(0, 12),
           prenom,
           nom,
@@ -186,15 +207,19 @@ async function handleGoogle() {
           photo_url:    photoUrl,
           auth_provider: "google",
         }, { onConflict: "id" });
+        
+        handleSupabaseResponse(profileResponse);
       }
     }
 
-    window.showToast?.(`Bienvenue, ${prenom} !`, "success");
+    showToast(`Bienvenue, ${prenom} !`, "success");
     setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
 
-  } catch (err) {
-    console.error("Erreur Google:", err);
-    window.showToast?.("Connexion Google annulée ou bloquée.", "error");
+  } catch (error) {
+    handleError(error, { 
+      showToUser: true,
+      customMessage: "Connexion Google annulée ou bloquée."
+    });
   }
 }
 

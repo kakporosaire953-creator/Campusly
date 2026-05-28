@@ -179,6 +179,9 @@
   import { supabase } from './js/supabase-config.js';
   import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';
   import { initAutoLogout } from './js/auto-logout.js';
+  import { showToast } from './js/utils.js';
+  import { handleError, retryWithBackoff } from './js/error-handler.js';
+  import { sanitizeHtml, escapeHtml } from './js/sanitizer.js';
 
   const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
   const MODEL = "gpt-4o-mini";
