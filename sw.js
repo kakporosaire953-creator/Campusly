@@ -1,9 +1,9 @@
 // ============================================================
 // CAMPUSLY — Service Worker (PWA)
-// Version 3.0.0
+// Version 3.1.0
 // ============================================================
 
-const CACHE_NAME = 'campusly-v3.0.0';
+const CACHE_NAME = 'campusly-v3.1.0';
 const RUNTIME_CACHE = 'campusly-runtime';
 
 // Fichiers à mettre en cache lors de l'installation

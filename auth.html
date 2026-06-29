@@ -289,10 +289,15 @@
     const btn = document.getElementById("googleBtn");
     btn.disabled = true; btn.textContent = "Redirection vers Google...";
     try {
+      // Toujours rediriger vers l'URL de production Vercel (jamais localhost)
+      const isProd = window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1";
+      const redirectTo = isProd
+        ? `${window.location.origin}/auth.html`
+        : "https://campusly-one.vercel.app/auth.html";
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth.html`,
+          redirectTo,
           queryParams: { access_type: "offline", prompt: "consent" },
         },
       });
