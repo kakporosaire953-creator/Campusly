@@ -262,28 +262,25 @@
   const params = new URLSearchParams(window.location.search);
   if (params.get("tab") === "register") switchTab("register");
 
-  // Si déjà connecté <i class="fas fa-arrow-right"></i> dashboard
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) window.location.href = "dashboard.html";
-
-  // ── GOOGLE AUTH via Supabase OAuth natif ────────────────
-  // Traiter le callback OAuth si on revient de Google
-  (async () => {
-    const _hash   = window.location.hash;
-    const _search = new URLSearchParams(window.location.search);
-    if (_hash.includes("access_token") || _search.get("code")) {
-      const { data: { session: oauthSession } } = await supabase.auth.getSession();
-      if (oauthSession) {
-        const { data: profile } = await supabase
-          .from("users").select("faculte").eq("id", oauthSession.user.id).single();
-        if (!profile?.faculte) {
-          document.getElementById("googleProfileModal").classList.add("show");
-        } else {
-          window.location.replace("dashboard.html");
-        }
+  // ── Écouter les changements d'auth (capture le retour OAuth Google) ──
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && session) {
+      // Vérifier si le profil est complet (faculté renseignée)
+      const { data: profile } = await supabase
+        .from("users").select("faculte").eq("id", session.user.id).single();
+      if (!profile?.faculte) {
+        document.getElementById("googleProfileModal").classList.add("show");
+      } else {
+        window.location.replace("dashboard.html");
       }
     }
-  })();
+  });
+
+  // Vérifier la session existante au chargement
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) window.location.replace("dashboard.html");
+
+
 
   document.getElementById("googleBtn").addEventListener("click", async () => {
     const btn = document.getElementById("googleBtn");
