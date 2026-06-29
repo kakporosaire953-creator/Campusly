@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -220,12 +220,12 @@
   import { initLangSwitcher, applyTranslations } from './js/i18n.js';
   import { injectLogos } from './js/logo.js';
   import { requireAuth } from './js/auth-guard.js';
-  import { supabase } from "./js/supabase-config.js";
-  import { SUPABASE_FUNCTIONS_URL } from "./js/supabase-config.js";
-  import { saveQuizResult, getQuizResults } from "./js/supabase-db.js";
+  import { supabase } from "./js/supabase.js";
+  import { FUNCTIONS_URL } from "./js/supabase.js";
+  import { saveQuizResult, getQuizResults } from "./js/db.js";
   import { initAutoLogout } from './js/auto-logout.js';
 
-  const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
+  const EDGE_BASE = FUNCTIONS_URL;
 
   let _uid = null, questions = [], idx = 0, score = 0, sujet = "", faculte = "";
 

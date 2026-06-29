@@ -1,79 +1,175 @@
 // ============================================================
-// CAMPUSLY — Edge Function : generate-quiz
-// Supabase Edge Functions (Deno)
+// CAMPUSLY — Edge Function: generate-quiz
+// Génération de quiz QCM via Groq (LLaMA 3)
+// POST { sujet: string, faculte: string, niveau?: string, nombre?: number }
 // ============================================================
-import { serve }        from "https://deno.land/std@0.168.0/http/server.ts";
+
+import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const GROQ_API_URL    = "https://api.groq.com/openai/v1/chat/completions";
+const GROQ_MODEL      = "llama3-8b-8192";
+const DAILY_LIMIT     = 5;   // quiz gratuits / jour
+const PREMIUM_LIMIT   = 30;  // quiz premium / jour
 
 const corsHeaders = {
   "Access-Control-Allow-Origin":  "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, apikey",
 };
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
 
   try {
-    // Auth
+    // ── Vérifier l'authentification ───────────────────────────
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return new Response(JSON.stringify({ error: "Non authentifié" }), { status: 401, headers: corsHeaders });
+    if (!authHeader) {
+      return new Response(JSON.stringify({ error: "Non autorisé" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
-    const supabase = createClient(
+    // Client avec les droits de l'utilisateur
+    const supabaseUser = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    // Client service_role pour mise à jour du compteur
+    const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
-    if (authError || !user) return new Response(JSON.stringify({ error: "Non authentifié" }), { status: 401, headers: corsHeaders });
-
-    const { sujet, faculte, nbQuestions = 7 } = await req.json();
-    if (!sujet?.trim()) return new Response(JSON.stringify({ error: "Sujet requis" }), { status: 400, headers: corsHeaders });
-
-    const nbQ = Math.min(Math.max(nbQuestions, 5), 10);
-
-    // Vérifier limite quotidienne
-    const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
-    const today     = new Date().toISOString().slice(0, 10);
-    const resetDate = profile?.quiz_reset_date;
-    const quizToday = resetDate === today ? (profile?.quiz_count_today || 0) : 0;
-    const isPremium = profile?.is_premium && profile?.premium_expiry && new Date(profile.premium_expiry) > new Date();
-
-    if (!isPremium && quizToday >= 3) {
-      return new Response(JSON.stringify({ error: "Limite de 3 quiz gratuits atteinte aujourd'hui. Passez Premium." }), { status: 429, headers: corsHeaders });
+    const { data: { user }, error: authError } = await supabaseUser.auth.getUser();
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: "Session invalide" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    // Appel OpenAI
-    const prompt = `Tu es un assistant pédagogique pour des étudiants de l'Université d'Abomey-Calavi (Bénin).
-Génère un quiz de ${nbQ} questions à choix multiples sur le sujet : "${sujet}"${faculte ? ` (Faculté : ${faculte})` : ""}.
-Réponds UNIQUEMENT avec un JSON valide :
-{"questions":[{"question":"...","options":["A","B","C","D"],"reponseCorrecte":0,"explication":"..."}]}
-Règles : exactement ${nbQ} questions, 4 options, reponseCorrecte = index 0-3, niveau universitaire, en français.`;
+    // ── Vérifier la limite quotidienne ────────────────────────
+    const { data: profile } = await supabaseUser
+      .from("users")
+      .select("is_premium, premium_expiry, quiz_count_today, quiz_reset_date")
+      .eq("id", user.id)
+      .single();
 
-    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${Deno.env.get("OPENAI_API_KEY")}` },
+    const today = new Date().toISOString().slice(0, 10);
+    const isPremium = profile?.is_premium && profile?.premium_expiry
+      ? new Date(profile.premium_expiry) > new Date()
+      : false;
+    const limit = isPremium ? PREMIUM_LIMIT : DAILY_LIMIT;
+
+    // Réinitialiser le compteur si on est un nouveau jour
+    let quizCountToday = profile?.quiz_reset_date !== today ? 0 : (profile?.quiz_count_today || 0);
+
+    if (quizCountToday >= limit) {
+      return new Response(
+        JSON.stringify({
+          error: isPremium
+            ? `Limite premium atteinte (${PREMIUM_LIMIT} quiz/jour).`
+            : `Limite gratuite atteinte (${DAILY_LIMIT} quiz/jour). Passe à Premium !`,
+          limitReached: true,
+          isPremium,
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // ── Lire le corps ─────────────────────────────────────────
+    const { sujet, faculte, niveau = "licence", nombre = 10 } = await req.json();
+    if (!sujet?.trim()) {
+      return new Response(JSON.stringify({ error: "Sujet vide" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ── Prompt de génération ──────────────────────────────────
+    const prompt = `Tu es un professeur expert de la faculté ${faculte} à l'Université d'Abomey-Calavi.
+Génère exactement ${Math.min(nombre, 20)} questions QCM sur le sujet : "${sujet}" (niveau ${niveau}).
+
+Retourne UNIQUEMENT un tableau JSON valide (aucun texte avant ou après), selon ce format :
+[
+  {
+    "question": "Énoncé de la question ?",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0,
+    "explanation": "Explication courte de la bonne réponse."
+  }
+]
+
+- correct = index (0-3) de la bonne réponse dans options
+- Les questions doivent être variées et pédagogiques
+- Niveau adapté aux études universitaires au Bénin`;
+
+    // ── Appel Groq ───────────────────────────────────────────
+    const groqKey = Deno.env.get("GROQ_API_KEY");
+    if (!groqKey) throw new Error("GROQ_API_KEY non configurée");
+
+    const groqRes = await fetch(GROQ_API_URL, {
+      method:  "POST",
+      headers: {
+        "Content-Type":  "application/json",
+        "Authorization": `Bearer ${groqKey}`,
+      },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" },
-        temperature: 0.7,
+        model:       GROQ_MODEL,
+        messages:    [{ role: "user", content: prompt }],
+        max_tokens:  2048,
+        temperature: 0.6,
       }),
     });
 
-    const openaiData = await openaiRes.json();
-    const quizData   = JSON.parse(openaiData.choices[0].message.content);
+    if (!groqRes.ok) {
+      throw new Error(`Groq API error: ${groqRes.status}`);
+    }
 
-    // Mettre à jour le compteur
-    await supabase.from("users").update({
-      quiz_count_today: quizToday + 1,
-      quiz_reset_date:  today,
-    }).eq("id", user.id);
+    const groqData = await groqRes.json();
+    const rawText  = groqData.choices?.[0]?.message?.content || "[]";
 
-    return new Response(JSON.stringify({ questions: quizData.questions }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" }
-    });
+    // ── Parser le JSON retourné par Groq ─────────────────────
+    let questions;
+    try {
+      const match = rawText.match(/\[[\s\S]*\]/);
+      questions   = match ? JSON.parse(match[0]) : [];
+    } catch {
+      throw new Error("Impossible de parser le JSON du quiz");
+    }
+
+    // ── Mettre à jour le compteur ─────────────────────────────
+    await supabaseAdmin
+      .from("users")
+      .update({
+        quiz_count_today: quizCountToday + 1,
+        quiz_reset_date:  today,
+      })
+      .eq("id", user.id);
+
+    return new Response(
+      JSON.stringify({
+        questions,
+        sujet,
+        faculte,
+        quizCountToday: quizCountToday + 1,
+        limit,
+        isPremium,
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Erreur serveur" }), { status: 500, headers: corsHeaders });
+    console.error("[generate-quiz] Erreur:", err);
+    return new Response(
+      JSON.stringify({ error: "Erreur serveur. Réessayez." }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 });

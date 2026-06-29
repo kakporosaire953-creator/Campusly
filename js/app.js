@@ -1,7 +1,7 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — app.js (Supabase) - REFACTORÉ
 // ============================================================
-import { supabase } from "./supabase-config.js";
+import { supabase } from "./supabase.js";
 import { showToast } from "./utils.js";
 import { handleError, handleSupabaseResponse, initGlobalErrorHandler } from "./error-handler.js";
 
@@ -9,7 +9,7 @@ let _currentUser   = null;
 let _userProfile   = null;
 
 export function getCurrentUser()  { return _currentUser; }
-export function getUserProfile()  { return _userProfile; }
+export function getProfile()  { return _userProfile; }
 export function isLoggedIn()      { return !!_currentUser; }
 
 export function isPremium() {

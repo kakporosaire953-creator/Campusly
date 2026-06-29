@@ -1,9 +1,9 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — epreuves.js (Supabase)
 // ============================================================
-import { supabase } from "./supabase-config.js";
+import { supabase } from "./supabase.js";
 import { requireAuth } from "./auth-guard.js";
-import { getEpreuves, saveDownload, toggleFavorite, getFavorites } from "./supabase-db.js";
+import { getEpreuves, saveDownload, toggleFavorite, getFavorites } from "./db.js";
 import { initLangSwitcher, applyTranslations } from "./i18n.js";
 import { injectLogos } from "./logo.js";
 import { initAutoLogout } from "./auto-logout.js";

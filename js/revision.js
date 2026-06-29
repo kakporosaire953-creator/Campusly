@@ -1,11 +1,11 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — revision.js (Supabase Edge Functions)
 // ============================================================
-import { supabase } from "./supabase-config.js";
-import { SUPABASE_FUNCTIONS_URL } from "./supabase-config.js";
-import { saveQuizResult, getQuizResults } from "./supabase-db.js";
+import { supabase } from "./supabase.js";
+import { FUNCTIONS_URL } from "./supabase.js";
+import { saveQuizResult, getQuizResults } from "./db.js";
 
-const EDGE_URL = `${SUPABASE_FUNCTIONS_URL}/generate-quiz`;
+const EDGE_URL = `${FUNCTIONS_URL}/generate-quiz`;
 
 let currentQuestions = [];
 let currentIndex     = 0;

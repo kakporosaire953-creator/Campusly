@@ -1,202 +1,143 @@
 // ============================================================
-// CAMPUSLY — Webhook FedaPay
-// Gère les notifications de paiement de FedaPay
+// CAMPUSLY — Edge Function: fedapay-webhook
+// Reçoit les notifications de paiement FedaPay
+// et met à jour le statut premium de l'utilisateur.
 // ============================================================
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createHmac } from "https://deno.land/std@0.177.0/node/crypto.ts";
 
-const FEDAPAY_SECRET_KEY = Deno.env.get("FEDAPAY_SECRET_KEY");
-
-// Configuration CORS
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-fedapay-signature",
+  "Access-Control-Allow-Origin":  "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, X-Fedapay-Signature",
 };
 
+/**
+ * Calcule le nombre de jours ajoutés selon le plan tarifaire.
+ */
+function getPlanDays(amount: number): number {
+  if (amount >= 5000) return 365; // Annuel
+  if (amount >= 2000) return 90;  // Trimestriel
+  if (amount >= 1000) return 30;  // Mensuel
+  return 7;                       // Hebdomadaire
+}
+
+/**
+ * Vérifie la signature HMAC-SHA256 de FedaPay.
+ * Docs : https://docs.fedapay.com/webhooks
+ */
+function verifySignature(body: string, signature: string, secret: string): boolean {
+  try {
+    const expected = createHmac("sha256", secret).update(body).digest("hex");
+    return expected === signature;
+  } catch {
+    return false;
+  }
+}
+
 serve(async (req) => {
-  // Gérer les requêtes OPTIONS (CORS preflight)
   if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders });
   }
 
+  // ── Lire le corps brut (nécessaire pour la vérification HMAC) ──
+  const bodyText = await req.text();
+  const signature = req.headers.get("X-Fedapay-Signature") || "";
+  const secret    = Deno.env.get("FEDAPAY_SECRET_KEY") || "";
+
+  // ── Vérifier la signature ────────────────────────────────────
+  if (secret && !verifySignature(bodyText, signature, secret)) {
+    console.warn("[fedapay-webhook] Signature invalide");
+    return new Response(JSON.stringify({ error: "Signature invalide" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  let event: Record<string, unknown>;
   try {
-    console.log("🔔 Webhook FedaPay reçu");
+    event = JSON.parse(bodyText);
+  } catch {
+    return new Response(JSON.stringify({ error: "JSON invalide" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
-    // Vérifier la clé secrète
-    if (!FEDAPAY_SECRET_KEY) {
-      console.error("❌ FEDAPAY_SECRET_KEY non configurée");
-      throw new Error("Configuration manquante");
-    }
+  // Client Supabase avec service_role (écriture sans RLS)
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
 
-    // Parser le payload
-    const payload = await req.json();
-    console.log("📦 Payload reçu:", JSON.stringify(payload, null, 2));
+  try {
+    const eventName = (event.name as string) || "";
 
-    // Vérifier la signature FedaPay (optionnel mais recommandé)
-    const signature = req.headers.get("x-fedapay-signature");
-    console.log("🔐 Signature reçue:", signature ? "Oui" : "Non");
+    // On traite uniquement les paiements approuvés
+    if (eventName === "transaction.approved" || eventName === "transaction.succeeded") {
+      const tx      = event.data as Record<string, unknown> & { object?: Record<string, unknown> };
+      const txData  = (tx?.object || tx) as Record<string, unknown>;
 
-    // FedaPay envoie les événements avec une structure spécifique
-    const { entity, event } = payload;
+      const txRef   = String(txData.reference     || txData.id || "");
+      const amount  = Number(txData.amount        || 0);
+      const userId  = String(txData.customer?.id  || txData.metadata?.user_id || "");
+      const plan    = String(txData.metadata?.plan || "");
+      const days    = getPlanDays(amount);
 
-    // Vérifier que c'est un événement de transaction
-    if (entity !== "transaction" || event !== "transaction.approved") {
-      console.log("⚠️ Événement non géré:", entity, event);
-      return new Response(
-        JSON.stringify({ message: "Event not handled" }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Extraire les données de la transaction
-    const transaction = payload.transaction || {};
-    const {
-      id: transactionId,
-      reference,
-      amount,
-      currency,
-      status,
-      customer,
-      custom_metadata,
-    } = transaction;
-
-    console.log("💰 Transaction ID:", transactionId);
-    console.log("💰 Montant:", amount, currency);
-    console.log("📋 Statut:", status);
-
-    // Vérifier que le paiement est approuvé
-    if (status !== "approved") {
-      console.log("⚠️ Paiement non approuvé:", status);
-      return new Response(
-        JSON.stringify({ message: "Payment not approved" }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Extraire les métadonnées personnalisées
-    const userId = custom_metadata?.userId || custom_metadata?.user_id;
-    const days = parseInt(custom_metadata?.days || "30");
-    const planName = custom_metadata?.plan || custom_metadata?.planName || "1 Mois";
-
-    console.log("👤 User ID:", userId);
-    console.log("📅 Durée:", days, "jours");
-    console.log("📋 Plan:", planName);
-
-    if (!userId) {
-      console.error("❌ User ID manquant dans custom_metadata");
-      throw new Error("User ID manquant");
-    }
-
-    // Créer le client Supabase avec la clé service role
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
-
-    // Vérifier que l'utilisateur existe
-    const { data: user, error: userError } = await supabase
-      .from("users")
-      .select("id, prenom, nom, email")
-      .eq("id", userId)
-      .single();
-
-    if (userError || !user) {
-      console.error("❌ Utilisateur non trouvé:", userId);
-      throw new Error("Utilisateur non trouvé");
-    }
-
-    console.log("✅ Utilisateur trouvé:", user.prenom, user.nom);
-
-    // Enregistrer le paiement dans la base de données
-    const { data: payment, error: paymentError } = await supabase
-      .from("payments")
-      .insert({
-        user_id: userId,
-        amount: amount,
-        currency: currency || "XOF",
-        duration_days: days,
-        plan_name: planName,
-        status: "successful",
-        payment_method: "fedapay",
-        transaction_id: transactionId.toString(),
-        fedapay_reference: reference,
-        metadata: payload,
-      })
-      .select()
-      .single();
-
-    if (paymentError) {
-      console.error("❌ Erreur enregistrement paiement:", paymentError);
-      throw paymentError;
-    }
-
-    console.log("✅ Paiement enregistré:", payment.id);
-
-    // Calculer la date d'expiration
-    const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + days);
-
-    console.log("📅 Date d'expiration:", expiryDate.toISOString());
-
-    // Activer le Premium pour l'utilisateur
-    const { error: updateError } = await supabase
-      .from("users")
-      .update({
-        is_premium: true,
-        premium_expiry: expiryDate.toISOString(),
-      })
-      .eq("id", userId);
-
-    if (updateError) {
-      console.error("❌ Erreur activation Premium:", updateError);
-      throw updateError;
-    }
-
-    console.log("✅ Premium activé pour l'utilisateur");
-
-    // Créer une notification pour l'utilisateur
-    const { error: notifError } = await supabase
-      .from("notifications")
-      .insert({
-        user_id: userId,
-        type: "system",
-        title: "🎉 Premium activé !",
-        message: `Votre abonnement ${planName} est maintenant actif jusqu'au ${expiryDate.toLocaleDateString("fr-FR")}. Profitez de toutes les fonctionnalités !`,
-        link: "/dashboard.html#abonnement",
-      });
-
-    if (notifError) {
-      console.warn("⚠️ Erreur création notification:", notifError);
-      // Ne pas bloquer si la notification échoue
-    } else {
-      console.log("✅ Notification créée");
-    }
-
-    console.log("🎉 Webhook traité avec succès");
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Webhook traité avec succès",
-        payment_id: payment.id,
-      }),
-      {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      if (!userId || !txRef) {
+        console.warn("[fedapay-webhook] Données manquantes:", { userId, txRef });
+        return new Response(JSON.stringify({ received: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
-    );
-  } catch (error) {
-    console.error("❌ Erreur webhook:", error);
+
+      // ── Upsert la transaction ─────────────────────────────
+      await supabase.from("transactions").upsert({
+        tx_ref:   txRef,
+        user_id:  userId,
+        amount,
+        currency: "XOF",
+        status:   "success",
+        plan,
+        days,
+        provider: "fedapay",
+      }, { onConflict: "tx_ref" });
+
+      // ── Mettre à jour le statut premium ──────────────────
+      // Calcul de la nouvelle date d'expiration
+      const { data: currentUser } = await supabase
+        .from("users")
+        .select("premium_expiry")
+        .eq("id", userId)
+        .single();
+
+      const now       = new Date();
+      const baseDate  = currentUser?.premium_expiry && new Date(currentUser.premium_expiry) > now
+        ? new Date(currentUser.premium_expiry) // Prolonger un abonnement en cours
+        : now;
+
+      const newExpiry = new Date(baseDate);
+      newExpiry.setDate(newExpiry.getDate() + days);
+
+      await supabase.from("users").update({
+        is_premium:     true,
+        premium_expiry: newExpiry.toISOString(),
+      }).eq("id", userId);
+
+      console.log(`[fedapay-webhook] Premium activé pour ${userId} jusqu'au ${newExpiry.toISOString()}`);
+    }
+
+    return new Response(JSON.stringify({ received: true }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+
+  } catch (err) {
+    console.error("[fedapay-webhook] Erreur:", err);
     return new Response(
-      JSON.stringify({
-        error: error.message || "Erreur serveur",
-        details: error.toString(),
-      }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ error: "Erreur serveur" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });

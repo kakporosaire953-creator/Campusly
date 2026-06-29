@@ -1,8 +1,8 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — Déconnexion automatique après inactivité
 // ============================================================
 
-import { supabase } from "./supabase-config.js";
+import { supabase } from "./supabase.js";
 
 const INACTIVITY_TIMEOUT = 60000; // 1 minute en millisecondes
 let inactivityTimer = null;

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — Build Config Generator
 // Génère les fichiers de config à partir des variables d'env
 // ============================================================
@@ -15,7 +15,7 @@ const FIREBASE_STORAGE_BUCKET = process.env.VITE_FIREBASE_STORAGE_BUCKET || '';
 const FIREBASE_MESSAGING_SENDER_ID = process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '';
 const FIREBASE_APP_ID = process.env.VITE_FIREBASE_APP_ID || '';
 
-// Génère supabase-config.js
+// Génère supabase.js
 const supabaseConfig = `// ============================================================
 // CAMPUSLY — Configuration Supabase (AUTO-GÉNÉRÉ)
 // ⚠️ NE PAS MODIFIER CE FICHIER DIRECTEMENT
@@ -31,7 +31,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 export const SUPABASE_FUNCTIONS_URL = \`\${SUPABASE_URL}/functions/v1\`;
 `;
 
-// Génère firebase-config.js
+// Génère # firebase supprimé
 const firebaseConfig = `// ============================================================
 // CAMPUSLY — Firebase Config (AUTO-GÉNÉRÉ)
 // ⚠️ NE PAS MODIFIER CE FICHIER DIRECTEMENT
@@ -59,7 +59,7 @@ export { auth, provider, signInWithPopup };
 `;
 
 // Écrit les fichiers
-writeFileSync('js/supabase-config.js', supabaseConfig);
-writeFileSync('js/firebase-config.js', firebaseConfig);
+writeFileSync('js/supabase.js', supabaseConfig);
+writeFileSync('js/# firebase supprimé', firebaseConfig);
 
 console.log('✅ Fichiers de configuration générés avec succès');

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -176,14 +176,14 @@
 <script type="module">
   import { requireAuth } from './js/auth-guard.js';
   import { injectLogos } from './js/logo.js';
-  import { supabase } from './js/supabase-config.js';
-  import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';
+  import { supabase } from './js/supabase.js';
+  import { FUNCTIONS_URL } from './js/supabase.js';
   import { initAutoLogout } from './js/auto-logout.js';
   import { showToast } from './js/utils.js';
   import { handleError, retryWithBackoff } from './js/error-handler.js';
   import { sanitizeHtml, escapeHtml } from './js/sanitizer.js';
 
-  const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
+  const EDGE_BASE = FUNCTIONS_URL;
   const MODEL = "gpt-4o-mini";
 
   let mode         = "chat";

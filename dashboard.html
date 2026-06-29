@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -591,13 +591,13 @@
   </div>
 
   <script type="module">
-    import { supabase } from './js/supabase-config.js';
-    import { SUPABASE_FUNCTIONS_URL } from './js/supabase-config.js';
+    import { supabase } from './js/supabase.js';
+    import { FUNCTIONS_URL } from './js/supabase.js';
     import { initLangSwitcher, applyTranslations } from './js/i18n.js';
     import { injectLogos } from './js/logo.js';
     import { initAutoLogout } from './js/auto-logout.js';
 
-    const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
+    const EDGE_BASE = FUNCTIONS_URL;
 
     // -- Toast ----------------------------------------------
     function showToast(msg, type = "info") {

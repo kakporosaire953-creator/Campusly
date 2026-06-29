@@ -1,15 +1,15 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — chatbot-secure.js (Version sécurisée)
 // ============================================================
 import { requireAuth } from './auth-guard.js';
-import { supabase } from './supabase-config.js';
-import { SUPABASE_FUNCTIONS_URL } from './supabase-config.js';
+import { supabase } from './supabase.js';
+import { FUNCTIONS_URL } from './supabase.js';
 import { initAutoLogout } from './auto-logout.js';
 import { showToast } from './utils.js';
 import { handleError, retryWithBackoff } from './error-handler.js';
 import { escapeHtml } from './sanitizer.js';
 
-const EDGE_BASE = SUPABASE_FUNCTIONS_URL;
+const EDGE_BASE = FUNCTIONS_URL;
 
 let mode = "chat";
 let messages = [];

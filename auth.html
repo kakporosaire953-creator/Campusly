@@ -216,7 +216,7 @@
 </div>
 
 <script type="module">
-  import { supabase } from "./js/supabase-config.js";
+  import { supabase } from "./js/supabase.js";
   import { initLangSwitcher, applyTranslations } from "./js/i18n.js";
   import { injectLogos } from "./js/logo.js";
 
@@ -266,38 +266,43 @@
   const { data: { session } } = await supabase.auth.getSession();
   if (session) window.location.href = "dashboard.html";
 
-  // ── GOOGLE AUTH via Firebase ────────────────────────────
+  // ── GOOGLE AUTH via Supabase OAuth natif ────────────────
+  // Traiter le callback OAuth si on revient de Google
+  const _hash   = window.location.hash;
+  const _search = new URLSearchParams(window.location.search);
+  if (_hash.includes("access_token") || _search.get("code")) {
+    // Supabase detectSessionInUrl: true gère l'échange automatiquement
+    const { data: { session: oauthSession } } = await supabase.auth.getSession();
+    if (oauthSession) {
+      // Vérifier si le profil Google a déjà les infos requises
+      const { data: profile } = await supabase
+        .from("users")
+        .select("faculte")
+        .eq("id", oauthSession.user.id)
+        .single();
+      if (!profile?.faculte) {
+        // Montrer le modal de complétion du profil
+        document.getElementById("googleProfileModal").classList.add("show");
+      } else {
+        window.location.replace("dashboard.html");
+      }
+      return;
+    }
+  }
+
   document.getElementById("googleBtn").addEventListener("click", async () => {
     const btn = document.getElementById("googleBtn");
-    btn.disabled = true; btn.textContent = "Connexion en cours...";
+    btn.disabled = true; btn.textContent = "Redirection vers Google...";
     try {
-      const { auth, provider, signInWithPopup } = await import("./js/firebase-config.js");
-      const result  = await signInWithPopup(auth, provider);
-      const fbUser  = result.user;
-      const email   = fbUser.email;
-      const prenom  = fbUser.displayName?.split(" ")[0] || "";
-      const nom     = fbUser.displayName?.split(" ").slice(1).join(" ") || "";
-      const photo   = fbUser.photoURL || "";
-      const pwd     = `G_${fbUser.uid.slice(0, 16)}`;
-
-      // Connexion Supabase avec email/password
-      let { error: loginErr } = await supabase.auth.signInWithPassword({ email, password: pwd });
-      if (loginErr) {
-        // Nouveau compte <i class="fas fa-arrow-right"></i> créer
-        const { data, error: signupErr } = await supabase.auth.signUp({ email, password: pwd });
-        if (signupErr) throw signupErr;
-        if (data.user) {
-          await supabase.from("users").upsert({
-            id: data.user.id,
-            matricule: email.split("@")[0].toUpperCase().slice(0, 12),
-            prenom, nom, email,
-            faculte: "", departement: "",
-            is_premium: false, photo_url: photo, auth_provider: "google",
-          }, { onConflict: "id" });
-        }
-      }
-      showToast(`Bienvenue, ${prenom} !`, "success");
-      setTimeout(() => window.location.href = "dashboard.html", 900);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth.html`,
+          queryParams: { access_type: "offline", prompt: "consent" },
+        },
+      });
+      if (error) throw error;
+      // Supabase redirige automatiquement — pas besoin d'autre code ici
     } catch (err) {
       console.error(err);
       btn.disabled = false; btn.textContent = "Continuer avec Google";
@@ -306,8 +311,8 @@
   });
 
   document.getElementById("googleProfileBtn").addEventListener("click", async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    const { data: { session: s } } = await supabase.auth.getSession();
+    if (!s) return;
     clearErrors();
     const mat  = document.getElementById("googleMatricule").value.trim();
     const fac  = document.getElementById("googleFaculte").value;
@@ -316,24 +321,26 @@
     if (!/^\d{8}$/.test(mat)) return showErr("googleMatriculeError", "Matricule invalide (8 chiffres).");
     if (!fac)                  return showErr("googleFaculteError",   "Veuillez sélectionner une faculté.");
     btn.disabled = true; btn.textContent = "Enregistrement...";
-    const nameParts = (session.user.user_metadata?.full_name || "").split(" ");
-    const { error } = await supabase.from("users").insert({
-      id:          session.user.id,
-      matricule:   mat,
-      prenom:      nameParts[0] || "",
-      nom:         nameParts.slice(1).join(" ") || "",
-      email:       session.user.email,
-      faculte:     fac,
-      departement: dept,
-      is_premium:  false,
+    const meta      = s.user.user_metadata || {};
+    const nameParts = (meta.full_name || meta.name || "").split(" ");
+    const { error } = await supabase.from("users").upsert({
+      id:            s.user.id,
+      matricule:     mat,
+      prenom:        nameParts[0] || "",
+      nom:           nameParts.slice(1).join(" ") || "",
+      email:         s.user.email,
+      faculte:       fac,
+      departement:   dept,
+      is_premium:    false,
       auth_provider: "google",
-    });
+      photo_url:     meta.avatar_url || meta.picture || "",
+    }, { onConflict: "id" });
     if (error) {
       btn.disabled = false; btn.textContent = "Enregistrer et continuer";
       showToast("Erreur : " + error.message, "info");
     } else {
       showToast("Bienvenue ! Profil créé.", "success");
-      setTimeout(() => window.location.href = "dashboard.html", 900);
+      setTimeout(() => window.location.replace("dashboard.html"), 900);
     }
   });
 

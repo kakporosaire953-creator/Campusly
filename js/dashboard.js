@@ -1,9 +1,9 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — dashboard.js (Supabase)
 // ============================================================
-import { supabase } from "./supabase-config.js";
+import { supabase } from "./supabase.js";
 import { requireAuth } from "./auth-guard.js";
-import { getUserProfile, getDownloadHistory, getFavorites, getQuizResults, checkIsPremium } from "./supabase-db.js";
+import { getProfile, getHistory, getFavorites, getQuizResults, checkIsPremium } from "./db.js";
 
 function showToast(msg, type = "info") {
   let t = document.getElementById("toast");
@@ -22,7 +22,7 @@ let _user = null, _profile = null;
 
 requireAuth(async (user) => {
   _user    = user;
-  _profile = await getUserProfile(user.id);
+  _profile = await getProfile(user.id);
   if (!_profile) {
     showToast("Profil introuvable. Reconnectez-vous.", "info");
     setTimeout(() => window.location.href = "auth.html", 1500);
@@ -72,7 +72,7 @@ function loadUserInfo() {
 
 async function loadStats() {
   const [history, favorites, quizResults] = await Promise.all([
-    getDownloadHistory(_user.id),
+    getHistory(_user.id),
     getFavorites(_user.id),
     getQuizResults(_user.id),
   ]);
@@ -84,7 +84,7 @@ async function loadStats() {
 }
 
 async function loadHistory() {
-  const history = await getDownloadHistory(_user.id);
+  const history = await getHistory(_user.id);
   const render  = (items, limit) => !items.length
     ? `<div class="empty-state" style="padding:24px 0;"><p>Aucun téléchargement.</p>
        <a href="epreuves.html" class="btn btn-primary btn-sm" style="margin-top:12px;">Consulter les épreuves</a></div>`

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // CAMPUSLY — Service Worker (PWA)
 // Version 2.1.0
 // ============================================================
@@ -26,7 +26,7 @@ const STATIC_ASSETS = [
   '/js/app.js',
   '/js/theme.js',
   '/js/theme-switcher.js',
-  '/js/supabase-config.js',
+  '/js/supabase.js',
   '/js/auth-guard.js',
   '/js/auto-logout.js',
   '/js/i18n.js',

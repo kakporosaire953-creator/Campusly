@@ -1,16 +1,36 @@
 // ============================================================
-// CAMPUSLY — auth.js (Supabase Auth) - REFACTORÉ
+// CAMPUSLY — js/auth.js
+// Authentification 100% Supabase (sans Firebase)
+// ── Inscription · Connexion · Google OAuth · Déconnexion ────
 // ============================================================
-import { supabase } from "./supabase-config.js";
-import { showToast, clearErrors } from "./utils.js";
-import { validateMatricule, validatePassword, validateName, validateFaculty } from "./validators.js";
-import { handleError, handleSupabaseResponse, AppError, ErrorType } from "./error-handler.js";
 
-// ── Utilitaires ──────────────────────────────────────────────
+import { supabase } from "./supabase.js";
+import { showToast, clearErrors } from "./utils.js";
+import {
+  validateMatricule,
+  validatePassword,
+  validateName,
+  validateFaculty,
+} from "./validators.js";
+import {
+  handleError,
+  handleSupabaseResponse,
+  AppError,
+  ErrorType,
+} from "./error-handler.js";
+
+// ── Utilitaires ───────────────────────────────────────────────
+
+/**
+ * Convertit un matricule étudiant en adresse e-mail interne.
+ * Si c'est déjà un e-mail, on le retourne tel quel.
+ */
 export function matriculeToEmail(matricule) {
-  // Accepte email direct ou convertit un identifiant en email
-  if (matricule.includes('@')) return matricule.toLowerCase().trim();
-  return `${matricule.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9._-]/g, "")}@campusly.app`;
+  if (matricule.includes("@")) return matricule.toLowerCase().trim();
+  return `${matricule
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[^a-z0-9._-]/g, "")}@campusly.app`;
 }
 
 function showError(id, message) {
@@ -18,24 +38,27 @@ function showError(id, message) {
   if (el) { el.textContent = message; el.classList.add("show"); }
 }
 
-// ── Tabs ─────────────────────────────────────────────────────
+// ── Tabs UI ───────────────────────────────────────────────────
+
 function initTabs() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("tab") === "register") switchTab("register");
-  document.querySelectorAll(".auth-tab").forEach(tab => {
+
+  document.querySelectorAll(".auth-tab").forEach((tab) => {
     tab.addEventListener("click", () => switchTab(tab.dataset.tab));
   });
 }
 
 window.switchTab = function switchTab(tab) {
-  document.querySelectorAll(".auth-tab").forEach(t =>
+  document.querySelectorAll(".auth-tab").forEach((t) =>
     t.classList.toggle("active", t.dataset.tab === tab)
   );
   document.getElementById("loginForm").style.display    = tab === "login"    ? "block" : "none";
   document.getElementById("registerForm").style.display = tab === "register" ? "block" : "none";
 };
 
-// ── Inscription ──────────────────────────────────────────────
+// ── Inscription ───────────────────────────────────────────────
+
 async function handleRegister(e) {
   e.preventDefault();
   clearErrors();
@@ -49,46 +72,52 @@ async function handleRegister(e) {
   const confirm     = document.getElementById("regConfirm").value;
   const btn         = document.getElementById("registerBtn");
 
-  // Validation avec les nouveaux validators
-  const prenomValidation = validateName(prenom, "Le prénom");
-  if (!prenomValidation.valid) return showError("regPrenomError", prenomValidation.error);
-  
-  const nomValidation = validateName(nom, "Le nom");
-  if (!nomValidation.valid) return showError("regNomError", nomValidation.error);
-  
-  const matriculeValidation = validateMatricule(matricule);
-  if (!matriculeValidation.valid) return showError("regMatriculeError", matriculeValidation.error);
-  
-  const faculteValidation = validateFaculty(faculte);
-  if (!faculteValidation.valid) return showError("regFaculteError", faculteValidation.error);
-  
-  const passwordValidation = validatePassword(password);
-  if (!passwordValidation.valid) {
-    return showError("regPasswordError", passwordValidation.errors.join(" · "));
-  }
-  
+  // Validation
+  const prenomV = validateName(prenom, "Le prénom");
+  if (!prenomV.valid) return showError("regPrenomError", prenomV.error);
+
+  const nomV = validateName(nom, "Le nom");
+  if (!nomV.valid) return showError("regNomError", nomV.error);
+
+  const matriculeV = validateMatricule(matricule);
+  if (!matriculeV.valid) return showError("regMatriculeError", matriculeV.error);
+
+  const faculteV = validateFaculty(faculte);
+  if (!faculteV.valid) return showError("regFaculteError", faculteV.error);
+
+  const passwordV = validatePassword(password);
+  if (!passwordV.valid) return showError("regPasswordError", passwordV.errors.join(" · "));
+
   if (password !== confirm) {
     return showError("regConfirmError", "Les mots de passe ne correspondent pas.");
   }
 
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = "Création du compte…";
 
   try {
     const email = matriculeToEmail(matricule);
 
     // 1. Créer le compte Supabase Auth
+    //    Le trigger `handle_new_user` créera automatiquement le profil
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { prenom, nom, faculte, departement, matricule }
-      }
+        data: { prenom, nom, faculte, departement, matricule },
+      },
     });
 
     if (error) {
-      if (error.message.includes("already registered") || error.message.includes("already been registered")) {
-        throw new AppError(ErrorType.VALIDATION, "Un compte existe déjà avec cet identifiant.", error);
+      if (
+        error.message.includes("already registered") ||
+        error.message.includes("already been registered")
+      ) {
+        throw new AppError(
+          ErrorType.VALIDATION,
+          "Un compte existe déjà avec cet identifiant.",
+          error
+        );
       }
       throw error;
     }
@@ -97,29 +126,14 @@ async function handleRegister(e) {
       throw new AppError(ErrorType.SERVER, "Erreur lors de la création. Réessayez.", null);
     }
 
-    // 2. Créer le profil dans la table users
-    const profileResponse = await supabase.from("users").upsert({
-      id:          data.user.id,
-      matricule:   matricule || data.user.id.slice(0, 8).toUpperCase(),
-      prenom,
-      nom,
-      email,
-      faculte,
-      departement: departement || "",
-      is_premium:  false,
-    }, { onConflict: "id" });
-
-    handleSupabaseResponse(profileResponse);
-
-    showToast(`Compte créé. Bienvenue, ${prenom} !`, "success");
+    showToast(`Compte créé ! Bienvenue, ${prenom} 🎉`, "success");
     setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
 
-  } catch (error) {
-    btn.disabled = false;
+  } catch (err) {
+    btn.disabled    = false;
     btn.textContent = "Créer mon compte";
-    
-    const appError = handleError(error, { showToUser: false });
-    
+
+    const appError = handleError(err, { showToUser: false });
     if (appError.type === ErrorType.VALIDATION) {
       showError("regMatriculeError", appError.message);
     } else {
@@ -128,7 +142,8 @@ async function handleRegister(e) {
   }
 }
 
-// ── Connexion ────────────────────────────────────────────────
+// ── Connexion ─────────────────────────────────────────────────
+
 async function handleLogin(e) {
   e.preventDefault();
   clearErrors();
@@ -137,93 +152,111 @@ async function handleLogin(e) {
   const password  = document.getElementById("loginPassword").value;
   const btn       = document.getElementById("loginBtn");
 
-  // Validation
-  const matriculeValidation = validateMatricule(matricule);
-  if (!matriculeValidation.valid) {
-    return showError("loginMatriculeError", matriculeValidation.error);
-  }
-  
-  if (!password) {
-    return showError("loginPasswordError", "Veuillez entrer votre mot de passe.");
-  }
+  const matriculeV = validateMatricule(matricule);
+  if (!matriculeV.valid) return showError("loginMatriculeError", matriculeV.error);
 
-  btn.disabled = true;
+  if (!password) return showError("loginPasswordError", "Veuillez entrer votre mot de passe.");
+
+  btn.disabled    = true;
   btn.textContent = "Connexion en cours…";
 
   try {
-    const email = matriculeToEmail(matricule);
+    const email    = matriculeToEmail(matricule);
     const response = await supabase.auth.signInWithPassword({ email, password });
-    
     handleSupabaseResponse(response);
 
     showToast("Connexion réussie !", "success");
     setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
 
-  } catch (error) {
-    btn.disabled = false;
+  } catch (err) {
+    btn.disabled    = false;
     btn.textContent = "Se connecter";
-    
-    handleError(error, { showToUser: false });
+
+    handleError(err, { showToUser: false });
     showError("loginPasswordError", "Identifiants incorrects. Vérifiez votre matricule et mot de passe.");
   }
 }
 
-// ── Google OAuth via Firebase ────────────────────────────────
+// ── Google OAuth (100% Supabase — plus de Firebase) ───────────
+
 async function handleGoogle() {
   try {
-    const { auth, provider, signInWithPopup } = await import("./firebase-config.js");
-    const result = await signInWithPopup(auth, provider);
-    const fbUser = result.user;
+    const redirectTo = `${window.location.origin}/auth.html`;
 
-    // Récupérer les infos Google
-    const email    = fbUser.email;
-    const prenom   = fbUser.displayName?.split(" ")[0] || "";
-    const nom      = fbUser.displayName?.split(" ").slice(1).join(" ") || "";
-    const photoUrl = fbUser.photoURL || "";
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo,
+        queryParams: {
+          access_type: "offline",
+          prompt:      "consent",
+        },
+      },
+    });
 
-    // Connecter dans Supabase avec l'email Google
-    // On crée un mot de passe déterministe basé sur l'UID Firebase
-    const password = `G_${fbUser.uid.slice(0, 16)}`;
+    if (error) throw error;
+    // Supabase redirige automatiquement vers Google,
+    // puis revient sur redirectTo avec le token dans l'URL.
 
-    // Essayer de se connecter d'abord
-    let { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (loginError) {
-      // Compte inexistant → créer
-      const signupResponse = await supabase.auth.signUp({ email, password });
-      handleSupabaseResponse(signupResponse);
-      
-      // Créer le profil
-      if (signupResponse.data.user) {
-        const profileResponse = await supabase.from("users").upsert({
-          id:           signupResponse.data.user.id,
-          matricule:    email.split("@")[0].toUpperCase().slice(0, 12),
-          prenom,
-          nom,
-          email,
-          faculte:      "",
-          departement:  "",
-          is_premium:   false,
-          photo_url:    photoUrl,
-          auth_provider: "google",
-        }, { onConflict: "id" });
-        
-        handleSupabaseResponse(profileResponse);
-      }
-    }
-
-    showToast(`Bienvenue, ${prenom} !`, "success");
-    setTimeout(() => { window.location.href = "dashboard.html"; }, 900);
-
-  } catch (error) {
-    handleError(error, { 
-      showToUser: true,
-      customMessage: "Connexion Google annulée ou bloquée."
+  } catch (err) {
+    handleError(err, {
+      showToUser:    true,
+      customMessage: "Connexion Google annulée ou bloquée.",
     });
   }
 }
 
-// ── Départements par faculté ─────────────────────────────────
+// ── Callback OAuth (traitement du retour Google) ──────────────
+
+async function handleOAuthCallback() {
+  // Supabase detectSessionInUrl: true gère l'échange automatiquement.
+  // On attend juste que la session soit établie, puis on redirige.
+  const { data: { session }, error } = await supabase.auth.getSession();
+
+  if (error) {
+    console.error("[Auth] Erreur callback OAuth:", error.message);
+    return;
+  }
+
+  if (session) {
+    // Vérifier si le profil existe déjà (créé par trigger ou pas)
+    const { data: profile } = await supabase
+      .from("users")
+      .select("id")
+      .eq("id", session.user.id)
+      .single();
+
+    // Si le trigger n'a pas encore créé le profil, on le crée manuellement
+    if (!profile) {
+      const meta  = session.user.user_metadata || {};
+      const email = session.user.email || "";
+      await supabase.from("users").upsert({
+        id:            session.user.id,
+        matricule:     email.split("@")[0].toUpperCase().slice(0, 12),
+        prenom:        meta.full_name?.split(" ")[0] || meta.name?.split(" ")[0] || "Étudiant",
+        nom:           meta.full_name?.split(" ").slice(1).join(" ") || "",
+        email,
+        faculte:       "",
+        departement:   "",
+        is_premium:    false,
+        photo_url:     meta.avatar_url || meta.picture || "",
+        auth_provider: "google",
+      }, { onConflict: "id" });
+    }
+
+    window.location.replace("dashboard.html");
+  }
+}
+
+// ── Déconnexion (exportée pour usage global) ──────────────────
+
+export async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = "auth.html";
+}
+
+// ── Départements par faculté ──────────────────────────────────
+
 const DEPARTEMENTS = {
   FASEG:  ["Économie","Gestion","Comptabilité et Finance","Marketing","Finance Quantitative & Microfinance","Économétrie et Statistiques appliquées"],
   FADESP: ["Droit Public","Droit Privé","Sciences Politiques"],
@@ -242,14 +275,16 @@ function initDepartements() {
   const deptInput     = document.getElementById("regDepartement");
   const deptDatalist  = document.getElementById("deptList");
   if (!faculteSelect || !deptDatalist) return;
+
   faculteSelect.addEventListener("change", () => {
-    const depts = DEPARTEMENTS[faculteSelect.value] || [];
-    deptDatalist.innerHTML = depts.map(d => `<option value="${d}">`).join("");
+    const depts     = DEPARTEMENTS[faculteSelect.value] || [];
+    deptDatalist.innerHTML = depts.map((d) => `<option value="${d}">`).join("");
     if (deptInput) deptInput.value = "";
   });
 }
 
-// ── Init ─────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────
+
 document.addEventListener("DOMContentLoaded", async () => {
   initTabs();
   initDepartements();
@@ -258,7 +293,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("registerForm")?.addEventListener("submit", handleRegister);
   document.getElementById("googleBtn")?.addEventListener("click", handleGoogle);
 
-  // Si déjà connecté → dashboard
+  // Traiter le callback OAuth si on revient de Google
+  const hash   = window.location.hash;
+  const params = new URLSearchParams(window.location.search);
+  if (hash.includes("access_token") || params.get("code")) {
+    await handleOAuthCallback();
+    return;
+  }
+
+  // Si l'utilisateur est déjà connecté → dashboard
   const { data: { session } } = await supabase.auth.getSession();
   if (session) window.location.href = "dashboard.html";
 });
