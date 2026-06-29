@@ -1,7 +1,6 @@
 {
   "version": 2,
   "outputDirectory": ".",
-  "public": true,
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "status": 404, "dest": "/404.html" }
