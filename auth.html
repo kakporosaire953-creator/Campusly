@@ -268,26 +268,22 @@
 
   // ── GOOGLE AUTH via Supabase OAuth natif ────────────────
   // Traiter le callback OAuth si on revient de Google
-  const _hash   = window.location.hash;
-  const _search = new URLSearchParams(window.location.search);
-  if (_hash.includes("access_token") || _search.get("code")) {
-    // Supabase detectSessionInUrl: true gère l'échange automatiquement
-    const { data: { session: oauthSession } } = await supabase.auth.getSession();
-    if (oauthSession) {
-      // Vérifier si le profil Google a déjà les infos requises
-      const { data: profile } = await supabase
-        .from("users")
-        .select("faculte")
-        .eq("id", oauthSession.user.id)
-        .single();
-      if (!profile?.faculte) {
-        // Montrer le modal de complétion du profil
-        document.getElementById("googleProfileModal").classList.add("show");
-      } else {
-        window.location.replace("dashboard.html");
+  (async () => {
+    const _hash   = window.location.hash;
+    const _search = new URLSearchParams(window.location.search);
+    if (_hash.includes("access_token") || _search.get("code")) {
+      const { data: { session: oauthSession } } = await supabase.auth.getSession();
+      if (oauthSession) {
+        const { data: profile } = await supabase
+          .from("users").select("faculte").eq("id", oauthSession.user.id).single();
+        if (!profile?.faculte) {
+          document.getElementById("googleProfileModal").classList.add("show");
+        } else {
+          window.location.replace("dashboard.html");
+        }
       }
     }
-  }
+  })();
 
   document.getElementById("googleBtn").addEventListener("click", async () => {
     const btn = document.getElementById("googleBtn");
@@ -301,7 +297,6 @@
         },
       });
       if (error) throw error;
-      // Supabase redirige automatiquement — pas besoin d'autre code ici
     } catch (err) {
       console.error(err);
       btn.disabled = false; btn.textContent = "Continuer avec Google";
