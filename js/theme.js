@@ -32,3 +32,31 @@ document.addEventListener("DOMContentLoaded", function() {
     el.parentNode.insertBefore(btn, el);
   });
 });
+
+  // --- Menu Hamburger Global ---
+  var hamb = document.getElementById("hamburger");
+  var navL = document.querySelector(".nav-links");
+  if (hamb && navL) {
+    hamb.addEventListener("click", function(e) {
+      e.stopPropagation();
+      var isOpen = navL.classList.toggle("open");
+      hamb.classList.toggle("open", isOpen);
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    });
+    
+    document.addEventListener("click", function(e) {
+      if (navL.classList.contains("open") && !navL.contains(e.target) && !hamb.contains(e.target)) {
+        navL.classList.remove("open");
+        hamb.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+    });
+
+    navL.querySelectorAll("a").forEach(function(link) {
+      link.addEventListener("click", function() {
+        navL.classList.remove("open");
+        hamb.classList.remove("open");
+        document.body.style.overflow = "";
+      });
+    });
+  }

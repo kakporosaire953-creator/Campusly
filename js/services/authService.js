@@ -3,7 +3,7 @@
 // Gestion locale et simulée de l'authentification et des rôles
 // ============================================================
 
-import { INITIAL_USER, MOCK_TEACHER_PROFILE } from './mockData.js';
+const INITIAL_USER = { name: 'Étudiant', role: 'learner', credits: 120, email: '', uid: 'temp', recentActivities: [] }; const MOCK_TEACHER_PROFILE = { name: 'Professeur', role: 'teacher', credits: 120, uid: 'temp-teacher' };
 
 const STORAGE_KEY = 'campusly_auth_user';
 

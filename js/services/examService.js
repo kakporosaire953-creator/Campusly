@@ -3,7 +3,7 @@
 // Gestion des Compositions Surveillées, Proctoring & Copies UAC
 // ============================================================
 
-import { MOCK_COMPOSITIONS } from './mockData.js';
+const MOCK_COMPOSITIONS = [];
 import { userService } from './userService.js';
 
 const STORAGE_KEY = 'campusly_compositions';

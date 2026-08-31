@@ -154,5 +154,4 @@ document.getElementById("resetFilters")?.addEventListener("click", () => {
 });
 
 window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
-document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
 initLangSwitcher(); applyTranslations(); injectLogos();

@@ -150,14 +150,14 @@ function injectMobileLang() {
 function openMenu() {
   injectMobileLang();
   navLinks?.classList.add("open");
-  hamburger?.classList.add("hidden");
+  hamburger?.classList.add("open");
   navCloseBtn?.classList.add("show");
   navAuthBottom?.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 function closeMenu() {
   navLinks?.classList.remove("open");
-  hamburger?.classList.remove("hidden");
+  hamburger?.classList.remove("open");
   navCloseBtn?.classList.remove("show");
   navAuthBottom?.classList.remove("show");
   document.body.style.overflow = "";

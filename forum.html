@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/theme-dark.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
-  <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/mobile.css?v=3" />
   <link rel="stylesheet" href="css/interactive-buttons.css" />
   <link rel="stylesheet" href="css/skeleton-loaders.css" />
   <style>
@@ -1384,7 +1384,6 @@
   // ------------------------------------------------------
   
   window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
-  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
   injectLogos();
 </script>
 <script src="js/theme-switcher.js" type="module"></script>

@@ -3,7 +3,7 @@
 // Gestion des Classrooms Virtuelles, Amphis & Devoirs UAC
 // ============================================================
 
-import { MOCK_CLASSROOMS } from './mockData.js';
+const MOCK_CLASSROOMS = [];
 
 const STORAGE_KEY = 'campusly_classrooms';
 

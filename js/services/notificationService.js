@@ -3,7 +3,7 @@
 // Centre de notifications In-App & badge de navbar
 // ============================================================
 
-import { MOCK_NOTIFICATIONS } from './mockData.js';
+const MOCK_NOTIFICATIONS = [];
 
 const STORAGE_KEY = 'campusly_notifications';
 

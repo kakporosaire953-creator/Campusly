@@ -52,7 +52,23 @@ img, svg, video, iframe { max-width: 100%; }
   }
 
   /* Cacher tout sauf logo, lang FR/EN et hamburger */
-  .nav-links { display: none !important; }
+  .nav-links {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 56px; left: 0; bottom: 0;
+    width: 280px;
+    max-width: 80vw;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    padding: 16px 16px 20px;
+    gap: 0;
+    z-index: 999;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s, box-shadow 0.3s ease;
+  }
   .nav-right .nav-actions { display: none !important; }
   .nav-right #globalSearchWrap { display: none !important; }
   .nav-user-name { display: none !important; }
@@ -78,6 +94,8 @@ img, svg, video, iframe { max-width: 100%; }
     border: none;
     padding: 6px;
     flex-shrink: 0;
+    position: relative;
+    z-index: 1002;
   }
   .hamburger span {
     display: block;
@@ -87,29 +105,24 @@ img, svg, video, iframe { max-width: 100%; }
     border-radius: 2px;
     transition: all 0.25s ease;
   }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* ── Menu mobile compact ────────────────────────────────── */
   .nav-links.open {
-    display: flex !important;
-    flex-direction: column;
-    position: fixed;
-    top: 56px; left: 0; right: 0;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    padding: 4px 16px 8px;
-    gap: 0;
-    z-index: 1001;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    overflow: hidden;
+    transform: translateX(0);
+    visibility: visible;
+    box-shadow: 0 0 0 100vw rgba(0,0,0,0.4);
   }
   .nav-links.open li { width: 100%; border-bottom: 1px solid rgba(21,101,192,0.06); }
   .nav-links.open li:last-child { border-bottom: none; }
   .nav-links.open a {
     display: block;
     width: 100%;
-    padding: 10px 4px;
+    padding: 12px 8px;
     color: var(--text-1) !important;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 600;
     text-decoration: none;
   }

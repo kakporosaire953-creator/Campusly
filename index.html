@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/responsive-scale.css" />
-  <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/mobile.css?v=3" />
   <link rel="manifest" href="manifest.json" />
   <style>
     .hero-workflow-node {
@@ -996,7 +996,6 @@
   // Navbar scroll
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 20));
-  document.getElementById('hamburger')?.addEventListener('click', () => document.querySelector('.nav-links')?.classList.toggle('open'));
 
   // Init i18n
   initLangSwitcher();

@@ -4,7 +4,7 @@
 // ============================================================
 
 import { authService } from './authService.js';
-import { INITIAL_USER, MOCK_TEACHER_PROFILE } from './mockData.js';
+const INITIAL_USER = { name: 'Étudiant', role: 'learner', credits: 120, email: '', uid: 'temp', recentActivities: [] }; const MOCK_TEACHER_PROFILE = { name: 'Professeur', role: 'teacher', credits: 120, uid: 'temp-teacher' };
 
 export const ACADEMIC_LEVELS = [
   { key: "new", name: "Nouveau", icon: '<i class="fa-solid fa-seedling" style="color:var(--success);"></i>', faIcon: "fa-solid fa-seedling", minXp: 0, maxXp: 100 },

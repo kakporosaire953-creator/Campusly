@@ -430,9 +430,12 @@ export function applyTranslations() {
       // Préserver les icônes enfants Font Awesome si présentes
       const icon = el.querySelector('i');
       if (icon) {
-        let textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
-        if (textNode) {
-          textNode.textContent = ' ' + val + ' ';
+        let textNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0);
+        if (textNodes.length > 0) {
+          textNodes[textNodes.length - 1].textContent = ' ' + val;
+          for (let i = 0; i < textNodes.length - 1; i++) {
+             textNodes[i].textContent = '';
+          }
         } else {
           el.innerHTML = `<i class="${icon.className}" style="${icon.getAttribute('style') || ''}"></i> <span>${val}</span>`;
         }

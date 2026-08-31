@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
-  <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/mobile.css?v=3" />
   <link rel="stylesheet" href="css/interactive-buttons.css" />
   <style>
     .contrib-main { padding-top: 68px; min-height: 100vh; position: relative; z-index: 1; }
@@ -394,7 +394,6 @@
   }
 
   window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
-  document.getElementById("hamburger")?.addEventListener("click", () => document.querySelector(".nav-links")?.classList.toggle("open"));
   injectLogos();
 </script>
 </body>
