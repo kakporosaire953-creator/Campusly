@@ -21,18 +21,23 @@ export function isPremium() {
 // ── Déconnexion ──────────────────────────────────────────────
 export async function logout() {
   try {
-    const response = await supabase.auth.signOut();
-    handleSupabaseResponse(response);
+    if (window.authService) {
+      await window.authService.logout();
+    }
+    localStorage.removeItem("campusly_user");
+    localStorage.removeItem("campusly_auth_user");
+    localStorage.removeItem("supabase.auth.token");
     
     _currentUser = null;
     _userProfile = null;
-    showToast("Vous avez été déconnecté.", "info");
-    setTimeout(() => { window.location.href = "index.html"; }, 900);
+    if (typeof showToast === 'function') {
+      showToast("Vous avez été déconnecté.", "info");
+    }
+    setTimeout(() => { window.location.href = "auth.html"; }, 300);
   } catch (error) {
-    handleError(error, { 
-      showToUser: true,
-      customMessage: "Erreur lors de la déconnexion"
-    });
+    localStorage.removeItem("campusly_user");
+    localStorage.removeItem("campusly_auth_user");
+    window.location.href = "auth.html";
   }
 }
 window.logout = logout;
@@ -94,16 +99,14 @@ const navLinks  = document.querySelector(".nav-links");
 const navAuthBottom = document.getElementById("navAuthBottom");
 const navCloseBtn   = document.getElementById("navCloseBtn");
 
-// Injecter le sélecteur de langue dans le menu mobile
+// Injecter le sélecteur de langue dans le menu mobile (FR & EN uniquement)
 function injectMobileLang() {
   if (!navLinks) return;
   const existing = navLinks.querySelector(".mobile-lang-switcher");
   if (existing) return;
   const langs = [
-    { code: "fr", flag: "🇫🇷", label: "FR" },
-    { code: "en", flag: "🇬🇧", label: "EN" },
-    { code: "de", flag: "🇩🇪", label: "DE" },
-    { code: "es", flag: "🇪🇸", label: "ES" },
+    { code: "fr", label: "Français (FR)" },
+    { code: "en", label: "English (EN)" }
   ];
   const currentLang = localStorage.getItem("campusly_lang") || "fr";
   const div = document.createElement("li");
@@ -116,7 +119,8 @@ function injectMobileLang() {
       border:1px solid ${l.code===currentLang?'transparent':'var(--border)'};
       border-radius:8px; padding:6px 12px; cursor:pointer;
       font-family:var(--font-sans); font-size:0.82rem; font-weight:600;
-    " id="mlang-${l.code}">${l.flag} ${l.label}</button>
+      display:inline-flex; align-items:center; gap:6px;
+    " id="mlang-${l.code}"><i class="fa-solid fa-globe"></i> ${l.label}</button>
   `).join("");
   navLinks.insertBefore(div, navLinks.firstChild);
 

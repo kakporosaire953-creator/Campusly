@@ -62,8 +62,6 @@ img, svg, video, iframe { max-width: 100%; }
     display: flex !important;
     gap: 3px;
   }
-  .nav-right #langSwitcher .lang-btn[data-lang="de"],
-  .nav-right #langSwitcher .lang-btn[data-lang="es"] { display: none !important; }
   .nav-right #langSwitcher .lang-btn {
     padding: 4px 7px !important;
     font-size: 0.68rem !important;

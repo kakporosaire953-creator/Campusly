@@ -1,0 +1,8 @@
+{
+  "name": "Campusly",
+  "description": "Plateforme EdTech intelligente pour l'UAC — Annales d'épreuves, Campusly AI, Classrooms d'amphi, Compositions surveillées et apprentissage adaptatif",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

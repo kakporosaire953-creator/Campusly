@@ -1,556 +1,504 @@
 // ============================================================
-// CAMPUSLY — Système de traduction i18n
-// Langues : FR, EN, DE, ES
+// CAMPUSLY 2.0 — Système de traduction & Internationalisation (i18n)
+// Langues officielles supportées : FR (Français) & EN (English)
 // ============================================================
 
 export const TRANSLATIONS = {
   fr: {
     // Navigation
-    nav_features: "Fonctionnalités",
+    nav_home: "Accueil",
+    nav_features: "Piliers Campusly",
     nav_process: "Processus",
-    nav_pricing: "Tarifs",
-    nav_exams: "Épreuves",
-    nav_revision: "Révision IA",
+    nav_pricing: "Crédits & Tarifs",
+    nav_exams: "Épreuves & Annales",
+    nav_revision: "Campusly AI",
+    nav_classrooms: "Classrooms",
+    nav_composition: "Compositions",
     nav_login: "Connexion",
     nav_register: "S'inscrire",
-    nav_dashboard: "Dashboard",
+    nav_dashboard: "Tableau de bord",
     nav_logout: "Déconnexion",
+    nav_faq: "FAQ",
 
-    // Hero
-    hero_badge: "Université d'Abomey-Calavi",
-    hero_title: "La plateforme académique",
-    hero_title_span: "des étudiants de l'UAC",
-    hero_desc: "Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle et suivez votre progression. Tout ce dont vous avez besoin pour réussir.",
-    hero_cta_exams: "Consulter les épreuves",
-    hero_cta_register: "Créer un compte",
-    hero_stat_exams: "Épreuves",
-    hero_stat_faculties: "Facultés",
-    hero_stat_students: "Étudiants",
+    // Hero Section
+    hero_badge: "Plateforme Académique Intelligente UAC",
+    hero_title: "La plateforme académique intelligente",
+    hero_title_span: "des étudiants et professeurs de l’UAC.",
+    hero_desc: "Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle, créez des évaluations et suivez votre progression. Tout ce dont vous avez besoin pour apprendre, enseigner et réussir.",
+    hero_cta_primary: "Commencer gratuitement",
+    hero_cta_secondary: "Découvrir Campusly",
+    hero_stat_exams: "Épreuves & Annales",
+    hero_stat_exams_desc: "Sujets & examens classés",
+    hero_stat_ai: "Campusly AI",
+    hero_stat_ai_desc: "Génération de quiz et révision",
+    hero_stat_classrooms: "Classrooms Amphi",
+    hero_stat_classrooms_desc: "Espace professeurs & devoirs",
+    hero_stat_faculties: "Facultés & Écoles UAC",
+    hero_stat_students: "Étudiants & Professeurs",
 
-    // Features
-    features_tag: "Fonctionnalités",
-    features_title: "Tout ce dont vous avez besoin pour",
-    features_title_span: "réussir",
-    features_desc: "Une plateforme conçue pour les étudiants de l'UAC, avec des outils académiques modernes.",
-    feat1_title: "Bibliothèque d'épreuves",
-    feat1_desc: "Accédez à des centaines d'anciennes épreuves classées par faculté, département, semestre et année.",
-    feat2_title: "Recherche avancée",
-    feat2_desc: "Filtrez les épreuves par faculté, département, semestre ou année en quelques secondes.",
-    feat3_title: "Révision assistée par IA",
-    feat3_desc: "Révisez avec des quiz générés par intelligence artificielle et suivez votre progression.",
-    feat4_title: "Application mobile (PWA)",
-    feat4_desc: "Installez Campusly sur votre smartphone. Interface optimisée mobile.",
-    feat5_title: "Contenu Premium",
-    feat5_desc: "Débloquez des épreuves exclusives avec un abonnement à partir de 500 FCFA.",
-    feat6_title: "Toutes les facultés UAC",
-    feat6_desc: "FAST, FADESP, FASEG, FLASH, EPAC, FSS, INJEPS, ENEAM — toutes couvertes.",
+    // Pillars Section
+    pillars_tag: "Écosystème Académique",
+    pillars_title: "Tout Campusly en",
+    pillars_title_span: "un seul espace",
+    pillars_desc: "Une suite d'outils interconnectés conçue spécifiquement pour les réalités académiques de l'Université d'Abomey-Calavi.",
 
-    // Pricing
-    pricing_tag: "Tarifs",
-    pricing_title: "Des tarifs",
-    pricing_title_span: "accessibles",
-    pricing_title2: "pour tous",
-    pricing_desc: "Commencez gratuitement. Passez Premium pour débloquer l'intégralité du contenu.",
-    plan_free: "Gratuit",
-    plan_free_feat1: "Accès aux épreuves gratuites",
-    plan_free_feat2: "Recherche et filtres",
-    plan_free_feat3: "Favoris et historique",
-    plan_free_feat4: "Épreuves Premium",
-    plan_free_feat5: "Quiz IA illimités",
-    plan_free_cta: "Commencer gratuitement",
-    plan_recommended: "Recommandé",
-    plan_month: "1 Mois",
-    plan_week: "1 Semaine",
-    plan_feat1: "Tout du plan gratuit",
-    plan_feat2: "Accès illimité Premium",
-    plan_feat3: "Quiz IA illimités",
-    plan_feat4: "Suivi de progression",
-    plan_feat5: "Support prioritaire",
-    plan_cta: "Choisir ce plan",
+    pillar1_title: "Épreuves & Annales",
+    pillar1_desc: "Retrouvez les anciennes épreuves, partiels et examens classés par faculté, département, semestre et année universitaire.",
+    pillar2_title: "Campusly AI",
+    pillar2_desc: "Transformez vos cours magistraux, fiches et polycopiés en quiz interactifs et synthèses claires grâce à notre moteur IA.",
+    pillar3_title: "5 Modes d'Apprentissage",
+    pillar3_desc: "Révisez selon votre profil : QCM chronométré, Questions-Réponses, Vrai/Faux express, Résumé Pédagogique ou Marathon Adaptatif.",
+    pillar4_title: "Classrooms Amphi",
+    pillar4_desc: "Espace dédié aux professeurs pour créer des classes d'amphi, partager des devoirs et suivre les difficultés en direct.",
+    pillar5_title: "Salle de composition",
+    pillar5_desc: "Réalisez des évaluations en ligne avec minuterie stricte, surveillance d'intégrité anti-triche et remise instantanée de corrigé commenté.",
+    pillar6_title: "Diagnostic & Progression",
+    pillar6_desc: "Identifiez vos points forts et lacunes en temps réel. Suivez votre niveau académique et entretenez votre série quotidienne.",
 
-    // Auth
-    auth_welcome: "Bienvenue",
-    auth_subtitle: "Connectez-vous ou créez votre compte étudiant",
-    auth_login: "Connexion",
-    auth_register: "Inscription",
-    auth_matricule: "Matricule UAC",
-    auth_password: "Mot de passe",
-    auth_confirm: "Confirmer le mot de passe",
-    auth_firstname: "Prénom",
-    auth_lastname: "Nom",
-    auth_faculty: "Faculté",
-    auth_dept: "Département / Filière",
-    auth_login_btn: "Se connecter",
-    auth_register_btn: "Créer mon compte",
-    auth_no_account: "Pas encore de compte ?",
-    auth_free_register: "S'inscrire gratuitement",
-    auth_has_account: "Déjà un compte ?",
-    auth_connect: "Se connecter",
+    // AI Pedagogical Section
+    ai_tag: "Moteur Pédagogique Intelligent",
+    ai_title: "Vos cours deviennent",
+    ai_title_span: "interactifs.",
+    ai_desc: "Importez vos documents de cours (PDF, Word, fiches ou texte brut). Campusly AI extrait la structure conceptuelle et génère des entraînements fidèles à vos exigences universitaires.",
+    ai_privacy_badge: "Vos documents restent privés et ne sont pas publiés sans votre autorisation.",
+    ai_step1_title: "1. Importer un document",
+    ai_step1_desc: "Cours magistral, TD, fiche ou ancienne épreuve au format PDF, texte ou image.",
+    ai_step2_title: "2. Analyse sémantique",
+    ai_step2_desc: "Détection automatique de la structure pédagogique et des concepts clés à retenir.",
+    ai_step3_title: "3. Génération multi-formats",
+    ai_step3_desc: "QCM avec justifications, Vrai/Faux avec contre-exemples et Questions ouvertes.",
+    ai_step4_title: "4. Contrôle & Personnalisation",
+    ai_step4_desc: "Vous relisez, ajustez et sélectionnez vos questions avant de vous entraîner.",
+
+    // Adaptive Engine Section
+    adapt_tag: "Progression Ciblée",
+    adapt_title: "Ne révisez pas tout.",
+    adapt_title_span: "Révisez ce que vous devez maîtriser.",
+    adapt_desc: "Notre moteur adaptatif identifie automatiquement vos lacunes et ajuste en direct la sélection des questions pour maximiser votre note d'examen.",
+    adapt_marathon_title: "Marathon Adaptatif",
+    adapt_marathon_desc: "Continuez à vous entraîner jusqu'à maîtriser complètement vos difficultés académiques.",
+
+    // Teachers Section
+    teacher_tag: "Espace Enseignants",
+    teacher_title: "Pensé aussi pour",
+    teacher_title_span: "les professeurs.",
+    teacher_desc: "Campusly devient votre centre de pilotage pédagogique à l'UAC. Créez vos espaces d'amphi, partagez vos supports de cours, générez des interrogations et suivez les difficultés de vos étudiants avec des alertes automatiques.",
+    teacher_cta: "Découvrir les Classrooms",
+
+    // Compositions Section
+    comp_tag: "Évaluations à Distance",
+    comp_title: "Évaluez vos apprenants,",
+    comp_title_span: "où qu'ils soient.",
+    comp_desc: "Organisez des compositions d'amphi et examens blancs surveillés avec correction automatique, barème sur 20 et génération de copie personnelle.",
+
+    // Pricing & Credits Section
+    pricing_tag: "Crédits & Tarifs",
+    pricing_title: "Des packs",
+    pricing_title_span: "accessibles à tous",
+    pricing_desc: "Rechargez vos crédits selon vos besoins d'étude ou activez un accès complet pour tout le semestre.",
 
     // Dashboard
     dash_title: "Tableau de bord",
     dash_subtitle: "Votre espace académique personnel",
-    dash_downloads: "Téléchargements",
-    dash_favorites: "Favoris",
-    dash_quiz: "Quiz complétés",
-    dash_premium_status: "Statut Premium",
-    dash_quick_access: "Accès rapide",
-    dash_browse_exams: "Parcourir les épreuves",
-    dash_ai_revision: "Révision IA",
-    dash_manage_sub: "Gérer l'abonnement",
-    dash_recent_dl: "Derniers téléchargements",
-    dash_see_all: "Voir tout",
-    dash_history: "Historique",
-    dash_history_sub: "Toutes vos épreuves téléchargées",
-    dash_favorites_title: "Favoris",
-    dash_favorites_sub: "Vos épreuves sauvegardées",
-    dash_subscription: "Abonnement Premium",
-    dash_subscription_sub: "Débloquez l'accès complet",
-    dash_profile: "Mon profil",
-    dash_profile_sub: "Informations de votre compte",
-    dash_logout: "Se déconnecter",
-    dash_active: "Actif",
-    dash_inactive: "Inactif",
+    dash_overview: "Vue d'ensemble",
+    dash_goal_title: "Objectif de la semaine",
+    dash_goal_sessions: "sessions",
+    dash_continue_title: "Reprendre l'étude",
+    dash_credits_title: "Campusly Credits",
+    dash_credits_cta: "Recharger mes crédits",
+    dash_weak_title: "Notions à renforcer",
+    dash_strong_title: "Notions maîtrisées",
+    dash_streak_title: "Série d'étude",
+    dash_recent_activity: "Activité récente",
+    dash_level_title: "Niveau académique",
+    dash_empty_history: "Aucune activité récente enregistrée.",
+    dash_empty_weak: "Toutes vos notions évaluées sont bien maîtrisées.",
+    dash_empty_strong: "Complétez des sessions pour afficher vos notions maîtrisées.",
+    dash_empty_classrooms: "Vous n'avez pas encore rejoint de classroom.",
+    dash_empty_compositions: "Aucune composition en attente.",
 
-    // Revision
-    rev_title: "Révision assistée par IA",
-    rev_subtitle: "Générez des quiz personnalisés avec GPT-4o-mini et suivez votre progression.",
-    rev_quiz_done: "Quiz complétés",
-    rev_avg_score: "Score moyen",
-    rev_subjects: "Matières révisées",
-    rev_generate: "Générer le quiz ✨",
-    rev_placeholder: "Ex : Microéconomie, Droit Civil, Anatomie…",
-    rev_empty_title: "Générez un quiz avec l'IA",
-    rev_empty_desc: "Entrez un sujet de révision et l'IA génère un quiz personnalisé pour vous.",
+    // Auth
+    auth_login: "Connexion",
+    auth_register: "Inscription",
+    auth_welcome_back: "Bienvenue sur Campusly",
+    auth_create_account: "Créer votre compte",
+    auth_email_or_matricule: "Email ou Matricule UAC",
+    auth_password: "Mot de passe",
+    auth_firstname: "Prénom",
+    auth_lastname: "Nom",
+    auth_faculty: "Faculté / Institut UAC",
+    auth_role_learner: "Étudiant / Apprenant",
+    auth_role_teacher: "Enseignant / Professeur",
 
-    // Common
+    // Empty States
+    empty_exams_title: "Aucune épreuve trouvée",
+    empty_exams_desc: "Essayez de modifier vos critères de recherche ou sélectionnez une autre faculté.",
+    empty_quiz_title: "Aucun quiz créé pour le moment",
+    empty_quiz_desc: "Importez un cours ou un polycopié pour générer votre premier entraînement personnalisé.",
+    empty_classrooms_title: "Aucune classroom trouvée",
+    empty_classrooms_desc: "Créez votre première classroom ou rejoignez celle de votre enseignant grâce à son code d'accès.",
+    empty_compositions_title: "Aucune évaluation programmée",
+    empty_compositions_desc: "Vos prochaines épreuves surveillées apparaîtront ici dès leur publication.",
+    empty_notifications_title: "Aucune notification",
+    empty_notifications_desc: "Vous êtes à jour dans vos activités et devoirs.",
+
+    // Common & Actions
     loading: "Chargement…",
-    error: "Erreur",
-    success: "Succès",
+    error: "Une erreur est survenue",
+    success: "Opération réussie",
     cancel: "Annuler",
     confirm: "Confirmer",
+    save: "Enregistrer",
+    delete: "Supprimer",
+    edit: "Modifier",
     download: "Télécharger",
+    start: "Démarrer",
+    submit: "Soumettre",
+    next: "Suivant",
+    previous: "Précédent",
+    retry: "Réessayer",
+    see_all: "Voir tout",
+    close: "Fermer",
     premium: "Premium",
-    free: "Gratuit",
-    active: "Actif",
-    inactive: "Inactif",
-    no_data: "Aucune donnée disponible",
-    select_faculty: "Sélectionner une faculté",
-    all_faculties: "Toutes les facultés",
+    free: "Gratuit"
   },
 
   en: {
-    nav_features: "Features",
-    nav_process: "How it works",
-    nav_pricing: "Pricing",
-    nav_exams: "Exams",
-    nav_revision: "AI Revision",
-    nav_login: "Login",
-    nav_register: "Sign up",
+    // Navigation
+    nav_home: "Home",
+    nav_features: "Campusly Pillars",
+    nav_process: "Process",
+    nav_pricing: "Credits & Plans",
+    nav_exams: "Past Exams",
+    nav_revision: "Campusly AI",
+    nav_classrooms: "Classrooms",
+    nav_composition: "Compositions",
+    nav_login: "Sign In",
+    nav_register: "Sign Up",
     nav_dashboard: "Dashboard",
-    nav_logout: "Logout",
-    hero_badge: "University of Abomey-Calavi",
-    hero_title: "The academic platform",
-    hero_title_span: "for UAC students",
-    hero_desc: "Access past exams, revise with artificial intelligence and track your progress. Everything you need to succeed.",
-    hero_cta_exams: "Browse exams",
-    hero_cta_register: "Create account",
-    hero_stat_exams: "Exams",
-    hero_stat_faculties: "Faculties",
-    hero_stat_students: "Students",
-    features_tag: "Features",
-    features_title: "Everything you need to",
-    features_title_span: "succeed",
-    features_desc: "A platform designed for UAC students with modern academic tools.",
-    feat1_title: "Exam Library",
-    feat1_desc: "Access hundreds of past exams sorted by faculty, department, semester and year.",
-    feat2_title: "Advanced Search",
-    feat2_desc: "Filter exams by faculty, department, semester or year in seconds.",
-    feat3_title: "AI-Assisted Revision",
-    feat3_desc: "Revise with AI-generated quizzes and track your progress in real time.",
-    feat4_title: "Mobile App (PWA)",
-    feat4_desc: "Install Campusly on your smartphone. Mobile-optimized interface.",
-    feat5_title: "Premium Content",
-    feat5_desc: "Unlock exclusive exams with a subscription from 500 FCFA.",
-    feat6_title: "All UAC Faculties",
-    feat6_desc: "FAST, FADESP, FASEG, FLASH, EPAC, FSS, INJEPS, ENEAM — all covered.",
-    pricing_tag: "Pricing",
-    pricing_title: "Affordable",
-    pricing_title_span: "pricing",
-    pricing_title2: "for everyone",
-    pricing_desc: "Start for free. Go Premium to unlock all content.",
-    plan_free: "Free",
-    plan_free_feat1: "Access to free exams",
-    plan_free_feat2: "Search and filters",
-    plan_free_feat3: "Favorites and history",
-    plan_free_feat4: "Premium Exams",
-    plan_free_feat5: "Unlimited AI Quizzes",
-    plan_free_cta: "Start for free",
-    plan_recommended: "Recommended",
-    plan_month: "1 Month",
-    plan_week: "1 Week",
-    plan_feat1: "Everything in free",
-    plan_feat2: "Unlimited Premium access",
-    plan_feat3: "Unlimited AI quizzes",
-    plan_feat4: "Progress tracking",
-    plan_feat5: "Priority support",
-    plan_cta: "Choose this plan",
-    auth_welcome: "Welcome",
-    auth_subtitle: "Login or create your student account",
-    auth_login: "Login",
-    auth_register: "Sign up",
-    auth_matricule: "UAC Student ID",
-    auth_password: "Password",
-    auth_confirm: "Confirm password",
-    auth_firstname: "First name",
-    auth_lastname: "Last name",
-    auth_faculty: "Faculty",
-    auth_dept: "Department / Major",
-    auth_login_btn: "Login",
-    auth_register_btn: "Create account",
-    auth_no_account: "No account yet?",
-    auth_free_register: "Sign up for free",
-    auth_has_account: "Already have an account?",
-    auth_connect: "Login",
+    nav_logout: "Sign Out",
+    nav_faq: "FAQ",
+
+    // Hero Section
+    hero_badge: "Smart Academic Platform for UAC",
+    hero_title: "The smart academic platform",
+    hero_title_span: "for UAC students and professors.",
+    hero_desc: "Access past exams, study with artificial intelligence, create assessments, and track your progress. Everything you need to learn, teach, and succeed.",
+    hero_cta_primary: "Get started for free",
+    hero_cta_secondary: "Discover Campusly",
+    hero_stat_exams: "Past Exams & Archives",
+    hero_stat_exams_desc: "Categorized past papers",
+    hero_stat_ai: "Campusly AI",
+    hero_stat_ai_desc: "Quiz generation & revision",
+    hero_stat_classrooms: "Lecture Classrooms",
+    hero_stat_classrooms_desc: "Teacher hub & assignments",
+    hero_stat_faculties: "Faculties & Schools",
+    hero_stat_students: "Students & Teachers",
+
+    // Pillars Section
+    pillars_tag: "Academic Ecosystem",
+    pillars_title: "Everything in Campusly in",
+    pillars_title_span: "one single space",
+    pillars_desc: "An integrated suite of tools designed specifically for the academic realities of the University of Abomey-Calavi.",
+
+    pillar1_title: "Past Exams & Archives",
+    pillar1_desc: "Find historical exam papers, midterms, and finals organized by faculty, department, semester, and academic year.",
+    pillar2_title: "Campusly AI",
+    pillar2_desc: "Transform your lecture slides, notes, and handouts into interactive quizzes and clear summaries powered by AI.",
+    pillar3_title: "5 Learning Modes",
+    pillar3_desc: "Study according to your needs: Timed MCQ, Q&A, Rapid True/False, Pedagogical Summary, or Adaptive Marathon.",
+    pillar4_title: "Lecture Classrooms",
+    pillar4_desc: "Dedicated hub for professors to create virtual classrooms, distribute homework, and monitor learning curves in real time.",
+    pillar5_title: "Examination Room",
+    pillar5_desc: "Take online proctored exams with strict countdown timers, tab-switch monitoring, and instant corrected copies.",
+    pillar6_title: "Diagnosis & Progress",
+    pillar6_desc: "Identify your strengths and weaknesses in real time. Track your academic rank and maintain your daily study streak.",
+
+    // AI Pedagogical Section
+    ai_tag: "Intelligent Pedagogy Engine",
+    ai_title: "Your courses become",
+    ai_title_span: "interactive.",
+    ai_desc: "Upload your course materials (PDF, Word, study sheets, or raw text). Campusly AI extracts key concepts and creates practice sets tailored to university standards.",
+    ai_privacy_badge: "Your documents remain strictly private and will never be published without your consent.",
+    ai_step1_title: "1. Upload a Document",
+    ai_step1_desc: "Lecture notes, tutorials, study sheets, or past exam papers in PDF, text, or image format.",
+    ai_step2_title: "2. Semantic Analysis",
+    ai_step2_desc: "Automatic detection of conceptual hierarchy, key definitions, and core formulas.",
+    ai_step3_title: "3. Multi-Format Generation",
+    ai_step3_desc: "MCQs with thorough explanations, True/False with counter-examples, and open-ended questions.",
+    ai_step4_title: "4. Review & Customize",
+    ai_step4_desc: "Review, edit, and select questions before beginning your targeted revision session.",
+
+    // Adaptive Engine Section
+    adapt_tag: "Targeted Progression",
+    adapt_title: "Don't revise everything.",
+    adapt_title_span: "Revise what you need to master.",
+    adapt_desc: "Our adaptive engine identifies your learning gaps and dynamically chooses questions to maximize your exam score.",
+    adapt_marathon_title: "Adaptive Marathon",
+    adapt_marathon_desc: "Keep practicing until you reach total mastery over difficult academic notions.",
+
+    // Teachers Section
+    teacher_tag: "Professors Hub",
+    teacher_title: "Designed also for",
+    teacher_title_span: "professors.",
+    teacher_desc: "Campusly becomes your teaching command center at UAC. Create lecture spaces, share course handouts, generate quizzes, and track learner difficulties with automated alerts.",
+    teacher_cta: "Explore Classrooms",
+
+    // Compositions Section
+    comp_tag: "Remote Assessments",
+    comp_title: "Assess your learners,",
+    comp_title_span: "wherever they are.",
+    comp_desc: "Organize timed exams and proctored mock assessments with automatic grading on a 20-point scale and personal marked copies.",
+
+    // Pricing & Credits Section
+    pricing_tag: "Credits & Pricing",
+    pricing_title: "Accessible plans",
+    pricing_title_span: "for every student",
+    pricing_desc: "Top up your credits according to your revision workload or activate full semester access.",
+
+    // Dashboard
     dash_title: "Dashboard",
-    dash_subtitle: "Your personal academic space",
-    dash_downloads: "Downloads",
-    dash_favorites: "Favorites",
-    dash_quiz: "Quizzes completed",
-    dash_premium_status: "Premium Status",
-    dash_quick_access: "Quick access",
-    dash_browse_exams: "Browse exams",
-    dash_ai_revision: "AI Revision",
-    dash_manage_sub: "Manage subscription",
-    dash_recent_dl: "Recent downloads",
-    dash_see_all: "See all",
-    dash_history: "History",
-    dash_history_sub: "All your downloaded exams",
-    dash_favorites_title: "Favorites",
-    dash_favorites_sub: "Your saved exams",
-    dash_subscription: "Premium Subscription",
-    dash_subscription_sub: "Unlock full access",
-    dash_profile: "My profile",
-    dash_profile_sub: "Your account information",
-    dash_logout: "Logout",
-    dash_active: "Active",
-    dash_inactive: "Inactive",
-    rev_title: "AI-Assisted Revision",
-    rev_subtitle: "Generate personalized quizzes with GPT-4o-mini and track your progress.",
-    rev_quiz_done: "Quizzes completed",
-    rev_avg_score: "Average score",
-    rev_subjects: "Subjects studied",
-    rev_generate: "Generate quiz ✨",
-    rev_placeholder: "E.g.: Microeconomics, Civil Law, Anatomy…",
-    rev_empty_title: "Generate a quiz with AI",
-    rev_empty_desc: "Enter a revision topic and the AI will generate a personalized quiz for you.",
+    dash_subtitle: "Your personal academic workspace",
+    dash_overview: "Overview",
+    dash_goal_title: "Weekly Study Goal",
+    dash_goal_sessions: "sessions",
+    dash_continue_title: "Continue Studying",
+    dash_credits_title: "Campusly Credits",
+    dash_credits_cta: "Top Up Credits",
+    dash_weak_title: "Topics to Strengthen",
+    dash_strong_title: "Mastered Topics",
+    dash_streak_title: "Study Streak",
+    dash_recent_activity: "Recent Activity",
+    dash_level_title: "Academic Level",
+    dash_empty_history: "No recent activity recorded yet.",
+    dash_empty_weak: "All evaluated topics are currently mastered.",
+    dash_empty_strong: "Complete revision sessions to view your mastered topics.",
+    dash_empty_classrooms: "You have not joined any classroom yet.",
+    dash_empty_compositions: "No upcoming compositions scheduled.",
+
+    // Auth
+    auth_login: "Sign In",
+    auth_register: "Sign Up",
+    auth_welcome_back: "Welcome back to Campusly",
+    auth_create_account: "Create your account",
+    auth_email_or_matricule: "Email or UAC Student ID",
+    auth_password: "Password",
+    auth_firstname: "First Name",
+    auth_lastname: "Last Name",
+    auth_faculty: "Faculty / School",
+    auth_role_learner: "Student / Learner",
+    auth_role_teacher: "Lecturer / Professor",
+
+    // Empty States
+    empty_exams_title: "No past exams found",
+    empty_exams_desc: "Try adjusting your search terms or select another faculty.",
+    empty_quiz_title: "No quizzes created yet",
+    empty_quiz_desc: "Upload a lecture document to generate your first AI study set.",
+    empty_classrooms_title: "No classrooms found",
+    empty_classrooms_desc: "Create your first classroom or join your teacher's room with an access code.",
+    empty_compositions_title: "No assessments scheduled",
+    empty_compositions_desc: "Your upcoming proctored tests will appear here once published.",
+    empty_notifications_title: "No notifications",
+    empty_notifications_desc: "You are up to date with all coursework and assignments.",
+
+    // Common & Actions
     loading: "Loading…",
-    error: "Error",
-    success: "Success",
+    error: "An error occurred",
+    success: "Operation successful",
     cancel: "Cancel",
     confirm: "Confirm",
+    save: "Save",
+    delete: "Delete",
+    edit: "Edit",
     download: "Download",
+    start: "Start",
+    submit: "Submit",
+    next: "Next",
+    previous: "Previous",
+    retry: "Retry",
+    see_all: "View all",
+    close: "Close",
     premium: "Premium",
-    free: "Free",
-    active: "Active",
-    inactive: "Inactive",
-    no_data: "No data available",
-    select_faculty: "Select a faculty",
-    all_faculties: "All faculties",
-  },
-
-  de: {
-    nav_features: "Funktionen",
-    nav_process: "So funktioniert's",
-    nav_pricing: "Preise",
-    nav_exams: "Prüfungen",
-    nav_revision: "KI-Lernen",
-    nav_login: "Anmelden",
-    nav_register: "Registrieren",
-    nav_dashboard: "Dashboard",
-    nav_logout: "Abmelden",
-    hero_badge: "Universität Abomey-Calavi",
-    hero_title: "Die akademische Plattform",
-    hero_title_span: "für UAC-Studierende",
-    hero_desc: "Zugang zu alten Prüfungen, Lernen mit KI und Fortschritt verfolgen. Alles was Sie zum Erfolg brauchen.",
-    hero_cta_exams: "Prüfungen ansehen",
-    hero_cta_register: "Konto erstellen",
-    hero_stat_exams: "Prüfungen",
-    hero_stat_faculties: "Fakultäten",
-    hero_stat_students: "Studierende",
-    features_tag: "Funktionen",
-    features_title: "Alles was Sie brauchen um",
-    features_title_span: "erfolgreich zu sein",
-    features_desc: "Eine Plattform für UAC-Studierende mit modernen akademischen Werkzeugen.",
-    feat1_title: "Prüfungsbibliothek",
-    feat1_desc: "Hunderte alter Prüfungen nach Fakultät, Abteilung, Semester und Jahr sortiert.",
-    feat2_title: "Erweiterte Suche",
-    feat2_desc: "Prüfungen nach Fakultät, Abteilung, Semester oder Jahr in Sekunden filtern.",
-    feat3_title: "KI-gestütztes Lernen",
-    feat3_desc: "Lernen mit KI-generierten Quiz und Fortschritt in Echtzeit verfolgen.",
-    feat4_title: "Mobile App (PWA)",
-    feat4_desc: "Campusly auf Ihrem Smartphone installieren. Mobiloptimierte Oberfläche.",
-    feat5_title: "Premium-Inhalte",
-    feat5_desc: "Exklusive Prüfungen mit einem Abonnement ab 500 FCFA freischalten.",
-    feat6_title: "Alle UAC-Fakultäten",
-    feat6_desc: "FAST, FADESP, FASEG, FLASH, EPAC, FSS, INJEPS, ENEAM — alle abgedeckt.",
-    pricing_tag: "Preise",
-    pricing_title: "Erschwingliche",
-    pricing_title_span: "Preise",
-    pricing_title2: "für alle",
-    pricing_desc: "Kostenlos starten. Premium werden für vollen Zugang.",
-    plan_free: "Kostenlos",
-    plan_free_feat1: "Zugang zu kostenlosen Prüfungen",
-    plan_free_feat2: "Suche und Filter",
-    plan_free_feat3: "Favoriten und Verlauf",
-    plan_free_feat4: "Premium-Prüfungen",
-    plan_free_feat5: "Unbegrenzte KI-Quiz",
-    plan_free_cta: "Kostenlos starten",
-    plan_recommended: "Empfohlen",
-    plan_month: "1 Monat",
-    plan_week: "1 Woche",
-    plan_feat1: "Alles aus dem kostenlosen Plan",
-    plan_feat2: "Unbegrenzter Premium-Zugang",
-    plan_feat3: "Unbegrenzte KI-Quiz",
-    plan_feat4: "Fortschrittsverfolgung",
-    plan_feat5: "Prioritätssupport",
-    plan_cta: "Diesen Plan wählen",
-    auth_welcome: "Willkommen",
-    auth_subtitle: "Anmelden oder Studentenkonto erstellen",
-    auth_login: "Anmelden",
-    auth_register: "Registrieren",
-    auth_matricule: "UAC-Matrikelnummer",
-    auth_password: "Passwort",
-    auth_confirm: "Passwort bestätigen",
-    auth_firstname: "Vorname",
-    auth_lastname: "Nachname",
-    auth_faculty: "Fakultät",
-    auth_dept: "Abteilung / Studiengang",
-    auth_login_btn: "Anmelden",
-    auth_register_btn: "Konto erstellen",
-    auth_no_account: "Noch kein Konto?",
-    auth_free_register: "Kostenlos registrieren",
-    auth_has_account: "Bereits ein Konto?",
-    auth_connect: "Anmelden",
-    dash_title: "Dashboard",
-    dash_subtitle: "Ihr persönlicher akademischer Bereich",
-    dash_downloads: "Downloads",
-    dash_favorites: "Favoriten",
-    dash_quiz: "Abgeschlossene Quiz",
-    dash_premium_status: "Premium-Status",
-    dash_quick_access: "Schnellzugriff",
-    dash_browse_exams: "Prüfungen durchsuchen",
-    dash_ai_revision: "KI-Lernen",
-    dash_manage_sub: "Abonnement verwalten",
-    dash_recent_dl: "Letzte Downloads",
-    dash_see_all: "Alle anzeigen",
-    dash_history: "Verlauf",
-    dash_history_sub: "Alle heruntergeladenen Prüfungen",
-    dash_favorites_title: "Favoriten",
-    dash_favorites_sub: "Ihre gespeicherten Prüfungen",
-    dash_subscription: "Premium-Abonnement",
-    dash_subscription_sub: "Vollen Zugang freischalten",
-    dash_profile: "Mein Profil",
-    dash_profile_sub: "Ihre Kontoinformationen",
-    dash_logout: "Abmelden",
-    dash_active: "Aktiv",
-    dash_inactive: "Inaktiv",
-    rev_title: "KI-gestütztes Lernen",
-    rev_subtitle: "Personalisierte Quiz mit GPT-4o-mini generieren und Fortschritt verfolgen.",
-    rev_quiz_done: "Abgeschlossene Quiz",
-    rev_avg_score: "Durchschnittliche Punktzahl",
-    rev_subjects: "Gelernte Fächer",
-    rev_generate: "Quiz generieren ✨",
-    rev_placeholder: "Z.B.: Mikroökonomie, Zivilrecht, Anatomie…",
-    rev_empty_title: "Quiz mit KI generieren",
-    rev_empty_desc: "Geben Sie ein Lernthema ein und die KI erstellt ein personalisiertes Quiz.",
-    loading: "Laden…",
-    error: "Fehler",
-    success: "Erfolg",
-    cancel: "Abbrechen",
-    confirm: "Bestätigen",
-    download: "Herunterladen",
-    premium: "Premium",
-    free: "Kostenlos",
-    active: "Aktiv",
-    inactive: "Inaktiv",
-    no_data: "Keine Daten verfügbar",
-    select_faculty: "Fakultät auswählen",
-    all_faculties: "Alle Fakultäten",
-  },
-
-  es: {
-    nav_features: "Funciones",
-    nav_process: "Cómo funciona",
-    nav_pricing: "Precios",
-    nav_exams: "Exámenes",
-    nav_revision: "Revisión IA",
-    nav_login: "Iniciar sesión",
-    nav_register: "Registrarse",
-    nav_dashboard: "Panel",
-    nav_logout: "Cerrar sesión",
-    hero_badge: "Universidad de Abomey-Calavi",
-    hero_title: "La plataforma académica",
-    hero_title_span: "para estudiantes de la UAC",
-    hero_desc: "Accede a exámenes anteriores, revisa con inteligencia artificial y sigue tu progreso. Todo lo que necesitas para tener éxito.",
-    hero_cta_exams: "Ver exámenes",
-    hero_cta_register: "Crear cuenta",
-    hero_stat_exams: "Exámenes",
-    hero_stat_faculties: "Facultades",
-    hero_stat_students: "Estudiantes",
-    features_tag: "Funciones",
-    features_title: "Todo lo que necesitas para",
-    features_title_span: "tener éxito",
-    features_desc: "Una plataforma diseñada para estudiantes de la UAC con herramientas académicas modernas.",
-    feat1_title: "Biblioteca de exámenes",
-    feat1_desc: "Accede a cientos de exámenes anteriores clasificados por facultad, departamento, semestre y año.",
-    feat2_title: "Búsqueda avanzada",
-    feat2_desc: "Filtra exámenes por facultad, departamento, semestre o año en segundos.",
-    feat3_title: "Revisión asistida por IA",
-    feat3_desc: "Revisa con cuestionarios generados por IA y sigue tu progreso en tiempo real.",
-    feat4_title: "App móvil (PWA)",
-    feat4_desc: "Instala Campusly en tu smartphone. Interfaz optimizada para móvil.",
-    feat5_title: "Contenido Premium",
-    feat5_desc: "Desbloquea exámenes exclusivos con una suscripción desde 500 FCFA.",
-    feat6_title: "Todas las facultades UAC",
-    feat6_desc: "FAST, FADESP, FASEG, FLASH, EPAC, FSS, INJEPS, ENEAM — todas cubiertas.",
-    pricing_tag: "Precios",
-    pricing_title: "Precios",
-    pricing_title_span: "accesibles",
-    pricing_title2: "para todos",
-    pricing_desc: "Empieza gratis. Hazte Premium para desbloquear todo el contenido.",
-    plan_free: "Gratis",
-    plan_free_feat1: "Acceso a exámenes gratuitos",
-    plan_free_feat2: "Búsqueda y filtros",
-    plan_free_feat3: "Favoritos e historial",
-    plan_free_feat4: "Exámenes Premium",
-    plan_free_feat5: "Cuestionarios IA ilimitados",
-    plan_free_cta: "Empezar gratis",
-    plan_recommended: "Recomendado",
-    plan_month: "1 Mes",
-    plan_week: "1 Semana",
-    plan_feat1: "Todo del plan gratuito",
-    plan_feat2: "Acceso Premium ilimitado",
-    plan_feat3: "Cuestionarios IA ilimitados",
-    plan_feat4: "Seguimiento de progreso",
-    plan_feat5: "Soporte prioritario",
-    plan_cta: "Elegir este plan",
-    auth_welcome: "Bienvenido",
-    auth_subtitle: "Inicia sesión o crea tu cuenta de estudiante",
-    auth_login: "Iniciar sesión",
-    auth_register: "Registrarse",
-    auth_matricule: "Matrícula UAC",
-    auth_password: "Contraseña",
-    auth_confirm: "Confirmar contraseña",
-    auth_firstname: "Nombre",
-    auth_lastname: "Apellido",
-    auth_faculty: "Facultad",
-    auth_dept: "Departamento / Carrera",
-    auth_login_btn: "Iniciar sesión",
-    auth_register_btn: "Crear cuenta",
-    auth_no_account: "¿No tienes cuenta?",
-    auth_free_register: "Registrarse gratis",
-    auth_has_account: "¿Ya tienes cuenta?",
-    auth_connect: "Iniciar sesión",
-    dash_title: "Panel de control",
-    dash_subtitle: "Tu espacio académico personal",
-    dash_downloads: "Descargas",
-    dash_favorites: "Favoritos",
-    dash_quiz: "Cuestionarios completados",
-    dash_premium_status: "Estado Premium",
-    dash_quick_access: "Acceso rápido",
-    dash_browse_exams: "Ver exámenes",
-    dash_ai_revision: "Revisión IA",
-    dash_manage_sub: "Gestionar suscripción",
-    dash_recent_dl: "Últimas descargas",
-    dash_see_all: "Ver todo",
-    dash_history: "Historial",
-    dash_history_sub: "Todos tus exámenes descargados",
-    dash_favorites_title: "Favoritos",
-    dash_favorites_sub: "Tus exámenes guardados",
-    dash_subscription: "Suscripción Premium",
-    dash_subscription_sub: "Desbloquea el acceso completo",
-    dash_profile: "Mi perfil",
-    dash_profile_sub: "Información de tu cuenta",
-    dash_logout: "Cerrar sesión",
-    dash_active: "Activo",
-    dash_inactive: "Inactivo",
-    rev_title: "Revisión asistida por IA",
-    rev_subtitle: "Genera cuestionarios personalizados con GPT-4o-mini y sigue tu progreso.",
-    rev_quiz_done: "Cuestionarios completados",
-    rev_avg_score: "Puntuación media",
-    rev_subjects: "Materias estudiadas",
-    rev_generate: "Generar cuestionario ✨",
-    rev_placeholder: "Ej.: Microeconomía, Derecho Civil, Anatomía…",
-    rev_empty_title: "Genera un cuestionario con IA",
-    rev_empty_desc: "Introduce un tema de revisión y la IA generará un cuestionario personalizado.",
-    loading: "Cargando…",
-    error: "Error",
-    success: "Éxito",
-    cancel: "Cancelar",
-    confirm: "Confirmar",
-    download: "Descargar",
-    premium: "Premium",
-    free: "Gratis",
-    active: "Activo",
-    inactive: "Inactivo",
-    no_data: "No hay datos disponibles",
-    select_faculty: "Seleccionar facultad",
-    all_faculties: "Todas las facultades",
-  },
+    free: "Free"
+  }
 };
 
-// ── Langue courante ──────────────────────────────────────────
-let _lang = localStorage.getItem("campusly_lang") || "fr";
+// ── Format human-readable fallback for any unexpected key ─────
+// NEVER displays raw technical keys like "hero_cta_primary"
+function humanizeKey(key) {
+  if (!key || typeof key !== 'string') return '';
+  
+  // Known semantic mappings
+  const directMap = {
+    hero_cta_primary: "Commencer gratuitement",
+    hero_cta_secondary: "Découvrir Campusly",
+    hero_title: "La plateforme académique intelligente",
+    hero_title_span: "des étudiants et professeurs de l’UAC.",
+    hero_desc: "Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle, créez des évaluations et suivez votre progression.",
+    nav_login: "Connexion",
+    nav_register: "S'inscrire",
+    nav_dashboard: "Dashboard",
+    dash_progress: "Progression",
+    dash_recent_activity: "Activité récente",
+    dash_streak_title: "Série d'étude",
+    dash_credits_title: "Campusly Credits",
+    dash_weak_title: "Notions à renforcer",
+    dash_strong_title: "Notions maîtrisées"
+  };
+  if (directMap[key]) return directMap[key];
 
-export function getLang()  { return _lang; }
-export function t(key)     { return TRANSLATIONS[_lang]?.[key] ?? TRANSLATIONS.fr[key] ?? key; }
-
-export function setLang(lang) {
-  if (!TRANSLATIONS[lang]) return;
-  _lang = lang;
-  localStorage.setItem("campusly_lang", lang);
-  applyTranslations();
-  document.documentElement.lang = lang;
+  // Strip prefixes (e.g. nav_, hero_, dash_, auth_, btn_, empty_, stat_, tag_)
+  let clean = key.replace(/^(nav|hero|dash|auth|btn|empty|stat|tag|pillar[0-9]|ai|adapt|teacher|comp|pricing)_+/i, '');
+  clean = clean.replace(/_/g, ' ').trim();
+  if (!clean) return '';
+  return clean.charAt(0).toUpperCase() + clean.slice(1);
 }
 
-// Applique les traductions sur tous les éléments [data-i18n]
+// ── Langue courante (FR par défaut, UNIQUEMENT 'fr' ou 'en') ──
+let _lang = "fr";
+try {
+  if (typeof localStorage !== "undefined") {
+    _lang = localStorage.getItem("campusly_lang") || "fr";
+    if (_lang !== "fr" && _lang !== "en") {
+      _lang = "fr";
+      localStorage.setItem("campusly_lang", "fr");
+    }
+  }
+} catch (e) {
+  _lang = "fr";
+}
+
+export function getLang() { 
+  return _lang === "en" ? "en" : "fr"; 
+}
+
+export function t(key, defaultVal = null) {
+  if (!key) return defaultVal || "";
+  const currentLang = getLang();
+  
+  // 1. Langue sélectionnée
+  if (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key] !== undefined) {
+    return TRANSLATIONS[currentLang][key];
+  }
+  
+  // 2. Français (fallback principal)
+  if (TRANSLATIONS.fr && TRANSLATIONS.fr[key] !== undefined) {
+    return TRANSLATIONS.fr[key];
+  }
+
+  // 3. Valeur par défaut fournie (si lisible et non égale à la clé technique)
+  if (defaultVal && typeof defaultVal === 'string' && defaultVal.trim() && defaultVal !== key) {
+    return defaultVal;
+  }
+  
+  // 4. Texte de secours lisible (JAMAIS la clé technique brute)
+  return humanizeKey(key);
+}
+
+export function setLang(lang) {
+  if (lang !== "fr" && lang !== "en") return;
+  _lang = lang;
+  try {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("campusly_lang", lang);
+    }
+  } catch (e) {}
+  
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = lang;
+  }
+  
+  applyTranslations();
+  
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent('campusly_lang_changed', { detail: { lang } }));
+  }
+}
+
+// Applique les traductions sur tous les éléments du DOM
 export function applyTranslations() {
+  if (typeof document === "undefined") return;
+
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
-    const val = t(key);
+    const val = t(key, el.textContent?.trim() || null);
+    if (!val) return;
+
     if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
       el.placeholder = val;
     } else {
-      el.textContent = val;
+      // Préserver les icônes enfants Font Awesome si présentes
+      const icon = el.querySelector('i');
+      if (icon) {
+        let textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+        if (textNode) {
+          textNode.textContent = ' ' + val + ' ';
+        } else {
+          el.innerHTML = `<i class="${icon.className}" style="${icon.getAttribute('style') || ''}"></i> <span>${val}</span>`;
+        }
+      } else {
+        el.textContent = val;
+      }
     }
   });
+
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-    el.placeholder = t(el.getAttribute("data-i18n-placeholder"));
+    const key = el.getAttribute("data-i18n-placeholder");
+    const val = t(key, el.placeholder || null);
+    if (val) el.placeholder = val;
   });
-  // Mettre à jour le sélecteur de langue actif
+
+  // Mettre à jour les boutons du sélecteur de langue
   document.querySelectorAll(".lang-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.lang === _lang);
+    const isActive = btn.dataset.lang === _lang;
+    btn.classList.toggle("active", isActive);
+    btn.style.background = isActive ? 'var(--grad-brand)' : 'var(--surface)';
+    btn.style.color = isActive ? '#fff' : 'var(--text-2)';
   });
 }
 
-// Initialise le sélecteur de langue dans le DOM
+// Initialise le sélecteur de langue dans le DOM (UNIQUEMENT FR & EN avec Font Awesome)
 export function initLangSwitcher() {
+  if (typeof document === "undefined") return;
   const switcher = document.getElementById("langSwitcher");
   if (!switcher) return;
+  
   const langs = [
-    { code: "fr", label: "FR", flag: "🇫🇷" },
-    { code: "en", label: "EN", flag: "🇬🇧" },
-    { code: "de", label: "DE", flag: "🇩🇪" },
-    { code: "es", label: "ES", flag: "🇪🇸" },
+    { code: "fr", label: "FR", title: "Français" },
+    { code: "en", label: "EN", title: "English" }
   ];
+
   switcher.innerHTML = langs.map(l => `
-    <button class="lang-btn ${l.code === _lang ? "active" : ""}" data-lang="${l.code}" title="${l.label}">
-      ${l.flag} ${l.label}
+    <button class="lang-btn ${l.code === _lang ? "active" : ""}" data-lang="${l.code}" title="${l.title}" style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:var(--r-full);font-size:0.75rem;font-weight:700;border:1px solid var(--border);background:${l.code === _lang ? 'var(--grad-brand)' : 'var(--surface)'};color:${l.code === _lang ? '#fff' : 'var(--text-2)'};cursor:pointer;transition:all 0.2s;">
+      <i class="fa-solid fa-globe" style="font-size:0.68rem;"></i> <span>${l.label}</span>
     </button>`).join("");
+
   switcher.addEventListener("click", e => {
     const btn = e.target.closest(".lang-btn");
-    if (btn) setLang(btn.dataset.lang);
+    if (btn && btn.dataset.lang) {
+      setLang(btn.dataset.lang);
+    }
   });
+
   applyTranslations();
+}
+
+// Global attachment for plain HTML scripts
+if (typeof window !== "undefined") {
+  window.setLang = setLang;
+  window.getLang = getLang;
+  window.t = t;
+  window.initLangSwitcher = initLangSwitcher;
+  window.applyTranslations = applyTranslations;
+
+  // Auto-apply on DOMContentLoaded
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      initLangSwitcher();
+      applyTranslations();
+    });
+  } else {
+    initLangSwitcher();
+    applyTranslations();
+  }
 }

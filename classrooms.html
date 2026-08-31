@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classrooms & Espaces Enseignants — Campusly</title>
+  <meta name="description" content="Groupes de cours, devoirs supervisés, examens et suivi pédagogique pour les étudiants et enseignants de l'UAC." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css" />
+  <link rel="stylesheet" href="css/modern.css" />
+</head>
+<body class="page-classrooms">
+
+  <!-- Header / Navbar -->
+  <header class="site-header">
+    <div class="header-inner container">
+      <a href="index.html" class="logo">
+        <span class="logo-mark"><i class="fas fa-graduation-cap"></i></span>
+        <span class="logo-text">Campus<strong>ly</strong></span>
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a>
+        <a href="epreuves.html" class="nav-link"><i class="fas fa-book-open"></i> Épreuves</a>
+        <a href="revision.html" class="nav-link"><i class="fas fa-wand-magic-sparkles"></i> Campusly AI</a>
+        <a href="classrooms.html" class="nav-link active"><i class="fas fa-chalkboard-user"></i> Classrooms</a>
+        <a href="forum.html" class="nav-link"><i class="fas fa-comments"></i> Forum</a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-gauge-high"></i> Dashboard</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Credits Pill -->
+        <button class="campusly-credits-pill btn btn-sm" onclick="window.creditService && window.creditService.showCreditModal()" title="Recharger mes crédits" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);padding:6px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+          <i class="fa-solid fa-bolt" style="color:var(--accent);"></i> <strong>120</strong> <span style="font-size:0.75rem;color:var(--text-3);">crédits</span>
+        </button>
+
+        <!-- Notification Bell -->
+        <button class="btn btn-icon notif-bell-btn" onclick="window.notificationCenter.toggleDropdown()" style="position:relative;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          <i class="fas fa-bell" style="color:var(--text-2);"></i>
+          <span class="notif-badge-count" style="display:none;position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:0.65rem;font-weight:800;border-radius:50%;width:18px;height:18px;align-items:center;justify-content:center;">3</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header Section -->
+  <section class="section" style="padding-top:40px;padding-bottom:30px;background:var(--grad-hero);">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(21,101,192,0.1);color:var(--brand-2);font-size:0.8rem;font-weight:700;padding:4px 12px;border-radius:var(--r-full);text-transform:uppercase;margin-bottom:10px;">
+            <i class="fas fa-users-rectangle"></i> Espaces Académiques & Collaboration
+          </div>
+          <h1 style="font-size:2.2rem;font-weight:900;color:var(--text-1);line-height:1.2;">
+            Classrooms Universitaires
+          </h1>
+          <p style="font-size:1rem;color:var(--text-2);max-width:580px;margin-top:8px;">
+            Rejoignez vos promotions d'amphi, accédez aux compositions officielles et suivez vos devoirs en temps réel.
+          </p>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="document.getElementById('joinClassModal').classList.add('show')">
+            <i class="fas fa-key"></i> Rejoindre avec un Code
+          </button>
+          <button class="btn btn-primary" onclick="document.getElementById('createClassModal').classList.add('show')">
+            <i class="fas fa-plus"></i> Créer une Classe (Enseignant)
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Classrooms Hub Body -->
+  <main class="container" style="margin-top:30px;margin-bottom:80px;">
+    <!-- Active Classrooms Section -->
+    <div style="margin-bottom:40px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 style="font-size:1.4rem;font-weight:800;color:var(--text-1);">Mes Classes & Groupes de Cours</h2>
+        <span style="font-size:0.85rem;color:var(--text-3);">Semestre Académique en cours (2025-2026)</span>
+      </div>
+
+      <div id="classroomsListContainer">
+        <!-- Rendered by classrooms.js -->
+      </div>
+    </div>
+
+    <!-- Compositions & Examens Planifiés -->
+    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:30px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 style="font-size:1.3rem;font-weight:800;color:var(--text-1);">
+            <i class="fas fa-file-signature" style="color:var(--accent);margin-right:8px;"></i>
+            Compositions & Évaluations Surveillées
+          </h2>
+          <p style="font-size:0.85rem;color:var(--text-2);">Épreuves officielles programmées avec surveillance éthique.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;flex-wrap:wrap;gap:16px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+              <span style="background:rgba(245,124,0,0.12);color:var(--accent);font-size:0.75rem;font-weight:800;padding:2px 8px;border-radius:var(--r-sm);">EN COURS</span>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--text-1);">Composition Semestrielle : Algorithmique & Graphes</h3>
+            </div>
+            <div style="font-size:0.82rem;color:var(--text-3);">
+              Durée : 45 min · Barème : /20 · Enseignant : Dr. K. AGBOTON (FAST - L2)
+            </div>
+          </div>
+          <div>
+            <a href="composition.html?id=comp-algo-01" class="btn btn-accent">
+              <i class="fas fa-pen-nib"></i> Démarrer la Composition
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Join Class Modal -->
+  <div id="joinClassModal" class="modal-overlay">
+    <div class="modal-card" style="max-width:440px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-xl);padding:28px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-size:1.25rem;font-weight:800;color:var(--text-1);">Rejoindre une Classe</h3>
+        <button onclick="document.getElementById('joinClassModal').classList.remove('show')" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-3);">✕</button>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:20px;">
+        Entrez le code à 6-12 caractères fourni par votre enseignant ou délégué (ex: <code>UAC-INFO-2026</code>).
+      </p>
+      <input type="text" id="joinCodeInput" placeholder="Ex: UAC-INFO-2026" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;font-family:var(--font-mono);font-size:1rem;font-weight:700;color:var(--text-1);text-transform:uppercase;margin-bottom:20px;" />
+      <button class="btn btn-primary" style="width:100%;" onclick="joinClassFromModal()">Rejoindre le Groupe</button>
+    </div>
+  </div>
+
+  <!-- Create Class Modal (Teachers) -->
+  <div id="createClassModal" class="modal-overlay">
+    <div class="modal-card" style="max-width:540px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-xl);padding:28px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-size:1.25rem;font-weight:800;color:var(--text-1);">Créer un Espace de Classe</h3>
+        <button onclick="document.getElementById('createClassModal').classList.remove('show')" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-3);">✕</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+        <div>
+          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-2);margin-bottom:4px;">Nom de la matière ou du cours</label>
+          <input type="text" id="newClassName" placeholder="Ex: Algèbre Linéaire & Applications" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;color:var(--text-1);" />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-2);margin-bottom:4px;">Faculté / École</label>
+            <select id="newClassFaculty" class="form-select" style="width:100%;">
+              <option value="FAST">FAST</option>
+              <option value="FADESP">FADESP</option>
+              <option value="FASEG">FASEG</option>
+              <option value="FSS">FSS</option>
+              <option value="EPAC">EPAC</option>
+              <option value="FLASH">FLASH</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-2);margin-bottom:4px;">Niveau académique</label>
+            <select id="newClassLevel" class="form-select" style="width:100%;">
+              <option value="Licence 1">Licence 1</option>
+              <option value="Licence 2" selected>Licence 2</option>
+              <option value="Licence 3">Licence 3</option>
+              <option value="Master 1">Master 1</option>
+              <option value="Master 2">Master 2</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-2);margin-bottom:4px;">Description ou consignes d'amphi</label>
+          <textarea id="newClassDesc" placeholder="Consignes, horaires de TD et polycopiés..." style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;color:var(--text-1);min-height:70px;"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-accent" style="width:100%;" onclick="createClassFromModal()">Générer le Code & Créer la Classe</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/credits.js"></script>
+  <script type="module" src="js/notifications.js"></script>
+  <script type="module" src="js/nav-themes.js"></script>
+  <script type="module" src="js/classrooms.js"></script>
+  <script type="module">
+    import { classroomsManager } from './js/classrooms.js';
+    import { campuslyCredits } from './js/credits.js';
+    import { notificationCenter } from './js/notifications.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await campuslyCredits.fetchBalance();
+      await notificationCenter.fetchNotifications();
+      await classroomsManager.fetchClassrooms();
+      classroomsManager.renderClassroomsList('classroomsListContainer');
+    });
+
+    window.joinClassFromModal = async () => {
+      const code = document.getElementById('joinCodeInput').value.trim();
+      if (!code) return alert('Veuillez entrer un code.');
+      try {
+        const res = await classroomsManager.joinClassroom(code);
+        document.getElementById('joinClassModal').classList.remove('show');
+        alert(res.message);
+        classroomsManager.renderClassroomsList('classroomsListContainer');
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    window.createClassFromModal = async () => {
+      const name = document.getElementById('newClassName').value.trim();
+      const faculty = document.getElementById('newClassFaculty').value;
+      const level = document.getElementById('newClassLevel').value;
+      const description = document.getElementById('newClassDesc').value.trim();
+
+      if (!name) return alert('Veuillez entrer le nom du cours.');
+      try {
+        const cls = await classroomsManager.createClassroom({
+          name,
+          subject: name,
+          faculty,
+          level,
+          description
+        });
+        document.getElementById('createClassModal').classList.remove('show');
+        alert(`Classe créée avec succès ! Code d'invitation : ${cls.code}`);
+        classroomsManager.renderClassroomsList('classroomsListContainer');
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+  </script>
+</body>
+</html>

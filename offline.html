@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hors ligne — Campusly</title>
+  <title>Hors ligne — Campusly 2.0</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #090A0F;
+      color: #F8FAFC;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -16,123 +20,131 @@
       padding: 20px;
     }
     .offline-container {
-      background: white;
+      background: #12131A;
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 24px;
-      padding: 48px 32px;
+      padding: 40px 28px;
       text-align: center;
-      max-width: 480px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 460px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
     }
+    .logo-brand {
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .logo-brand span { color: #F57C00; }
     .offline-icon {
-      font-size: 5rem;
-      margin-bottom: 24px;
+      font-size: 3.5rem;
+      color: #F57C00;
+      margin-bottom: 20px;
       animation: float 3s ease-in-out infinite;
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
     h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
-      color: #1f2937;
-      margin-bottom: 12px;
+      color: #F8FAFC;
+      margin-bottom: 10px;
     }
     p {
-      color: #6b7280;
-      font-size: 1rem;
+      color: #94A3B8;
+      font-size: 0.92rem;
       line-height: 1.6;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 14px 28px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 12px 24px;
+      background: #1565C0;
       color: white;
       border: none;
       border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.2s ease;
     }
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-    }
-    .btn:active {
-      transform: translateY(0);
+      background: #1976D2;
     }
     .tips {
-      margin-top: 32px;
-      padding-top: 32px;
-      border-top: 1px solid #e5e7eb;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
       text-align: left;
     }
     .tips h3 {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: #374151;
-      margin-bottom: 12px;
+      color: #CBD5E1;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .tips ul {
       list-style: none;
       padding: 0;
     }
     .tips li {
-      font-size: 0.85rem;
-      color: #6b7280;
-      padding: 6px 0;
-      padding-left: 24px;
-      position: relative;
+      font-size: 0.82rem;
+      color: #94A3B8;
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .tips li::before {
-      content: '<i class="fas fa-check"></i>';
-      position: absolute;
-      left: 0;
-      color: #10b981;
-      font-weight: 700;
+    .tips li i {
+      color: #10B981;
+      font-size: 0.75rem;
     }
   </style>
 </head>
 <body>
   <div class="offline-container">
-    <div class="offline-icon"><i class="fas fa-satellite-dish"></i></div>
+    <div class="logo-brand">
+      <i class="fas fa-graduation-cap" style="color:#1565C0;"></i> Campus<span>ly</span>
+    </div>
+    <div class="offline-icon">
+      <i class="fas fa-wifi"></i>
+    </div>
     <h1>Vous êtes hors ligne</h1>
     <p>
-      Impossible de se connecter à Campusly. Vérifiez votre connexion internet et réessayez.
+      Impossible de se connecter à Campusly. Vérifiez votre connexion internet pour continuer à réviser.
     </p>
     <button class="btn" onclick="window.location.reload()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="23 4 23 10 17 10"></polyline>
-        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-      </svg>
-      Réessayer
+      <i class="fas fa-rotate-right"></i> Réessayer
     </button>
     
     <div class="tips">
-      <h3><i class="fas fa-lightbulb"></i> Conseils</h3>
+      <h3><i class="fas fa-lightbulb" style="color:#F57C00;"></i> Conseils</h3>
       <ul>
-        <li>Vérifiez votre connexion Wi-Fi ou données mobiles</li>
-        <li>Désactivez le mode avion si activé</li>
-        <li>Certaines pages peuvent être disponibles hors ligne</li>
-        <li>Vos données seront synchronisées à la reconnexion</li>
+        <li><i class="fas fa-check"></i> Vérifiez votre connexion Wi-Fi ou données mobiles</li>
+        <li><i class="fas fa-check"></i> Désactivez le mode avion si activé</li>
+        <li><i class="fas fa-check"></i> Vos données seront synchronisées à la reconnexion</li>
       </ul>
     </div>
   </div>
   
   <script>
-    // Vérifier la connexion toutes les 5 secondes
     setInterval(() => {
       if (navigator.onLine) {
         window.location.reload();
       }
     }, 5000);
     
-    // Écouter le retour de connexion
     window.addEventListener('online', () => {
       window.location.reload();
     });

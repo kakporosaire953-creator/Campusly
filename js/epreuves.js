@@ -76,7 +76,7 @@ function applyFilters() {
   );
 
   const countEl = document.getElementById("epreuvesCount");
-  if (countEl) countEl.textContent = `📚 ${filtered.length} épreuve${filtered.length > 1 ? "s" : ""}`;
+  if (countEl) countEl.innerHTML = `<i class="fas fa-book-open" style="color:var(--brand-1);"></i> ${filtered.length} épreuve${filtered.length > 1 ? "s" : ""}`;
   renderGrid(filtered);
 }
 window.applyFilters = applyFilters;
@@ -85,7 +85,7 @@ function renderGrid(list) {
   const grid = document.getElementById("epreuvesGrid");
   if (!grid) return;
   if (!list.length) {
-    grid.innerHTML = `<div class="ep-empty"><div class="ep-empty-icon">🔍</div><h3>Aucune épreuve trouvée</h3><p>Essayez d'autres filtres.</p></div>`;
+    grid.innerHTML = `<div class="ep-empty"><div class="ep-empty-icon"><i class="fas fa-magnifying-glass"></i></div><h3>Aucune épreuve trouvée</h3><p>Essayez d'autres filtres.</p></div>`;
     return;
   }
   grid.innerHTML = list.map(e => {
@@ -93,21 +93,21 @@ function renderGrid(list) {
     const titre = (e.titre || "").replace(/'/g, "\\'");
     return `<div class="ep-card">
       <div class="ep-card-top">
-        <div class="ep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="ep-icon"><i class="fas fa-file-lines" style="font-size:1.1rem;color:var(--brand-1);"></i></div>
         <div class="ep-badges">
           <span class="ep-badge ep-badge-faculte">${e.faculte||""}</span>
           <span class="ep-badge ep-badge-type">${e.type||""}</span>
-          ${e.is_premium ? '<span class="ep-badge ep-badge-premium">⭐ Premium</span>' : ""}
+          ${e.is_premium ? '<span class="ep-badge ep-badge-premium"><i class="fas fa-star"></i> Premium</span>' : ""}
         </div>
       </div>
       <div class="ep-title">${e.titre||""}</div>
-      <div class="ep-meta"><span>📁 ${e.departement||""}</span><span>📅 ${e.annee||""}</span><span>📖 ${e.semestre||""}</span></div>
+      <div class="ep-meta"><span><i class="fas fa-folder"></i> ${e.departement||""}</span><span><i class="fas fa-calendar"></i> ${e.annee||""}</span><span><i class="fas fa-book"></i> ${e.semestre||""}</span></div>
       <div class="ep-actions">
         ${e.is_premium
-          ? `<button class="ep-btn-premium" onclick="showPremiumModal()">🔒 Débloquer</button>`
-          : `<button class="ep-btn-dl" onclick="downloadEpreuve('${e.id}','${titre}','${e.file_url||""}','${e.faculte||""}','${e.annee||""}')">⬇ Télécharger</button>`
+          ? `<button class="ep-btn-premium" onclick="showPremiumModal()"><i class="fas fa-lock"></i> Débloquer</button>`
+          : `<button class="ep-btn-dl" onclick="downloadEpreuve('${e.id}','${titre}','${e.file_url||""}','${e.faculte||""}','${e.annee||""}')"><i class="fas fa-arrow-down"></i> Télécharger</button>`
         }
-        <button class="ep-btn-fav ${isFav ? "active" : ""}" onclick="toggleFav('${e.id}',this)" title="Favori">${isFav ? "⭐" : "☆"}</button>
+        <button class="ep-btn-fav ${isFav ? "active" : ""}" onclick="toggleFav('${e.id}',this)" title="Favori"><i class="${isFav ? 'fas fa-star' : 'far fa-star'}"></i></button>
       </div>
     </div>`;
   }).join("");
@@ -128,11 +128,13 @@ window.toggleFav = async (id, btn) => {
   const isFav = favorites.includes(String(id));
   if (isFav) {
     favorites = favorites.filter(f => f !== String(id));
-    btn.classList.remove("active"); btn.textContent = "☆";
+    btn.classList.remove("active");
+    btn.innerHTML = `<i class="far fa-star"></i>`;
     showToast("Retiré des favoris", "info");
   } else {
     favorites.push(String(id));
-    btn.classList.add("active"); btn.textContent = "⭐";
+    btn.classList.add("active");
+    btn.innerHTML = `<i class="fas fa-star" style="color:var(--accent);"></i>`;
     showToast("Ajouté aux favoris", "success");
   }
   if (_user) {

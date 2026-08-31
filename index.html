@@ -3,29 +3,117 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Campusly - La plateforme académique des étudiants de l'UAC. Accédez aux anciennes épreuves, révisez avec l'IA." />
+  <meta name="description" content="Campusly — La plateforme académique intelligente des étudiants et professeurs de l'UAC. Accédez aux anciennes épreuves, créez des quiz avec Campusly AI et progressez." />
 
   <!-- Open Graph / WhatsApp / Facebook -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://project-j7yam.vercel.app/" />
-  <meta property="og:title"       content="Campusly — Plateforme Académique UAC" />
-  <meta property="og:description" content="500+ épreuves, révision IA, suivi de progression. La plateforme des étudiants de l'Université d'Abomey-Calavi." />
-  <meta property="og:image"       content="https://project-j7yam.vercel.app/assets/campusly-og.png" />
-  <meta property="og:locale"      content="fr_BJ" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://project-j7yam.vercel.app/" />
+  <meta property="og:title" content="Campusly — Plateforme Académique Intelligente UAC" />
+  <meta property="og:description" content="La plateforme académique intelligente des étudiants et professeurs de l’UAC. Épreuves, Campusly AI, Classrooms, Compositions et Progression." />
+  <meta property="og:image" content="https://project-j7yam.vercel.app/assets/campusly-og.png" />
+  <meta property="og:locale" content="fr_BJ" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Campusly — Plateforme Académique UAC" />
-  <meta name="twitter:description" content="500+ épreuves, révision IA, suivi de progression." />
-  <meta name="twitter:image"       content="https://project-j7yam.vercel.app/assets/campusly-og.png" />
-
-  <title>Campusly — Plateforme Académique UAC</title>
+  <title>Campusly — Plateforme Académique Intelligente UAC</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/theme-light.css" />
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="stylesheet" href="css/mobile.css" />
   <link rel="manifest" href="manifest.json" />
+  <style>
+    .hero-workflow-node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-1);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+    .hero-workflow-node:hover {
+      border-color: var(--brand-1);
+      transform: translateY(-2px);
+    }
+    .hero-workflow-arrow {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+    .tab-toggle-btn {
+      padding: 7px 16px;
+      border-radius: var(--r-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-toggle-btn.active {
+      background: var(--grad-brand);
+      color: #fff;
+      border-color: transparent;
+    }
+    .pillar-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 26px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .pillar-card:hover {
+      border-color: rgba(21,101,192,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+    }
+    .workflow-step-pill {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-full);
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .faq-category-btn {
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .faq-category-btn.active {
+      background: var(--brand-1);
+      color: #fff;
+      border-color: var(--brand-1);
+    }
+    .faq-item {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 18px 20px;
+      transition: all 0.2s;
+    }
+    .faq-item:hover {
+      border-color: rgba(21,101,192,0.3);
+    }
+  </style>
 </head>
 <body>
 <script src="js/theme.js"></script>
@@ -37,566 +125,866 @@
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
-  
   <a href="index.html" class="nav-logo">
     <span class="logo-text">
       <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
     </span>
   </a>
   <ul class="nav-links">
-    <li><a href="#features" data-i18n="nav_features">Fonctionnalités</a></li>
-    <li><a href="#how-it-works" data-i18n="nav_process">Processus</a></li>
-    <li><a href="#pricing" data-i18n="nav_pricing">Tarifs</a></li>
+    <li><a href="#pillars" data-i18n="nav_features">Piliers</a></li>
+    <li><a href="revision.html" data-i18n="nav_revision">Campusly AI</a></li>
+    <li><a href="classrooms.html" data-i18n="nav_classrooms">Classrooms</a></li>
+    <li><a href="composition.html">Compositions</a></li>
+    <li><a href="#pricing" data-i18n="nav_pricing">Crédits & Tarifs</a></li>
+    <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
     <li class="nav-auth-only" style="display:none;"><a href="epreuves.html" data-i18n="nav_exams">Épreuves</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="revision.html" data-i18n="nav_revision">Révision</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="chatbot.html">Assistant IA</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="contribuer.html">Contribuer</a></li>
+    <li class="nav-auth-only" style="display:none;"><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
   </ul>
   <div class="nav-right">
-    <div id="globalSearchWrap" style="position:relative;display:none;">
-      <input type="text" id="globalSearch" placeholder="Rechercher une épreuve…" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);padding:6px 14px 6px 32px;font-size:0.82rem;color:var(--text-1);outline:none;width:200px;" />
-      <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:0.4;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <div id="globalSearchResults" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-md);z-index:200;max-height:280px;overflow-y:auto;"></div>
+    <div class="campusly-credits-pill" onclick="window.creditService && window.creditService.showCreditModal()" style="display:inline-flex;align-items:center;padding:5px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);cursor:pointer;font-size:0.82rem;gap:6px;" title="Gérer vos Campusly Credits">
+      <i class="fa-solid fa-bolt" style="color:var(--accent);"></i>
+      <strong style="font-weight:800;">120</strong>
+      <span style="font-size:0.75rem;color:var(--text-3);">crédits</span>
     </div>
-    <div id="langSwitcher"></div>
+    <div id="langSwitcher" style="display:flex;gap:4px;"></div>
     <div class="nav-actions" id="navActions">
       <a href="auth.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Connexion</a>
       <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer" style="display:none;"><i class="fas fa-times"></i></button>
   </div>
 </nav>
 
-<!-- Boutons auth bas du menu mobile -->
-<div class="nav-links-auth-bottom" id="navAuthBottom">
-  <a href="auth.html" class="btn btn-ghost" data-i18n="nav_login">Connexion</a>
-  <a href="auth.html?tab=register" class="btn btn-primary" data-i18n="nav_register">S'inscrire</a>
-</div>
-
 <!-- HERO -->
-<section class="hero">
-  <!-- Particules flottantes décoratives -->
-  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;">
-    <div style="position:absolute;width:2px;height:2px;background:#42A5F5;border-radius:50%;top:20%;left:15%;animation:particleFloat 8s ease-in-out infinite;opacity:0.6;"></div>
-    <div style="position:absolute;width:3px;height:3px;background:#F57C00;border-radius:50%;top:60%;left:80%;animation:particleFloat 10s 2s ease-in-out infinite;opacity:0.5;"></div>
-    <div style="position:absolute;width:2px;height:2px;background:#42A5F5;border-radius:50%;top:80%;left:25%;animation:particleFloat 7s 4s ease-in-out infinite;opacity:0.4;"></div>
-    <div style="position:absolute;width:4px;height:4px;background:#1565C0;border-radius:50%;top:35%;left:70%;animation:particleFloat 9s 1s ease-in-out infinite;opacity:0.3;"></div>
-    <div style="position:absolute;width:2px;height:2px;background:#F57C00;border-radius:50%;top:50%;left:45%;animation:particleFloat 11s 3s ease-in-out infinite;opacity:0.4;"></div>
-  </div>
-  <style>
-    @keyframes particleFloat {
-      0%,100% { transform: translateY(0) translateX(0); }
-      25% { transform: translateY(-20px) translateX(10px); }
-      50% { transform: translateY(-10px) translateX(-8px); }
-      75% { transform: translateY(-25px) translateX(5px); }
-    }
-    .hero-badge-pulse::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 999px;
-      background: rgba(245,124,0,0.2);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100%{transform:scale(1);opacity:0.5;} 50%{transform:scale(1.1);opacity:0;} }
-    .hero-badge { position: relative; }
-  </style>
+<section class="hero" id="hero">
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-badge hero-badge-pulse" data-i18n="hero_badge"><i class="fas fa-graduation-cap"></i> Université d'Abomey-Calavi</div>
-      <h1 class="hero-title">
-        <span data-i18n="hero_title">La plateforme académique</span><br/>
-        <span data-i18n="hero_title_span">des étudiants de l'UAC</span>
+      <div class="hero-badge" data-i18n="hero_badge" style="display:inline-flex;align-items:center;gap:8px;">
+        <i class="fa-solid fa-graduation-cap" style="color:var(--accent);"></i> Plateforme Académique Intelligente UAC
+      </div>
+      <h1 class="hero-title" style="margin-top:12px;font-size:2.4rem;line-height:1.2;">
+        <span data-i18n="hero_title">La plateforme académique intelligente</span><br/>
+        <span data-i18n="hero_title_span" style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">des étudiants et professeurs de l’UAC.</span>
       </h1>
-      <p class="hero-desc" data-i18n="hero_desc">
-        Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle et suivez votre progression.
+      <p class="hero-desc" data-i18n="hero_desc" style="font-size:1.02rem;line-height:1.65;color:var(--text-2);margin:18px 0 28px;">
+        Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle, créez des évaluations et suivez votre progression. Tout ce dont vous avez besoin pour apprendre, enseigner et réussir.
       </p>
-      <div class="hero-actions">
-        <a href="epreuves.html" class="btn btn-accent btn-lg" data-i18n="hero_cta_exams">Consulter les épreuves</a>
-        <a href="auth.html?tab=register" class="btn btn-ghost btn-lg" data-i18n="hero_cta_register">Créer un compte</a>
+
+      <div class="hero-actions" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <a href="auth.html?tab=register" class="btn btn-accent btn-lg" id="heroCtaPrimary">
+          <span data-i18n="hero_cta_primary">Commencer gratuitement</span> <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i>
+        </a>
+        <a href="#pillars" class="btn btn-ghost btn-lg" id="heroCtaSecondary">
+          <span data-i18n="hero_cta_secondary">Découvrir Campusly</span>
+        </a>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-number" id="statEpreuves">500+</div>
-          <div class="stat-label" data-i18n="hero_stat_exams">Épreuves</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">10</div>
-          <div class="stat-label" data-i18n="hero_stat_faculties">Facultés</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" id="statEtudiants" style="font-size:1.8rem;">UAC</div>
-          <div class="stat-label" data-i18n="hero_stat_students">Conçu pour les étudiants</div>
-        </div>
-      </div>
-      <!-- Social proof -->
-      <div style="display:flex;align-items:center;gap:12px;margin-top:24px;">
-        <div style="display:flex;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#1565C0;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;margin-right:-8px;">K</div>
-          <div style="width:28px;height:28px;border-radius:50%;background:#F57C00;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;margin-right:-8px;">A</div>
-          <div style="width:28px;height:28px;border-radius:50%;background:#10B981;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;margin-right:-8px;">R</div>
-          <div style="width:28px;height:28px;border-radius:50%;background:#42A5F5;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;">+</div>
-        </div>
-        <div style="font-size:0.78rem;color:var(--text-3);">
-          <span style="color:var(--text-2);font-weight:600;">Rejoignez les premiers</span> étudiants bêta-testeurs
-        </div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-card">
-        <div class="hero-card-header">
-          <div class="hero-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
+
+      <!-- Piliers Clés UAC (Descriptif qualitatif sans faux chiffres) -->
+      <div class="hero-stats" style="margin-top:36px;display:flex;gap:16px;flex-wrap:wrap;">
+        <div class="stat-item" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
+          <div style="width:36px;height:36px;border-radius:8px;background:rgba(21,101,192,0.12);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-book-open"></i></div>
           <div>
-            <div class="hero-card-title">Épreuves récentes</div>
-            <div class="hero-card-sub">FAST — Informatique</div>
+            <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);" data-i18n="hero_stat_exams">Épreuves & Annales</div>
+            <div style="font-size:0.72rem;color:var(--text-3);" data-i18n="hero_stat_exams_desc">Sujets & examens classés</div>
           </div>
         </div>
-        <div class="epreuve-item">
-          <div class="epreuve-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <div class="epreuve-info"><div class="epreuve-name">Algorithmique — S1</div><div class="epreuve-meta">2023 · Examen final</div></div>
-          <span class="epreuve-dl">↓</span>
+        <div class="stat-item" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
+          <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,124,0,0.12);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);" data-i18n="hero_stat_ai">Campusly AI</div>
+            <div style="font-size:0.72rem;color:var(--text-3);" data-i18n="hero_stat_ai_desc">Génération de quiz & révision</div>
+          </div>
         </div>
-        <div class="epreuve-item">
-          <div class="epreuve-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <div class="epreuve-info"><div class="epreuve-name">Bases de Données — S3</div><div class="epreuve-meta">2023 · Examen final</div></div>
-          <span class="epreuve-dl">↓</span>
+        <div class="stat-item" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
+          <div style="width:36px;height:36px;border-radius:8px;background:rgba(16,185,129,0.12);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div>
+            <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);" data-i18n="hero_stat_classrooms">Classrooms Amphi</div>
+            <div style="font-size:0.72rem;color:var(--text-3);" data-i18n="hero_stat_classrooms_desc">Espace professeurs & devoirs</div>
+          </div>
         </div>
-        <div class="epreuve-item">
-          <div class="epreuve-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <div class="epreuve-info"><div class="epreuve-name">Réseaux Informatiques</div><div class="epreuve-meta">2022 · Partiel</div></div>
-          <span class="epreuve-dl" style="color:var(--accent);">Premium</span>
+      </div>
+    </div>
+
+    <!-- HERO VISUEL INTÉRACTIF -->
+    <div class="hero-visual">
+      <div class="hero-card" style="padding:22px;border:1px solid var(--border-2);box-shadow:var(--shadow-xl);background:var(--bg-2);border-radius:var(--r-2xl);">
+        
+        <!-- Tab switcher Étudiant / Professeur -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px;">
+          <div style="display:flex;gap:8px;">
+            <button class="tab-toggle-btn active" id="heroTabLearner" onclick="switchHeroTab('learner')">
+              <i class="fas fa-user-graduate"></i> Mode Étudiant
+            </button>
+            <button class="tab-toggle-btn" id="heroTabTeacher" onclick="switchHeroTab('teacher')">
+              <i class="fas fa-chalkboard-user"></i> Mode Professeur
+            </button>
+          </div>
+          <span style="font-size:0.75rem;font-weight:700;color:var(--accent);background:rgba(245,124,0,0.1);padding:3px 8px;border-radius:var(--r-full);">
+            Live Preview
+          </span>
         </div>
-        <a href="epreuves.html" class="btn btn-primary" style="width:100%;margin-top:16px;" data-i18n="hero_cta_exams">Voir toutes les épreuves</a>
+
+        <!-- VUE APPRENANT -->
+        <div id="heroViewLearner">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(21,101,192,0.15);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-weight:bold;">
+              <i class="fas fa-brain"></i>
+            </div>
+            <div>
+              <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);">Parcours Apprentissage IA</div>
+              <div style="font-size:0.75rem;color:var(--text-3);">Algorithmique & Structures de Données (FAST)</div>
+            </div>
+          </div>
+
+          <!-- Workflow interactif Document -> AI -> Quiz -> Progression -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:16px;background:var(--surface);padding:10px;border-radius:var(--r-lg);border:1px solid var(--border);">
+            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--text-2);">
+              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--text-1);"><i class="fa-solid fa-file-pdf"></i></div> Cours
+            </div>
+            <div class="hero-workflow-arrow">→</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--brand-1);">
+              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--brand-1);"><i class="fa-solid fa-bolt"></i></div> Campusly AI
+            </div>
+            <div class="hero-workflow-arrow">→</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--accent);">
+              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--accent);"><i class="fa-solid fa-bullseye"></i></div> Quiz QCM
+            </div>
+            <div class="hero-workflow-arrow">→</div>
+            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--success);">
+              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--success);"><i class="fa-solid fa-chart-line"></i></div> Score 18/20
+            </div>
+          </div>
+
+          <!-- Diagnostic des points faibles -->
+          <div style="background:var(--surface-2);border-radius:var(--r-md);padding:12px;margin-bottom:14px;border:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-weight:700;color:var(--text-2);margin-bottom:6px;">
+              <span>Diagnostic Adaptatif en cours</span>
+              <span style="color:var(--brand-2);">Niveau Apprenti · 70%</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:2px;">
+                  <span style="color:var(--text-1);font-weight:600;">Algorithmes de Tri (Quicksort/AVL)</span>
+                  <span style="color:var(--danger);font-weight:700;">38% à renforcer</span>
+                </div>
+                <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden;">
+                  <div style="height:100%;width:38%;background:var(--danger);border-radius:99px;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:2px;">
+                  <span style="color:var(--text-1);font-weight:600;">Bases de Données SQL</span>
+                  <span style="color:var(--success);font-weight:700;">93% maîtrisé</span>
+                </div>
+                <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden;">
+                  <div style="height:100%;width:93%;background:var(--success);border-radius:99px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="revision.html" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;font-weight:700;">
+            Lancer un entraînement personnalisé <i class="fas fa-play" style="margin-left:6px;font-size:0.75rem;"></i>
+          </a>
+        </div>
+
+        <!-- VUE PROFESSEUR -->
+        <div id="heroViewTeacher" style="display:none;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,124,0,0.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:bold;">
+              <i class="fas fa-chalkboard-user"></i>
+            </div>
+            <div>
+              <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);">Pilotage Pédagogique Enseignant</div>
+              <div style="font-size:0.75rem;color:var(--text-3);">Promotion L2 Informatique · 68 Apprenants</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;text-align:center;">
+              <div style="font-size:1.1rem;font-weight:900;color:var(--brand-1);">14.2 / 20</div>
+              <div style="font-size:0.68rem;color:var(--text-3);font-weight:600;">Moyenne Promotion</div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;text-align:center;">
+              <div style="font-size:1.1rem;font-weight:900;color:var(--success);">89 %</div>
+              <div style="font-size:0.68rem;color:var(--text-3);font-weight:600;">Taux de participation</div>
+            </div>
+          </div>
+
+          <div style="background:rgba(211,47,47,0.06);border:1px solid rgba(211,47,47,0.25);border-radius:var(--r-md);padding:10px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:800;color:var(--danger);margin-bottom:2px;">
+              <i class="fas fa-triangle-exclamation"></i> Section "À surveiller"
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-2);line-height:1.35;">
+              8 étudiants n'ont pas encore rendu le Devoir #2 (Arbres AVL). Échéance dans 48h.
+            </div>
+          </div>
+
+          <a href="classrooms.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;font-weight:700;">
+            Accéder à l'espace Classroom <i class="fas fa-arrow-right" style="margin-left:6px;font-size:0.75rem;"></i>
+          </a>
+        </div>
+
       </div>
     </div>
   </div>
 </section>
 
-<!-- MINI DASHBOARD (visible uniquement connecté) -->
-<section id="loggedInDash" style="display:none;padding:40px 5%;max-width:1200px;margin:0 auto;position:relative;z-index:1;">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
-    <a href="epreuves.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-book"></i></div>
-      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Épreuves</div>
-      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Bibliothèque complète</div>
-    </a>
-    <a href="revision.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-robot"></i></div>
-      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Révision IA</div>
-      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Quiz personnalisés</div>
-    </a>
-    <a href="chatbot.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-comments"></i></div>
-      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Assistant IA</div>
-      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">GPT-4o-mini</div>
-    </a>
-    <a href="forum.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-comment-dots"></i></div>
-      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Forum</div>
-      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Entraide étudiante</div>
-    </a>
-    <a href="dashboard.html" style="text-decoration:none;" class="home-quick-card" style="border-color:rgba(21,101,192,0.3);">
-      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-chart-bar"></i></div>
-      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Dashboard</div>
-      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Ma progression</div>
-    </a>
-    <a href="contribuer.html" style="text-decoration:none;" class="home-quick-card">
-      <div style="font-size:1.8rem;margin-bottom:8px;"><i class="fas fa-upload"></i></div>
-      <div style="font-weight:700;color:var(--text-1);font-size:0.95rem;">Contribuer</div>
-      <div style="font-size:0.78rem;color:var(--text-3);margin-top:3px;">Partager une épreuve</div>
-    </a>
-  </div>
-</section>
-<style>
-  .home-quick-card {
-    background: var(--grad-card);
-    border: 1px solid var(--border);
-    border-radius: var(--r-xl);
-    padding: 20px;
-    transition: all 0.2s ease;
-    display: block;
-  }
-  .home-quick-card:hover {
-    border-color: rgba(21,101,192,0.3);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.2);
-    background: rgba(21,101,192,0.08);
-  }
-</style>
-
-<!-- FEATURES -->
-<section class="section guest-only" id="features">
+<!-- SECTION 4: TOUT CAMPUSLY EN UN SEUL ESPACE (6 PILIERS) -->
+<section class="section" id="pillars" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section-center">
-    <span class="section-tag" data-i18n="features_tag">Fonctionnalités</span>
-    <h2 class="section-title"><span data-i18n="features_title">Tout ce dont vous avez besoin pour</span> <span data-i18n="features_title_span">réussir</span></h2>
-    <p class="section-desc" data-i18n="features_desc">Une plateforme conçue pour les étudiants de l'UAC, avec des outils académiques modernes.</p>
+    <span class="section-tag" data-i18n="pillars_tag">Écosystème Académique</span>
+    <h2 class="section-title">
+      <span data-i18n="pillars_title">Tout Campusly en</span> <span data-i18n="pillars_title_span" style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">un seul espace</span>
+    </h2>
+    <p class="section-desc" data-i18n="pillars_desc">
+      Une suite d'outils interconnectés conçue spécifiquement pour les réalités académiques de l'Université d'Abomey-Calavi.
+    </p>
   </div>
-  <div class="features-grid">
-    <div class="feature-card fade-up">
-      <div class="feature-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="feature-title" data-i18n="feat1_title">Bibliothèque d'épreuves</div>
-      <p class="feature-desc" data-i18n="feat1_desc">Accédez à des centaines d'anciennes épreuves classées par faculté, département, semestre et année.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feature-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-      <div class="feature-title" data-i18n="feat2_title">Recherche avancée</div>
-      <p class="feature-desc" data-i18n="feat2_desc">Filtrez les épreuves par faculté, département, semestre ou année en quelques secondes.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feature-icon green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-      <div class="feature-title" data-i18n="feat3_title">Révision assistée par IA</div>
-      <p class="feature-desc" data-i18n="feat3_desc">Révisez avec des quiz générés par intelligence artificielle et suivez votre progression.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feature-icon" style="color:var(--brand-3);background:rgba(245,124,0,0.1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-      <div class="feature-title">Plan de révision IA</div>
-      <p class="feature-desc">Générez un planning d'étude jour par jour sur-mesure pour vos examens à l'UAC.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feature-icon purple"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <div class="feature-title" data-i18n="feat4_title">Application mobile (PWA)</div>
-      <p class="feature-desc" data-i18n="feat4_desc">Installez Campusly sur votre smartphone. Interface optimisée mobile.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feature-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-      <div class="feature-title" data-i18n="feat5_title">Contenu Premium</div>
-      <p class="feature-desc" data-i18n="feat5_desc">Débloquez des épreuves exclusives avec un abonnement à partir de 500 FCFA.</p>
-    </div>
-    <div class="feature-card fade-up">
-      <div class="feature-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div class="feature-title" data-i18n="feat6_title">Toutes les facultés UAC</div>
-      <p class="feature-desc" data-i18n="feat6_desc">FAST, FADESP, FASEG, FLASH, EPAC, FSS, FSA, INJEPS, ENEAM — toutes couvertes.</p>
-    </div>
-  </div>
-</section>
 
-<!-- HOW IT WORKS -->
-<section class="section guest-only" id="how-it-works">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="nav_process">Processus</span>
-    <h2 class="section-title">Comment <span>ça marche</span></h2>
-    <p class="section-desc">En quatre étapes simples, accédez à toutes les ressources dont vous avez besoin.</p>
-  </div>
-  <div class="steps-grid">
-    <div class="step-card fade-up"><div class="step-number">01</div><div class="step-title">Créez votre compte</div><p class="step-desc">Inscrivez-vous avec votre matricule UAC en moins de deux minutes.</p></div>
-    <div class="step-card fade-up"><div class="step-number">02</div><div class="step-title">Recherchez vos épreuves</div><p class="step-desc">Filtrez par faculté, département, semestre ou année.</p></div>
-    <div class="step-card fade-up"><div class="step-number">03</div><div class="step-title">Révisez avec l'IA</div><p class="step-desc">Utilisez les quiz interactifs générés par IA pour tester vos connaissances.</p></div>
-    <div class="step-card fade-up"><div class="step-number">04</div><div class="step-title">Suivez votre progression</div><p class="step-desc">Consultez vos statistiques et mesurez votre niveau avant les examens.</p></div>
+  <div class="features-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;padding:0 5%;">
+    
+    <!-- Pilier 1: Épreuves -->
+    <div class="pillar-card fade-up">
+      <div class="feature-icon blue" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(21,101,192,0.12);color:var(--brand-1);font-size:1.3rem;margin-bottom:16px;">
+        <i class="fas fa-file-lines"></i>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar1_title">Épreuves & Annales</h3>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar1_desc">
+        Retrouvez les anciennes épreuves, partiels et examens classés par faculté, département, semestre et année universitaire.
+      </p>
+      <a href="epreuves.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--brand-1);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        Parcourir la bibliothèque <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Pilier 2: Campusly AI -->
+    <div class="pillar-card fade-up">
+      <div class="feature-icon orange" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(245,124,0,0.12);color:var(--accent);font-size:1.3rem;margin-bottom:16px;">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar2_title">Campusly AI</h3>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar2_desc">
+        Transformez vos cours magistraux, fiches et polycopiés en quiz interactifs et synthèses claires grâce à notre moteur IA.
+      </p>
+      <a href="revision.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        Essayer Campusly AI <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Pilier 3: 5 Modes d'Apprentissage -->
+    <div class="pillar-card fade-up">
+      <div class="feature-icon green" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(16,185,129,0.12);color:var(--success);font-size:1.3rem;margin-bottom:16px;">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar3_title">5 Modes d'Apprentissage</h3>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar3_desc">
+        Révisez selon votre profil : QCM chronométré, Questions-Réponses, Vrai/Faux express, Résumé Pédagogique ou Marathon Adaptatif.
+      </p>
+      <a href="revision.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--success);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        Découvrir les modes <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Pilier 4: Classrooms -->
+    <div class="pillar-card fade-up">
+      <div class="feature-icon blue" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(21,101,192,0.12);color:var(--brand-1);font-size:1.3rem;margin-bottom:16px;">
+        <i class="fas fa-chalkboard-user"></i>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar4_title">Classrooms & Amphis</h3>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar4_desc">
+        Permettez aux enseignants de créer leurs classes, partager des cours, planifier des devoirs et suivre les réussites des apprenants.
+      </p>
+      <a href="classrooms.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--brand-1);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        Espace Classrooms <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Pilier 5: Évaluations & Compositions -->
+    <div class="pillar-card fade-up">
+      <div class="feature-icon orange" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(245,124,0,0.12);color:var(--accent);font-size:1.3rem;margin-bottom:16px;">
+        <i class="fas fa-stopwatch"></i>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar5_title">Compositions Surveillées</h3>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar5_desc">
+        Réalisez des évaluations en ligne avec minuterie stricte, surveillance d'intégrité anti-triche et remise instantanée de corrigé commenté.
+      </p>
+      <a href="composition.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        Salle de composition <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Pilier 6: Diagnostic & Progression -->
+    <div class="pillar-card fade-up">
+      <div class="feature-icon green" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(16,185,129,0.12);color:var(--success);font-size:1.3rem;margin-bottom:16px;">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar6_title">Diagnostic & Progression</h3>
+      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar6_desc">
+        Identifiez vos points forts et lacunes en temps réel. Suivez votre niveau académique (Nouveau à Expert) et entretenez votre série quotidienne.
+      </p>
+      <a href="dashboard.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--success);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        Voir mon dashboard <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="section pricing-section guest-only" id="pricing">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="pricing_tag">Tarifs</span>
-    <h2 class="section-title"><span data-i18n="pricing_title">Des tarifs</span> <span data-i18n="pricing_title_span">accessibles</span> <span data-i18n="pricing_title2">pour tous</span></h2>
-    <p class="section-desc" data-i18n="pricing_desc">Commencez gratuitement. Passez Premium pour débloquer l'intégralité du contenu.</p>
+<!-- SECTION 5: CAMPUSLY AI -->
+<section class="section" id="campusly-ai" style="padding:70px 5%;max-width:1200px;margin:0 auto;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <span class="section-tag" data-i18n="ai_tag">Moteur Pédagogique Intelligent</span>
+      <h2 style="font-size:2.2rem;font-weight:800;color:var(--text-1);margin:12px 0 16px;line-height:1.2;">
+        <span data-i18n="ai_title">Vos cours deviennent</span><br/>
+        <span data-i18n="ai_title_span" style="color:var(--brand-1);">interactifs.</span>
+      </h2>
+      <p style="font-size:0.95rem;color:var(--text-2);line-height:1.7;margin-bottom:24px;" data-i18n="ai_desc">
+        Importez vos documents de cours (PDF, Word, photos de notes manuscrites ou texte brut). Campusly AI extrait la structure conceptuelle et génère des entraînements fidèles à vos exigences universitaires.
+      </p>
+
+      <!-- Workflow de Campusly AI -->
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">1</div>
+          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Importer un document</strong> (cours magistral, TD ou épreuve)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">2</div>
+          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Analyse sémantique</strong> et détection automatique des concepts clés</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">3</div>
+          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Génération multi-formats</strong> (QCM, Vrai/Faux, Questions ouvertes)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">4</div>
+          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Vous relisez et personnalisez</strong> avant de vous entraîner</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(21,101,192,0.08);border:1px solid rgba(21,101,192,0.25);border-radius:var(--r-lg);padding:14px;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-shield-halved" style="color:var(--brand-1);font-size:1.2rem;"></i>
+        <div style="font-size:0.82rem;color:var(--text-1);line-height:1.4;">
+          <strong>L'IA vous assiste. Vous gardez le contrôle.</strong><br/>
+          <span style="color:var(--text-3);" data-i18n="ai_privacy_badge">Vos documents restent privés et ne sont pas publiés sans votre autorisation.</span>
+        </div>
+      </div>
+
+      <a href="revision.html" class="btn btn-accent btn-lg">
+        Lancer Campusly AI <i class="fas fa-sparkles" style="margin-left:6px;"></i>
+      </a>
+    </div>
+
+    <!-- Carte interactive Wizard -->
+    <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-2xl);padding:24px;box-shadow:var(--shadow-lg);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="font-size:0.85rem;font-weight:800;color:var(--text-1);">
+          <i class="fas fa-wand-magic-sparkles" style="color:var(--brand-1);margin-right:6px;"></i> Assistant Pédagogique Campusly AI
+        </div>
+        <span style="font-size:0.72rem;color:var(--text-3);font-family:var(--font-mono);">Document: Cours_Algorithmique_L2.pdf</span>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:14px;">
+        <div style="font-size:0.78rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:4px;">Concepts extraits (4 notions)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Complexité O(n²)</span>
+          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Arbres AVL</span>
+          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Parcours BFS / DFS</span>
+          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Programmation Dynamique</span>
+        </div>
+        <div style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">
+          "L'analyse a identifié 8 questions d'entraînement prêtes pour la révision de votre épreuve de mi-semestre."
+        </div>
+      </div>
+
+      <!-- Question preview -->
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:0.75rem;font-weight:700;color:var(--brand-2);">Question 1 · QCM</span>
+          <span style="font-size:0.72rem;color:var(--text-3);">Édition interactive activée</span>
+        </div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--text-1);margin-bottom:8px;">
+          Quelle est la complexité asymptotique pire cas du Quicksort ?
+        </div>
+        <div style="font-size:0.78rem;color:var(--success);font-weight:600;display:flex;align-items:center;gap:6px;">
+          <i class="fas fa-circle-check"></i> O(n²) — Justification pédagogique incluse
+        </div>
+      </div>
+    </div>
   </div>
+</section>
+
+<!-- SECTION 6: APPRENTISSAGE ADAPTATIF -->
+<section class="section" id="adaptatif" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="adapt_tag">Progression Ciblée</span>
+    <h2 class="section-title">
+      <span data-i18n="adapt_title">Ne révisez pas tout.</span> <span data-i18n="adapt_title_span" style="color:var(--accent);">Révisez ce que vous devez maîtriser.</span>
+    </h2>
+    <p class="section-desc" data-i18n="adapt_desc">
+      Notre moteur adaptatif identifie automatiquement vos lacunes et ajuste en direct la sélection des questions pour maximiser votre note d'examen.
+    </p>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto;padding:0 5%;">
+    <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-2xl);padding:30px;box-shadow:var(--shadow-md);">
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:18px;display:flex;align-items:center;gap:8px;">
+        <i class="fas fa-chart-pie" style="color:var(--accent);"></i> Cartographie de vos matières & notions
+      </h3>
+
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:26px;">
+        <!-- Matière 1 -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Algorithmique & Structures de Données</span>
+            <span style="font-size:0.85rem;font-weight:800;color:var(--success);">87 % — Maîtrisé</span>
+          </div>
+          <div style="height:8px;background:var(--surface);border-radius:99px;overflow:hidden;">
+            <div style="height:100%;width:87%;background:var(--success);border-radius:99px;"></div>
+          </div>
+        </div>
+
+        <!-- Matière 2 -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Analyse Mathématique & Calcul Intégral</span>
+            <span style="font-size:0.85rem;font-weight:800;color:var(--accent);">61 % — À consolider</span>
+          </div>
+          <div style="height:8px;background:var(--surface);border-radius:99px;overflow:hidden;">
+            <div style="height:100%;width:61%;background:var(--accent);border-radius:99px;"></div>
+          </div>
+        </div>
+
+        <!-- Matière 3 -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Probabilités & Variables Aléatoires</span>
+            <span style="font-size:0.85rem;font-weight:800;color:var(--danger);">42 % — Priorité Haute</span>
+          </div>
+          <div style="height:8px;background:var(--surface);border-radius:99px;overflow:hidden;">
+            <div style="height:100%;width:42%;background:var(--danger);border-radius:99px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Marathon adaptatif callout -->
+      <div style="background:var(--surface);border:1.5px solid var(--brand-1);border-radius:var(--r-xl);padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div style="font-size:1rem;font-weight:800;color:var(--text-1);margin-bottom:4px;" data-i18n="adapt_marathon_title">
+            <i class="fa-solid fa-fire" style="color:var(--accent);margin-right:6px;"></i> Marathon Adaptatif
+          </div>
+          <p style="font-size:0.82rem;color:var(--text-2);margin:0;" data-i18n="adapt_marathon_desc">
+            Continuez à vous entraîner jusqu'à maîtriser complètement vos difficultés académiques.
+          </p>
+        </div>
+        <a href="revision.html" class="btn btn-primary btn-sm" style="font-weight:800;">
+          Démarrer le Marathon <i class="fas fa-bolt" style="margin-left:6px;"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: PENSÉ AUSSI POUR LES PROFESSEURS -->
+<section class="section" id="professeurs" style="padding:70px 5%;max-width:1200px;margin:0 auto;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    
+    <!-- Visual Pilotage Enseignant -->
+    <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-2xl);padding:26px;box-shadow:var(--shadow-lg);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--grad-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;">KM</div>
+          <div>
+            <div style="font-size:0.9rem;font-weight:800;color:var(--text-1);">Dr. Kokou Mensah</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">Enseignant Chercheur — FAST Informatique</div>
+          </div>
+        </div>
+        <span style="font-size:0.72rem;font-weight:700;color:var(--success);background:rgba(16,185,129,0.1);padding:3px 8px;border-radius:var(--r-full);display:inline-flex;align-items:center;gap:4px;">
+          <i class="fa-solid fa-check"></i> Statut Vérifié
+        </span>
+      </div>
+
+      <div style="font-size:0.78rem;font-weight:800;color:var(--danger);margin-bottom:8px;">
+        <i class="fas fa-triangle-exclamation"></i> Alertes Pédagogiques ("À surveiller")
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
+        <div style="padding:10px 12px;background:var(--surface);border-left:3px solid var(--danger);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-1);">
+          <strong>8 apprenants</strong> n'ont pas encore terminé le Devoir #2 sur les Graphes.
+        </div>
+        <div style="padding:10px 12px;background:var(--surface);border-left:3px solid var(--accent);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-1);">
+          La moyenne de la classe a baissé de <strong>7 %</strong> sur le module Complexité.
+        </div>
+        <div style="padding:10px 12px;background:var(--surface);border-left:3px solid var(--brand-1);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-1);">
+          <strong>5 apprenants</strong> rencontrent des difficultés spécifiques sur la récursivité.
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;">
+        <a href="classrooms.html" class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Gérer mes classes</a>
+        <a href="classrooms.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">Créer un devoir</a>
+      </div>
+    </div>
+
+    <!-- Content Professeurs -->
+    <div>
+      <span class="section-tag" data-i18n="teacher_tag">Espace Enseignants</span>
+      <h2 style="font-size:2.2rem;font-weight:800;color:var(--text-1);margin:12px 0 16px;line-height:1.2;">
+        <span data-i18n="teacher_title">Pensé aussi pour</span><br/>
+        <span data-i18n="teacher_title_span" style="color:var(--accent);">les professeurs.</span>
+      </h2>
+      <p style="font-size:0.95rem;color:var(--text-2);line-height:1.7;margin-bottom:24px;" data-i18n="teacher_desc">
+        Campusly devient votre centre de pilotage pédagogique à l'UAC. Créez vos espaces d'amphi, partagez vos supports de cours, générez des interrogations et suivez les difficultés de vos étudiants avec des alertes automatiques.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-1);">
+          <i class="fas fa-check-circle" style="color:var(--brand-2);"></i> Création de classe instantanée et code d'amphi unique
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-1);">
+          <i class="fas fa-check-circle" style="color:var(--brand-2);"></i> Banque d'exercices & quiz générés ou personnalisés
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-1);">
+          <i class="fas fa-check-circle" style="color:var(--brand-2);"></i> Tableau de bord d'analyse avec alertes d'abandon et de baisse de note
+        </div>
+      </div>
+
+      <a href="classrooms.html" class="btn btn-accent btn-lg" data-i18n="teacher_cta">
+        Découvrir les Classrooms <i class="fas fa-arrow-right" style="margin-left:6px;"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 8: COMPOSITIONS & ÉVALUATIONS -->
+<section class="section" id="compositions" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="comp_tag">Évaluations à Distance</span>
+    <h2 class="section-title">
+      <span data-i18n="comp_title">Évaluez vos apprenants,</span> <span data-i18n="comp_title_span" style="color:var(--brand-1);">où qu'ils soient.</span>
+    </h2>
+    <p class="section-desc" data-i18n="comp_desc">
+      Organisez des compositions d'amphi et examens blancs surveillés avec correction automatique, barème sur 20 et génération de copie personnelle.
+    </p>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;padding:0 5%;">
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
+      <div style="font-size:1.8rem;color:var(--brand-1);margin-bottom:10px;"><i class="fas fa-hourglass-half"></i></div>
+      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Durée & Chronomètre</h4>
+      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Compte à rebours synchronisé avec soumission automatique dès la fin du temps imparti.</p>
+    </div>
+
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
+      <div style="font-size:1.8rem;color:var(--accent);margin-bottom:10px;"><i class="fas fa-shield-halved"></i></div>
+      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Surveillance & Proctoring</h4>
+      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Mode plein écran requis et journalisation des changements d'onglets pour garantir l'intégrité.</p>
+    </div>
+
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
+      <div style="font-size:1.8rem;color:var(--success);margin-bottom:10px;"><i class="fas fa-circle-check"></i></div>
+      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Correction Automatique</h4>
+      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Calcul immédiat de la note sur 20 avec seuil de validation et points clés par question.</p>
+    </div>
+
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
+      <div style="font-size:1.8rem;color:var(--brand-2);margin-bottom:10px;"><i class="fas fa-file-invoice"></i></div>
+      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Copie Personnelle</h4>
+      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Remise d'une copie corrigée détaillée avec feedback pédagogique et corrigé modèle.</p>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:32px;">
+    <a href="composition.html" class="btn btn-primary btn-lg">
+      Accéder aux Compositions <i class="fas fa-arrow-right" style="margin-left:6px;"></i>
+    </a>
+  </div>
+</section>
+
+<!-- SECTION 9: PROGRESSION & GAMIFICATION -->
+<section class="section" id="progression" style="padding:70px 5%;max-width:1200px;margin:0 auto;">
+  <div class="section-center">
+    <span class="section-tag">Régularité & Réussite</span>
+    <h2 class="section-title">
+      Chaque session vous rapproche <span>de votre objectif.</span>
+    </h2>
+    <p class="section-desc">
+      Suivez l'évolution de vos compétences, maintenez votre streak d'étude et gagnez des badges académiques.
+    </p>
+  </div>
+
+  <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+      <div style="font-size:2.2rem;margin-bottom:8px;color:var(--accent);"><i class="fa-solid fa-fire"></i></div>
+      <div style="font-size:1.8rem;font-weight:900;color:var(--accent);">7 Jours de Série</div>
+      <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">Maintenez votre régularité pour doubler vos gains d'XP et recevoir des crédits bonus.</p>
+    </div>
+
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+      <div style="font-size:2.2rem;margin-bottom:8px;color:var(--brand-1);"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div style="font-size:1.8rem;font-weight:900;color:var(--brand-1);">Niveau Apprenti</div>
+      <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">350 / 500 XP · Évolution vers le rang <strong>Intermédiaire</strong></p>
+    </div>
+
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+      <div style="font-size:2.2rem;margin-bottom:8px;color:var(--success);"><i class="fa-solid fa-bolt"></i></div>
+      <div style="font-size:1.8rem;font-weight:900;color:var(--success);">120 Crédits</div>
+      <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">Solde Campusly Credits actif pour vos analyses IA et entraînements.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: POUR LES ÉTABLISSEMENTS -->
+<section class="section" id="etablissements" style="background:rgba(21,101,192,0.06);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 5%;">
+  <div style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-tag">Enseignement Supérieur</span>
+    <h2 style="font-size:2rem;font-weight:800;color:var(--text-1);margin:10px 0 14px;">
+      Une plateforme pour vos apprenants.
+    </h2>
+    <p style="font-size:0.95rem;color:var(--text-2);line-height:1.65;max-width:700px;margin:0 auto 24px;">
+      Facultés, écoles d'ingénieurs et instituts de l'UAC : découvrez comment déployer Campusly comme infrastructure numérique d'apprentissage, d'évaluations certifiées et de suivi des promotions.
+    </p>
+    <a href="mailto:contact@campusly.app?subject=Partenariat%20Établissement%20UAC" class="btn btn-outline btn-lg" style="background:var(--surface);">
+      <i class="fas fa-envelope" style="margin-right:8px;"></i> Parler à l'équipe Campusly
+    </a>
+  </div>
+</section>
+
+<!-- SECTION 11: FAQ PAR CATÉGORIES -->
+<section class="section" id="faq" style="padding:70px 5%;max-width:1100px;margin:0 auto;">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="nav_faq">Support & FAQ</span>
+    <h2 class="section-title">Questions <span>fréquentes</span></h2>
+    <p class="section-desc">Toutes les réponses pour maîtriser Campusly 2.0 en tant qu'étudiant ou enseignant.</p>
+  </div>
+
+  <!-- FAQ Filter buttons -->
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:28px;">
+    <button class="faq-category-btn active" onclick="filterFaq('all', this)">Toutes</button>
+    <button class="faq-category-btn" onclick="filterFaq('ai', this)">Campusly AI</button>
+    <button class="faq-category-btn" onclick="filterFaq('learning', this)">Apprentissage</button>
+    <button class="faq-category-btn" onclick="filterFaq('teachers', this)">Professeurs & Classrooms</button>
+    <button class="faq-category-btn" onclick="filterFaq('compositions', this)">Compositions</button>
+    <button class="faq-category-btn" onclick="filterFaq('credits', this)">Crédits & Paiement</button>
+    <button class="faq-category-btn" onclick="filterFaq('privacy', this)">Confidentialité</button>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;" id="faqList">
+    <!-- Q1 -->
+    <div class="faq-item" data-cat="ai">
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
+        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
+        Comment fonctionne la génération de quiz avec Campusly AI ?
+      </h4>
+      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
+        Vous importez votre support (cours, TD, épreuve ou notes). Campusly AI en extrait la structure pédagogique, dégage les concepts fondamentaux et formule des questions (QCM, Q/R, Vrai/Faux) avec corrections et justifications. Vous pouvez relire, modifier ou régénérer chaque question avant de lancer l'exercice.
+      </p>
+    </div>
+
+    <!-- Q2 -->
+    <div class="faq-item" data-cat="learning">
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
+        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
+        Qu'est-ce que le Marathon Adaptatif ?
+      </h4>
+      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
+        Le Marathon Adaptatif cible en priorité les notions où votre taux de réussite est inférieur à 60 %. L'algorithme vous soumet de nouvelles questions progressives jusqu'à ce que votre score atteigne le palier de maîtrise.
+      </p>
+    </div>
+
+    <!-- Q3 -->
+    <div class="faq-item" data-cat="teachers">
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
+        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
+        Comment un enseignant peut-il créer une classe amphi et suivre ses apprenants ?
+      </h4>
+      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
+        Lors de l'inscription, sélectionnez "Je suis professeur". Vous accédez au panneau de création de classe, recevez un code d'invitation à transmettre à vos étudiants, et profitez du centre de pilotage avec alertes pédagogiques automatiques ("À surveiller").
+      </p>
+    </div>
+
+    <!-- Q4 -->
+    <div class="faq-item" data-cat="compositions">
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
+        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
+        Comment se déroule la surveillance des compositions en ligne ?
+      </h4>
+      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
+        La salle de composition active un compte à rebours strict, un mode plein écran et consigne les changements d'onglets intempestifs. À l'issue de l'épreuve, la copie est automatiquement corrigée et commentée.
+      </p>
+    </div>
+
+    <!-- Q5 -->
+    <div class="faq-item" data-cat="credits">
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
+        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
+        Comment fonctionnent les Campusly Credits et comment recharger ?
+      </h4>
+      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
+        Les Campusly Credits alimentent les analyses de documents et modes IA. Vous pouvez recharger votre solde en FCFA directement via Mobile Money (MTN MoMo, Moov Money) ou Carte Bancaire en cliquant sur la pastille <i class="fa-solid fa-bolt" style="color:var(--accent);"></i> dans la barre de navigation.
+      </p>
+    </div>
+
+    <!-- Q6 -->
+    <div class="faq-item" data-cat="privacy">
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
+        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
+        Mes documents de cours restent-ils confidentiels ?
+      </h4>
+      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
+        Absolument. Vos documents importés restent strictement privés. Ils ne sont jamais partagés publiquement ni réutilisés sans votre autorisation préalable.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING & CREDITS -->
+<section class="section pricing-section" id="pricing" style="background:var(--surface);border-top:1px solid var(--border);">
+  <div class="section-center">
+    <span class="section-tag" data-i18n="pricing_tag">Crédits & Tarifs</span>
+    <h2 class="section-title">
+      Des packs <span>accessibles à tous</span>
+    </h2>
+    <p class="section-desc">Rechargez vos crédits selon vos besoins d'étude ou activez un accès complet pour tout le semestre.</p>
+  </div>
+
   <div class="pricing-grid">
     <div class="pricing-card fade-up">
-      <div class="pricing-duration" data-i18n="plan_free">Gratuit</div>
-      <div class="pricing-price">0 <span>FCFA</span></div>
-      <ul class="pricing-features">
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_free_feat1">Accès aux épreuves gratuites</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_free_feat2">Recherche et filtres</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_free_feat3">Favoris et historique</span></li>
-        <li class="disabled" data-i18n="plan_free_feat4">Épreuves Premium</li>
-        <li class="disabled" data-i18n="plan_free_feat5">Quiz IA illimités</li>
-      </ul>
-      <a href="auth.html?tab=register" class="btn btn-outline" style="width:100%;" data-i18n="plan_free_cta">Commencer gratuitement</a>
-    </div>
-    <div class="pricing-card fade-up">
-      <div class="pricing-duration" data-i18n="plan_week">1 Semaine</div>
+      <div class="pricing-duration">Pack Découverte</div>
       <div class="pricing-price">500 <span>FCFA</span></div>
       <ul class="pricing-features">
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat1">Tout du plan gratuit</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat2">Accès illimité Premium</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat3">Quiz IA illimités</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat4">Suivi de progression</span></li>
-        <li class="disabled" data-i18n="plan_feat5">Support prioritaire</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <strong>100 Campusly Credits</strong></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> 6 analyses complètes de polycopiés</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Accès aux 5 modes d'apprentissage</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Accès aux épreuves et annales UAC</li>
       </ul>
-      <a href="auth.html?tab=register" class="btn btn-outline" style="width:100%;" data-i18n="plan_cta">Choisir ce plan</a>
+      <button onclick="window.creditService && window.creditService.showCreditModal(100)" class="btn btn-outline" style="width:100%;">
+        Recharger ce pack
+      </button>
     </div>
+
     <div class="pricing-card popular fade-up">
-      <div class="popular-badge" data-i18n="plan_recommended">Recommandé</div>
-      <div class="pricing-duration" data-i18n="plan_month">1 Mois</div>
-      <div class="pricing-price">1 500 <span>FCFA</span></div>
+      <div class="popular-badge">Recommandé</div>
+      <div class="pricing-duration">Pack Révision Amphi</div>
+      <div class="pricing-price">1 000 <span>FCFA</span></div>
       <ul class="pricing-features">
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat1">Tout du plan gratuit</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat2">Accès illimité Premium</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat3">Quiz IA illimités</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat4">Suivi de progression</span></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> <span data-i18n="plan_feat5">Support prioritaire</span></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> <strong>250 Campusly Credits</strong></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> 18 analyses complètes de documents</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Marathons adaptatifs illimités</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Accès aux Classrooms et Compositions</li>
       </ul>
-      <a href="auth.html?tab=register" class="btn btn-primary" style="width:100%;" data-i18n="plan_cta">Choisir ce plan</a>
-    </div>
-</section>
-
-<!-- TÉMOIGNAGES (BETA) -->
-<section class="section" style="background:var(--bg-2);">
-  <div class="section-center">
-    <span class="section-tag">Avis</span>
-    <h2 class="section-title">Ce que disent nos premiers testeurs</h2>
-  </div>
-  <div class="features-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;padding:0 5%;">
-    <div class="feature-card fade-up">
-      <div style="color:#F5A623;font-size:1.2rem;margin-bottom:12px;">★★★★★</div>
-      <p style="font-size:0.95rem;color:var(--text-1);font-style:italic;margin-bottom:16px;">"L'IA m'a généré un quiz de Droit Civil qui correspondait exactement à mon cours. C'est génial pour réviser avant les TD."</p>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;">A</div>
-        <div>
-          <div style="font-weight:700;font-size:0.9rem;color:var(--text-1);">Aurel (FADESP)</div>
-          <div style="font-size:0.75rem;color:var(--text-3);">Bêta-testeur</div>
-        </div>
-      </div>
-    </div>
-    <div class="feature-card fade-up">
-      <div style="color:#F5A623;font-size:1.2rem;margin-bottom:12px;">★★★★★</div>
-      <p style="font-size:0.95rem;color:var(--text-1);font-style:italic;margin-bottom:16px;">"Le plan de révision IA m'a sauvé la vie pour organiser ma semaine de compos. L'interface sombre est super propre."</p>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-1);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;">M</div>
-        <div>
-          <div style="font-weight:700;font-size:0.9rem;color:var(--text-1);">Merveille (FAST)</div>
-          <div style="font-size:0.75rem;color:var(--text-3);">Bêta-testeuse</div>
-        </div>
-      </div>
-    </div>
-    <div class="feature-card fade-up">
-      <div style="color:#F5A623;font-size:1.2rem;margin-bottom:12px;">★★★★★</div>
-      <p style="font-size:0.95rem;color:var(--text-1);font-style:italic;margin-bottom:16px;">"Enfin un endroit où trouver toutes les anciennes épreuves sans devoir fouiller dans 50 groupes WhatsApp différents !"</p>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;">S</div>
-        <div>
-          <div style="font-weight:700;font-size:0.9rem;color:var(--text-1);">Sèdami (FASEG)</div>
-          <div style="font-size:0.75rem;color:var(--text-3);">Bêta-testeur</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DEMO SECTION -->
-<section class="section guest-only" id="demo" style="background:rgba(21,101,192,0.08);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section-center">
-    <span class="section-tag">Démonstration</span>
-    <h2 class="section-title">Voyez Campusly <span>en action</span></h2>
-    <p class="section-desc">Découvrez comment nos étudiants révisent et progressent chaque jour.</p>
-  </div>
-  <div class="demo-grid" style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-
-    <!-- Demo Quiz IA -->
-    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-brand);"></div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:1.4rem;"><i class="fas fa-bullseye"></i></span>
-        <div>
-          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Quiz IA — Microéconomie</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">7 questions · GPT-4o-mini</div>
-        </div>
-        <span style="margin-left:auto;font-size:0.72rem;font-weight:700;color:#10B981;background:rgba(16,185,129,0.12);padding:3px 10px;border-radius:999px;">3/7</span>
-      </div>
-      <div style="height:4px;background:var(--surface-2);border-radius:999px;margin-bottom:16px;overflow:hidden;">
-        <div style="height:100%;width:43%;background:var(--grad-brand);border-radius:999px;"></div>
-      </div>
-      <p style="font-size:0.875rem;font-weight:600;color:var(--text-1);margin-bottom:14px;">Qu'est-ce que l'élasticité-prix de la demande ?</p>
-      <div style="display:flex;flex-direction:column;gap:8px;" id="demoQuizOptions">
-        <div class="demo-option" onclick="selectDemoOption(this, true)" style="padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s;">
-          <span class="demo-letter" style="width:20px;height:20px;background:var(--surface-2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;color:var(--text-1);">A</span>
-          <span>La variation relative de la quantité demandée suite à une variation relative du prix</span>
-        </div>
-        <div class="demo-option" onclick="selectDemoOption(this, false)" style="padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.8rem;color:var(--text-2);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s;">
-          <span class="demo-letter" style="width:20px;height:20px;background:var(--surface-2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;color:var(--text-1);">B</span>
-          <span>Le rapport entre l'offre et la demande</span>
-        </div>
-      </div>
-      <div id="demoFeedback" style="margin-top:12px;padding:10px 14px;background:var(--surface);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-2);line-height:1.6;display:none;">
-        <span id="demoFeedbackText"></span>
-      </div>
-      <script>
-        function selectDemoOption(el, isCorrect) {
-          document.querySelectorAll('#demoQuizOptions .demo-option').forEach(opt => {
-            opt.style.background = 'var(--surface)';
-            opt.style.borderColor = 'var(--border)';
-            opt.style.color = 'var(--text-2)';
-            opt.style.opacity = '0.7';
-            const icon = opt.querySelector('.fa-check, .fa-times');
-            if (icon) icon.remove();
-          });
-          el.style.opacity = '1';
-          if (isCorrect) {
-            el.style.background = 'rgba(16,185,129,0.15)';
-            el.style.borderColor = '#10B981';
-            el.style.color = '#10B981';
-            const check = document.createElement('i');
-            check.className = 'fas fa-check';
-            check.style.marginLeft = 'auto';
-            el.appendChild(check);
-            document.getElementById('demoFeedback').style.display = 'block';
-            document.getElementById('demoFeedbackText').innerText = "💡 Correct ! L'élasticité-prix mesure la sensibilité des consommateurs aux variations de prix.";
-          } else {
-            el.style.background = 'rgba(239,68,68,0.15)';
-            el.style.borderColor = '#EF4444';
-            el.style.color = '#EF4444';
-            const cross = document.createElement('i');
-            cross.className = 'fas fa-times';
-            cross.style.marginLeft = 'auto';
-            el.appendChild(cross);
-            document.getElementById('demoFeedback').style.display = 'block';
-            document.getElementById('demoFeedbackText').innerText = "❌ Incorrect. Essayez à nouveau !";
-          }
-        }
-      </script>
+      <button onclick="window.creditService && window.creditService.showCreditModal(250)" class="btn btn-primary" style="width:100%;">
+        Choisir ce pack
+      </button>
     </div>
 
-    <!-- Demo Plan de révision -->
-    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#1565C0;"></div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:1.4rem;"><i class="fas fa-clipboard-list"></i></span>
-        <div>
-          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Plan de révision IA</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">Semaine 2 sur 3</div>
-        </div>
-        <span style="margin-left:auto;font-size:0.72rem;font-weight:700;color:#6C63FF;background:rgba(108,99,255,0.12);padding:3px 10px;border-radius:999px;">67%</span>
-      </div>
-      <div style="height:4px;background:var(--surface-2);border-radius:999px;margin-bottom:16px;overflow:hidden;">
-        <div style="height:100%;width:67%;background:#1565C0;border-radius:999px;"></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:var(--r-md);opacity:0.6;">
-          <div style="width:18px;height:18px;background:#10B981;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;flex-shrink:0;"><i class="fas fa-check"></i></div>
-          <div style="font-size:0.78rem;color:var(--text-2);">Lundi — Microéconomie Ch.3 (2h)</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.4);border-radius:var(--r-md);">
-          <div style="width:18px;height:18px;border:2px solid #6C63FF;border-radius:4px;flex-shrink:0;"></div>
-          <div style="font-size:0.78rem;color:var(--text-1);font-weight:600;">Aujourd'hui — Comptabilité Ch.5 (2h)</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);">
-          <div style="width:18px;height:18px;border:2px solid var(--border-2);border-radius:4px;flex-shrink:0;"></div>
-          <div style="font-size:0.78rem;color:var(--text-2);">Mercredi — Révision générale (1h)</div>
-        </div>
-      </div>
+    <div class="pricing-card fade-up">
+      <div class="pricing-duration">Pack Semestre Élite</div>
+      <div class="pricing-price">2 500 <span>FCFA</span></div>
+      <ul class="pricing-features">
+        <li><span class="check"><i class="fas fa-check"></i></span> <strong>700 Campusly Credits</strong></li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Analyses de cours illimitées pour le semestre</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Diagnostic de niveau et copies archivées</li>
+        <li><span class="check"><i class="fas fa-check"></i></span> Support académique prioritaire</li>
+      </ul>
+      <button onclick="window.creditService && window.creditService.showCreditModal(700)" class="btn btn-outline" style="width:100%;">
+        Choisir ce pack
+      </button>
     </div>
-
-    <!-- Demo Question du jour -->
-    <div style="background:rgba(21,101,192,0.12);border:1px solid rgba(21,101,192,0.3);border-radius:var(--r-xl);padding:24px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-        <span style="font-size:1.4rem;"><i class="fas fa-brain"></i></span>
-        <div>
-          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Question du jour</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">Droit Civil · Aujourd'hui</div>
-        </div>
-        <span style="margin-left:auto;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(108,99,255,0.2);color:#a78bfa;">Quotidien</span>
-      </div>
-      <p style="font-size:0.875rem;font-weight:600;color:var(--text-1);margin-bottom:12px;">Qu'est-ce que la capacité juridique ?</p>
-      <div style="display:flex;flex-direction:column;gap:7px;">
-        <div style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-2);display:flex;align-items:center;gap:8px;">
-          <span style="width:18px;height:18px;background:var(--surface-2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;">A</span>
-          L'aptitude à être titulaire de droits et d'obligations
-        </div>
-        <div style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-2);display:flex;align-items:center;gap:8px;">
-          <span style="width:18px;height:18px;background:var(--surface-2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;">B</span>
-          Le droit de voter aux élections
-        </div>
-      </div>
-      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Répondre <i class="fas fa-arrow-right"></i></a>
-    </div>
-
-    <!-- Demo Forum -->
-    <div style="background:var(--grad-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:1.4rem;"><i class="fas fa-comments"></i></span>
-        <div>
-          <div style="font-weight:700;color:var(--text-1);font-size:0.9rem;">Forum étudiant</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">Questions récentes</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);border-left:3px solid #10B981;">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Comment résoudre les équations différentielles ?</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">FAST · 2 réponses · <i class="fas fa-check"></i> Résolu</div>
-        </div>
-        <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Différence entre droit public et privé ?</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">FADESP · 1 réponse · <i class="fas fa-check"></i> Résolu</div>
-        </div>
-        <div style="padding:12px;background:var(--surface);border-radius:var(--r-md);">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-1);margin-bottom:4px;">Comment préparer Microéconomie en 2 semaines ?</div>
-          <div style="font-size:0.72rem;color:var(--text-3);">FASEG · 0 réponse · En attente</div>
-        </div>
-      </div>
-      <a href="auth.html?tab=register" class="btn btn-outline btn-sm" style="width:100%;margin-top:14px;justify-content:center;">Rejoindre le forum <i class="fas fa-arrow-right"></i></a>
-    </div>
-
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section guest-only">
-  <h2 class="cta-title">Prêt à optimiser vos révisions ?</h2>
-  <p class="cta-desc">Rejoignez des milliers d'étudiants de l'UAC qui utilisent Campusly pour préparer leurs examens.</p>
-  <div class="cta-actions">
-    <a href="auth.html?tab=register" class="btn btn-accent btn-lg" data-i18n="plan_free_cta">Créer un compte gratuit</a>
-    <a href="epreuves.html" class="btn btn-ghost btn-lg" data-i18n="nav_exams">Consulter les épreuves</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <!-- Drapeau du Bénin en arrière-plan décoratif -->
-  <div class="footer-flag" aria-hidden="true">
-    <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-      <rect width="300" height="600" fill="#008751"/>
-      <rect x="300" width="600" height="300" fill="#FCD116"/>
-      <rect x="300" y="300" width="600" height="300" fill="#E8112D"/>
-    </svg>
-  </div>
   <div class="footer-grid">
     <div class="footer-brand">
       <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
-      <p>La plateforme académique des étudiants de l'Université d'Abomey-Calavi.</p>
-      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-3);">Bénin 🇧🇯</div>
+      <p>La plateforme académique intelligente des étudiants et professeurs de l'Université d'Abomey-Calavi (UAC).</p>
+      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-3);">Bénin 🇧🇯 · Version 2.0</div>
     </div>
     <div class="footer-col">
       <h4>Plateforme</h4>
-      <a href="epreuves.html" data-i18n="nav_exams">Épreuves</a>
-      <a href="revision.html" data-i18n="nav_revision">Révision IA</a>
-      <a href="auth.html?tab=register" data-i18n="nav_register">S'inscrire</a>
-      <a href="#pricing" data-i18n="nav_pricing">Tarifs</a>
+      <a href="epreuves.html">Épreuves & Annales</a>
+      <a href="revision.html">Campusly AI</a>
+      <a href="classrooms.html">Classrooms</a>
+      <a href="composition.html">Compositions</a>
+      <a href="dashboard.html">Tableau de bord</a>
     </div>
     <div class="footer-col">
-      <h4>Facultés</h4>
+      <h4>Facultés UAC</h4>
+      <a href="epreuves.html?faculte=FAST">FAST</a>
       <a href="epreuves.html?faculte=FASEG">FASEG</a>
       <a href="epreuves.html?faculte=FADESP">FADESP</a>
-      <a href="epreuves.html?faculte=FAST">FAST</a>
-      <a href="epreuves.html?faculte=FSS">FSS</a>
       <a href="epreuves.html?faculte=EPAC">EPAC</a>
-      <a href="epreuves.html?faculte=FLLAC">FLLAC</a>
+      <a href="epreuves.html?faculte=FSS">FSS</a>
     </div>
     <div class="footer-col">
-      <h4>Informations</h4>
+      <h4>Ressources & Légal</h4>
       <a href="apropos.html">À propos</a>
-      <a href="https://wa.me/22997000000" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Support WhatsApp</a>
-      <a href="contribuer.html">Contribuer</a>
-      <a href="conditions.html">Conditions</a>
+      <a href="conditions.html">Conditions Générales</a>
       <a href="politique.html">Confidentialité</a>
+      <a href="https://wa.me/22997000000" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Support WhatsApp</a>
     </div>
   </div>
-  <div class="footer-bottom">© 2026 Campusly — Plateforme académique de l'UAC</div>
+  <div class="footer-bottom">
+    © 2026 Campusly 2.0 — Conçu pour l'excellence académique à l'UAC.
+  </div>
 </footer>
 
 <script type="module">
   import { initLangSwitcher, applyTranslations } from './js/i18n.js';
-  import { injectLogos } from './js/logo.js';
-  import { supabase } from './js/supabase.js';
+  import { authService } from './js/services/authService.js';
+  import { creditService } from './js/services/creditService.js';
+  import { notificationService } from './js/services/notificationService.js';
 
-  // Navbar scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 20));
-  document.getElementById('hamburger')?.addEventListener('click', () => document.querySelector('.nav-links')?.classList.toggle('open'));
+  // Toggle Navbar Hero Visual Tabs
+  window.switchHeroTab = function(mode) {
+    document.querySelectorAll('.tab-toggle-btn').forEach(b => b.classList.remove('active'));
+    if (mode === 'learner') {
+      document.getElementById('heroTabLearner')?.classList.add('active');
+      document.getElementById('heroViewLearner').style.display = 'block';
+      document.getElementById('heroViewTeacher').style.display = 'none';
+    } else {
+      document.getElementById('heroTabTeacher')?.classList.add('active');
+      document.getElementById('heroViewLearner').style.display = 'none';
+      document.getElementById('heroViewTeacher').style.display = 'block';
+    }
+  };
+
+  // FAQ Filter
+  window.filterFaq = function(cat, el) {
+    document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.faq-item').forEach(item => {
+      if (cat === 'all' || item.dataset.cat === cat) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  };
+
+  // Synchronisation navbar avec l'utilisateur
+  function updateNav() {
+    const user = authService.getUser();
+    const navActions = document.getElementById('navActions');
+    if (user && navActions) {
+      navActions.innerHTML = `
+        <span style="font-size:0.85rem;font-weight:700;color:var(--text-1);">${user.prenom || 'Rosaire'}</span>
+        <a href="dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
+        <button id="logoutBtn" class="btn btn-ghost btn-sm">Déconnexion</button>
+      `;
+      document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+        await authService.logout();
+        window.location.reload();
+      });
+    }
+    creditService.updatePillUI();
+  }
 
   // Scroll animations
   const obs = new IntersectionObserver(entries => {
@@ -604,96 +992,15 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
-  // Effet hover magnétique sur les feature cards
-  document.querySelectorAll('.feature-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
-      const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
-      card.style.setProperty('--mx', x + '%');
-      card.style.setProperty('--my', y + '%');
-    });
-  });
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 20));
+  document.getElementById('hamburger')?.addEventListener('click', () => document.querySelector('.nav-links')?.classList.toggle('open'));
 
-  // Navbar dynamique
-  const { data: { session } } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
-
-  const el = document.getElementById("navActions");
-  const searchWrap = document.getElementById("globalSearchWrap");
-  const loggedInDash = document.getElementById("loggedInDash");
-
-  document.querySelectorAll(".guest-only").forEach(s => { s.style.display = user ? "none" : ""; });
-  if (loggedInDash) loggedInDash.style.display = user ? "block" : "none";
-  document.querySelectorAll(".nav-auth-only").forEach(li => { li.style.display = user ? "list-item" : "none"; });
-  if (searchWrap) searchWrap.style.display = user ? "block" : "none";
-
-  if (el) {
-    el.innerHTML = user
-      ? `<a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-         <button id="logoutBtn" class="btn btn-outline btn-sm">Déconnexion</button>`
-      : `<a href="auth.html" class="btn btn-ghost btn-sm">Connexion</a>
-         <a href="auth.html?tab=register" class="btn btn-primary btn-sm">S'inscrire</a>`;
-    if (user) {
-      document.getElementById("logoutBtn")?.addEventListener("click", async () => {
-        await supabase.auth.signOut();
-        window.location.href = "index.html";
-      });
-    }
-  }
-
-  // Recherche globale
-  const searchInput = document.getElementById("globalSearch");
-  const searchResults = document.getElementById("globalSearchResults");
-  if (searchInput) {
-    searchInput.addEventListener("input", async function() {
-      const q = this.value.trim().toLowerCase();
-      if (q.length < 2) { searchResults.style.display = "none"; return; }
-      const { data } = await supabase.from("epreuves").select("titre,faculte,annee,departement").ilike("titre", `%${q}%`).limit(6);
-      if (!data?.length) { searchResults.style.display = "none"; return; }
-      searchResults.innerHTML = data.map(e =>
-        `<a href="epreuves.html?faculte=${e.faculte||''}" style="display:block;padding:10px 14px;font-size:0.82rem;color:var(--text-1);text-decoration:none;border-bottom:1px solid var(--border);">
-          <span style="font-weight:600;">${e.titre||""}</span>
-          <span style="color:var(--text-3);margin-left:8px;">${e.faculte||""} · ${e.annee||""}</span>
-        </a>`
-      ).join("");
-      searchResults.style.display = "block";
-    });
-    document.addEventListener("click", e => {
-      if (!searchInput.contains(e.target)) searchResults.style.display = "none";
-    });
-  }
-
-  // Stats réelles avec animation
-  try {
-    const [{ count: ep }, { count: us }] = await Promise.all([
-      supabase.from("epreuves").select("*", { count: "exact", head: true }),
-      supabase.from("users").select("*", { count: "exact", head: true }),
-    ]);
-
-    function animateCount(el, target, suffix) {
-      if (!el || !target) return;
-      let start = 0;
-      const step = Math.ceil(target / 40);
-      const timer = setInterval(() => {
-        start = Math.min(start + step, target);
-        el.textContent = (start > 999 ? Math.floor(start/1000)+"k" : start) + suffix;
-        if (start >= target) clearInterval(timer);
-      }, 30);
-    }
-    animateCount(document.getElementById("statEpreuves"), ep > 0 ? ep : 500, "+");
-    animateCount(document.getElementById("statEtudiants"), us > 0 ? us : 2000, "+");
-  } catch(e) {}
-
-  // i18n
+  // Init i18n
   initLangSwitcher();
   applyTranslations();
-  injectLogos();
-
-  // Service Worker PWA
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-  }
+  updateNav();
 </script>
 </body>
 </html>
