@@ -9,6 +9,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/responsive-scale.css" />
   <link rel="stylesheet" href="css/mobile.css" />
   
   <!-- FontAwesome & Fonts -->
@@ -296,37 +297,62 @@
     }
 
     .app-body {
-      padding: 28px;
-      max-width: 1300px;
+      padding: clamp(16px, 2.2vw, 48px);
+      max-width: 100%;
       width: 100%;
       box-sizing: border-box;
       margin: 0 auto;
+    }
+
+    @media (min-width: 1280px) {
+      .app-body { max-width: var(--container-max-xl, 1360px); }
+    }
+    @media (min-width: 1600px) {
+      .app-body { max-width: var(--container-max-2xl, 1680px); }
+    }
+    @media (min-width: 1920px) {
+      .app-body { max-width: var(--container-max-3xl, 2160px); }
+    }
+    @media (min-width: 2560px) {
+      .app-body { max-width: var(--container-max-4k, 2800px); }
     }
 
     /* METRICS & GRIDS */
     .dash-metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: clamp(12px, 1.4vw, 24px);
+      margin-bottom: clamp(18px, 2vw, 30px);
     }
 
     .dash-metric-card {
       background: var(--bg-2);
       border: 1px solid var(--border);
       border-radius: var(--r-xl);
-      padding: 20px;
+      padding: clamp(16px, 1.6vw, 24px);
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+    }
+
+    .dash-metric-card:hover {
+      border-color: rgba(21,101,192,0.3);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     .metric-icon-wrap {
       position: absolute;
       top: 16px;
       right: 16px;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -334,7 +360,30 @@
       font-size: 1rem;
     }
 
+    .dash-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(16px, 2vw, 28px);
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+    }
+
+    .dash-grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(16px, 2vw, 28px);
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+    }
+
     /* Responsive */
+    @media (max-width: 1200px) {
+      .dash-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dash-grid-3col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     @media (max-width: 960px) {
       .app-sidebar {
         position: fixed;
@@ -349,8 +398,9 @@
       .sidebar-toggle-btn {
         display: block;
       }
-      .dash-metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .dash-grid-2col,
+      .dash-grid-3col {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -359,10 +409,10 @@
         grid-template-columns: 1fr;
       }
       .app-body {
-        padding: 16px;
+        padding: 14px;
       }
       .app-header {
-        padding: 0 16px;
+        padding: 0 14px;
       }
     }
   </style>
