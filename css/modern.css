@@ -20,22 +20,22 @@
   --grad-brand:  #1565C0;
   --grad-accent: #F57C00;
   --grad-hero:   #1565C0;
-  --grad-dark:   #090A0F;
-  --grad-card:   rgba(255,255,255,0.03);
+  --grad-dark:   #F1F5F9;
+  --grad-card:   #FFFFFF;
 
-  --bg:      #090A0F;
-  --bg-2:    #12131A;
-  --bg-3:    #161722;
-  --surface:   rgba(255,255,255,0.02);
-  --surface-2: rgba(255,255,255,0.04);
-  --surface-3: rgba(255,255,255,0.08);
-  --border:    rgba(255,255,255,0.06);
-  --border-2:  rgba(255,255,255,0.12);
+  --bg:      #FFFFFF;
+  --bg-2:    #F1F5F9;
+  --bg-3:    #E2E8F0;
+  --surface:   rgba(21,101,192,0.03);
+  --surface-2: rgba(21,101,192,0.06);
+  --surface-3: rgba(21,101,192,0.1);
+  --border:    rgba(21,101,192,0.08);
+  --border-2:  rgba(21,101,192,0.18);
 
-  --text-1: #F8FAFC;
-  --text-2: #CBD5E1;
+  --text-1: #0F172A;
+  --text-2: #334155;
   --text-3: #64748B;
-  --text-4: #475569;
+  --text-4: #94A3B8;
 
   --shadow-sm:    0 1px 2px rgba(0,0,0,0.5);
   --shadow-md:    0 4px 20px rgba(0,0,0,0.6);

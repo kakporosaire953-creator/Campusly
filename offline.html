@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="theme-light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      background: #090A0F;
+      background: var(--bg);
       color: #F8FAFC;
       min-height: 100vh;
       display: flex;
@@ -20,7 +20,7 @@
       padding: 20px;
     }
     .offline-container {
-      background: #12131A;
+      background: var(--bg-2);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 24px;
       padding: 40px 28px;
@@ -111,6 +111,7 @@
       font-size: 0.75rem;
     }
   </style>
+  <script src="js/theme.js"></script>
 </head>
 <body>
   <div class="offline-container">

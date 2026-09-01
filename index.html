@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="theme-light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -142,12 +142,7 @@
     <li class="nav-auth-only" style="display:none;"><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
   </ul>
   <div class="nav-right">
-    <div class="campusly-credits-pill" onclick="window.creditService && window.creditService.showCreditModal()" style="display:inline-flex;align-items:center;padding:5px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);cursor:pointer;font-size:0.82rem;gap:6px;" title="Gérer vos Campusly Credits">
-      <i class="fa-solid fa-bolt" style="color:var(--accent);"></i>
-      <strong style="font-weight:800;">120</strong>
-      <span style="font-size:0.75rem;color:var(--text-3);">crédits</span>
-    </div>
-    <div id="langSwitcher" style="display:flex;gap:4px;"></div>
+    
     <div class="nav-actions" id="navActions">
       <a href="auth.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Connexion</a>
       <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
@@ -731,11 +726,6 @@
       <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">350 / 500 XP · Évolution vers le rang <strong>Intermédiaire</strong></p>
     </div>
 
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
-      <div style="font-size:2.2rem;margin-bottom:8px;color:var(--success);"><i class="fa-solid fa-bolt"></i></div>
-      <div style="font-size:1.8rem;font-weight:900;color:var(--success);">120 Crédits</div>
-      <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">Solde Campusly Credits actif pour vos analyses IA et entraînements.</p>
-    </div>
   </div>
 </section>
 
@@ -819,16 +809,6 @@
       </p>
     </div>
 
-    <!-- Q5 -->
-    <div class="faq-item" data-cat="credits">
-      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
-        <i class="fas fa-circle-question" style="color:var(--brand-2);margin-right:8px;"></i>
-        Comment fonctionnent les Campusly Credits et comment recharger ?
-      </h4>
-      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
-        Les Campusly Credits alimentent les analyses de documents et modes IA. Vous pouvez recharger votre solde en FCFA directement via Mobile Money (MTN MoMo, Moov Money) ou Carte Bancaire en cliquant sur la pastille <i class="fa-solid fa-bolt" style="color:var(--accent);"></i> dans la barre de navigation.
-      </p>
-    </div>
 
     <!-- Q6 -->
     <div class="faq-item" data-cat="privacy">
@@ -937,7 +917,6 @@
 </footer>
 
 <script type="module">
-  import { initLangSwitcher, applyTranslations } from './js/i18n.js';
   import { authService } from './js/services/authService.js';
   import { creditService } from './js/services/creditService.js';
   import { notificationService } from './js/services/notificationService.js';
@@ -960,13 +939,23 @@
   window.filterFaq = function(cat, el) {
     document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
-    document.querySelectorAll('.faq-item').forEach(item => {
-      if (cat === 'all' || item.dataset.cat === cat) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
-    });
+    
+    const faqList = document.getElementById('faqList');
+    faqList.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    faqList.style.opacity = '0';
+    faqList.style.transform = 'translateY(10px)';
+    
+    setTimeout(() => {
+      document.querySelectorAll('.faq-item').forEach(item => {
+        if (cat === 'all' || item.dataset.cat === cat) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      faqList.style.opacity = '1';
+      faqList.style.transform = 'translateY(0)';
+    }, 250);
   };
 
   // Synchronisation navbar avec l'utilisateur
@@ -998,8 +987,6 @@
   window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 20));
 
   // Init i18n
-  initLangSwitcher();
-  applyTranslations();
   updateNav();
 </script>
 </body>

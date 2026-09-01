@@ -1,38 +1,8 @@
 (function() {
-  var t = localStorage.getItem("campusly_theme") || "dark";
-  document.documentElement.className = t === "light" ? "theme-light" : "";
+  document.documentElement.className = "theme-light";
 })();
 
 document.addEventListener("DOMContentLoaded", function() {
-  function getThemeHtml(t) {
-    return t === "light" 
-      ? '<i class="fa-solid fa-moon" style="margin-right:5px;"></i> Sombre' 
-      : '<i class="fa-solid fa-sun" style="margin-right:5px;color:#f59e0b;"></i> Clair';
-  }
-
-  function applyTheme(t) {
-    document.documentElement.className = t === "light" ? "theme-light" : "";
-    localStorage.setItem("campusly_theme", t);
-    document.querySelectorAll(".theme-toggle-btn").forEach(function(b) {
-      b.innerHTML = getThemeHtml(t);
-    });
-  }
-
-  document.querySelectorAll("#langSwitcher").forEach(function(el) {
-    if (el.previousElementSibling && el.previousElementSibling.classList.contains("theme-toggle-btn")) return;
-    var btn = document.createElement("button");
-    btn.className = "theme-toggle-btn";
-    var cur = localStorage.getItem("campusly_theme") || "dark";
-    btn.innerHTML = getThemeHtml(cur);
-    btn.style.cssText = "display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px 10px;cursor:pointer;font-size:0.75rem;font-weight:700;color:var(--text-2);white-space:nowrap;margin-right:6px;transition:all 0.2s;";
-    btn.addEventListener("click", function() {
-      var next = localStorage.getItem("campusly_theme") === "light" ? "dark" : "light";
-      applyTheme(next);
-    });
-    el.parentNode.insertBefore(btn, el);
-  });
-});
-
   // --- Menu Hamburger Global ---
   var hamb = document.getElementById("hamburger");
   var navL = document.querySelector(".nav-links");
@@ -60,3 +30,24 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     });
   }
+
+  // --- Injection globale du logo Campusly (Chapeau) ---
+  var LOGO_SVG = `<svg class="logo-cap" width="1.15em" height="1.15em" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- Chapeau (mortarboard) -->
+  <polygon points="16,4 30,11 16,18 2,11" fill="#1565C0"/>
+  <path d="M16 18 L28 12.5 L28 21 Q28 25 16 28 Q4 25 4 21 L4 12.5 Z" fill="#1E88E5" opacity="0.9"/>
+  <polygon points="16,4 30,11 16,18 2,11" fill="#1565C0"/>
+  <!-- Dessus plat -->
+  <rect x="13" y="3" width="6" height="2" rx="1" fill="#0D47A1"/>
+  <!-- Cordon orange -->
+  <line x1="28" y1="11" x2="28" y2="22" stroke="#F57C00" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="28" cy="23" r="2.5" fill="#F57C00"/>
+  <!-- Reflet -->
+  <polygon points="16,4 30,11 22,14.5 8,7.5" fill="white" opacity="0.12"/>
+</svg>`;
+
+  document.querySelectorAll('.logo-text').forEach(function(el) {
+    if (el.querySelector('.logo-cap')) return;
+    el.insertAdjacentHTML('afterbegin', LOGO_SVG);
+  });
+});

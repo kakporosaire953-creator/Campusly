@@ -1,6 +1,7 @@
 // ============================================================
 // CAMPUSLY — app.js (Supabase) - REFACTORÉ
 // ============================================================
+import "./logo.js";
 import { supabase } from "./supabase.js";
 import { showToast } from "./utils.js";
 import { handleError, handleSupabaseResponse, initGlobalErrorHandler } from "./error-handler.js";
@@ -142,7 +143,6 @@ function injectMobileLang() {
       });
     }
     // Appliquer les traductions si disponible
-    if (window._applyTranslations) window._applyTranslations(code);
     else location.reload();
   };
 }

@@ -1,5 +1,5 @@
 html.theme-light {
-  --bg: #FAFAFC;
+  --bg: #FFFFFF;
   --bg-2: #F1F5F9;
   --bg-3: #E2E8F0;
   --surface: rgba(21,101,192,0.03);
@@ -42,3 +42,4 @@ html.theme-light .auth-page { background: var(--bg); }
 html.theme-light .auth-right { background: #fff; }
 html.theme-light .pricing-card { background: #fff; border-color: var(--border); }
 html.theme-light .footer { background: var(--bg-2); border-top-color: var(--border); }
+html.theme-light .nav-links a { color: var(--text-2); }

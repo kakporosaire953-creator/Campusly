@@ -4,7 +4,6 @@
 import { supabase } from "./supabase.js";
 import { requireAuth } from "./auth-guard.js";
 import { getEpreuves, saveDownload, toggleFavorite, getFavorites } from "./db.js";
-import { initLangSwitcher, applyTranslations } from "./i18n.js";
 import { injectLogos } from "./logo.js";
 import { initAutoLogout } from "./auto-logout.js";
 
@@ -154,4 +153,4 @@ document.getElementById("resetFilters")?.addEventListener("click", () => {
 });
 
 window.addEventListener("scroll", () => document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 20));
-initLangSwitcher(); applyTranslations(); injectLogos();
+injectLogos();

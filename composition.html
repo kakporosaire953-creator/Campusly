@@ -1,61 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="light">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Salle de Composition Surveillée — Campusly</title>
-  <meta name="description" content="Espace officiel de composition et évaluation académique supervisée à distance." />
-
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/design-system.css" />
-  <link rel="stylesheet" href="css/modern.css" />
-  <link rel="stylesheet" href="css/theme-light.css" />
-  <link rel="stylesheet" href="css/enhancements.css" />
-  <link rel="stylesheet" href="css/responsive-scale.css" />
-  <link rel="stylesheet" href="css/mobile.css?v=3" />
+  <meta charset="UTF-8">
+  <title>Redirection...</title>
+  <script>window.location.replace("dashboard.html#composition");</script>
 </head>
-<body class="page-composition" style="background:var(--bg-1);min-height:100vh;display:flex;flex-direction:column;">
-
-  <!-- Minimal Header for Focus Mode -->
-  <header class="site-header" style="border-bottom:1px solid var(--border);">
-    <div class="header-inner container" style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;">
-      <a href="index.html" class="logo">
-        <span class="logo-mark"><i class="fas fa-graduation-cap"></i></span>
-        <span class="logo-text">Campus<strong>ly</strong> <span style="font-size:0.75rem;background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:var(--r-sm);color:var(--text-3);font-weight:600;">Espace Examen</span></span>
-      </a>
-
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span style="font-size:0.8rem;color:var(--text-3);"><i class="fas fa-shield-halved" style="color:var(--success);"></i> Session Sécurisée UAC</span>
-        <a href="classrooms.html" class="btn btn-ghost btn-sm">Quitter</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Composition Area -->
-  <main class="container" style="flex:1;padding-top:40px;padding-bottom:60px;">
-    <div id="compositionContainer">
-      <div style="text-align:center;padding:60px 20px;">
-        <div style="width:48px;height:48px;border:3px solid var(--surface-2);border-top-color:var(--brand-1);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
-        <p style="color:var(--text-2);">Chargement des paramètres de l'épreuve...</p>
-      </div>
-    </div>
-  </main>
-
-  <script type="module" src="js/compositions.js"></script>
-  <script type="module">
-    import { compositionRunner } from './js/compositions.js';
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const compId = urlParams.get('id') || 'comp-algo-01';
-      compositionRunner.loadComposition(compId);
-    });
-  </script>
-</body>
+<body></body>
 </html>

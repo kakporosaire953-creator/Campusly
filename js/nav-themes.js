@@ -14,7 +14,7 @@ export class NavThemeManager {
     const savedNav = localStorage.getItem(this.navStyleKey) || 'carte';
     this.applyNavStyle(savedNav);
 
-    const savedTheme = localStorage.getItem(this.themeKey) || 'light';
+    const savedTheme = localStorage.getItem('campusly_theme') || 'light';
     this.applyTheme(savedTheme);
   }
 
