@@ -174,14 +174,26 @@
   </div>
 </div>
 <script type="module">
-  import { requireAuth } from './js/auth-guard.js';
+  import { authService } from './js/services/authService.js';
+
+  function showToast(msg, type="info") {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+    t.textContent = msg; t.className = `toast ${type} show`;
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+  function escapeHtml(unsafe) {
+    return (unsafe || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+  function sanitizeHtml(html) { return escapeHtml(html); }
+
   import { injectLogos } from './js/logo.js';
   import { supabase } from './js/supabase.js';
   import { FUNCTIONS_URL } from './js/supabase.js';
-  import { initAutoLogout } from './js/auto-logout.js';
-  import { showToast } from './js/utils.js';
-  import { handleError, retryWithBackoff } from './js/error-handler.js';
-  import { sanitizeHtml, escapeHtml } from './js/sanitizer.js';
+  
+  
+  
+  
 
   const EDGE_BASE = FUNCTIONS_URL;
   const MODEL = "gpt-4o-mini";
@@ -210,7 +222,7 @@
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
       <button onclick="window.signOutUser()" class="btn btn-outline btn-sm">D�connexion</button>`;
     renderHistory();
-    initAutoLogout();
+    
   });
 
   window.signOutUser = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };

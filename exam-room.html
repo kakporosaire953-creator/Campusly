@@ -640,6 +640,8 @@
 
   <script type="module">
     import { authService } from './js/services/authService.js';
+    if (!authService.protectRoute(['learner'])) return;
+
     
     // MOCK DATA FOR COMPOSITION
     const mockComposition = {

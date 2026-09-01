@@ -21,9 +21,7 @@ export class AuthService {
     } catch (e) {
       console.warn('Error reading saved user', e);
     }
-    // Par défaut, profil apprenant Rosaire Kakpo
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_USER));
-    return { ...INITIAL_USER };
+    return null;
   }
 
   saveUser() {
@@ -33,6 +31,28 @@ export class AuthService {
 
   getUser() {
     return this.user;
+  }
+
+  protectRoute(allowedRoles = []) {
+    if (!this.user) {
+      window.location.href = 'auth.html';
+      return false;
+    }
+    
+    // Check role if specified
+    if (allowedRoles.length > 0) {
+       const userRole = this.user.role === 'verified_teacher' || this.user.role === 'pending_teacher' || this.user.role === 'teacher' ? 'teacher' : 'learner';
+       if (!allowedRoles.includes(userRole)) {
+          if (userRole === 'teacher') {
+             // window.location.href = 'dashboard.html'; // Or teacher dashboard?
+             return false;
+          } else {
+             // window.location.href = 'dashboard.html';
+             return false;
+          }
+       }
+    }
+    return true;
   }
 
   isLoggedIn() {

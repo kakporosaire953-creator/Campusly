@@ -169,13 +169,16 @@
   <script type="module" src="js/learning-modes.js"></script>
 
   <script type="module">
-    import { CampuslyAIWizard } from './js/campusly-ai.js';
+        import { authService } from './js/services/authService.js';
+import { CampuslyAIWizard } from './js/campusly-ai.js';
     import { learningModes } from './js/learning-modes.js';
     import { adaptiveEngine } from './js/adaptive-engine.js';
     import { campuslyCredits } from './js/credits.js';
     import { notificationCenter } from './js/notifications.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
+      if (!authService.protectRoute(['learner'])) return;
+
       await campuslyCredits.fetchBalance();
       await notificationCenter.fetchNotifications();
       

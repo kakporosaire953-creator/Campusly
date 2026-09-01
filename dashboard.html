@@ -550,326 +550,87 @@
     <!-- Dashboard Content Body -->
     <div class="app-body">
       <div id="view-overview" class="dash-view active">
-
       
-      <!-- Welcome Hero Banner -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-2xl);padding:24px 28px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-            <h1 style="font-size:1.65rem;font-weight:900;color:var(--text-1);margin:0;" id="dashTitle">
-              Bonjour Rosaire
-            </h1>
-            <span id="roleBadge" class="role-badge learner">
-              <i class="fa-solid fa-user-graduate"></i> Apprenant / Étudiant
-            </span>
+      <!-- ==================== VUE ETUDIANT / APPRENANT ==================== -->
+      <div id="learnerView" style="display:none;">
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px;text-align:center;margin-bottom:30px;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-rocket"></i>
           </div>
-          <p style="font-size:0.88rem;color:var(--text-2);margin:0;" id="dashSubtitle">
-            Bienvenue dans votre espace académique Campusly 2.0.
+          <h3 style="font-size:1.4rem;font-weight:900;color:var(--text-1);margin:0 0 12px;">Bienvenue sur votre Tableau de Bord</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            Votre activité apparaîtra ici lorsque vous commencerez à utiliser Campusly. Rejoignez une classe ou commencez à réviser !
           </p>
-        </div>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="revision.html" class="btn btn-primary" style="font-weight:800;">
-            <i class="fa-solid fa-brain" style="margin-right:6px;"></i> Mode Révision IA
-          </a>
-          <button class="btn btn-outline" id="toggleRoleBtn" onclick="toggleUserRole()">
-            <i class="fa-solid fa-repeat" style="margin-right:6px;"></i> Passer en mode Professeur
-          </button>
-        </div>
-      </div>
-
-      <!-- ==================== VUE ÉTUDIANT / APPRENANT ==================== -->
-      <div id="learnerView">
-
-        <!-- BANNIERE DECOUVERTE COMPOSITIONS (PROVISOIRE) -->
-        <div style="background: linear-gradient(135deg, rgba(21,101,192,0.1) 0%, rgba(21,101,192,0.05) 100%); border: 1px solid var(--brand-1); border-radius: var(--r-xl); padding: 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
-          <div>
-            <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; color: var(--brand-1); font-weight: 800;"><i class="fa-solid fa-stopwatch" style="margin-right: 8px;"></i>Nouveau : Module de Compositions</h3>
-            <p style="margin: 0; color: var(--text-2); font-size: 0.95rem;">Accédez à vos examens, validez les consignes de sécurité, et composez dans un environnement concentré.</p>
-          </div>
-          <button class="btn btn-primary" onclick="window.navigateToView('composition')">Découvrir l'interface Étudiant</button>
-        </div>
-
-        
-        <!-- 4 Métriques Étudiant -->
-        <div class="dash-metrics-grid">
-          
-          <!-- Niveau Académique -->
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(21,101,192,0.1);color:var(--brand-1);">
-              <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Rang Académique</div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-              <span id="levelIcon" style="font-size:1.3rem;"></span>
-              <span style="font-size:1.35rem;font-weight:900;color:var(--brand-1);" id="levelName">Apprenti</span>
-            </div>
-          <!-- Campusly Credits -->
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(245,124,0,0.1);color:var(--accent);">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Campusly Credits</div>
-            <div style="font-size:1.55rem;font-weight:900;color:var(--accent);margin-bottom:4px;" id="metricCredits">120 crédits</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:0 0 8px;">Analyses IA et quiz adaptatifs.</p>
-            <button onclick="window.creditService && window.creditService.showCreditModal()" style="font-size:0.75rem;font-weight:800;color:var(--brand-1);background:none;border:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
-              <i class="fa-solid fa-plus"></i> Recharger mon solde
+          <div style="display:flex;justify-content:center;gap:16px;">
+            <button class="btn btn-primary" onclick="window.navigateToView('classrooms')">
+              <i class="fas fa-sign-in-alt"></i> Rejoindre un Amphi
+            </button>
+            <button class="btn btn-outline" onclick="window.navigateToView('revision')">
+              <i class="fas fa-book-reader"></i> Découvrir les ressources
             </button>
           </div>
-            <div class="progress-bar-wrap" style="height:6px;background:var(--surface-2);border-radius:4px;overflow:hidden;margin-bottom:4px;">
-              <div class="progress-bar-fill" id="levelProgressBar" style="width:70%;height:100%;background:var(--grad-brand);"></div>
-            </div>
-            <div style="font-size:0.72rem;color:var(--text-3);" id="levelProgress">350 / 500 XP (70%)</div>
-          </div>
-
-          <!-- Streak d'Étude -->
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(239,68,68,0.1);color:var(--accent);">
-              <i class="fa-solid fa-fire"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;" data-i18n="dash_streak_title">Série d'Étude</div>
-            <div style="font-size:1.55rem;font-weight:900;color:var(--accent);margin-bottom:4px;" id="metricStreak">7 Jours consécutifs</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:0;">Objectif hebdo : 3 / 4 sessions.</p>
-          </div>
-
-          <!-- Marathon Adaptatif Callout -->
-          <div class="dash-metric-card" style="background:rgba(21,101,192,0.05);border-color:rgba(21,101,192,0.2);">
-            <div class="metric-icon-wrap" style="background:var(--grad-brand);color:#fff;">
-              <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:800;color:var(--brand-1);text-transform:uppercase;margin-bottom:6px;">Marathon Adaptatif</div>
-            <div style="font-size:0.95rem;font-weight:800;color:var(--text-1);margin-bottom:6px;">Cibler vos lacunes</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:0 0 10px;">Entraînement ciblé sur vos 3 notions faibles.</p>
-            <a href="revision.html" class="btn btn-primary btn-sm" style="font-size:0.75rem;width:100%;justify-content:center;">
-              <i class="fa-solid fa-fire" style="margin-right:4px;"></i> Lancer le Marathon
-            </a>
-          </div>
-
         </div>
-
-        <!-- 2 Colonnes : Notions & Activité -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:30px;">
-          
-          <!-- Notions à renforcer (Diagnostic Adaptatif) -->
-          <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-              <h3 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;" data-i18n="dash_weak_title">
-                <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger);margin-right:8px;"></i> Notions à renforcer
-              </h3>
-              <a href="revision.html" style="font-size:0.78rem;font-weight:700;color:var(--brand-1);text-decoration:none;">
-                Tout réviser →
-              </a>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:14px;">
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.84rem;margin-bottom:6px;">
-                  <strong style="color:var(--text-1);">Analyse Réelle (Continuité & Dérivabilité)</strong>
-                  <span style="color:var(--danger);font-weight:800;">52% · Priorité Haute</span>
-                </div>
-                <div style="height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden;">
-                  <div style="width:52%;height:100%;background:var(--danger);"></div>
-                </div>
+        
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-chart-pie"></i>
               </div>
-
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.84rem;margin-bottom:6px;">
-                  <strong style="color:var(--text-1);">Probabilités & Variables Aléatoires</strong>
-                  <span style="color:var(--danger);font-weight:800;">43% · Priorité Haute</span>
-                </div>
-                <div style="height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden;">
-                  <div style="width:43%;height:100%;background:var(--danger);"></div>
-                </div>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Statistiques</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Aucune statistique disponible pour le moment.</p>
+           </div>
+           
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-tasks"></i>
               </div>
-
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.84rem;margin-bottom:6px;">
-                  <strong style="color:var(--text-1);">Algorithmique — Arbres & Graphes</strong>
-                  <span style="color:var(--accent);font-weight:800;">61% · Priorité Moyenne</span>
-                </div>
-                <div style="height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden;">
-                  <div style="width:61%;height:100%;background:var(--accent);"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dernières Activités & Reprise d'étude -->
-          <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-              <h3 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;" data-i18n="dash_recent_activity">
-                <i class="fa-solid fa-clock-rotate-left" style="color:var(--brand-1);margin-right:8px;"></i> Activité récente
-              </h3>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);">
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(21,101,192,0.1);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:0.85rem;">
-                    <i class="fa-solid fa-brain"></i>
-                  </div>
-                  <div>
-                    <div style="font-size:0.84rem;font-weight:700;color:var(--text-1);">Quiz Algorithmique (QCM)</div>
-                    <div style="font-size:0.72rem;color:var(--text-3);">Hier · Score : 16/20 (+30 XP)</div>
-                  </div>
-                </div>
-                <a href="revision.html" class="btn btn-outline btn-sm" style="font-size:0.75rem;">Revoir</a>
-              </div>
-
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);">
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(245,124,0,0.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:0.85rem;">
-                    <i class="fa-solid fa-stopwatch"></i>
-                  </div>
-                  <div>
-                    <div style="font-size:0.84rem;font-weight:700;color:var(--text-1);">Composition Blanche Analyse</div>
-                    <div style="font-size:0.72rem;color:var(--text-3);">27 Août · 14.5/20 (+45 XP)</div>
-                  </div>
-                </div>
-                <a href="composition.html" class="btn btn-outline btn-sm" style="font-size:0.75rem;">Détails</a>
-              </div>
-
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);">
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(16,185,129,0.1);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:0.85rem;">
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                  </div>
-                  <div>
-                    <div style="font-size:0.84rem;font-weight:700;color:var(--text-1);">Épreuve Téléchargée (FAST)</div>
-                    <div style="font-size:0.72rem;color:var(--text-3);">26 Août · Session 2024</div>
-                  </div>
-                </div>
-                <a href="epreuves.html" class="btn btn-outline btn-sm" style="font-size:0.75rem;">Consulter</a>
-              </div>
-            </div>
-          </div>
-
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Tâches en attente</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Vous êtes à jour dans votre travail.</p>
+           </div>
         </div>
-
       </div>
 
       <!-- ==================== VUE PROFESSEUR / ENSEIGNANT ==================== -->
       <div id="teacherView" style="display:none;">
-
-        <!-- BANNIERE DECOUVERTE COMPOSITIONS (PROVISOIRE) -->
-        <div style="background: linear-gradient(135deg, rgba(21,101,192,0.1) 0%, rgba(21,101,192,0.05) 100%); border: 1px solid var(--brand-1); border-radius: var(--r-xl); padding: 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
-          <div>
-            <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; color: var(--brand-1); font-weight: 800;"><i class="fa-solid fa-stopwatch" style="margin-right: 8px;"></i>Nouveau : Module de Compositions</h3>
-            <p style="margin: 0; color: var(--text-2); font-size: 0.95rem;">Créez et surveillez des examens et interrogations avec chronomètre strict et anti-triche simulé.</p>
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px;text-align:center;margin-bottom:30px;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-chalkboard-teacher"></i>
           </div>
-          <button class="btn btn-primary" onclick="window.navigateToView('composition')">Découvrir l'interface Professeur</button>
+          <h3 style="font-size:1.4rem;font-weight:900;color:var(--text-1);margin:0 0 12px;">Espace Professeur</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            Aucune donnée à afficher pour le moment. Commencez par créer votre première classe d'Amphi pour inviter vos étudiants.
+          </p>
+          <div style="display:flex;justify-content:center;gap:16px;">
+            <button class="btn btn-primary" onclick="window.navigateToView('classrooms')">
+              <i class="fas fa-plus"></i> Créer un Amphi
+            </button>
+            <button class="btn btn-outline" onclick="window.navigateToView('composition')">
+              <i class="fas fa-file-signature"></i> Préparer une composition
+            </button>
+          </div>
         </div>
-
         
-        <!-- 4 Métriques Enseignant -->
-        <div class="dash-metrics-grid">
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(21,101,192,0.1);color:var(--brand-1);">
-              <i class="fa-solid fa-users"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Étudiants Actifs</div>
-            <div style="font-size:1.7rem;font-weight:900;color:var(--brand-1);">180</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:4px 0 0;">Sur l'ensemble de vos 2 classes d'amphi.</p>
-          </div>
-
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(16,185,129,0.1);color:var(--success);">
-              <i class="fa-solid fa-chart-line"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Moyenne Promotion</div>
-            <div style="font-size:1.7rem;font-weight:900;color:var(--success);">13.4 / 20</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:4px 0 0;">+0.8 pt par rapport à la session précédente.</p>
-          </div>
-
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(245,124,0,0.1);color:var(--accent);">
-              <i class="fa-solid fa-list-check"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Taux de Rendu Devoirs</div>
-            <div style="font-size:1.7rem;font-weight:900;color:var(--accent);">89 %</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:4px 0 0;">Devoir #2 : 60 / 68 copies soumises.</p>
-          </div>
-
-          <div class="dash-metric-card">
-            <div class="metric-icon-wrap" style="background:rgba(211,47,47,0.1);color:var(--danger);">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <div style="font-size:0.75rem;font-weight:700;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Alertes Pédagogiques</div>
-            <div style="font-size:1.7rem;font-weight:900;color:var(--danger);">3 alertes</div>
-            <p style="font-size:0.75rem;color:var(--text-2);margin:4px 0 0;">Points de blocage détectés dans l'amphi.</p>
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-users"></i>
+              </div>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Apprenants actifs</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Vos étudiants apparaîtront ici.</p>
+           </div>
+           
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-file-invoice"></i>
+              </div>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Copies à corriger</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Vous êtes à jour dans vos corrections.</p>
+           </div>
         </div>
-
-        <!-- Alertes & Classes -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:30px;">
-          
-          <!-- Section "À surveiller" -->
-          <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-              <h3 style="font-size:1.05rem;font-weight:800;color:var(--danger);margin:0;">
-                <i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i> Alertes "À surveiller"
-              </h3>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div style="padding:12px;background:rgba(211,47,47,0.06);border-left:3px solid var(--danger);border-radius:var(--r-md);">
-                <strong style="font-size:0.85rem;color:var(--text-1);">8 apprenants en retard sur le Devoir #2</strong>
-                <p style="font-size:0.78rem;color:var(--text-2);margin:4px 0 0;">L2 Informatique — Échéance fixée au 31 août à 23h59.</p>
-              </div>
-              <div style="padding:12px;background:rgba(245,124,0,0.06);border-left:3px solid var(--accent);border-radius:var(--r-md);">
-                <strong style="font-size:0.85rem;color:var(--text-1);">Baisse de 7% sur le module Complexité</strong>
-                <p style="font-size:0.78rem;color:var(--text-2);margin:4px 0 0;">Les questions sur la récursivité et l'arbre AVL présentent un fort taux d'échec.</p>
-              </div>
-              <div style="padding:12px;background:rgba(21,101,192,0.06);border-left:3px solid var(--brand-1);border-radius:var(--r-md);">
-                <strong style="font-size:0.85rem;color:var(--text-1);">5 étudiants inactifs depuis plus de 10 jours</strong>
-                <p style="font-size:0.78rem;color:var(--text-2);margin:4px 0 0;">Rappel automatique programmé.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Classes Amphi -->
-          <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-              <h3 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;">
-                <i class="fa-solid fa-chalkboard-user" style="color:var(--brand-1);margin-right:6px;"></i> Mes Classes d'Amphi
-              </h3>
-              <a href="classrooms.html" class="btn btn-primary btn-sm" style="font-size:0.75rem;">
-                + Créer une classe
-              </a>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                  <div>
-                    <strong style="font-size:0.92rem;color:var(--text-1);">L2 Informatique — Algorithmique</strong>
-                    <div style="font-size:0.75rem;color:var(--text-3);margin-top:2px;">68 étudiants · Code : <code style="background:var(--surface-2);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-weight:700;">UAC-ALGO-2026</code></div>
-                  </div>
-                  <a href="classrooms.html" class="btn btn-outline btn-sm" style="font-size:0.75rem;">Gérer</a>
-                </div>
-              </div>
-
-              <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                  <div>
-                    <strong style="font-size:0.92rem;color:var(--text-1);">L2 Mathématiques — Analyse Réelle</strong>
-                    <div style="font-size:0.75rem;color:var(--text-3);margin-top:2px;">112 étudiants · Code : <code style="background:var(--surface-2);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-weight:700;">UAC-MATH-2026</code></div>
-                  </div>
-                  <a href="classrooms.html" class="btn btn-outline btn-sm" style="font-size:0.75rem;">Gérer</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
       </div>
 
-    
-      </div>
-
-      
-      <!-- VUE CLASSROOMS -->
+    </div>
+    <!-- VUE CLASSROOMS -->
       <div id="view-classrooms" class="dash-view" style="display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
           <div>
@@ -877,87 +638,27 @@
             <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Vos groupes de cours, suivis et évaluations centralisés.</p>
           </div>
           <div style="display:flex;gap:12px;" id="teacherClassroomActions">
-            <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);" onclick="alert('Module de création de classe ouvert')">
+            <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);">
               <i class="fas fa-plus"></i> Créer un Amphi
             </button>
           </div>
           <div style="display:flex;gap:12px;" id="learnerClassroomActions" style="display:none;">
-            <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);" onclick="alert('Rejoindre une classe')">
+            <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);">
               <i class="fas fa-sign-in-alt"></i> Rejoindre un Amphi
             </button>
           </div>
         </div>
-
-
-
         
-        <div class="dash-metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-          
-          <!-- Carte Classe 1 -->
-          <div class="stat-card" style="padding:24px;border-radius:var(--r-2xl);cursor:pointer;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);transition:all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='var(--shadow-sm)';" onclick="alert('Ouverture de la classe L2 Informatique')">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
-              <div style="width:48px;height:48px;border-radius:12px;background:rgba(21,101,192,0.1);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                <i class="fas fa-code"></i>
-              </div>
-              <span class="role-badge learner" style="font-size:0.75rem;padding:4px 10px;background:rgba(16,185,129,0.1);color:var(--success);border-color:var(--success);">EN COURS</span>
-            </div>
-            <h3 style="font-size:1.2rem;font-weight:800;color:var(--text-1);margin:0 0 6px;">Algorithmique & Graphes</h3>
-            <p style="font-size:0.85rem;color:var(--text-3);margin:0 0 16px;font-weight:600;">L2 Informatique • FAST</p>
-            
-            <div style="background:var(--bg-2);border-radius:var(--r-lg);padding:12px;margin-bottom:20px;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-                <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800;">KA</div>
-                <span style="font-size:0.85rem;font-weight:700;color:var(--text-1);">Dr. K. AGBOTON</span>
-              </div>
-              <p style="font-size:0.75rem;color:var(--text-2);margin:0;"><i class="fas fa-bullhorn" style="color:var(--warning);margin-right:4px;"></i> "N'oubliez pas le TP de vendredi sur les arbres AVL."</p>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:16px;">
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div style="display:flex;align-items:center;">
-                  <div style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;border:2px solid #fff;z-index:3;"></div>
-                  <div style="width:24px;height:24px;border-radius:50%;background:#cbd5e1;border:2px solid #fff;margin-left:-8px;z-index:2;"></div>
-                  <div style="width:24px;height:24px;border-radius:50%;background:#94a3b8;border:2px solid #fff;margin-left:-8px;z-index:1;"></div>
-                </div>
-                <span style="font-size:0.8rem;color:var(--text-2);font-weight:600;">+65 autres</span>
-              </div>
-              <button class="btn btn-outline btn-sm" style="border-radius:var(--r-full);padding:6px 16px;">Accéder <i class="fas fa-arrow-right" style="margin-left:4px;"></i></button>
-            </div>
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+          <div style="width:80px;height:80px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-chalkboard"></i>
           </div>
-          
-          <!-- Carte Classe 2 -->
-          <div class="stat-card" style="padding:24px;border-radius:var(--r-2xl);cursor:pointer;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);transition:all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='var(--shadow-sm)';" onclick="alert('Ouverture de la classe L2 Mathématiques')">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
-              <div style="width:48px;height:48px;border-radius:12px;background:rgba(245,124,0,0.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                <i class="fas fa-square-root-variable"></i>
-              </div>
-            </div>
-            <h3 style="font-size:1.2rem;font-weight:800;color:var(--text-1);margin:0 0 6px;">Analyse Réelle & Complexe</h3>
-            <p style="font-size:0.85rem;color:var(--text-3);margin:0 0 16px;font-weight:600;">L2 Mathématiques • FAST</p>
-            
-            <div style="background:var(--bg-2);border-radius:var(--r-lg);padding:12px;margin-bottom:20px;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-                <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800;">RM</div>
-                <span style="font-size:0.85rem;font-weight:700;color:var(--text-1);">Prof. R. MENSAH</span>
-              </div>
-              <p style="font-size:0.75rem;color:var(--text-2);margin:0;"><i class="fas fa-file-pdf" style="color:var(--danger);margin-right:4px;"></i> Le polycopié du Chapitre 4 est disponible.</p>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:16px;">
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div style="display:flex;align-items:center;">
-                  <div style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;border:2px solid #fff;z-index:3;"></div>
-                  <div style="width:24px;height:24px;border-radius:50%;background:#cbd5e1;border:2px solid #fff;margin-left:-8px;z-index:2;"></div>
-                </div>
-                <span style="font-size:0.8rem;color:var(--text-2);font-weight:600;">112 inscrits</span>
-              </div>
-              <button class="btn btn-outline btn-sm" style="border-radius:var(--r-full);padding:6px 16px;">Accéder <i class="fas fa-arrow-right" style="margin-left:4px;"></i></button>
-            </div>
-          </div>
-          
+          <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucun cours disponible</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto;line-height:1.6;">
+            Vous n'avez rejoint aucun amphi pour le moment.
+          </p>
         </div>
       </div>
-
       <!-- VUE COMPOSITION -->
       <div id="view-composition" class="dash-view" style="display:none;">
         
@@ -969,9 +670,6 @@
               <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Gérez vos épreuves, générez des codes et analysez les résultats.</p>
             </div>
             <div style="display:flex;gap:12px;">
-              <button class="btn btn-outline" onclick="alert('Module d\'import (PDF, Doc) en cours de développement')">
-                <i class="fas fa-file-import"></i> Importer
-              </button>
               <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);" onclick="document.getElementById('createCompModal').classList.add('show')">
                 <i class="fas fa-plus"></i> Créer une composition
               </button>
@@ -979,137 +677,17 @@
           </div>
 
           <!-- Liste des compositions -->
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;">
-            <h3 style="font-size:1.1rem;font-weight:800;color:var(--text-1);margin:0 0 16px;">Mes compositions</h3>
-            
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <!-- Composition En cours -->
-              <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;flex-wrap:wrap;gap:16px;">
-                <div style="display:flex;align-items:center;gap:16px;">
-                  <div style="width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,0.1);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                    <i class="fas fa-play"></i>
-                  </div>
-                  <div>
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;">Algorithmique Avancée</h4>
-                      <span style="font-size:0.7rem;font-weight:800;background:rgba(16,185,129,0.1);color:var(--success);padding:2px 8px;border-radius:var(--r-full);">EN COURS</span>
-                    </div>
-                    <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • 60 min • 30 QCM</p>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:24px;">
-                  <div style="text-align:center;">
-                    <div style="font-size:1.2rem;font-weight:900;color:var(--text-1);">42/68</div>
-                    <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">Participants</div>
-                  </div>
-                  <div style="text-align:center;">
-                    <div style="font-size:1.1rem;font-weight:800;color:var(--brand-1);font-family:var(--font-mono);letter-spacing:1px;background:var(--surface-2);padding:4px 12px;border-radius:var(--r-md);cursor:pointer;" onclick="navigator.clipboard.writeText('CMP-7K4P92');alert('Code copié !')">CMP-7K4P92 <i class="fas fa-copy" style="font-size:0.8rem;margin-left:4px;color:var(--text-3);"></i></div>
-                    <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;margin-top:4px;">Code d'accès</div>
-                  </div>
-                  <button class="btn btn-outline btn-sm" onclick="alert('Suivi en direct ouvert')">Suivre en direct</button>
-                </div>
-              </div>
-
-              <!-- Composition Programmée -->
-              <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;flex-wrap:wrap;gap:16px;">
-                <div style="display:flex;align-items:center;gap:16px;">
-                  <div style="width:48px;height:48px;border-radius:12px;background:rgba(21,101,192,0.1);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                    <i class="fas fa-calendar-alt"></i>
-                  </div>
-                  <div>
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;">Bases de Données Relationnelles</h4>
-                      <span style="font-size:0.7rem;font-weight:800;background:rgba(21,101,192,0.1);color:var(--brand-1);padding:2px 8px;border-radius:var(--r-full);">PROGRAMMÉE</span>
-                    </div>
-                    <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • Le 14 Sept à 10:00 • 90 min</p>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:24px;">
-                  <div style="text-align:center;opacity:0.5;">
-                    <div style="font-size:1.2rem;font-weight:900;color:var(--text-1);">-</div>
-                    <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">Participants</div>
-                  </div>
-                  <div style="text-align:center;">
-                    <div style="font-size:1.1rem;font-weight:800;color:var(--brand-1);font-family:var(--font-mono);letter-spacing:1px;background:var(--surface-2);padding:4px 12px;border-radius:var(--r-md);cursor:pointer;" onclick="navigator.clipboard.writeText('CMP-BD2026');alert('Code copié !')">CMP-BD2026 <i class="fas fa-copy" style="font-size:0.8rem;margin-left:4px;color:var(--text-3);"></i></div>
-                    <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;margin-top:4px;">Code d'accès</div>
-                  </div>
-                  <button class="btn btn-outline btn-sm">Modifier</button>
-                </div>
-              </div>
-
-              <!-- Composition à Corriger -->
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;flex-wrap:wrap;gap:16px;">
-                <div style="display:flex;align-items:center;gap:16px;">
-                  <div style="width:48px;height:48px;border-radius:12px;background:rgba(245,124,0,0.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                    <i class="fas fa-file-signature"></i>
-                  </div>
-                  <div>
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;">Systèmes d'Exploitation</h4>
-                      <span style="font-size:0.7rem;font-weight:800;background:rgba(245,124,0,0.1);color:var(--accent);padding:2px 8px;border-radius:var(--r-full);">CORRECTION EN COURS</span>
-                    </div>
-                    <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • 120 min</p>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:24px;">
-                  <div style="display:flex;gap:16px;text-align:center;">
-                    <div>
-                      <div style="font-size:1.2rem;font-weight:900;color:var(--text-1);">65</div>
-                      <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">Reçues</div>
-                    </div>
-                    <div>
-                      <div style="font-size:1.2rem;font-weight:900;color:var(--accent);">15</div>
-                      <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">À corriger</div>
-                    </div>
-                    <div>
-                      <div style="font-size:1.2rem;font-weight:900;color:var(--success);">50</div>
-                      <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">Validées</div>
-                    </div>
-                  </div>
-                  <button class="btn btn-primary btn-sm" onclick="openCorrectionModal()">Corriger les copies</button>
-                </div>
-              </div>
-              
-              <!-- Composition Terminée et Publiée -->
-              <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;flex-wrap:wrap;gap:16px;opacity:0.8;">
-                <div style="display:flex;align-items:center;gap:16px;">
-                  <div style="width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,0.1);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                    <i class="fas fa-check-double"></i>
-                  </div>
-                  <div>
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;">Réseaux Informatiques</h4>
-                      <span style="font-size:0.7rem;font-weight:800;background:rgba(16,185,129,0.1);color:var(--success);padding:2px 8px;border-radius:var(--r-full);">RÉSULTATS PUBLIÉS</span>
-                    </div>
-                    <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • Moyenne: 14.5/20</p>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:24px;">
-                  <div style="text-align:center;">
-                    <div style="font-size:1.2rem;font-weight:900;color:var(--text-1);">68/68</div>
-                    <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">Publiées</div>
-                  </div>
-                  <button class="btn btn-outline btn-sm">Voir les statistiques</button>
-                </div>
-              </div>            </div>
-                  <div>
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0;">Systèmes d'Exploitation</h4>
-                      <span style="font-size:0.7rem;font-weight:800;background:rgba(100,116,139,0.1);color:var(--text-3);padding:2px 8px;border-radius:var(--r-full);">TERMINÉE</span>
-                    </div>
-                    <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • 120 min • Moyenne: 14.2/20</p>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:24px;">
-                  <div style="text-align:center;">
-                    <div style="font-size:1.2rem;font-weight:900;color:var(--text-1);">65/68</div>
-                    <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;">Copies reçues</div>
-                  </div>
-                  <button class="btn btn-outline btn-sm" style="color:var(--text-1);">Analyser les résultats</button>
-                </div>
-              </div>
-
+          <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+            <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+              <i class="fas fa-file-signature"></i>
             </div>
+            <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune composition créée</h3>
+            <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+              Vous n'avez pas encore créé de composition. Cliquez sur "Créer une composition" pour démarrer.
+            </p>
+            <button class="btn btn-primary" onclick="document.getElementById('createCompModal').classList.add('show')">
+              <i class="fas fa-plus"></i> Créer ma première composition
+            </button>
           </div>
         </div>
 
@@ -1127,7 +705,7 @@
             <form id="joinCompForm" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:320px;" onsubmit="handleJoinComposition(event)">
               <div style="position:relative;">
                 <i class="fas fa-key" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-3);"></i>
-                <input type="text" id="compCodeInput" placeholder="Ex: CMP-7K4P92" style="width:100%;background:#fff;border:2px solid var(--border-2);border-radius:var(--r-lg);padding:14px 14px 14px 44px;font-family:var(--font-mono);font-size:1.2rem;font-weight:800;color:var(--text-1);text-transform:uppercase;letter-spacing:1px;transition:all 0.2s;text-align:center;" required />
+                <input type="text" id="compCodeInput" placeholder="Code..." style="width:100%;background:#fff;border:2px solid var(--border-2);border-radius:var(--r-lg);padding:14px 14px 14px 44px;font-family:var(--font-mono);font-size:1.2rem;font-weight:800;color:var(--text-1);text-transform:uppercase;letter-spacing:1px;transition:all 0.2s;text-align:center;" required />
               </div>
               <button type="submit" class="btn btn-primary" style="padding:14px;font-size:1.05rem;border-radius:var(--r-lg);box-shadow:0 4px 12px rgba(21,101,192,0.25);">
                 Continuer <i class="fas fa-arrow-right" style="margin-left:8px;"></i>
@@ -1137,143 +715,66 @@
             <p id="joinCompError" style="color:var(--danger);font-size:0.85rem;font-weight:700;margin-top:16px;display:none;">
               Code introuvable. Vérifiez le code fourni par votre professeur.
             </p>
-            <div style="width: 100%; max-width: 800px; margin-top: 40px; text-align: left;">
-              <h3 style="font-size:1.4rem;font-weight:900;color:var(--text-1);margin:0 0 16px;">Mes Évaluations Récentes</h3>
-              
-              <div style="display:flex;flex-direction:column;gap:12px;">
-                <!-- En attente de correction -->
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-                  <div style="display:flex;align-items:center;gap:16px;">
-                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(245,124,0,0.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                      <i class="fas fa-hourglass-half"></i>
-                    </div>
-                    <div>
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 4px;">Algorithmique Avancée</h4>
-                      <p style="font-size:0.85rem;color:var(--text-3);margin:0;">Soumis le 12 Sept • Dr. K. AGBOTON</p>
-                    </div>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:16px;">
-                    <div style="text-align:right;">
-                      <div style="font-size:0.9rem;font-weight:800;color:var(--accent);">Correction en attente</div>
-                      <div style="font-size:0.75rem;color:var(--text-2);max-width:200px;">Le résultat sera disponible après validation par le professeur.</div>
-                    </div>
-                    <button class="btn btn-outline btn-sm" disabled style="opacity:0.5;cursor:not-allowed;">Voir mon résultat</button>
-                  </div>
-                </div>
 
-                <!-- Résultat publié -->
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-                  <div style="display:flex;align-items:center;gap:16px;">
-                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,0.1);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
-                      <i class="fas fa-award"></i>
-                    </div>
-                    <div>
-                      <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 4px;">Réseaux Informatiques</h4>
-                      <p style="font-size:0.85rem;color:var(--text-3);margin:0;">Publié le 10 Sept • Prof. R. MENSAH</p>
-                    </div>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:16px;">
-                    <div style="text-align:right;">
-                      <div style="font-size:0.9rem;font-weight:800;color:var(--success);">Résultat publié</div>
-                      <div style="font-size:0.75rem;color:var(--text-2);">Votre résultat est maintenant disponible.</div>
-                    </div>
-                    <button class="btn btn-primary btn-sm" onclick="openStudentResultModal()">Voir mon résultat</button>
-                  </div>
+            <div style="width: 100%; max-width: 800px; margin-top: 60px; text-align: left; background:var(--bg-2); border-radius:var(--r-xl); padding:40px; border:1px solid var(--border);">
+              <div style="text-align:center;">
+                <div style="width:60px;height:60px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 16px;">
+                  <i class="fas fa-folder-open"></i>
                 </div>
+                <h3 style="font-size:1.2rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune évaluation récente</h3>
+                <p style="font-size:0.95rem;color:var(--text-2);margin:0 auto;line-height:1.6;max-width:400px;">
+                  Vous n'avez passé aucune composition récemment. Les résultats de vos prochaines évaluations apparaîtront ici.
+                </p>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
       <!-- VUE EPREUVES (NOUVELLE) -->
       <div id="view-epreuves" class="dash-view" style="display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
           <div>
-            <h2 style="font-size:1.5rem;font-weight:900;color:var(--text-1);margin:0 0 4px;">Bibliothèque d'Épreuves</h2>
-            <p style="font-size:0.9rem;color:var(--text-2);margin:0;">Annales de l'UAC, TD et corrections intelligentes.</p>
+            <h2 style="font-size:1.6rem;font-weight:900;color:var(--text-1);margin:0 0 6px;">Bibliothèque d'Épreuves</h2>
+            <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Annales de l'Université, TD et corrections.</p>
           </div>
-          <div style="display:flex;gap:10px;">
-            <input type="text" placeholder="Rechercher une matière..." class="form-input" style="width:250px;padding:8px 12px;font-size:0.85rem;" />
-            <select class="form-select" style="padding:8px 12px;font-size:0.85rem;">
-              <option>Filtre: Toutes les Facultés</option>
-              <option>FAST</option>
-              <option>FADESP</option>
-              <option>FASEG</option>
-            </select>
-            <button class="btn btn-accent"><i class="fas fa-upload"></i> Contribuer</button>
+          <div style="display:flex;gap:12px;">
+            <input type="text" placeholder="Rechercher une matière..." class="form-input" style="width:250px;" />
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
           </div>
         </div>
         
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px;text-align:center;">
-          <div style="font-size:3rem;color:var(--brand-1);margin-bottom:16px;"><i class="fas fa-folder-open"></i></div>
-          <h3 style="font-size:1.2rem;font-weight:800;color:var(--text-1);margin-bottom:8px;">Base de données en cours de synchronisation</h3>
-          <p style="color:var(--text-2);max-width:400px;margin:0 auto 20px;font-size:0.9rem;">
-            Nous sommes en train de migrer les épreuves vers le nouveau format Campusly 2.0. La correction par l'IA sera bientôt disponible sur toutes les anciennes annales !
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-folder-open"></i>
+          </div>
+          <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune épreuve trouvée</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            La bibliothèque est actuellement vide. Les épreuves apparaîtront ici lorsqu'elles seront partagées.
           </p>
-          <button class="btn btn-primary" onclick="alert('Chargement des épreuves locales...')">Actualiser la liste</button>
         </div>
       </div>
-
       <!-- VUE FORUM (NOUVELLE) -->
       <div id="view-forum" class="dash-view" style="display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
           <div>
-            <h2 style="font-size:1.5rem;font-weight:900;color:var(--text-1);margin:0 0 4px;">Forum & Entraide</h2>
-            <p style="font-size:0.9rem;color:var(--text-2);margin:0;">Posez vos questions et échangez avec vos pairs ou avec Campusly AI.</p>
+            <h2 style="font-size:1.6rem;font-weight:900;color:var(--text-1);margin:0 0 6px;">Forum & Entraide</h2>
+            <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Posez vos questions et échangez avec la communauté Campusly.</p>
           </div>
           <button class="btn btn-primary"><i class="fas fa-pen"></i> Nouvelle discussion</button>
         </div>
         
-        <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;">
-          <div style="display:flex;flex-direction:column;gap:16px;">
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;">
-              <div style="display:flex;gap:16px;">
-                <div style="width:48px;height:48px;border-radius:50%;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">AB</div>
-                <div>
-                  <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin:0 0 4px;">Besoin d'aide sur le théorème de Bolzano-Weierstrass (Analyse L2)</h4>
-                  <p style="font-size:0.85rem;color:var(--text-2);margin:0 0 12px;line-height:1.5;">Je bloque sur l'application du théorème dans le cas d'une suite définie par récurrence. Quelqu'un aurait un exemple corrigé ?</p>
-                  <div style="display:flex;gap:12px;align-items:center;font-size:0.8rem;color:var(--text-3);font-weight:600;">
-                    <span style="color:var(--brand-1);"><i class="fas fa-arrow-up"></i> 14</span>
-                    <span><i class="fas fa-comment"></i> 3 réponses</span>
-                    <span style="background:var(--bg-2);padding:2px 8px;border-radius:4px;border:1px solid var(--border);">FAST</span>
-                    <span style="background:var(--bg-2);padding:2px 8px;border-radius:4px;border:1px solid var(--border);">Mathématiques</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;">
-              <div style="display:flex;gap:16px;">
-                <div style="width:48px;height:48px;border-radius:50%;background:rgba(21,101,192,0.1);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;"><i class="fas fa-robot"></i></div>
-                <div>
-                  <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin:0 0 4px;">[Campusly AI] - Résumé de la semaine : Complexité Algorithmique</h4>
-                  <p style="font-size:0.85rem;color:var(--text-2);margin:0 0 12px;line-height:1.5;">Voici un condensé des points clés vus en cours Magistral pour le chapitre 3. N'hésitez pas à poser vos questions en commentaire.</p>
-                  <div style="display:flex;gap:12px;align-items:center;font-size:0.8rem;color:var(--text-3);font-weight:600;">
-                    <span style="color:var(--brand-1);"><i class="fas fa-arrow-up"></i> 42</span>
-                    <span><i class="fas fa-comment"></i> 8 réponses</span>
-                    <span style="background:var(--bg-2);padding:2px 8px;border-radius:4px;border:1px solid var(--border);">Campusly AI</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-comments"></i>
           </div>
-          
-          <div style="display:flex;flex-direction:column;gap:16px;">
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;">
-              <h4 style="font-size:0.9rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Sujets Populaires</h4>
-              <ul style="list-style:none;padding:0;margin:0;font-size:0.85rem;color:var(--text-2);display:flex;flex-direction:column;gap:10px;">
-                <li><a href="#" style="color:var(--brand-1);text-decoration:none;font-weight:600;">#AnalyseReelle</a> (24)</li>
-                <li><a href="#" style="color:var(--brand-1);text-decoration:none;font-weight:600;">#Algorithmique</a> (18)</li>
-                <li><a href="#" style="color:var(--brand-1);text-decoration:none;font-weight:600;">#BiologieCellulaire</a> (12)</li>
-                <li><a href="#" style="color:var(--brand-1);text-decoration:none;font-weight:600;">#DroitConstitutionnel</a> (9)</li>
-              </ul>
-            </div>
-          </div>
+          <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune discussion pour le moment</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            Soyez le premier à lancer un sujet ! Posez une question sur un cours ou partagez une ressource utile.
+          </p>
+          <button class="btn btn-primary"><i class="fas fa-pen"></i> Démarrer une discussion</button>
         </div>
       </div>
-</div>
+
   </main>
 
 </div>
@@ -1286,7 +787,10 @@
 
 
   
-  window.handleJoinComposition = function(e) {
+  
+  if (!authService.protectRoute()) return;
+  
+window.handleJoinComposition = function(e) {
     e.preventDefault();
     const code = document.getElementById('compCodeInput').value.trim().toUpperCase();
     const errorEl = document.getElementById('joinCompError');
@@ -1489,7 +993,7 @@
     <div class="modal-content" style="max-width:700px;">
       <div class="modal-header">
         <h3 class="modal-title">Créer une composition</h3>
-        <button class="modal-close" onclick="document.getElementById('createCompModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('createCompModal').classList.remove('show')"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-body" style="max-height:60vh;overflow-y:auto;padding-right:12px;">
         
@@ -1574,7 +1078,7 @@
           <h3 class="modal-title" style="margin-bottom:4px;">Correction Assistée : Systèmes d'Exploitation</h3>
           <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • 65 copies reçues • 15 à corriger</p>
         </div>
-        <button class="modal-close" onclick="document.getElementById('correctionModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('correctionModal').classList.remove('show')"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-body" style="max-height:70vh;overflow-y:auto;padding-right:12px;background:var(--bg-2);">
         
@@ -1640,7 +1144,7 @@
     <div class="modal-content" style="max-width:500px;">
       <div class="modal-header">
         <h3 class="modal-title">Publier les résultats</h3>
-        <button class="modal-close" onclick="document.getElementById('publishModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('publishModal').classList.remove('show')"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-body" style="padding-right:12px;">
         <div style="text-align:center;margin-bottom:24px;">
@@ -1686,7 +1190,7 @@
     <div class="modal-content" style="max-width:700px;">
       <div class="modal-header">
         <h3 class="modal-title">Résultats : Réseaux Informatiques</h3>
-        <button class="modal-close" onclick="document.getElementById('studentResultModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('studentResultModal').classList.remove('show')"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-body" style="padding-right:12px;max-height:70vh;overflow-y:auto;">
         

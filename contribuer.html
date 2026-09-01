@@ -230,10 +230,10 @@
 </main>
 
 <script type="module">
-  import { requireAuth } from './js/auth-guard.js';
+  import { authService } from './js/services/authService.js';
   import { injectLogos } from './js/logo.js';
   import { supabase } from './js/supabase.js';
-  import { initAutoLogout } from './js/auto-logout.js';
+  
 
   let _user = null, _file = null;
 
@@ -244,14 +244,14 @@
     clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
   }
 
-  requireAuth((user) => {
+  if (authService.protectRoute()) { const user = authService.getUser();
     _user = user;
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
       <button onclick="doLogout()" class="btn btn-outline btn-sm">D�connexion</button>`;
     loadMyContributions();
-    initAutoLogout();
+    
   });
 
   window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };

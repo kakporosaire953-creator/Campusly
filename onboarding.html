@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding — Campusly 2.0</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body { background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; font-family: var(--font-sans); }
+    .onboarding-container { max-width: 600px; width: 100%; margin: 60px auto; background: #fff; border-radius: var(--r-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--border); padding: 40px; }
+    .step { display: none; animation: fadeIn 0.4s ease-out; }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-bar { display: flex; gap: 8px; margin-bottom: 32px; }
+    .progress-dot { flex: 1; height: 8px; border-radius: 4px; background: var(--border); transition: all 0.3s ease; }
+    .progress-dot.active { background: var(--brand-1); }
+    .step-title { font-size: 1.8rem; font-weight: 900; color: var(--text-1); margin: 0 0 16px; }
+    .step-desc { font-size: 1.1rem; color: var(--text-2); margin: 0 0 24px; line-height: 1.6; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .option-card { padding: 16px; border: 2px solid var(--border); border-radius: var(--r-lg); cursor: pointer; transition: all 0.2s ease; text-align: center; }
+    .option-card:hover { border-color: var(--brand-1); background: rgba(21,101,192,0.02); }
+    .option-card.selected { border-color: var(--brand-1); background: rgba(21,101,192,0.05); color: var(--brand-1); font-weight: 800; }
+    .option-icon { font-size: 1.5rem; margin-bottom: 8px; color: inherit; }
+  </style>
+</head>
+<body>
+  <div class="onboarding-container" id="onboardingWrapper">
+    <!-- Le contenu sera injecté via JS en fonction du rôle -->
+  </div>
+
+  <script type="module">
+    import { authService } from './js/services/authService.js';
+    
+    if (!authService.protectRoute()) {
+       // redirect handled by protectRoute
+    }
+    
+    const user = authService.getUser();
+    const isTeacher = authService.isTeacher() || user.role === 'pending_teacher';
+    
+    const wrapper = document.getElementById('onboardingWrapper');
+    let currentStep = 1;
+    let totalSteps = isTeacher ? 4 : 5;
+    
+    const learnerSteps = [
+      {
+        title: "Bienvenue sur Campusly",
+        desc: "Votre espace pour apprendre, réviser et suivre votre progression. Configurons ensemble votre environnement.",
+        content: ""
+      },
+      {
+        title: "Choisissez votre parcours",
+        desc: "Personnalisez votre espace en fonction de vos études.",
+        content: `
+          <label class="form-label">Université</label>
+          <input type="text" class="form-input" style="margin-bottom:16px;" placeholder="Ex: UAC" />
+          <label class="form-label">Faculté</label>
+          <input type="text" class="form-input" style="margin-bottom:16px;" placeholder="Ex: FAST" />
+          <div style="display:flex;gap:16px;">
+            <div style="flex:1;">
+              <label class="form-label">Filière</label>
+              <input type="text" class="form-input" placeholder="Ex: Informatique" />
+            </div>
+            <div style="flex:1;">
+              <label class="form-label">Niveau</label>
+              <select class="form-input">
+                <option>L1</option>
+                <option>L2</option>
+                <option>L3</option>
+                <option>Master</option>
+              </select>
+            </div>
+          </div>
+        `
+      },
+      {
+        title: "Vos matières",
+        desc: "Sélectionnez les matières sur lesquelles vous souhaitez vous concentrer.",
+        content: `
+          <div class="options-grid">
+            <div class="option-card" onclick="this.classList.toggle('selected')">
+              <div class="option-icon"><i class="fas fa-code"></i></div>
+              <div>Algorithmique</div>
+            </div>
+            <div class="option-card" onclick="this.classList.toggle('selected')">
+              <div class="option-icon"><i class="fas fa-database"></i></div>
+              <div>Bases de données</div>
+            </div>
+            <div class="option-card" onclick="this.classList.toggle('selected')">
+              <div class="option-icon"><i class="fas fa-network-wired"></i></div>
+              <div>Réseaux</div>
+            </div>
+            <div class="option-card" onclick="this.classList.toggle('selected')">
+              <div class="option-icon"><i class="fas fa-microchip"></i></div>
+              <div>Systèmes d'exploitation</div>
+            </div>
+          </div>
+        `
+      },
+      {
+        title: "Votre objectif",
+        desc: "Que souhaitez-vous accomplir principalement sur Campusly ?",
+        content: `
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="option-card" style="text-align:left;display:flex;align-items:center;gap:16px;" onclick="document.querySelectorAll('.obj-card').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">
+              <i class="fas fa-graduation-cap" style="font-size:1.5rem;color:var(--brand-1);"></i>
+              <div>Préparer une composition</div>
+            </div>
+            <div class="option-card" style="text-align:left;display:flex;align-items:center;gap:16px;" onclick="document.querySelectorAll('.obj-card').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">
+              <i class="fas fa-book-reader" style="font-size:1.5rem;color:var(--brand-1);"></i>
+              <div>Réviser mes cours</div>
+            </div>
+            <div class="option-card" style="text-align:left;display:flex;align-items:center;gap:16px;" onclick="document.querySelectorAll('.obj-card').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">
+              <i class="fas fa-chart-line" style="font-size:1.5rem;color:var(--brand-1);"></i>
+              <div>Améliorer mes résultats</div>
+            </div>
+          </div>
+        `
+      },
+      {
+        title: "Tout est prêt",
+        desc: "Votre espace Campusly est configuré. Vous pouvez le modifier à tout moment dans vos paramètres.",
+        content: `<div style="text-align:center;font-size:4rem;color:var(--success);margin:32px 0;"><i class="fas fa-check-circle"></i></div>`
+      }
+    ];
+
+    const teacherSteps = [
+      {
+        title: "Bienvenue sur Campusly",
+        desc: "Votre espace pour gérer vos classes, évaluer vos étudiants et suivre leur progression.",
+        content: ""
+      },
+      {
+        title: "Informations professionnelles",
+        desc: "Configurez votre profil d'enseignement.",
+        content: `
+          <label class="form-label">Établissement</label>
+          <input type="text" class="form-input" style="margin-bottom:16px;" placeholder="Ex: UAC" />
+          <label class="form-label">Faculté</label>
+          <input type="text" class="form-input" style="margin-bottom:16px;" placeholder="Ex: FAST" />
+          <label class="form-label">Matière principale</label>
+          <input type="text" class="form-input" style="margin-bottom:16px;" placeholder="Ex: Algorithmique Avancée" />
+          <label class="form-label">Niveau enseigné</label>
+          <input type="text" class="form-input" placeholder="Ex: L2, L3" />
+        `
+      },
+      {
+        title: "Présentation de vos outils",
+        desc: "Campusly met à votre disposition plusieurs outils pour faciliter votre enseignement.",
+        content: `
+          <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:rgba(21,101,192,0.1);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;"><i class="fas fa-users"></i></div>
+              <div><div style="font-weight:800;color:var(--text-1);margin-bottom:4px;">Classrooms</div><div style="font-size:0.9rem;color:var(--text-2);">Gérez vos groupes de cours et vos étudiants.</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:rgba(21,101,192,0.1);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;"><i class="fas fa-file-signature"></i></div>
+              <div><div style="font-weight:800;color:var(--text-1);margin-bottom:4px;">Compositions</div><div style="font-size:0.9rem;color:var(--text-2);">Créez des épreuves et générez des codes d'accès sécurisés.</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:rgba(16,185,129,0.1);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;"><i class="fas fa-robot"></i></div>
+              <div><div style="font-weight:800;color:var(--text-1);margin-bottom:4px;">Campusly AI</div><div style="font-size:0.9rem;color:var(--text-2);">Assistance automatique pour la correction des copies.</div></div>
+            </div>
+          </div>
+        `
+      },
+      {
+        title: "Votre espace enseignant est prêt",
+        desc: "Vous pouvez dès maintenant créer votre premier Amphi ou préparer votre première composition.",
+        content: `<div style="text-align:center;font-size:4rem;color:var(--success);margin:32px 0;"><i class="fas fa-check-circle"></i></div>`
+      }
+    ];
+
+    const steps = isTeacher ? teacherSteps : learnerSteps;
+
+    function renderStep() {
+      const stepData = steps[currentStep - 1];
+      const isLast = currentStep === totalSteps;
+      
+      let dots = '';
+      for(let i = 1; i <= totalSteps; i++) {
+        dots += `<div class="progress-dot ${i <= currentStep ? 'active' : ''}"></div>`;
+      }
+      
+      wrapper.innerHTML = `
+        <div class="progress-bar">${dots}</div>
+        <h2 class="step-title">${stepData.title}</h2>
+        <p class="step-desc">${stepData.desc}</p>
+        <div style="margin-bottom:32px;">${stepData.content}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:24px;">
+          <button class="btn btn-ghost" id="prevBtn" ${currentStep === 1 ? 'style="visibility:hidden"' : ''}>Retour</button>
+          <button class="btn btn-primary" id="nextBtn">${isLast ? (isTeacher ? 'Accéder à mon espace' : 'Accéder à mon dashboard') : 'Continuer'}</button>
+        </div>
+      `;
+      
+      document.getElementById('prevBtn')?.addEventListener('click', () => {
+        if(currentStep > 1) { currentStep--; renderStep(); }
+      });
+      document.getElementById('nextBtn')?.addEventListener('click', () => {
+        if(isLast) {
+          window.location.href = 'dashboard.html';
+        } else {
+          currentStep++; renderStep();
+        }
+      });
+    }
+
+    renderStep();
+  </script>
+</body>
+</html>
