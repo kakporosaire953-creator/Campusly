@@ -404,6 +404,11 @@ img, svg, video, iframe { max-width: 100%; }
    ============================================================ */
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr !important; }
+  .hero-actions { display: flex; flex-direction: column; width: 100%; gap: 12px; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .footer-col { margin-bottom: 24px; text-align: center; }
+  .footer-brand { text-align: center; }
+}
   .hero-title  { font-size: clamp(1.7rem, 8vw, 2.4rem) !important; }
   .section-title { font-size: clamp(1.3rem, 6vw, 1.8rem) !important; }
   .hero-stats .stat-number { font-size: 1.5rem; }

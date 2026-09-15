@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
 
-    navL.querySelectorAll("a").forEach(function(link) {
+    navL.querySelectorAll("a, button").forEach(function(link) {
       link.addEventListener("click", function() {
         navL.classList.remove("open");
         hamb.classList.remove("open");
