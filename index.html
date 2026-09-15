@@ -140,6 +140,8 @@
     <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
     <li class="nav-auth-only" style="display:none;"><a href="epreuves.html" data-i18n="nav_exams">Épreuves</a></li>
     <li class="nav-auth-only" style="display:none;"><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
+    
+    
   </ul>
   <div class="nav-right">
     
@@ -155,8 +157,8 @@
 <section class="hero" id="hero">
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-badge" data-i18n="hero_badge" style="display:inline-flex;align-items:center;gap:8px;">
-        <i class="fa-solid fa-graduation-cap" style="color:var(--accent);"></i> Plateforme Académique Intelligente UAC
+      <div class="hero-badge" style="display:inline-flex;align-items:center;gap:8px;">
+        <i class="fa-solid fa-bolt" style="color:var(--accent);"></i> Nouveau : Campusly AI 2.0
       </div>
       <h1 class="hero-title" style="margin-top:12px;font-size:2.4rem;line-height:1.2;">
         <span data-i18n="hero_title">La plateforme académique intelligente</span><br/>
@@ -959,19 +961,26 @@
   };
 
   // Synchronisation navbar avec l'utilisateur
-  function updateNav() {
+    function updateNav() {
     const user = authService.getUser();
     const navActions = document.getElementById('navActions');
+    
+    document.querySelectorAll(".nav-auth-only").forEach(el => el.style.display = user ? "block" : "none");
+    document.querySelectorAll(".nav-guest-only").forEach(el => el.style.display = user ? "none" : "block");
+    
     if (user && navActions) {
       navActions.innerHTML = `
         <span style="font-size:0.85rem;font-weight:700;color:var(--text-1);">${user.prenom || 'Rosaire'}</span>
         <a href="dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
         <button id="logoutBtn" class="btn btn-ghost btn-sm">Déconnexion</button>
       `;
-      document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-        await authService.logout();
-        window.location.reload();
-      });
+      const lgBtn = document.getElementById('logoutBtn');
+      if (lgBtn) {
+        lgBtn.addEventListener('click', async () => {
+          await authService.logout();
+          window.location.reload();
+        });
+      }
     }
     creditService.updatePillUI();
   }

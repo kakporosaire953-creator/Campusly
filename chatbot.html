@@ -216,14 +216,14 @@
   }
 
   // -- Garde de route ---------------------------------------
-  requireAuth((user) => {
+  if (authService.protectRoute()) {
+    const user = authService.getUser();
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button onclick="window.signOutUser()" class="btn btn-outline btn-sm">D�connexion</button>`;
+      <button onclick="window.signOutUser()" class="btn btn-outline btn-sm">Déconnexion</button>`;
     renderHistory();
-    
-  });
+  }
 
   window.signOutUser = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
 
@@ -374,7 +374,7 @@
     const div = document.createElement("div");
     div.className = `msg ${role}`;
     div.innerHTML = `
-      <div class="msg-avatar">${role === "ai" ? "<i class="fas fa-graduation-cap"></i>" : "??"}</div>
+      <div class="msg-avatar">${role === "ai" ? '<i class="fas fa-graduation-cap"></i>' : '<i class="fas fa-user"></i>'}</div>
       <div class="msg-content">${formatContent(content)}</div>`;
     document.getElementById("chatMessages").appendChild(div);
     scrollBottom();

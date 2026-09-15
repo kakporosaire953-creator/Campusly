@@ -11,7 +11,7 @@ const A11Y_CONFIG = {
 
 // Initialiser les améliorations d'accessibilité
 function initAccessibility() {
-  console.log('[A11y] Initialisation...');
+  
   
   // Ajouter un lien "Skip to content"
   addSkipLink();
@@ -31,7 +31,7 @@ function initAccessibility() {
   // Gérer les modals
   enhanceModals();
   
-  console.log('[A11y] Initialisé');
+  
 }
 
 // Ajouter un lien "Skip to content"

@@ -244,15 +244,15 @@
     clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 3500);
   }
 
-  if (authService.protectRoute()) { const user = authService.getUser();
+  if (authService.protectRoute()) {
+    const user = authService.getUser();
     _user = user;
     const navEl = document.getElementById("navActions");
     if (navEl) navEl.innerHTML = `
       <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button onclick="doLogout()" class="btn btn-outline btn-sm">D�connexion</button>`;
+      <button onclick="doLogout()" class="btn btn-outline btn-sm">Déconnexion</button>`;
     loadMyContributions();
-    
-  });
+  }
 
   window.doLogout = async () => { await supabase.auth.signOut(); window.location.href = "index.html"; };
 
@@ -345,7 +345,7 @@
     } catch (err) {
       console.error(err);
       showToast("Erreur lors de l'upload. R�essayez.", "info");
-      btn.disabled = false; btn.textContent = "<i class="fas fa-upload"></i> Soumettre l'�preuve";
+      btn.disabled = false; btn.innerHTML = `<i class="fas fa-upload"></i> Soumettre l\x27épreuve`;
       progressWrap.style.display = "none";
     }
   };
@@ -361,7 +361,7 @@
     document.getElementById("epFaculte").value = "";
     document.getElementById("epDept").value = "";
     document.getElementById("submitBtn").disabled = false;
-    document.getElementById("submitBtn").textContent = "<i class="fas fa-upload"></i> Soumettre l'�preuve";
+    document.getElementById("submitBtn").innerHTML = `<i class="fas fa-upload"></i> Soumettre l\x27épreuve`;
     document.getElementById("progressFill").style.width = "0%";
   };
 
@@ -380,7 +380,7 @@
     }
     el.innerHTML = data.map(c => {
       const statusClass = c.status === "approved" ? "status-approved" : "status-pending";
-      const statusLabel = c.status === "approved" ? "<i class="fas fa-check"></i> Publi�" : "? En attente";
+      const statusLabel = c.status === "approved" ? `<i class="fas fa-check"></i> Publié` : "⏳ En attente";
       return `
         <div class="contrib-item">
           <div class="contrib-item-icon">??</div>

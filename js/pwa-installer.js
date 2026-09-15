@@ -8,7 +8,7 @@ let swRegistration = null;
 // Enregistrer le Service Worker
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) {
-    console.log('[PWA] Service Worker non supporté');
+    
     return null;
   }
 
@@ -17,7 +17,7 @@ async function registerServiceWorker() {
       scope: '/'
     });
 
-    console.log('[PWA] Service Worker enregistré:', registration.scope);
+    
     swRegistration = registration;
 
     // Vérifier les mises à jour toutes les heures
@@ -89,7 +89,7 @@ function initPWAInstall() {
 
   // Écouter l'installation
   window.addEventListener('appinstalled', () => {
-    console.log('[PWA] Application installée');
+    
     deferredPrompt = null;
     hideInstallButton();
     
@@ -139,7 +139,7 @@ async function installPWA() {
   deferredPrompt.prompt();
   
   const { outcome } = await deferredPrompt.userChoice;
-  console.log('[PWA] Choix utilisateur:', outcome);
+  
   
   deferredPrompt = null;
   hideInstallButton();
@@ -202,7 +202,7 @@ function showToast(msg, type = 'info') {
 
 // Initialiser la PWA
 async function initPWA() {
-  console.log('[PWA] Initialisation...');
+  
   
   // Enregistrer le Service Worker
   await registerServiceWorker();
@@ -216,7 +216,7 @@ async function initPWA() {
   // Gérer le mode hors ligne
   handleOfflineMode();
   
-  console.log('[PWA] Initialisé avec succès');
+  
 }
 
 // Styles CSS pour PWA

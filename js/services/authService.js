@@ -3,7 +3,35 @@
 // Gestion locale et simulée de l'authentification et des rôles
 // ============================================================
 
-const INITIAL_USER = { name: 'Étudiant', role: 'learner', credits: 120, email: '', uid: 'temp', recentActivities: [] }; const MOCK_TEACHER_PROFILE = { name: 'Professeur', role: 'teacher', credits: 120, uid: 'temp-teacher' };
+const INITIAL_USER = { 
+  id: 'usr_default_1',
+  prenom: 'Rosaire', 
+  nom: 'Kakpo', 
+  name: 'Rosaire Kakpo',
+  role: 'learner', 
+  matricule: '23180001',
+  faculte: 'FAST',
+  departement: 'Informatique',
+  credits: 120, 
+  email: 'rosaire.kakpo@uac.bj', 
+  uid: 'usr_default_1', 
+  recentActivities: [] 
+};
+
+const MOCK_TEACHER_PROFILE = { 
+  id: 'usr_teacher_1',
+  prenom: 'Dr. Komlan', 
+  nom: 'Agboton', 
+  name: 'Dr. Komlan Agboton',
+  titre: 'Enseignant Chercheur',
+  faculte: 'FAST',
+  departement: 'Informatique',
+  role: 'teacher', 
+  teacherStatus: 'verified',
+  credits: 500, 
+  email: 'komlan.agboton@uac.bj', 
+  uid: 'usr_teacher_1' 
+};
 
 const STORAGE_KEY = 'campusly_auth_user';
 
@@ -14,22 +42,36 @@ export class AuthService {
 
   loadUser() {
     try {
+      const isLoggedOut = localStorage.getItem('campusly_user_logged_out');
+      if (isLoggedOut === 'true') {
+        return null;
+      }
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         return JSON.parse(saved);
       }
+      return { ...INITIAL_USER };
     } catch (e) {
       console.warn('Error reading saved user', e);
+      return { ...INITIAL_USER };
     }
-    return null;
   }
 
   saveUser() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.user));
+    if (this.user) {
+      localStorage.removeItem('campusly_user_logged_out');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.user));
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem('campusly_user_logged_out', 'true');
+    }
     window.dispatchEvent(new CustomEvent('campusly_user_updated', { detail: this.user }));
   }
 
   getUser() {
+    if (!this.user) {
+      this.user = this.loadUser();
+    }
     return this.user;
   }
 

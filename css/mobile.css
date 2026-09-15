@@ -237,7 +237,7 @@ img, svg, video, iframe { max-width: 100%; }
   /* ── CTA ────────────────────────────────────────────────── */
   .cta-section { padding: 40px 20px !important; }
   .cta-actions { flex-direction: column !important; align-items: center; gap: 12px; }
-  .cta-actions .btn {
+  .hero-actions .btn, .cta-actions .btn {
     width: 100% !important;
     border-radius: var(--r-full) !important;
     padding: 14px 20px !important;

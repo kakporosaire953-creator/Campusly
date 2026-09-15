@@ -542,6 +542,7 @@
         
 
         <!-- Logout Action Button -->
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Déconnexion" aria-label="Déconnexion">
           <i class="fa-solid fa-arrow-right-from-bracket" style="color:var(--danger);"></i>
         </button>
       </div>
@@ -788,9 +789,9 @@
 
   
   
-  if (!authService.protectRoute()) return;
+  authService.protectRoute();
   
-window.handleJoinComposition = function(e) {
+  window.handleJoinComposition = function(e) {
     e.preventDefault();
     const code = document.getElementById('compCodeInput').value.trim().toUpperCase();
     const errorEl = document.getElementById('joinCompError');
