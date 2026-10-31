@@ -995,38 +995,16 @@ app.get('/api/notifications/:userId', (req, res) => {
   res.json({ notifications: userNotifs });
 });
 
-// ── Serve React Modern App or Static Assets ──────────────────────────
-const DIST_DIR = path.join(__dirname, 'dist');
-if (fs.existsSync(DIST_DIR)) {
-  app.use('/assets', express.static(path.join(DIST_DIR, 'assets')));
-}
-
-app.use((req, res, next) => {
-  if (req.method !== 'GET') return next();
-
-  const reqPath = req.path;
-  if (reqPath === '/' || reqPath === '/app') {
-    const reactAppIndex = path.join(DIST_DIR, 'app.html');
-    if (fs.existsSync(reactAppIndex)) {
-      return res.sendFile(reactAppIndex);
-    }
-    return res.sendFile(path.join(__dirname, 'index.html'));
-  }
-
-  // Fallback to legacy index if requested specifically
-  if (reqPath === '/legacy' || reqPath === '/classic') {
-    return res.sendFile(path.join(__dirname, 'index.html'));
-  }
-
-  next();
-});
-
+// ── Static Assets & Clean Page Routing ──────────────────────────
 app.use(express.static(__dirname, { extensions: ['html', 'htm'] }));
 
 app.use((req, res, next) => {
   if (req.method !== 'GET') return next();
 
   const reqPath = req.path;
+  if (reqPath === '/') {
+    return res.sendFile(path.join(__dirname, 'index.html'));
+  }
 
   const htmlFilePath = path.join(__dirname, `${reqPath.replace(/^\//, '')}.html`);
   if (fs.existsSync(htmlFilePath) && fs.statSync(htmlFilePath).isFile()) {
