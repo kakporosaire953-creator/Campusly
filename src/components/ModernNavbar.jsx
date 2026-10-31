@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 export default function ModernNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +15,7 @@ export default function ModernNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Bloquer le scroll du document principal lorsque le menu est ouvert
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -39,17 +40,18 @@ export default function ModernNavbar() {
       category: "academic",
     },
     {
-      title: "Campusly AI",
-      desc: "Générateur de quiz sur vos cours",
+      title: "Campusly AI 2.0",
+      desc: "Générateur de quiz sur vos supports",
       href: "#campusly-ai",
       icon: "fa-solid fa-bolt",
-      badge: "2.0 IA",
+      badge: "Nouveau",
+      badgeColor: "#F57C00",
       color: "#F57C00",
       category: "ai",
     },
     {
       title: "Apprentissage Adaptatif",
-      desc: "Marathons ciblés & révisions",
+      desc: "Marathons ciblés & diagnostic",
       href: "#adaptatif",
       icon: "fa-solid fa-chart-line",
       color: "#10B981",
@@ -57,7 +59,7 @@ export default function ModernNavbar() {
     },
     {
       title: "Classrooms Amphi",
-      desc: "Espace étudiants & professeurs",
+      desc: "Espace étudiants & devoirs",
       href: "#professeurs",
       icon: "fa-solid fa-chalkboard-user",
       color: "#6366F1",
@@ -77,6 +79,7 @@ export default function ModernNavbar() {
       href: "#pricing",
       icon: "fa-solid fa-wallet",
       badge: "Dès 500F",
+      badgeColor: "#059669",
       color: "#059669",
       category: "pricing",
     },
@@ -91,41 +94,46 @@ export default function ModernNavbar() {
   ];
 
   const filteredItems =
-    activeTab === "all"
+    activeCategory === "all"
       ? navItems
-      : navItems.filter((item) => item.category === activeTab);
+      : navItems.filter((item) => item.category === activeCategory);
 
   return (
     <>
-      {/* BARRE DE NAVIGATION FLOTTANTE */}
+      {/* ── BARRE DE NAVIGATION PRINCIPALE ── */}
       <header
-        className={`campusly-navbar ${scrolled ? "scrolled" : ""}`}
+        id="campuslyMainHeader"
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 1000,
-          background: scrolled ? "rgba(255, 255, 255, 0.96)" : "var(--bg)",
+          height: "68px",
+          zIndex: 9998,
+          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.98)" : "#FFFFFF",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
-          borderBottom: "1px solid var(--border)",
-          transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-          boxShadow: scrolled ? "0 4px 24px rgba(15, 23, 42, 0.08)" : "none",
+          borderBottom: "1px solid rgba(21, 101, 192, 0.12)",
+          boxShadow: scrolled
+            ? "0 4px 20px rgba(15, 23, 42, 0.08)"
+            : "0 1px 3px rgba(0, 0, 0, 0.03)",
+          display: "flex",
+          alignItems: "center",
+          transition: "all 0.25s ease",
         }}
       >
         <div
           style={{
             maxWidth: "1280px",
+            width: "100%",
             margin: "0 auto",
-            padding: "0 20px",
-            height: "70px",
+            padding: "0 18px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          {/* LOGO OFFICIEL */}
+          {/* LOGO OFFICIEL UAC */}
           <a
             href="/"
             style={{
@@ -150,30 +158,28 @@ export default function ModernNavbar() {
             >
               <i className="fa-solid fa-graduation-cap" style={{ fontSize: "1rem" }} />
             </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <span style={{ fontSize: "1.35rem", fontWeight: 900, letterSpacing: "-0.5px" }}>
-                  <span style={{ color: "#1565C0" }}>Campus</span>
-                  <span style={{ color: "#F57C00" }}>ly</span>
-                </span>
-                <span
-                  style={{
-                    fontSize: "0.6rem",
-                    fontWeight: 800,
-                    padding: "2px 6px",
-                    borderRadius: "6px",
-                    background: "rgba(21, 101, 192, 0.1)",
-                    color: "#1565C0",
-                  }}
-                >
-                  UAC
-                </span>
-              </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ fontSize: "1.35rem", fontWeight: 900, letterSpacing: "-0.5px" }}>
+                <span style={{ color: "#1565C0" }}>Campus</span>
+                <span style={{ color: "#F57C00" }}>ly</span>
+              </span>
+              <span
+                style={{
+                  fontSize: "0.62rem",
+                  fontWeight: 800,
+                  padding: "2px 6px",
+                  borderRadius: "6px",
+                  background: "rgba(21, 101, 192, 0.1)",
+                  color: "#1565C0",
+                }}
+              >
+                UAC
+              </span>
             </div>
           </a>
 
-          {/* LIENS DESKTOP (Masqués sur tablettes et mobiles) */}
-          <nav className="desktop-nav-cluster">
+          {/* LIENS SUR DESKTOP (Masqués sur smartphone/tablette) */}
+          <nav className="campusly-desktop-nav">
             <ul
               style={{
                 display: "flex",
@@ -185,23 +191,23 @@ export default function ModernNavbar() {
               }}
             >
               <li>
-                <a href="#pillars" className="nav-desktop-link">
+                <a href="#pillars" className="nav-desk-item">
                   Piliers
                 </a>
               </li>
               <li>
                 <a
                   href="#campusly-ai"
-                  className="nav-desktop-link"
+                  className="nav-desk-item"
                   style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
                 >
                   Campusly AI
                   <span
                     style={{
-                      fontSize: "0.62rem",
+                      fontSize: "0.6rem",
                       background: "#F57C00",
-                      color: "#fff",
-                      padding: "1px 6px",
+                      color: "#ffffff",
+                      padding: "1px 5px",
                       borderRadius: "6px",
                       fontWeight: 800,
                     }}
@@ -211,22 +217,22 @@ export default function ModernNavbar() {
                 </a>
               </li>
               <li>
-                <a href="#professeurs" className="nav-desktop-link">
+                <a href="#professeurs" className="nav-desk-item">
                   Classrooms
                 </a>
               </li>
               <li>
-                <a href="#compositions" className="nav-desktop-link">
+                <a href="#compositions" className="nav-desk-item">
                   Compositions
                 </a>
               </li>
               <li>
-                <a href="#pricing" className="nav-desktop-link">
+                <a href="#pricing" className="nav-desk-item">
                   Crédits & Tarifs
                 </a>
               </li>
               <li>
-                <a href="#faq" className="nav-desktop-link">
+                <a href="#faq" className="nav-desk-item">
                   FAQ
                 </a>
               </li>
@@ -235,19 +241,18 @@ export default function ModernNavbar() {
 
           {/* ACTIONS DROITE & BOUTON HAMBURGER */}
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div className="desktop-actions" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <div className="campusly-desktop-actions" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <a
                 href="#pillars"
                 style={{
                   fontSize: "0.84rem",
-                  padding: "9px 16px",
+                  padding: "8px 16px",
                   borderRadius: "10px",
                   textDecoration: "none",
                   fontWeight: 700,
                   color: "#334155",
-                  border: "1px solid var(--border)",
-                  background: "var(--surface)",
-                  transition: "all 0.2s ease",
+                  border: "1px solid rgba(21, 101, 192, 0.15)",
+                  background: "#F8FAFC",
                 }}
               >
                 Connexion
@@ -256,65 +261,173 @@ export default function ModernNavbar() {
                 href="#pillars"
                 style={{
                   fontSize: "0.84rem",
-                  padding: "9px 18px",
+                  padding: "8px 18px",
                   borderRadius: "10px",
                   textDecoration: "none",
                   fontWeight: 700,
                   background: "#1565C0",
                   color: "#ffffff",
-                  boxShadow: "0 4px 14px rgba(21, 101, 192, 0.25)",
-                  transition: "all 0.2s ease",
+                  boxShadow: "0 4px 12px rgba(21, 101, 192, 0.25)",
                 }}
               >
                 S&apos;inscrire
               </a>
             </div>
 
-            {/* NOUVEAU BOUTON HAMBURGER INTERACTIF */}
+            {/* BOUTON HAMBURGER TACTILE RETRAVAILLÉ */}
             <button
-              id="newCustomHamburger"
-              className="custom-hamburger-btn"
-              aria-label={isOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
+              id="hamburgerToggleBtn"
+              type="button"
+              className="campusly-hamburger-btn"
+              onClick={() => setIsOpen((prev) => !prev)}
+              aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={isOpen}
-              onClick={() => setIsOpen(!isOpen)}
+              style={{
+                alignItems: "center",
+                gap: "8px",
+                height: "42px",
+                padding: "0 14px 0 10px",
+                borderRadius: "999px",
+                border: isOpen ? "1.5px solid #1565C0" : "1.5px solid rgba(21, 101, 192, 0.25)",
+                background: isOpen ? "rgba(21, 101, 192, 0.12)" : "#FFFFFF",
+                color: isOpen ? "#1565C0" : "#0F172A",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                WebkitTapHighlightColor: "transparent",
+              }}
             >
-              <div className={`hamburger-pill-box ${isOpen ? "open" : ""}`}>
-                <span className="pill-line top" />
-                <span className="pill-line middle" />
-                <span className="pill-line bottom" />
+              <div
+                style={{
+                  width: "18px",
+                  height: "14px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  position: "relative",
+                }}
+              >
+                <span
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    height: "2.2px",
+                    borderRadius: "99px",
+                    background: isOpen ? "#1565C0" : "#0F172A",
+                    transition: "all 0.25s ease",
+                    transformOrigin: "center",
+                    transform: isOpen ? "translateY(6px) rotate(45deg)" : "none",
+                  }}
+                />
+                <span
+                  style={{
+                    display: "block",
+                    width: "70%",
+                    height: "2.2px",
+                    borderRadius: "99px",
+                    background: isOpen ? "#1565C0" : "#0F172A",
+                    transition: "all 0.2s ease",
+                    opacity: isOpen ? 0 : 1,
+                    transform: isOpen ? "scale(0)" : "scale(1)",
+                  }}
+                />
+                <span
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    height: "2.2px",
+                    borderRadius: "99px",
+                    background: isOpen ? "#1565C0" : "#0F172A",
+                    transition: "all 0.25s ease",
+                    transformOrigin: "center",
+                    transform: isOpen ? "translateY(-6px) rotate(-45deg)" : "none",
+                  }}
+                />
               </div>
-              <span className="hamburger-label">{isOpen ? "Fermer" : "Menu"}</span>
+              <span
+                style={{
+                  fontSize: "0.8rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.2px",
+                  color: isOpen ? "#1565C0" : "#0F172A",
+                }}
+              >
+                {isOpen ? "Fermer" : "Menu"}
+              </span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* OVERLAY SOMBRE FLOU */}
-      <div
-        className={`custom-nav-backdrop ${isOpen ? "show" : ""}`}
-        onClick={() => setIsOpen(false)}
-      />
+      {/* ── OVERLAY SOMBRE FLOU AVEC CLICK POUR FERMER ── */}
+      {isOpen && (
+        <div
+          id="customBackdrop"
+          onClick={() => setIsOpen(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(15, 23, 42, 0.6)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            zIndex: 99998,
+            animation: "navFadeIn 0.25s ease forwards",
+          }}
+        />
+      )}
 
-      {/* NOUVEAU MENU DRAWER MOBILE & TABLETTE */}
+      {/* ── TIROIR MOBILE COMPLET (DRAWER) ── */}
       <aside
-        id="customDrawerSheet"
-        className={`custom-drawer-sheet ${isOpen ? "open" : ""}`}
+        id="campuslyDrawerPanel"
+        role="dialog"
+        aria-modal="true"
         aria-hidden={!isOpen}
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          width: "min(390px, 92vw)",
+          height: "100vh",
+          backgroundColor: "#FFFFFF",
+          color: "#0F172A",
+          borderLeft: "1px solid rgba(21, 101, 192, 0.18)",
+          boxShadow: "-16px 0 40px rgba(0, 0, 0, 0.25)",
+          zIndex: 99999,
+          display: "flex",
+          flexDirection: "column",
+          transform: isOpen ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.32s cubic-bezier(0.16, 1, 0.3, 1)",
+          visibility: isOpen ? "visible" : "hidden",
+        }}
       >
-        {/* EN-TÊTE DU MENU DRAWER */}
-        <div className="drawer-header">
+        {/* EN-TÊTE DU DRAWER */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "16px 20px",
+            borderBottom: "1px solid rgba(21, 101, 192, 0.12)",
+            backgroundColor: "#F8FAFC",
+            flexShrink: 0,
+          }}
+        >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div
               style={{
-                width: "34px",
-                height: "34px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "10px",
                 background: "linear-gradient(135deg, #1565C0 0%, #42A5F5 100%)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#ffffff",
-                fontSize: "0.95rem",
+                fontSize: "1rem",
               }}
             >
               <i className="fa-solid fa-graduation-cap" />
@@ -324,128 +437,314 @@ export default function ModernNavbar() {
                 <span style={{ color: "#1565C0" }}>Campus</span>
                 <span style={{ color: "#F57C00" }}>ly</span>
               </div>
-              <div style={{ fontSize: "0.68rem", color: "var(--text-3)", fontWeight: 600 }}>
+              <div style={{ fontSize: "0.68rem", color: "#64748B", fontWeight: 600 }}>
                 Université d&apos;Abomey-Calavi
               </div>
             </div>
           </div>
 
           <button
-            className="drawer-close-circle"
+            type="button"
             onClick={() => setIsOpen(false)}
-            aria-label="Fermer"
+            aria-label="Fermer le menu"
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              border: "1px solid rgba(21, 101, 192, 0.15)",
+              backgroundColor: "#FFFFFF",
+              color: "#334155",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              fontSize: "1rem",
+              transition: "all 0.2s ease",
+            }}
           >
             <i className="fa-solid fa-xmark" />
           </button>
         </div>
 
-        {/* ONGLETS RAPIDES DE CATÉGORIES */}
-        <div className="drawer-category-tabs">
-          <button
-            className={`tab-chip ${activeTab === "all" ? "active" : ""}`}
-            onClick={() => setActiveTab("all")}
-          >
-            Tout explorer
-          </button>
-          <button
-            className={`tab-chip ${activeTab === "ai" ? "active" : ""}`}
-            onClick={() => setActiveTab("ai")}
-          >
-            ✨ Campusly AI
-          </button>
-          <button
-            className={`tab-chip ${activeTab === "classrooms" ? "active" : ""}`}
-            onClick={() => setActiveTab("classrooms")}
-          >
-            Amphis & Examens
-          </button>
-          <button
-            className={`tab-chip ${activeTab === "pricing" ? "active" : ""}`}
-            onClick={() => setActiveTab("pricing")}
-          >
-            Tarifs & FAQ
-          </button>
+        {/* ONGLETS DE FILTRAGE RAPIDE */}
+        <div
+          style={{
+            display: "flex",
+            gap: "6px",
+            overflowX: "auto",
+            padding: "12px 18px 8px",
+            backgroundColor: "#FFFFFF",
+            borderBottom: "1px solid rgba(21, 101, 192, 0.08)",
+            flexShrink: 0,
+            scrollbarWidth: "none",
+          }}
+        >
+          {[
+            { id: "all", label: "Tout explorer" },
+            { id: "ai", label: "✨ Campusly AI" },
+            { id: "classrooms", label: "Amphis & Examens" },
+            { id: "pricing", label: "Tarifs & FAQ" },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setActiveCategory(cat.id)}
+              style={{
+                whiteSpace: "nowrap",
+                padding: "6px 13px",
+                borderRadius: "99px",
+                fontSize: "0.72rem",
+                fontWeight: 700,
+                border:
+                  activeCategory === cat.id
+                    ? "1px solid #1565C0"
+                    : "1px solid rgba(21, 101, 192, 0.15)",
+                backgroundColor: activeCategory === cat.id ? "#1565C0" : "#F8FAFC",
+                color: activeCategory === cat.id ? "#FFFFFF" : "#334155",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
 
-        {/* LISTE DES CARTES DU MENU */}
-        <div className="drawer-body">
-          <div className="drawer-cards-container">
+        {/* CORPS DÉFILABLE AVEC LES CARTES DU MENU */}
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "16px 18px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "14px",
+            backgroundColor: "#FFFFFF",
+          }}
+        >
+          {/* Liste des cartes */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {filteredItems.map((item, idx) => (
               <a
                 key={idx}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="drawer-card-item"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "14px",
+                  padding: "12px 14px",
+                  borderRadius: "14px",
+                  backgroundColor: "#F8FAFC",
+                  border: "1px solid rgba(21, 101, 192, 0.12)",
+                  textDecoration: "none",
+                  transition: "all 0.2s ease",
+                }}
               >
                 <div
-                  className="card-icon-box"
                   style={{
+                    width: "38px",
+                    height: "38px",
+                    borderRadius: "10px",
                     backgroundColor: `${item.color}15`,
                     color: item.color,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1rem",
+                    flexShrink: 0,
                   }}
                 >
                   <i className={item.icon} />
                 </div>
-                <div className="card-text-box">
-                  <div className="card-title-row">
-                    <span className="card-title">{item.title}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      marginBottom: "2px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.88rem",
+                        fontWeight: 800,
+                        color: "#0F172A",
+                      }}
+                    >
+                      {item.title}
+                    </span>
                     {item.badge && (
                       <span
-                        className="card-badge"
                         style={{
-                          backgroundColor:
-                            item.badge.includes("IA") ? "#F57C00" : "#10B981",
+                          fontSize: "0.6rem",
+                          fontWeight: 800,
+                          padding: "1px 6px",
+                          borderRadius: "99px",
+                          backgroundColor: item.badgeColor || "#10B981",
+                          color: "#FFFFFF",
                         }}
                       >
                         {item.badge}
                       </span>
                     )}
                   </div>
-                  <div className="card-desc">{item.desc}</div>
+                  <div
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "#64748B",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {item.desc}
+                  </div>
                 </div>
-                <div className="card-chevron">
-                  <i className="fa-solid fa-arrow-right" />
-                </div>
+                <i
+                  className="fa-solid fa-arrow-right"
+                  style={{ color: "#94A3B8", fontSize: "0.75rem" }}
+                />
               </a>
             ))}
           </div>
 
           {/* BANNIÈRE IA ACCÈS RAPIDE */}
-          <div className="drawer-ai-spotlight">
-            <div className="ai-spotlight-top">
-              <span className="ai-tag">
+          <div
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(245, 124, 0, 0.08) 0%, rgba(21, 101, 192, 0.06) 100%)",
+              border: "1px solid rgba(245, 124, 0, 0.28)",
+              borderRadius: "16px",
+              padding: "16px",
+              marginTop: "4px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "8px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "0.64rem",
+                  fontWeight: 900,
+                  color: "#F57C00",
+                  letterSpacing: "0.5px",
+                }}
+              >
                 <i className="fa-solid fa-sparkles" /> NOUVEAUTÉ 2026
               </span>
-              <span className="ai-status">Prêt</span>
+              <span
+                style={{
+                  fontSize: "0.62rem",
+                  fontWeight: 800,
+                  backgroundColor: "rgba(16, 185, 129, 0.15)",
+                  color: "#10B981",
+                  padding: "2px 7px",
+                  borderRadius: "99px",
+                }}
+              >
+                Prêt
+              </span>
             </div>
-            <div className="ai-title">Générez un Quiz en 30 secondes</div>
-            <div className="ai-text">
-              Chargez un PDF de cours ou une photo d&apos;épreuve et entraînez-vous sans connexion complexe.
+            <div
+              style={{
+                fontSize: "0.92rem",
+                fontWeight: 800,
+                color: "#0F172A",
+                marginBottom: "4px",
+              }}
+            >
+              Générez un Quiz en 30 secondes
+            </div>
+            <div
+              style={{
+                fontSize: "0.74rem",
+                color: "#334155",
+                lineHeight: 1.45,
+                marginBottom: "12px",
+              }}
+            >
+              Importez un PDF de cours ou une photo d&apos;épreuve et révisez sans connexion lourde.
             </div>
             <a
               href="#campusly-ai"
               onClick={() => setIsOpen(false)}
-              className="ai-action-btn"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                width: "100%",
+                padding: "10px",
+                borderRadius: "10px",
+                backgroundColor: "#F57C00",
+                color: "#FFFFFF",
+                fontSize: "0.78rem",
+                fontWeight: 800,
+                textDecoration: "none",
+                boxShadow: "0 4px 12px rgba(245, 124, 0, 0.25)",
+              }}
             >
               <i className="fa-solid fa-wand-magic-sparkles" /> Tester l&apos;IA gratuitement
             </a>
           </div>
         </div>
 
-        {/* PIED DU MENU AVEC AUTH & WHATSAPP */}
-        <div className="drawer-footer">
-          <div className="footer-auth-grid">
+        {/* PIED FIXE DU DRAWER (CONNEXION & WHATSAPP) */}
+        <div
+          style={{
+            padding: "16px 18px",
+            borderTop: "1px solid rgba(21, 101, 192, 0.12)",
+            backgroundColor: "#F8FAFC",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
             <a
               href="#pillars"
               onClick={() => setIsOpen(false)}
-              className="drawer-auth-btn login"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "10px",
+                borderRadius: "10px",
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                textDecoration: "none",
+                textAlign: "center",
+                border: "1px solid rgba(21, 101, 192, 0.18)",
+                backgroundColor: "#FFFFFF",
+                color: "#0F172A",
+              }}
             >
               Se connecter
             </a>
             <a
               href="#pillars"
               onClick={() => setIsOpen(false)}
-              className="drawer-auth-btn register"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "10px",
+                borderRadius: "10px",
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                textDecoration: "none",
+                textAlign: "center",
+                backgroundColor: "#1565C0",
+                color: "#FFFFFF",
+              }}
             >
               Créer un compte
             </a>
@@ -455,399 +754,75 @@ export default function ModernNavbar() {
             href="https://wa.me/2290158519556"
             target="_blank"
             rel="noopener noreferrer"
-            className="drawer-whatsapp-btn"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              padding: "10px 14px",
+              borderRadius: "12px",
+              backgroundColor: "rgba(16, 185, 129, 0.08)",
+              border: "1px solid rgba(16, 185, 129, 0.25)",
+              textDecoration: "none",
+            }}
           >
-            <i className="fa-brands fa-whatsapp whatsapp-icon" />
+            <i
+              className="fa-brands fa-whatsapp"
+              style={{ fontSize: "1.5rem", color: "#10B981" }}
+            />
             <div>
-              <div className="wa-title">Besoin d&apos;aide à l&apos;UAC ?</div>
-              <div className="wa-sub">Contact WhatsApp Direct (+229)</div>
+              <div style={{ fontSize: "0.78rem", fontWeight: 800, color: "#0F172A" }}>
+                Besoin d&apos;aide à l&apos;UAC ?
+              </div>
+              <div style={{ fontSize: "0.68rem", color: "#10B981", fontWeight: 600 }}>
+                Assistance WhatsApp (+229 01 58 51 95 56)
+              </div>
             </div>
           </a>
         </div>
       </aside>
 
-      {/* STYLES CSS DÉDIÉS AU NOUVEAU MENU */}
+      {/* RÈGLES DE VISIBILITÉ RESPONSIVE COMPATIBLES AVEC TOUS LES SMARTPHONES */}
       <style jsx global>{`
-        /* Liens desktop */
-        .nav-desktop-link {
+        @keyframes navFadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .nav-desk-item {
           text-decoration: none;
-          color: var(--text-2);
+          color: #334155;
           font-size: 0.88rem;
           font-weight: 600;
           transition: color 0.2s ease;
         }
-        .nav-desktop-link:hover {
+        .nav-desk-item:hover {
           color: #1565C0;
         }
 
-        /* Bouton Hamburger Personnalisé */
-        .custom-hamburger-btn {
-          display: none;
-          align-items: center;
-          gap: 9px;
-          height: 42px;
-          padding: 0 14px 0 10px;
-          border-radius: 999px;
-          border: 1px solid var(--border-2);
-          background: var(--surface);
-          color: var(--text-1);
-          cursor: pointer;
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-          outline: none;
-        }
-        .custom-hamburger-btn:hover {
-          border-color: #1565C0;
-          background: rgba(21, 101, 192, 0.06);
-        }
-
-        .hamburger-pill-box {
-          width: 18px;
-          height: 14px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          position: relative;
-        }
-        .pill-line {
-          display: block;
-          width: 100%;
-          height: 2.2px;
-          border-radius: 99px;
-          background: var(--text-1);
-          transition: all 0.25s ease;
-          transform-origin: center;
-        }
-        .pill-line.middle {
-          width: 70%;
-        }
-        .hamburger-pill-box.open .pill-line.top {
-          transform: translateY(6px) rotate(45deg);
-          background: #1565C0;
-        }
-        .hamburger-pill-box.open .pill-line.middle {
-          opacity: 0;
-          transform: scale(0);
-        }
-        .hamburger-pill-box.open .pill-line.bottom {
-          transform: translateY(-6px) rotate(-45deg);
-          background: #1565C0;
-        }
-        .hamburger-label {
-          font-size: 0.78rem;
-          font-weight: 800;
-          letter-spacing: 0.3px;
-        }
-
-        /* Backdrop flouté */
-        .custom-nav-backdrop {
-          position: fixed;
-          inset: 0;
-          background: rgba(15, 23, 42, 0.5);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          z-index: 1050;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .custom-nav-backdrop.show {
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        /* Drawer Sheet */
-        .custom-drawer-sheet {
-          position: fixed;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          width: min(390px, 90vw);
-          background: var(--bg);
-          border-left: 1px solid var(--border-2);
-          box-shadow: -12px 0 36px rgba(0, 0, 0, 0.18);
-          z-index: 1100;
-          display: flex;
-          flex-direction: column;
-          transform: translateX(100%);
-          transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .custom-drawer-sheet.open {
-          transform: translateX(0);
-        }
-
-        .drawer-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 16px 20px;
-          border-bottom: 1px solid var(--border);
-          background: var(--surface);
-        }
-        .drawer-close-circle {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: 1px solid var(--border);
-          background: var(--bg);
-          color: var(--text-2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 1rem;
-          transition: all 0.2s ease;
-        }
-        .drawer-close-circle:hover {
-          background: #ef444415;
-          color: #ef4444;
-          border-color: #ef444440;
-        }
-
-        .drawer-category-tabs {
-          display: flex;
-          gap: 6px;
-          overflow-x: auto;
-          padding: 12px 18px 8px;
-          scrollbar-width: none;
-        }
-        .drawer-category-tabs::-webkit-scrollbar {
-          display: none;
-        }
-        .tab-chip {
-          white-space: nowrap;
-          padding: 6px 12px;
-          border-radius: 99px;
-          font-size: 0.72rem;
-          font-weight: 700;
-          border: 1px solid var(--border);
-          background: var(--surface);
-          color: var(--text-2);
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .tab-chip.active {
-          background: #1565C0;
-          color: #ffffff;
-          border-color: #1565C0;
-        }
-
-        .drawer-body {
-          flex: 1;
-          overflow-y: auto;
-          padding: 12px 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-        .drawer-cards-container {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .drawer-card-item {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          padding: 12px 14px;
-          border-radius: 14px;
-          background: var(--surface);
-          border: 1px solid var(--border);
-          text-decoration: none;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .drawer-card-item:hover {
-          background: var(--surface-2);
-          border-color: #1565C050;
-          transform: translateX(3px);
-        }
-        .card-icon-box {
-          width: 38px;
-          height: 38px;
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1rem;
-          flex-shrink: 0;
-        }
-        .card-text-box {
-          flex: 1;
-          min-width: 0;
-        }
-        .card-title-row {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          margin-bottom: 2px;
-        }
-        .card-title {
-          font-size: 0.88rem;
-          font-weight: 800;
-          color: var(--text-1);
-        }
-        .card-badge {
-          font-size: 0.6rem;
-          font-weight: 800;
-          padding: 1px 6px;
-          border-radius: 99px;
-          color: #ffffff;
-        }
-        .card-desc {
-          font-size: 0.72rem;
-          color: var(--text-3);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .card-chevron {
-          color: var(--text-3);
-          font-size: 0.75rem;
-          transition: transform 0.2s ease;
-        }
-        .drawer-card-item:hover .card-chevron {
-          transform: translateX(2px);
-          color: #1565C0;
-        }
-
-        .drawer-ai-spotlight {
-          background: linear-gradient(135deg, rgba(245, 124, 0, 0.08) 0%, rgba(21, 101, 192, 0.06) 100%);
-          border: 1px solid rgba(245, 124, 0, 0.25);
-          border-radius: 16px;
-          padding: 16px;
-        }
-        .ai-spotlight-top {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 8px;
-        }
-        .ai-tag {
-          font-size: 0.64rem;
-          font-weight: 900;
-          color: #F57C00;
-          letter-spacing: 0.5px;
-        }
-        .ai-status {
-          font-size: 0.62rem;
-          font-weight: 800;
-          background: #10B98120;
-          color: #10B981;
-          padding: 2px 7px;
-          border-radius: 99px;
-        }
-        .ai-title {
-          font-size: 0.92rem;
-          font-weight: 800;
-          color: var(--text-1);
-          margin-bottom: 4px;
-        }
-        .ai-text {
-          font-size: 0.74rem;
-          color: var(--text-2);
-          line-height: 1.45;
-          margin-bottom: 12px;
-        }
-        .ai-action-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          width: 100%;
-          padding: 10px;
-          border-radius: 10px;
-          background: #F57C00;
-          color: #ffffff;
-          font-size: 0.78rem;
-          font-weight: 800;
-          text-decoration: none;
-          box-shadow: 0 4px 12px rgba(245, 124, 0, 0.25);
-          transition: all 0.2s ease;
-        }
-        .ai-action-btn:hover {
-          filter: brightness(1.06);
-          transform: translateY(-1px);
-        }
-
-        .drawer-footer {
-          padding: 16px 18px;
-          border-top: 1px solid var(--border);
-          background: var(--surface-2);
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        .footer-auth-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-        }
-        .drawer-auth-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10px;
-          border-radius: 10px;
-          font-size: 0.82rem;
-          font-weight: 700;
-          text-decoration: none;
-          text-align: center;
-          transition: all 0.2s ease;
-        }
-        .drawer-auth-btn.login {
-          border: 1px solid var(--border);
-          background: var(--bg);
-          color: var(--text-1);
-        }
-        .drawer-auth-btn.register {
-          background: #1565C0;
-          color: #ffffff;
-        }
-
-        .drawer-whatsapp-btn {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 10px 14px;
-          border-radius: 12px;
-          background: #10B98112;
-          border: 1px solid #10B98135;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-        .drawer-whatsapp-btn:hover {
-          background: #10B98120;
-        }
-        .whatsapp-icon {
-          font-size: 1.5rem;
-          color: #10B981;
-        }
-        .wa-title {
-          font-size: 0.78rem;
-          font-weight: 800;
-          color: var(--text-1);
-        }
-        .wa-sub {
-          font-size: 0.68rem;
-          color: #10B981;
-          font-weight: 600;
-        }
-
-        /* Responsive Breakpoint */
-        @media (max-width: 960px) {
-          .desktop-nav-cluster,
-          .desktop-actions {
-            display: none !important;
-          }
-          .custom-hamburger-btn {
-            display: inline-flex !important;
-          }
-        }
+        /* Sur écrans larges */
         @media (min-width: 961px) {
-          .custom-hamburger-btn,
-          .custom-drawer-sheet,
-          .custom-nav-backdrop {
+          .campusly-hamburger-btn {
             display: none !important;
+          }
+          #campuslyDrawerPanel {
+            display: none !important;
+          }
+          #customBackdrop {
+            display: none !important;
+          }
+        }
+
+        /* Sur tablettes et smartphones */
+        @media (max-width: 960px) {
+          .campusly-desktop-nav,
+          .campusly-desktop-actions {
+            display: none !important;
+          }
+          .campusly-hamburger-btn {
+            display: inline-flex !important;
           }
         }
       `}</style>
