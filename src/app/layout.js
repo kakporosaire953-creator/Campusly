@@ -1,26 +1,31 @@
+import './globals.css';
+
 export const metadata = {
-  title: "Campusly — Épreuves, IA & Évaluations UAC",
+  title: "Campusly — Plateforme Académique Intelligente UAC",
   description:
-    "La plateforme académique intelligente des étudiants et professeurs de l’UAC. Épreuves, Campusly AI, Classrooms, Compositions et Progression.",
+    "Épreuves, Quiz IA, Classrooms et Compositions pour l’Université d’Abomey-Calavi. Inspiré de l'apprentissage adaptatif francophone.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" className="theme-light">
+    <html lang="fr" className="dark">
       <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
-        <link rel="stylesheet" href="/css/modern.css" />
-        <link rel="stylesheet" href="/css/theme-light.css" />
-        <link rel="stylesheet" href="/css/enhancements.css" />
-        <link rel="stylesheet" href="/css/responsive-scale.css" />
-        <link rel="stylesheet" href="/css/mobile.css?v=3" />
       </head>
-      <body>{children}</body>
+      <body className="editorial-mesh min-h-screen flex flex-col antialiased font-['Plus_Jakarta_Sans',sans-serif]">
+        {children}
+      </body>
     </html>
   );
 }
