@@ -1,997 +1,1325 @@
 <!DOCTYPE html>
-<html lang="fr" class="theme-light">
+<html lang="fr" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Campusly — La plateforme académique intelligente des étudiants et professeurs de l'UAC. Accédez aux anciennes épreuves, créez des quiz avec Campusly AI et progressez." />
-
-  <!-- Open Graph / WhatsApp / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://project-j7yam.vercel.app/" />
-  <meta property="og:title" content="Campusly — Plateforme Académique Intelligente UAC" />
-  <meta property="og:description" content="La plateforme académique intelligente des étudiants et professeurs de l’UAC. Épreuves, Campusly AI, Classrooms, Compositions et Progression." />
-  <meta property="og:image" content="https://project-j7yam.vercel.app/assets/campusly-og.png" />
-  <meta property="og:locale" content="fr_BJ" />
-
-  <title>Campusly — Épreuves, IA & Évaluations UAC</title>
+  <title>Campusly — Plateforme Académique Intelligente UAC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="css/modern.css" />
-  <link rel="stylesheet" href="css/theme-light.css" />
-  <link rel="stylesheet" href="css/enhancements.css" />
-  <link rel="stylesheet" href="css/responsive-scale.css" />
-  <link rel="stylesheet" href="css/mobile.css?v=3" />
-  <link rel="manifest" href="manifest.json" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    .hero-workflow-node {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-md);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text-1);
-      box-shadow: var(--shadow-sm);
-      transition: all 0.2s ease;
+    /* Dark Theme */
+    html.dark body { background-color: #030712; color: #f3f4f6; }
+    html.dark .editorial-mesh {
+      background-color: #030712;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(67, 56, 202, 0.20) 0px, transparent 50%),
+        radial-gradient(at 100% 10%, rgba(2, 132, 199, 0.16) 0px, transparent 40%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.10) 0px, transparent 50%);
     }
-    .hero-workflow-node:hover {
-      border-color: var(--brand-1);
-      transform: translateY(-2px);
+    html.dark .glass-nav { background: rgba(3, 7, 18, 0.88); border-color: rgba(255, 255, 255, 0.08); }
+    html.dark .card-editorial { background: rgba(17, 24, 39, 0.70); border-color: rgba(255, 255, 255, 0.08); }
+
+    /* Light Theme */
+    html:not(.dark) body { background-color: #f8fafc; color: #0f172a; }
+    html:not(.dark) .editorial-mesh {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(224, 231, 255, 0.85) 0px, transparent 50%),
+        radial-gradient(at 100% 10%, rgba(224, 242, 254, 0.85) 0px, transparent 40%),
+        radial-gradient(at 50% 100%, rgba(209, 250, 229, 0.65) 0px, transparent 50%);
     }
-    .hero-workflow-arrow {
-      color: var(--accent);
-      font-size: 0.9rem;
-      font-weight: 900;
+    html:not(.dark) .glass-nav { background: rgba(255, 255, 255, 0.90); border-color: rgba(226, 232, 240, 0.9); }
+    html:not(.dark) .card-editorial { background: rgba(255, 255, 255, 0.92); border-color: rgba(226, 232, 240, 0.95); box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
+
+    .card-editorial { backdrop-filter: blur(16px); transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .card-editorial:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -12px rgba(99, 102, 241, 0.18); }
+    
+    @keyframes slideInUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .toast-animate { animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.6); }
+
+    /* Mobile Drawer Full Screen Overlay Styles */
+    #mobile-drawer {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .tab-toggle-btn {
-      padding: 7px 16px;
-      border-radius: var(--r-full);
-      font-size: 0.8rem;
-      font-weight: 700;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-2);
-      cursor: pointer;
-      transition: all 0.2s;
+    #mobile-drawer.is-open {
+      display: block !important;
+      animation: fadeInDown 0.25s ease forwards;
     }
-    .tab-toggle-btn.active {
-      background: var(--grad-brand);
-      color: #fff;
-      border-color: transparent;
-    }
-    .pillar-card {
-      background: var(--grad-card);
-      border: 1px solid var(--border);
-      border-radius: var(--r-xl);
-      padding: 26px;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    .pillar-card:hover {
-      border-color: rgba(21,101,192,0.35);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
-    }
-    .workflow-step-pill {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--r-full);
-      padding: 6px 14px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text-1);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .faq-category-btn {
-      padding: 6px 14px;
-      border-radius: var(--r-full);
-      font-size: 0.8rem;
-      font-weight: 700;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-2);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .faq-category-btn.active {
-      background: var(--brand-1);
-      color: #fff;
-      border-color: var(--brand-1);
-    }
-    .faq-item {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      padding: 18px 20px;
-      transition: all 0.2s;
-    }
-    .faq-item:hover {
-      border-color: rgba(21,101,192,0.3);
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-<body>
-<script src="js/theme.js"></script>
-<div class="bg-orbs" aria-hidden="true">
-  <div class="bg-orb bg-orb-1"></div> 
-  <div class="bg-orb bg-orb-2"></div>
-  <div class="bg-orb bg-orb-3"></div>
-</div>
+<body class="editorial-mesh min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
 
-<!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <a href="index.html" class="nav-logo">
-    <span class="logo-text">
-      <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
-    </span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#pillars" data-i18n="nav_features">Piliers</a></li>
-    <li><a href="revision.html" data-i18n="nav_revision">Campusly AI</a></li>
-    <li><a href="classrooms.html" data-i18n="nav_classrooms">Classrooms</a></li>
-    <li><a href="composition.html">Compositions</a></li>
-    <li><a href="#pricing" data-i18n="nav_pricing">Crédits & Tarifs</a></li>
-    <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="epreuves.html" data-i18n="nav_exams">Épreuves</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-    
-    
-  </ul>
-  <div class="nav-right">
-    
-    <div class="nav-actions" id="navActions">
-      <a href="auth.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Connexion</a>
-      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-content">
-    <div class="hero-text">
-      <div class="hero-badge" style="display:inline-flex;align-items:center;gap:8px;">
-        <i class="fa-solid fa-bolt" style="color:var(--accent);"></i> Nouveau : Campusly AI 2.0
-      </div>
-      <h1 class="hero-title" style="margin-top:12px;font-size:2.4rem;line-height:1.2;">
-        <span data-i18n="hero_title">La plateforme académique intelligente</span><br/>
-        <span data-i18n="hero_title_span" style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">des étudiants et professeurs de l’UAC.</span>
-      </h1>
-      <p class="hero-desc" data-i18n="hero_desc" style="font-size:1.02rem;line-height:1.65;color:var(--text-2);margin:18px 0 28px;">
-        Accédez aux anciennes épreuves, révisez avec l'intelligence artificielle, créez des évaluations et suivez votre progression. 
-      </p>
-
-      <div class="hero-actions" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-        <a href="auth.html?tab=register" class="btn btn-accent btn-lg" id="heroCtaPrimary">
-          <span data-i18n="hero_cta_primary">Commencer gratuitement</span> <i class="fa-solid fa-arrow-right"></i>
-        </a>
-        <a href="#pillars" class="btn btn-ghost btn-lg" id="heroCtaSecondary">
-          <span data-i18n="hero_cta_secondary">Découvrir Campusly</span>
-        </a>
-      </div>
-
-      <!-- Piliers Clés UAC (Descriptif qualitatif sans faux chiffres) -->
-      <div class="hero-stats" style="margin-top:36px;display:flex;gap:16px;flex-wrap:wrap;">
-        <div class="stat-item" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
-          <div style="width:36px;height:36px;border-radius:8px;background:rgba(21,101,192,0.12);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-book-open"></i></div>
-          <div>
-            <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);" data-i18n="hero_stat_exams">Épreuves & Annales</div>
-            <div style="font-size:0.72rem;color:var(--text-3);" data-i18n="hero_stat_exams_desc">Sujets & examens classés</div>
-          </div>
-        </div>
-        <div class="stat-item" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
-          <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,124,0,0.12);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-brain"></i></div>
-          <div>
-            <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);" data-i18n="hero_stat_ai">Campusly AI</div>
-            <div style="font-size:0.72rem;color:var(--text-3);" data-i18n="hero_stat_ai_desc">Génération de quiz & révision</div>
-          </div>
-        </div>
-        <div class="stat-item" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);">
-          <div style="width:36px;height:36px;border-radius:8px;background:rgba(16,185,129,0.12);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-chalkboard-user"></i></div>
-          <div>
-            <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);" data-i18n="hero_stat_classrooms">Classrooms Amphi</div>
-            <div style="font-size:0.72rem;color:var(--text-3);" data-i18n="hero_stat_classrooms_desc">Espace professeurs & devoirs</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- HERO VISUEL INTÉRACTIF -->
-    <div class="hero-visual">
-      <div class="hero-card" style="padding:22px;border:1px solid var(--border-2);box-shadow:var(--shadow-xl);background:var(--bg-2);border-radius:var(--r-2xl);">
+  <!-- ================= TOP NAVIGATION ================= -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-nav border-b backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
         
-        <!-- Tab switcher Étudiant / Professeur -->
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px;">
-          <div style="display:flex;gap:8px;">
-            <button class="tab-toggle-btn active" id="heroTabLearner" onclick="switchHeroTab('learner')">
-              <i class="fas fa-user-graduate"></i> Mode Étudiant
-            </button>
-            <button class="tab-toggle-btn" id="heroTabTeacher" onclick="switchHeroTab('teacher')">
-              <i class="fas fa-chalkboard-user"></i> Mode Professeur
-            </button>
-          </div>
-          <span style="font-size:0.75rem;font-weight:700;color:var(--accent);background:rgba(245,124,0,0.1);padding:3px 8px;border-radius:var(--r-full);">
-            Live Preview
-          </span>
-        </div>
-
-        <!-- VUE APPRENANT -->
-        <div id="heroViewLearner">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(21,101,192,0.15);color:var(--brand-1);display:flex;align-items:center;justify-content:center;font-weight:bold;">
-              <i class="fas fa-brain"></i>
-            </div>
-            <div>
-              <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);">Parcours Apprentissage IA</div>
-              <div style="font-size:0.75rem;color:var(--text-3);">Algorithmique & Structures de Données (FAST)</div>
+        <!-- Logo Monogram -->
+        <a href="javascript:void(0)" onclick="navigateTo('landing')" class="flex items-center gap-3 select-none group">
+          <div class="relative w-11 h-11 flex items-center justify-center">
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-indigo-600 via-sky-500 to-emerald-400 opacity-70 blur-[6px] group-hover:opacity-100 transition-opacity"></div>
+            <div class="relative w-full h-full rounded-2xl bg-slate-950 border border-white/20 p-2 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform">
+              <svg viewBox="0 0 40 40" fill="none" class="w-full h-full">
+                <path d="M20 5 L35 13 L20 21 L5 13 Z" fill="url(#navGradA)" />
+                <path d="M20 22.5 L33 16 V27.5 C33 27.5 28 31 20 34 C12 31 7 27.5 7 27.5 V16 L20 22.5 Z" fill="url(#navGradB)" opacity="0.85" />
+                <circle cx="20" cy="13" r="2.2" fill="#ffffff" />
+                <path d="M20 23 V34" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                <defs>
+                  <linearGradient id="navGradA" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#818cf8" /><stop offset="50%" stop-color="#38bdf8" /><stop offset="100%" stop-color="#34d399" />
+                  </linearGradient>
+                  <linearGradient id="navGradB" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#6366f1" /><stop offset="100%" stop-color="#0284c7" />
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
           </div>
-
-          <!-- Workflow interactif Document -> AI -> Quiz -> Progression -->
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:16px;background:var(--surface);padding:10px;border-radius:var(--r-lg);border:1px solid var(--border);">
-            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--text-2);">
-              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--text-1);"><i class="fa-solid fa-file-pdf"></i></div> Cours
-            </div>
-            <div class="hero-workflow-arrow">→</div>
-            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--brand-1);">
-              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--brand-1);"><i class="fa-solid fa-bolt"></i></div> Campusly AI
-            </div>
-            <div class="hero-workflow-arrow">→</div>
-            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--accent);">
-              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--accent);"><i class="fa-solid fa-bullseye"></i></div> Quiz QCM
-            </div>
-            <div class="hero-workflow-arrow">→</div>
-            <div style="text-align:center;font-size:0.7rem;font-weight:700;color:var(--success);">
-              <div style="font-size:1.1rem;margin-bottom:2px;color:var(--success);"><i class="fa-solid fa-chart-line"></i></div> Score 18/20
-            </div>
-          </div>
-
-          <!-- Diagnostic des points faibles -->
-          <div style="background:var(--surface-2);border-radius:var(--r-md);padding:12px;margin-bottom:14px;border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-weight:700;color:var(--text-2);margin-bottom:6px;">
-              <span>Diagnostic Adaptatif en cours</span>
-              <span style="color:var(--brand-2);">Niveau Apprenti</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:6px;">
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:2px;">
-                  <span style="color:var(--text-1);font-weight:600;">Algorithmes de Tri (Quicksort/AVL)</span>
-                  <span style="color:var(--danger);font-weight:700;">À renforcer</span>
-                </div>
-                <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden;">
-                  <div style="height:100%;width:50%;background:var(--danger);border-radius:99px;"></div>
-                </div>
-              </div>
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:2px;">
-                  <span style="color:var(--text-1);font-weight:600;">Bases de Données SQL</span>
-                  <span style="color:var(--success);font-weight:700;">Maîtrisé</span>
-                </div>
-                <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden;">
-                  <div style="height:100%;width:75%;background:var(--success);border-radius:99px;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <a href="revision.html" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;font-weight:700;">
-            Lancer un entraînement personnalisé <i class="fas fa-play" style="margin-left:6px;font-size:0.75rem;"></i>
-          </a>
-        </div>
-
-        <!-- VUE PROFESSEUR -->
-        <div id="heroViewTeacher" style="display:none;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,124,0,0.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:bold;">
-              <i class="fas fa-chalkboard-user"></i>
-            </div>
-            <div>
-              <div style="font-size:0.88rem;font-weight:800;color:var(--text-1);">Pilotage Pédagogique Enseignant</div>
-              <div style="font-size:0.75rem;color:var(--text-3);">Promotion L2 Informatique · Espace Amphi</div>
-            </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;text-align:center;">
-              <div style="font-size:1.1rem;font-weight:900;color:var(--brand-1);">Moyenne</div>
-              <div style="font-size:0.68rem;color:var(--text-3);font-weight:600;">Évaluations terminées</div>
-            </div>
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;text-align:center;">
-              <div style="font-size:1.1rem;font-weight:900;color:var(--success);">Taux de réussite</div>
-              <div style="font-size:0.68rem;color:var(--text-3);font-weight:600;">Taux de participation</div>
-            </div>
-          </div>
-
-          <div style="background:rgba(211,47,47,0.06);border:1px solid rgba(211,47,47,0.25);border-radius:var(--r-md);padding:10px;margin-bottom:14px;">
-            <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:800;color:var(--danger);margin-bottom:2px;">
-              <i class="fas fa-triangle-exclamation"></i> Section "À surveiller"
-            </div>
-            <div style="font-size:0.72rem;color:var(--text-2);line-height:1.35;">
-              8 étudiants n'ont pas encore rendu le Devoir #2 (Arbres AVL). Échéance dans 48h.
-            </div>
-          </div>
-
-          <a href="classrooms.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;font-weight:700;">
-            Accéder à l'espace Classroom <i class="fas fa-arrow-right" style="margin-left:6px;font-size:0.75rem;"></i>
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 4: TOUT CAMPUSLY EN UN SEUL ESPACE (6 PILIERS) -->
-<section class="section" id="pillars" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="pillars_tag">Écosystème Académique</span>
-    <h2 class="section-title">
-      <span data-i18n="pillars_title">Une infrastructure</span> <span data-i18n="pillars_title_span" style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">centralisée</span>
-    </h2>
-    <p class="section-desc" data-i18n="pillars_desc">
-      Une suite d'outils interconnectés conçue spécifiquement pour les réalités académiques de l'Université d'Abomey-Calavi.
-    </p>
-  </div>
-
-  <div class="features-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;padding:0 5%;">
-    
-    <!-- Pilier 1: Épreuves -->
-    <div class="pillar-card fade-up">
-      <div class="feature-icon blue" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(21,101,192,0.12);color:var(--brand-1);font-size:1.3rem;margin-bottom:16px;">
-        <i class="fas fa-file-lines"></i>
-      </div>
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar1_title">Épreuves & Annales</h3>
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar1_desc">
-        Retrouvez les anciennes épreuves, partiels et examens classés par faculté, département, semestre et année universitaire.
-      </p>
-      <a href="epreuves.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--brand-1);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-        Parcourir la bibliothèque <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-    <!-- Pilier 2: Campusly AI -->
-    <div class="pillar-card fade-up">
-      <div class="feature-icon orange" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(245,124,0,0.12);color:var(--accent);font-size:1.3rem;margin-bottom:16px;">
-        <i class="fas fa-brain"></i>
-      </div>
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar2_title">Campusly AI</h3>
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar2_desc">
-        Transformez vos cours magistraux, fiches et polycopiés en quiz interactifs et synthèses claires grâce à notre moteur IA.
-      </p>
-      <a href="revision.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-        Essayer Campusly AI <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-    <!-- Pilier 3: 5 Modes d'Apprentissage -->
-    <div class="pillar-card fade-up">
-      <div class="feature-icon green" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(16,185,129,0.12);color:var(--success);font-size:1.3rem;margin-bottom:16px;">
-        <i class="fas fa-layer-group"></i>
-      </div>
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar3_title">5 Modes d'Apprentissage</h3>
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar3_desc">
-        Révisez selon votre profil : QCM chronométré, Questions-Réponses, Vrai/Faux express, Résumé Pédagogique ou Marathon Adaptatif.
-      </p>
-      <a href="revision.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--success);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-        Découvrir les modes <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-    <!-- Pilier 4: Classrooms -->
-    <div class="pillar-card fade-up">
-      <div class="feature-icon blue" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(21,101,192,0.12);color:var(--brand-1);font-size:1.3rem;margin-bottom:16px;">
-        <i class="fas fa-chalkboard-user"></i>
-      </div>
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar4_title">Classrooms & Amphis</h3>
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar4_desc">
-        Permettez aux enseignants de créer leurs classes, partager des cours, planifier des devoirs et suivre les réussites des apprenants.
-      </p>
-      <a href="classrooms.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--brand-1);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-        Espace Classrooms <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-    <!-- Pilier 5: Évaluations & Compositions -->
-    <div class="pillar-card fade-up">
-      <div class="feature-icon orange" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(245,124,0,0.12);color:var(--accent);font-size:1.3rem;margin-bottom:16px;">
-        <i class="fas fa-stopwatch"></i>
-      </div>
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar5_title">Compositions Surveillées</h3>
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar5_desc">
-        Réalisez des évaluations en ligne avec minuterie stricte, surveillance d'intégrité anti-triche et évaluation rigoureuse en ligne avec soumission, correction et validation professeur..
-      </p>
-      <a href="composition.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-        Salle de composition <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-    <!-- Pilier 6: Diagnostic & Progression -->
-    <div class="pillar-card fade-up">
-      <div class="feature-icon green" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(16,185,129,0.12);color:var(--success);font-size:1.3rem;margin-bottom:16px;">
-        <i class="fas fa-chart-line"></i>
-      </div>
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:8px;" data-i18n="pillar6_title">Diagnostic & Progression</h3>
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.6;margin-bottom:16px;" data-i18n="pillar6_desc">
-        Identifiez vos points forts et lacunes en temps réel. Suivez votre niveau académique (Nouveau à Expert) et entretenez votre série quotidienne.
-      </p>
-      <a href="dashboard.html" style="margin-top:auto;font-size:0.82rem;font-weight:700;color:var(--success);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-        Voir mon dashboard <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<!-- SECTION 5: CAMPUSLY AI -->
-<section class="section" id="campusly-ai" style="padding:70px 5%;max-width:1200px;margin:0 auto;">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
-    <div>
-      <span class="section-tag" data-i18n="ai_tag">Moteur Pédagogique Intelligent</span>
-      <h2 style="font-size:clamp(2rem,4vw,2.4rem);font-weight:900;color:var(--text-1);margin:12px 0 16px;line-height:1.1;letter-spacing:-0.03em;">
-        <span data-i18n="ai_title">Vos cours deviennent</span><br/>
-        <span data-i18n="ai_title_span" style="color:var(--brand-1);">interactifs.</span>
-      </h2>
-      <p style="font-size:0.95rem;color:var(--text-2);line-height:1.7;margin-bottom:24px;" data-i18n="ai_desc">
-        Importez vos documents de cours (PDF, Word, photos de notes manuscrites ou texte brut). Campusly AI extrait la structure conceptuelle et génère des entraînements fidèles à vos exigences universitaires.
-      </p>
-
-      <!-- Workflow de Campusly AI -->
-      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">1</div>
-          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Importer un document</strong> (cours magistral, TD ou épreuve)</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">2</div>
-          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Analyse sémantique</strong> et détection automatique des concepts clés</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">3</div>
-          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Génération multi-formats</strong> (QCM, Vrai/Faux, Questions ouvertes)</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;">4</div>
-          <div style="font-size:0.88rem;color:var(--text-1);font-weight:600;"><strong>Vous relisez et personnalisez</strong> avant de vous entraîner</div>
-        </div>
-      </div>
-
-      <div style="background:rgba(21,101,192,0.08);border:1px solid rgba(21,101,192,0.25);border-radius:var(--r-lg);padding:14px;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
-        <i class="fas fa-shield-halved" style="color:var(--brand-1);font-size:1.2rem;"></i>
-        <div style="font-size:0.82rem;color:var(--text-1);line-height:1.4;">
-          <strong>L'IA vous assiste. Vous gardez le contrôle.</strong><br/>
-          <span style="color:var(--text-3);" data-i18n="ai_privacy_badge">Vos documents restent privés et ne sont pas publiés sans votre autorisation.</span>
-        </div>
-      </div>
-
-      <a href="revision.html" class="btn btn-accent btn-lg">
-        Lancer Campusly AI <i class="fas fa-sparkles"></i>
-      </a>
-    </div>
-
-    <!-- Carte interactive Wizard -->
-    <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-2xl);padding:24px;box-shadow:var(--shadow-lg);">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <div style="font-size:0.85rem;font-weight:800;color:var(--text-1);">
-          <i class="fas fa-wand-magic-sparkles" style="color:var(--brand-1);margin-right:6px;"></i> Assistant Pédagogique Campusly AI
-        </div>
-        <span style="font-size:0.72rem;color:var(--text-3);font-family:var(--font-mono);">Document: Cours_Algorithmique_L2.pdf</span>
-      </div>
-
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:14px;">
-        <div style="font-size:0.78rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:4px;">Concepts extraits (4 notions)</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
-          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Complexité O(n²)</span>
-          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Arbres AVL</span>
-          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Parcours BFS / DFS</span>
-          <span class="workflow-step-pill"><i class="fas fa-check" style="color:var(--success);"></i> Programmation Dynamique</span>
-        </div>
-        <div style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">
-          "L'analyse a identifié 8 questions d'entraînement prêtes pour la révision de votre épreuve de mi-semestre."
-        </div>
-      </div>
-
-      <!-- Question preview -->
-      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-          <span style="font-size:0.75rem;font-weight:700;color:var(--brand-2);">Question 1 · QCM</span>
-          <span style="font-size:0.72rem;color:var(--text-3);">Édition interactive activée</span>
-        </div>
-        <div style="font-size:0.85rem;font-weight:700;color:var(--text-1);margin-bottom:8px;">
-          Quelle est la complexité asymptotique pire cas du Quicksort ?
-        </div>
-        <div style="font-size:0.78rem;color:var(--success);font-weight:600;display:flex;align-items:center;gap:6px;">
-          <i class="fas fa-circle-check"></i> O(n²) — Justification pédagogique incluse
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 6: APPRENTISSAGE ADAPTATIF -->
-<section class="section" id="adaptatif" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="adapt_tag">Progression Ciblée</span>
-    <h2 class="section-title">
-      <span data-i18n="adapt_title">Ne révisez pas tout.</span> <span data-i18n="adapt_title_span" style="color:var(--accent);">Révisez ce que vous devez maîtriser.</span>
-    </h2>
-    <p class="section-desc" data-i18n="adapt_desc">
-      Notre moteur adaptatif identifie automatiquement vos lacunes et ajuste en direct la sélection des questions pour maximiser votre note d'examen.
-    </p>
-  </div>
-
-  <div style="max-width:900px;margin:0 auto;padding:0 5%;">
-    <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-2xl);padding:30px;box-shadow:var(--shadow-md);">
-      <h3 style="font-size:1.15rem;font-weight:800;color:var(--text-1);margin-bottom:18px;display:flex;align-items:center;gap:8px;">
-        <i class="fas fa-chart-pie" style="color:var(--accent);"></i> Cartographie de vos matières & notions
-      </h3>
-
-      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:26px;">
-        <!-- Matière 1 -->
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Algorithmique & Structures de Données</span>
-            <span style="font-size:0.85rem;font-weight:800;color:var(--success);">Maîtrisé</span>
-          </div>
-          <div style="height:8px;background:var(--surface);border-radius:99px;overflow:hidden;">
-            <div style="height:100%;width:70%;background:var(--success);border-radius:99px;"></div>
-          </div>
-        </div>
-
-        <!-- Matière 2 -->
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Analyse Mathématique & Calcul Intégral</span>
-            <span style="font-size:0.85rem;font-weight:800;color:var(--accent);">À consolider</span>
-          </div>
-          <div style="height:8px;background:var(--surface);border-radius:99px;overflow:hidden;">
-            <div style="height:100%;width:50%;background:var(--accent);border-radius:99px;"></div>
-          </div>
-        </div>
-
-        <!-- Matière 3 -->
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Probabilités & Variables Aléatoires</span>
-            <span style="font-size:0.85rem;font-weight:800;color:var(--danger);">Priorité Haute</span>
-          </div>
-          <div style="height:8px;background:var(--surface);border-radius:99px;overflow:hidden;">
-            <div style="height:100%;width:30%;background:var(--danger);border-radius:99px;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Marathon adaptatif callout -->
-      <div style="background:var(--surface);border:1.5px solid var(--brand-1);border-radius:var(--r-xl);padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-        <div>
-          <div style="font-size:1rem;font-weight:800;color:var(--text-1);margin-bottom:4px;" data-i18n="adapt_marathon_title">
-            <i class="fa-solid fa-fire" style="color:var(--accent);margin-right:6px;"></i> Marathon Adaptatif
-          </div>
-          <p style="font-size:0.82rem;color:var(--text-2);margin:0;" data-i18n="adapt_marathon_desc">
-            Continuez à vous entraîner jusqu'à maîtriser complètement vos difficultés académiques.
-          </p>
-        </div>
-        <a href="revision.html" class="btn btn-primary btn-sm" style="font-weight:800;">
-          Démarrer le Marathon <i class="fas fa-bolt" style="margin-left:6px;"></i>
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 7: PENSÉ AUSSI POUR LES PROFESSEURS -->
-<section class="section" id="professeurs" style="padding:70px 5%;max-width:1200px;margin:0 auto;">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
-    
-    <!-- Visual Pilotage Enseignant -->
-    <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-2xl);padding:26px;box-shadow:var(--shadow-lg);">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:36px;height:36px;border-radius:50%;background:var(--grad-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;"><i class="fas fa-chalkboard-teacher"></i></div>
           <div>
-            <div style="font-size:0.9rem;font-weight:800;color:var(--text-1);">Dr. Kokou Mensah</div>
-            <div style="font-size:0.72rem;color:var(--text-3);">Enseignant Chercheur — FAST Informatique</div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Campusly</span>
+              <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">UAC • AI</span>
+            </div>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Plateforme Académique Intelligente</span>
+          </div>
+        </a>
+
+        <!-- Dual Role Toggle Switch -->
+        <div class="hidden lg:flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1 rounded-2xl border border-slate-300/80 dark:border-white/10 shadow-inner">
+          <button id="nav-btn-apprenant" onclick="setRole('apprenant')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30">
+            <i class="fa-solid fa-graduation-cap text-cyan-300"></i>
+            <span>Espace Apprenant</span>
+          </button>
+          <button id="nav-btn-enseignant" onclick="setRole('enseignant')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            <i class="fa-solid fa-chalkboard-user text-emerald-500"></i>
+            <span>Espace Enseignant</span>
+          </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="hidden md:flex items-center gap-1.5 bg-slate-200/60 dark:bg-slate-900/50 p-1.5 rounded-2xl border border-slate-300/80 dark:border-white/5 text-xs font-bold">
+          <button onclick="navigateTo('landing')" id="nav-landing" class="nav-link px-4 py-2 rounded-xl text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10">Accueil</button>
+          <button onclick="navigateTo('epreuves')" id="nav-epreuves" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-book-bookmark text-indigo-500"></i><span>Épreuves</span>
+          </button>
+          <button onclick="navigateTo('quiz')" id="nav-quiz" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-wand-magic-sparkles text-sky-500"></i><span>Quiz & IA</span>
+          </button>
+          <button onclick="navigateTo('exam')" id="nav-exam" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-stopwatch text-rose-500"></i><span>Examen Blanc</span>
+          </button>
+          <button onclick="navigateTo('classrooms')" id="nav-classrooms" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-users-rectangle text-emerald-500"></i><span>Classrooms</span>
+          </button>
+          <button onclick="navigateTo('forum')" id="nav-forum" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-comments text-amber-500"></i><span>Forum</span>
+          </button>
+        </div>
+
+        <!-- Action Items (Theme toggle & Profile) -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="toggleTheme()" class="p-2.5 rounded-2xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-indigo-500 transition-colors" title="Basculer Mode Clair / Sombre">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+          </button>
+          <button onclick="navigateTo('dashboard')" class="hidden sm:flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl bg-slate-200/90 dark:bg-slate-900 border border-slate-300 dark:border-white/10 hover:border-indigo-500/40 transition-all">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-8 h-8 rounded-xl object-cover" alt="Avatar" />
+            <div class="text-left">
+              <div class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1">
+                <span>Aurelien</span>
+                <span class="text-[10px] text-amber-500 font-extrabold flex items-center gap-0.5"><i class="fa-solid fa-fire text-amber-500"></i> 14j</span>
+              </div>
+              <div class="text-[10px] text-indigo-500 dark:text-indigo-300 font-mono"><span id="user-xp-display">3,450</span> XP</div>
+            </div>
+          </button>
+          <!-- Hamburger Button for Mobile -->
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-2xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-indigo-500 transition-colors" aria-label="Ouvrir le menu">
+            <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu Dropdown -->
+    <div id="mobile-drawer" class="md:hidden hidden border-t border-slate-200 dark:border-white/10 bg-white/98 dark:bg-slate-950/98 backdrop-blur-2xl px-4 py-5 space-y-3 shadow-2xl overflow-y-auto max-h-[calc(100vh-85px)] z-50">
+      <!-- Mobile Role Toggle -->
+      <div class="flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1 rounded-2xl border border-slate-300/80 dark:border-white/10 mb-2">
+        <button id="mob-btn-apprenant" onclick="setRole('apprenant'); toggleMobileMenu(false);" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30">
+          <i class="fa-solid fa-graduation-cap text-cyan-300"></i>
+          <span>Apprenant</span>
+        </button>
+        <button id="mob-btn-enseignant" onclick="setRole('enseignant'); toggleMobileMenu(false);" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400">
+          <i class="fa-solid fa-chalkboard-user text-emerald-500"></i>
+          <span>Enseignant</span>
+        </button>
+      </div>
+
+      <!-- Mobile Navigation Links -->
+      <div class="space-y-1">
+        <button onclick="navigateTo('landing'); toggleMobileMenu(false);" id="mob-nav-landing" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-house text-indigo-500 w-4 text-center"></i><span>Accueil</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+        <button onclick="navigateTo('epreuves'); toggleMobileMenu(false);" id="mob-nav-epreuves" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-book-bookmark text-indigo-500 w-4 text-center"></i><span>Banque d'Épreuves</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+        <button onclick="navigateTo('quiz'); toggleMobileMenu(false);" id="mob-nav-quiz" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-wand-magic-sparkles text-sky-500 w-4 text-center"></i><span>Quiz & IA Vos Cours</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+        <button onclick="navigateTo('exam'); toggleMobileMenu(false);" id="mob-nav-exam" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-stopwatch text-rose-500 w-4 text-center"></i><span>Examen Blanc Surveillé</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+        <button onclick="navigateTo('classrooms'); toggleMobileMenu(false);" id="mob-nav-classrooms" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-users-rectangle text-emerald-500 w-4 text-center"></i><span>Classrooms Virtuelles</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+        <button onclick="navigateTo('forum'); toggleMobileMenu(false);" id="mob-nav-forum" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-comments text-amber-500 w-4 text-center"></i><span>Forum Entraide</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+        <button onclick="navigateTo('dashboard'); toggleMobileMenu(false);" id="mob-nav-dashboard" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-user-graduate text-indigo-500 w-4 text-center"></i><span>Mon Profil & Recharges</span></span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Student Badge & Logout -->
+      <div class="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-xl object-cover ring-2 ring-indigo-500/30" alt="Avatar" />
+          <div>
+            <div class="text-xs font-bold text-slate-900 dark:text-white">Aurelien KOUASSI</div>
+            <div class="text-[10px] text-slate-500 font-mono">Matricule : 2023-04921</div>
           </div>
         </div>
-        <span style="font-size:0.72rem;font-weight:700;color:var(--success);background:rgba(16,185,129,0.1);padding:3px 8px;border-radius:var(--r-full);display:inline-flex;align-items:center;gap:4px;">
-          <i class="fa-solid fa-check"></i> Statut Vérifié
-        </span>
-      </div>
-
-      <div style="font-size:0.78rem;font-weight:800;color:var(--danger);margin-bottom:8px;">
-        <i class="fas fa-triangle-exclamation"></i> Alertes Pédagogiques ("À surveiller")
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
-        <div style="padding:10px 12px;background:var(--surface);border-left:3px solid var(--danger);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-1);">
-          Visualisez les étudiants n'ayant pas encore soumis leur devoir.
-        </div>
-        <div style="padding:10px 12px;background:var(--surface);border-left:3px solid var(--accent);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-1);">
-          Suivez les tendances de la moyenne globale de l'amphi.
-        </div>
-        <div style="padding:10px 12px;background:var(--surface);border-left:3px solid var(--brand-1);border-radius:var(--r-md);font-size:0.78rem;color:var(--text-1);">
-          Identifiez les concepts posant des difficultés à vos apprenants.
+        <div class="flex items-center gap-1 text-[11px] font-extrabold text-amber-500 bg-amber-500/10 px-2 py-1 rounded-xl border border-amber-500/20">
+          <i class="fa-solid fa-fire"></i> 14j streak
         </div>
       </div>
+    </div>
+  </nav>
 
-      <div style="display:flex;gap:8px;">
-        <a href="classrooms.html" class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Gérer mes classes</a>
-        <a href="classrooms.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">Créer un devoir</a>
+  <!-- ================= SPA MAIN CONTAINER ================= -->
+  <main class="flex-1 pt-24">
+    <!-- ── PAGE 1: LANDING VIEW ────────────────────────── -->
+    <div id="view-landing" class="spa-view px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12">
+      <div class="text-center max-w-4xl mx-auto pt-6 pb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-600 dark:text-indigo-300 text-xs font-bold tracking-wide backdrop-blur-md mb-6 animate-pulse">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span>Plateforme Éducative & Évaluations UAC — Session Académique 2025/2026</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.12] text-slate-900 dark:text-white">
+          Apprenez mieux. Enseignez plus vite. <br />
+          <span class="bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent">
+            Avec l'IA et vos propres documents.
+          </span>
+        </h1>
+
+        <p class="text-base sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mt-6 leading-relaxed">
+          Campusly transforme vos épreuves d’examen, PDF de cours et notes de TD en quiz interactifs et compositions surveillées. Conçu spécifiquement pour l’Université d’Abomey-Calavi.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+          <button onclick="setRole('apprenant'); navigateTo('epreuves');" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-sky-600 text-white font-extrabold text-sm shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02]">
+            <div class="text-left">
+              <div class="text-xs text-indigo-200 font-semibold">Je suis apprenant</div>
+              <div class="text-sm font-extrabold">Commencer mes Révisions</div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-base ml-2"></i>
+          </button>
+
+          <button onclick="setRole('enseignant'); navigateTo('classrooms');" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white font-extrabold text-sm flex items-center justify-center gap-3 transition-all hover:scale-[1.02] shadow-lg">
+            <div class="text-left">
+              <div class="text-xs text-emerald-500 font-semibold">Vous êtes enseignant ?</div>
+              <div class="text-sm font-extrabold">Espace Classrooms & Compositions</div>
+            </div>
+            <i class="fa-solid fa-shield-halved text-base text-emerald-500 ml-2"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-8 text-xs text-slate-500 dark:text-slate-400 font-medium">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> Inscription gratuite</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-mobile-screen text-amber-500"></i> Mobile Money via FedaPay (MTN & Moov)</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-sky-500"></i> Documents 100% privés</span>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="max-w-4xl mx-auto card-editorial p-4 sm:p-6 rounded-3xl mb-16">
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+          <div class="relative flex-1 w-full">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input
+              type="text"
+              id="landing-search"
+              onkeydown="if(event.key === 'Enter'){ navigateTo('epreuves'); filterEpreuves(this.value); }"
+              placeholder="Rechercher une épreuve officielle (ex: Algorithme, Droit, Microéconomie)..."
+              class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+          <button onclick="navigateTo('epreuves'); filterEpreuves(document.getElementById('landing-search').value);" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all">
+            <span>Rechercher</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Dual Role Feature Overview -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+        <div id="path-apprenant" class="card-editorial p-8 rounded-3xl border border-indigo-500/50 bg-slate-100/80 dark:bg-slate-900/80 ring-2 ring-indigo-500/20">
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-500 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Parcours Apprenant</span>
+          </div>
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Tout pour réussir vos examens à votre rythme</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mb-6">Accédez aux annales complètes de vos filières, composez en ligne et consolidez vos points faibles avec le tuteur IA.</p>
+          <ul class="space-y-3 mb-8 text-xs text-slate-700 dark:text-slate-300">
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> 500+ épreuves classées par faculté (S1 à S6)</li>
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Générateur de quiz IA sur vos propres polycopiés</li>
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Compositions surveillées à distance sans déplacement</li>
+          </ul>
+          <button onclick="navigateTo('epreuves')" class="w-full py-3.5 rounded-2xl bg-indigo-600 text-white font-bold text-xs shadow-lg shadow-indigo-600/30">
+            Explorer les Épreuves →
+          </button>
+        </div>
+
+        <div id="path-enseignant" class="card-editorial p-8 rounded-3xl border border-slate-300 dark:border-white/10">
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Parcours Enseignant</span>
+          </div>
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Gérez vos Classrooms et évaluez sans stress</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mb-6">Créez des QCM en 30 secondes à partir de vos cours et évaluez vos étudiants avec surveillance anti-triche intégrée.</p>
+          <ul class="space-y-3 mb-8 text-xs text-slate-700 dark:text-slate-300">
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Code d'invitation simple pour vos étudiants</li>
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Génération automatique de barèmes avec l'IA</li>
+            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Export des notes et statistiques des notions non acquises</li>
+          </ul>
+          <button onclick="navigateTo('classrooms')" class="w-full py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-xs shadow-lg shadow-emerald-600/30">
+            Espace Enseignant & Classes →
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- ── PAGE 2: BANQUE D'ÉPREUVES VIEW ──────────────── -->
+    <div id="view-epreuves" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider bg-indigo-500/10 px-3 py-1 rounded-full">Annales UAC Officielles</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Banque Numérique d'Épreuves</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sujets originaux d'examen avec prévisualisation et corrigés types vérifiés.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="filterFac('all')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white">Tous</button>
+          <button onclick="filterFac('FAST')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FAST</button>
+          <button onclick="filterFac('FASEG')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FASEG</button>
+          <button onclick="filterFac('FADESP')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FADESP</button>
+          <button onclick="filterFac('EPAC')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">EPAC</button>
+          <button onclick="filterFac('ENEAM')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">ENEAM</button>
+          <button onclick="filterFac('FSS')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FSS</button>
+        </div>
+      </div>
+
+      <div id="epreuves-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <div class="epreuve-card card-editorial p-6 rounded-3xl flex flex-col justify-between" data-fac="FAST" data-title="algorithmique structures donnees">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 dark:text-indigo-300">FAST • S3 • 2024-2025</span>
+              <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> Corrigé</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Algorithmique & Structures de Données Avancées</h3>
+            <p class="text-[11px] text-slate-500 font-mono mt-1">INF-201 — Département Informatique</p>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 italic bg-slate-100 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
+              "Exercice 1: Analyse asymptotique des algorithmes de parcours. Exercice 2: Équilibrage dynamique des arbres AVL..."
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-2">
+            <button onclick="openEpreuvePreview('FAST', 'INF-201', 'Algorithmique & Structures de Données Avancées', '2024-2025', 'Exercice 1: Complexité temporelle des parcours en largeur. Exercice 2: Rotations AVL et arbres équilibrés. Problème: Graphe orienté pondéré et algorithme de Dijkstra appliqué au réseau de transport de Cotonou.')" class="py-2.5 px-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-500 text-xs font-bold">
+              <i class="fa-solid fa-eye mr-1"></i> Aperçu
+            </button>
+            <button onclick="loadQuizFor('Algorithmique & Arbres AVL'); navigateTo('quiz');" class="flex-1 py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold border border-indigo-500/30 text-center">
+              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-cyan-400"></i> Quiz IA
+            </button>
+            <button onclick="showToast('Téléchargement du sujet officiel FAST en cours...')" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600">
+              <i class="fa-solid fa-download"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="epreuve-card card-editorial p-6 rounded-3xl flex flex-col justify-between" data-fac="FASEG" data-title="microeconomie equilibre general bien etre">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 dark:text-indigo-300">FASEG • S2 • 2024-2025</span>
+              <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> Corrigé</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Microéconomie II — Équilibre Général & Bien-Être</h3>
+            <p class="text-[11px] text-slate-500 font-mono mt-1">ECO-102 — Sciences Économiques</p>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 italic bg-slate-100 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
+              "Partie 1: Économie d'échange pur à deux agents et deux biens. Déterminer la boîte d'Edgeworth et l'optimum de Pareto..."
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-2">
+            <button onclick="openEpreuvePreview('FASEG', 'ECO-102', 'Microéconomie II — Équilibre Général & Bien-Être', '2024-2025', 'Exercice 1: Dans une économie à deux agents A et B munis de fonctions d utilité Cobb-Douglas. Déterminer le sentier d expansion et le vecteur de prix d équilibre walrasien.')" class="py-2.5 px-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-500 text-xs font-bold">
+              <i class="fa-solid fa-eye mr-1"></i> Aperçu
+            </button>
+            <button onclick="loadQuizFor('Microéconomie II - Équilibre Général'); navigateTo('quiz');" class="flex-1 py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold border border-indigo-500/30 text-center">
+              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-cyan-400"></i> Quiz IA
+            </button>
+            <button onclick="showToast('Téléchargement du sujet officiel FASEG en cours...')" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600">
+              <i class="fa-solid fa-download"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="epreuve-card card-editorial p-6 rounded-3xl flex flex-col justify-between" data-fac="FADESP" data-title="droit obligations responsabilite civile">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 dark:text-indigo-300">FADESP • S4 • 2023-2024</span>
+              <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> Corrigé</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Droit des Obligations & Responsabilité Civile</h3>
+            <p class="text-[11px] text-slate-500 font-mono mt-1">DRT-204 — Droit Privé</p>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 italic bg-slate-100 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
+              "Cas pratique: Analyse de la responsabilité délictuelle pour faute et rupture abusive de pourparlers contractuels..."
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-2">
+            <button onclick="openEpreuvePreview('FADESP', 'DRT-204', 'Droit des Obligations & Responsabilité Civile', '2023-2024', 'Cas Pratique: Un commerçant de Dantokpa s engage par lettre d intention verbale avant de rompre brutalement les négociations. Qualifier la nature du préjudice indemnisable.')" class="py-2.5 px-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-500 text-xs font-bold">
+              <i class="fa-solid fa-eye mr-1"></i> Aperçu
+            </button>
+            <button onclick="loadQuizFor('Droit des Obligations & OHADA'); navigateTo('quiz');" class="flex-1 py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold border border-indigo-500/30 text-center">
+              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-cyan-400"></i> Quiz IA
+            </button>
+            <button onclick="showToast('Téléchargement du sujet officiel FADESP en cours...')" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600">
+              <i class="fa-solid fa-download"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ── PAGE 3: QUIZ & STUDIO IA VIEW ───────────────── -->
+    <div id="view-quiz" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="text-xs font-bold text-cyan-500 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full">Tuteur Cognitif Adaptatif</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Studio de Quiz & Générateur IA</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Transformez vos fichiers PDF de cours en évaluations interactives conformes au LMD.</p>
+        
+        <div class="inline-flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1.5 rounded-2xl border border-slate-300/80 dark:border-white/10 mt-6 shadow-md">
+          <button id="quiz-tab-interactive" onclick="switchQuizMode('interactive')" class="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md">
+            Mode Marathon Quiz
+          </button>
+          <button id="quiz-tab-upload" onclick="switchQuizMode('upload')" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-file-pdf text-rose-500"></i>
+            <span>Générer d'après un PDF (Quizos AI)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mode 1: Interactive Quiz Runner -->
+      <div id="quiz-mode-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 card-editorial p-6 sm:p-8 rounded-3xl">
+          <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-200 dark:border-white/10">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="quiz-badge" class="text-xs font-bold text-slate-900 dark:text-slate-200">Mode Quiz : Algorithmique UAC</span>
+            </div>
+            <span id="quiz-counter" class="text-xs font-mono font-bold text-indigo-500">Question 1 / 3</span>
+          </div>
+
+          <div id="quiz-container">
+            <h3 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 leading-relaxed">
+              Dans un arbre binaire de recherche auto-équilibrant de type AVL, quelle est la différence de hauteur maximale tolérée entre les sous-arbres gauche et droit de chaque nœud ?
+            </h3>
+
+            <div id="quiz-options" class="space-y-3 mb-6">
+              <button onclick="answerQuiz(0)" class="quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between">
+                <span>0 (hauteurs strictement identiques)</span>
+                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">A</span>
+              </button>
+              <button onclick="answerQuiz(1)" class="quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between">
+                <span>1 (facteur d'équilibre égal à -1, 0 ou +1)</span>
+                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">B</span>
+              </button>
+              <button onclick="answerQuiz(2)" class="quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between">
+                <span>2 (avec rééquilibrage asynchrone différé)</span>
+                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">C</span>
+              </button>
+            </div>
+
+            <div id="quiz-feedback" class="hidden p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/40 mb-6 text-xs text-slate-800 dark:text-slate-200 leading-relaxed">
+              <strong class="text-indigo-600 dark:text-indigo-300 block mb-1">Explication de l'enseignant :</strong>
+              <span id="quiz-explanation">Un arbre AVL exige que la différence de hauteur entre sous-arbres d'un même nœud ne dépasse jamais 1.</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-xs text-slate-500 dark:text-slate-400">+50 XP attribués par réponse exacte</span>
+              <button id="btn-next-question" onclick="nextQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg">
+                Question suivante →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Assistant Sidebar -->
+        <div class="lg:col-span-5 card-editorial p-6 rounded-3xl flex flex-col h-[520px]">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-white/10">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center">
+                <i class="fa-solid fa-sparkles"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-slate-900 dark:text-white">Campusly AI • Tuteur UAC</h4>
+                <p class="text-[10px] text-emerald-500 font-medium">Groq LLaMA-3 70B Versatile</p>
+              </div>
+            </div>
+            <button onclick="switchQuizMode('upload')" class="px-2.5 py-1 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[10px] font-bold border border-sky-500/20">
+              <i class="fa-solid fa-upload mr-1"></i> Charger Cours PDF
+            </button>
+          </div>
+
+          <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 py-4 text-xs pr-1">
+            <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
+              Bonjour ! Posez-moi vos questions sur le programme de révision ou chargez un cours pour concevoir un QCM personnalisé.
+            </div>
+          </div>
+
+          <form onsubmit="handleChatSubmit(event)" class="pt-3 border-t border-slate-200 dark:border-white/10 flex gap-2">
+            <input
+              type="text"
+              id="chat-input"
+              placeholder="Poser une question académique..."
+              class="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-cyan-500"
+            />
+            <button type="submit" class="p-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white transition-colors">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Mode 2: PDF Document AI Generator (like Quizos) -->
+      <div id="quiz-mode-upload" class="hidden max-w-3xl mx-auto card-editorial p-8 rounded-3xl">
+        <div class="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200 dark:border-white/10">
+          <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-file-arrow-up"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Générateur Automatique de Quiz depuis vos PDF</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Importez votre polycopié de cours ou vos notes de travaux dirigés.</p>
+          </div>
+        </div>
+
+        <form onsubmit="handlePdfGenerateSubmit(event)" class="space-y-6">
+          <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50 dark:bg-slate-950 cursor-pointer relative transition-all">
+            <input type="file" id="pdf-file-input" accept=".pdf,.txt,.docx" onchange="document.getElementById('pdf-file-name').innerText = this.files[0]?.name || 'Fichier sélectionné';" class="absolute inset-0 opacity-0 cursor-pointer" />
+            <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-400 mb-3"></i>
+            <div id="pdf-file-name" class="text-sm font-bold text-slate-900 dark:text-white">Glissez votre cours PDF ici ou cliquez pour parcourir</div>
+            <p class="text-xs text-slate-500 mt-1">PDF de cours, TD ou polycopié (max 15 Mo)</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nombre de questions</label>
+              <select id="gen-question-count" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+                <option value="5">5 questions (Express • 1 crédit IA)</option>
+                <option value="10" selected>10 questions (Standard • 2 crédits IA)</option>
+                <option value="20">20 questions (Examen Blanc complet • 3 crédits IA)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Difficulté du barème</label>
+              <select id="gen-difficulty" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+                <option value="fondamental">Fondamentaux & Définitions</option>
+                <option value="standard" selected>Standard Examen UAC (Recommandé)</option>
+                <option value="expert">Cas Pratiques & Synthèse Avancée</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-between text-xs">
+            <span class="text-indigo-900 dark:text-indigo-200 flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-amber-500"></i>
+              Vos crédits IA disponibles : <strong class="font-bold">42 crédits</strong>
+            </span>
+            <span class="text-emerald-500 font-bold">100% Chiffré & Privé</span>
+          </div>
+
+          <button type="submit" id="btn-submit-pdf-gen" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-600 text-white font-extrabold text-sm shadow-xl flex items-center justify-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Générer le Quiz avec l'IA</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- ── PAGE 4: EXAMEN BLANC SURVEILLÉ (PROCTORING) ─── -->
+    <div id="view-exam" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <span class="text-xs font-bold text-rose-500 uppercase tracking-wider bg-rose-500/10 px-3 py-1 rounded-full">Conditions Réelles UAC</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Salle d'Examen Blanc Surveillé</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Évaluation chronométrée avec surveillance anti-triche et note officielle sur 20.</p>
+        </div>
+        <div id="exam-timer-badge" class="hidden px-4 py-2 rounded-2xl bg-rose-500/20 text-rose-500 border border-rose-500/30 text-sm font-mono font-bold flex items-center gap-2 animate-pulse">
+          <i class="fa-solid fa-clock"></i>
+          <span id="exam-timer-display">45:00</span>
+        </div>
+      </div>
+
+      <!-- Exam Setup Card -->
+      <div id="exam-pre-start" class="card-editorial p-8 rounded-3xl max-w-3xl mx-auto text-center space-y-6">
+        <div class="w-16 h-16 rounded-3xl bg-rose-500/20 text-rose-500 flex items-center justify-center text-2xl mx-auto">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Composition Blanche : Algorithmique & Graphes</h3>
+        <p class="text-xs text-slate-500 max-w-lg mx-auto">
+          Durée : <strong>45 minutes</strong> • 5 questions • Barème : <strong>20 points</strong>. <br />
+          Le système détectera tout changement d'onglet ou sortie de plein écran.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left text-xs">
+          <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5">
+            <i class="fa-solid fa-expand text-indigo-500 mb-1 block"></i>
+            <strong class="text-slate-900 dark:text-white">Plein Écran Forcé</strong>
+            <p class="text-slate-500 text-[11px] mt-0.5">La session s'annule si vous quittez la fenêtre.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5">
+            <i class="fa-solid fa-camera text-sky-500 mb-1 block"></i>
+            <strong class="text-slate-900 dark:text-white">Surveillance Proctoring</strong>
+            <p class="text-slate-500 text-[11px] mt-0.5">Vérification de présence et intégrité.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5">
+            <i class="fa-solid fa-trophy text-emerald-500 mb-1 block"></i>
+            <strong class="text-slate-900 dark:text-white">Note Immédiate</strong>
+            <p class="text-slate-500 text-[11px] mt-0.5">Calcul du résultat et corrigé détaillé.</p>
+          </div>
+        </div>
+
+        <button onclick="startExamSession()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-indigo-600 text-white font-black text-sm shadow-xl hover:opacity-95 transition-all">
+          Démarrer l'Épreuve Surveillée Maintenant
+        </button>
+      </div>
+
+      <!-- Exam In-Progress Live Arena -->
+      <div id="exam-in-progress" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-8 card-editorial p-8 rounded-3xl">
+          <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-200 dark:border-white/10">
+            <span class="text-xs font-bold text-rose-500 uppercase tracking-wider flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+              Enregistrement Surveillé Actif
+            </span>
+            <span class="text-xs font-mono text-slate-500">Question <span id="exam-q-idx">1</span> / 3</span>
+          </div>
+
+          <h3 id="exam-q-title" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 leading-relaxed">
+            Quelle est la complexité asymptotique temporelle pire cas de la recherche dans un arbre binaire non équilibré à n nœuds ?
+          </h3>
+
+          <div id="exam-q-options" class="space-y-3 mb-8">
+            <label class="p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-950 flex items-center justify-between cursor-pointer hover:border-indigo-500">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="exam_opt" value="0" class="accent-indigo-600" />
+                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-200">O(1)</span>
+              </div>
+              <span class="font-mono text-xs text-slate-500">4 pts</span>
+            </label>
+            <label class="p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-950 flex items-center justify-between cursor-pointer hover:border-indigo-500">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="exam_opt" value="1" class="accent-indigo-600" />
+                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-200">O(log n)</span>
+              </div>
+              <span class="font-mono text-xs text-slate-500">4 pts</span>
+            </label>
+            <label class="p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-950 flex items-center justify-between cursor-pointer hover:border-indigo-500">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="exam_opt" value="2" class="accent-indigo-600" />
+                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-200">O(n)</span>
+              </div>
+              <span class="font-mono text-xs text-slate-500">4 pts</span>
+            </label>
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-white/10">
+            <button onclick="submitExam()" class="px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-lg">
+              Terminer & Soumettre ma Copie
+            </button>
+          </div>
+        </div>
+
+        <!-- Proctoring Live Feed Simulation -->
+        <div class="lg:col-span-4 card-editorial p-6 rounded-3xl space-y-4">
+          <div class="text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between">
+            <span>Flux Webcam Simulation</span>
+            <span class="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Conforme
+            </span>
+          </div>
+          <div class="aspect-video rounded-2xl bg-slate-950 flex flex-col items-center justify-center border border-slate-800 relative overflow-hidden">
+            <i class="fa-solid fa-user text-4xl text-slate-700"></i>
+            <span class="text-[10px] text-slate-500 mt-2 font-mono">ID: Matricule 2023-04921</span>
+            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-rose-600 text-white text-[9px] font-bold font-mono">REC</div>
+          </div>
+          <div class="text-[11px] text-slate-500 space-y-1">
+            <div class="flex items-center justify-between">
+              <span>Alertes changement onglet :</span>
+              <strong class="text-emerald-500">0 anomalie</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Temps écoulé :</span>
+              <strong class="text-slate-700 dark:text-slate-300 font-mono">03 min 12 s</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exam Result Dialog -->
+      <div id="exam-result" class="hidden card-editorial p-8 rounded-3xl max-w-xl mx-auto text-center space-y-5">
+        <div class="w-16 h-16 rounded-3xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-3xl mx-auto">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white">Copie Corrigée & Validée !</h3>
+        <div class="text-4xl font-black text-emerald-500 font-mono">16.0 / 20</div>
+        <p class="text-xs text-slate-500">Mention Très Bien • 4 réponses exactes sur 5. Votre note a été enregistrée dans la classroom officielle.</p>
+        <button onclick="navigateTo('dashboard')" class="px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold text-xs shadow-lg">
+          Voir mon Tableau de Bord →
+        </button>
+      </div>
+    </div>
+    <!-- ── PAGE 5: CLASSROOMS & COMPOSITIONS VIEW ──────── -->
+    <div id="view-classrooms" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider bg-emerald-500/10 px-3 py-1 rounded-full">Salles de Cours Virtuelles</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Classrooms & Compositions</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Rejoignez une classe avec son code ou administrez vos promotions.</p>
+        </div>
+        <button onclick="openJoinClassModal()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30">
+          <i class="fa-solid fa-plus"></i>
+          <span>Rejoindre avec un Code</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card-editorial p-6 rounded-3xl space-y-4">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">FAST • Licence 2</span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">Algorithmique & Structures de Données</h3>
+              <p class="text-xs text-slate-500">Dr. K. AGBOTON — Université d'Abomey-Calavi</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold">
+              UAC-INFO-2026
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 py-2 border-y border-slate-200 dark:border-white/5 text-center text-xs">
+            <div><div class="text-slate-500 text-[10px]">Étudiants</div><div class="font-bold text-slate-900 dark:text-white mt-0.5">142</div></div>
+            <div><div class="text-slate-500 text-[10px]">Quiz Actifs</div><div class="font-bold text-cyan-500 mt-0.5">3</div></div>
+            <div><div class="text-slate-500 text-[10px]">Moyenne Promo</div><div class="font-bold text-emerald-500 mt-0.5">15.2/20</div></div>
+          </div>
+          <button onclick="navigateTo('exam')" class="w-full py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold transition-colors">
+            Lancer la Composition Surveillée
+          </button>
+        </div>
+
+        <div class="card-editorial p-6 rounded-3xl space-y-4">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">FASEG • Licence 2</span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">Microéconomie II — Équilibre Général</h3>
+              <p class="text-xs text-slate-500">Pr. M. HOUNGBEDJI — UAC</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold">
+              UAC-ECO-2026
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 py-2 border-y border-slate-200 dark:border-white/5 text-center text-xs">
+            <div><div class="text-slate-500 text-[10px]">Étudiants</div><div class="font-bold text-slate-900 dark:text-white mt-0.5">198</div></div>
+            <div><div class="text-slate-500 text-[10px]">Quiz Actifs</div><div class="font-bold text-cyan-500 mt-0.5">2</div></div>
+            <div><div class="text-slate-500 text-[10px]">Moyenne Promo</div><div class="font-bold text-emerald-500 mt-0.5">12.8/20</div></div>
+          </div>
+          <button onclick="navigateTo('exam')" class="w-full py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold transition-colors">
+            Lancer la Composition Surveillée
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Content Professeurs -->
-    <div>
-      <span class="section-tag" data-i18n="teacher_tag">Espace Enseignants</span>
-      <h2 style="font-size:clamp(2rem,4vw,2.4rem);font-weight:900;color:var(--text-1);margin:12px 0 16px;line-height:1.1;letter-spacing:-0.03em;">
-        <span data-i18n="teacher_title">Pensé aussi pour</span><br/>
-        <span data-i18n="teacher_title_span" style="color:var(--accent);">les professeurs.</span>
-      </h2>
-      <p style="font-size:0.95rem;color:var(--text-2);line-height:1.7;margin-bottom:24px;" data-i18n="teacher_desc">
-        Campusly devient votre centre de pilotage pédagogique à l'UAC. Créez vos espaces d'amphi, partagez vos supports de cours, générez des interrogations et suivez les difficultés de vos étudiants avec des alertes automatiques.
-      </p>
+    <!-- ── PAGE 6: FORUM COMMUNAUTAIRE VIEW ────────────── -->
+    <div id="view-forum" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <span class="text-xs font-bold text-amber-500 uppercase tracking-wider bg-amber-500/10 px-3 py-1 rounded-full">Entraide & Questions</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Forum Étudiant UAC</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Posez vos questions sur les exercices et partagez vos fiches de révision.</p>
+        </div>
+        <button onclick="openNewPostModal()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-indigo-600/30">
+          <i class="fa-solid fa-plus"></i>
+          <span>Créer un Sujet</span>
+        </button>
+      </div>
 
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-1);">
-          <i class="fas fa-check-circle" style="color:var(--brand-2);"></i> Création de classe instantanée et code d'amphi unique
+      <div id="forum-posts-container" class="space-y-4 max-w-4xl mx-auto">
+        <div class="card-editorial p-6 rounded-3xl">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-500">FAST • Informatique</span>
+              <span class="text-xs font-bold text-slate-900 dark:text-white">Awa Dossou</span>
+            </div>
+            <span class="text-[11px] text-slate-500">Il y a 2h</span>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Compréhension des rotations simples vs doubles dans les arbres AVL ?</h4>
+          <p class="text-xs text-slate-600 dark:text-slate-300">Quelqu'un aurait un schéma simple pour distinguer le cas Gauche-Droite (GD) lors de l'insertion dans un arbre AVL pour l'examen de demain ?</p>
+          <div class="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-4 text-xs text-slate-500">
+            <button onclick="togglePostLike(this)" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-thumbs-up"></i> <span>14</span> likes</button>
+            <button onclick="showToast('Section réponses ouverte')" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-comment"></i> 6 réponses</button>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-1);">
-          <i class="fas fa-check-circle" style="color:var(--brand-2);"></i> Banque d'exercices & quiz générés ou personnalisés
+
+        <div class="card-editorial p-6 rounded-3xl">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-500">FASEG • Économie</span>
+              <span class="text-xs font-bold text-slate-900 dark:text-white">Koffi Mensah</span>
+            </div>
+            <span class="text-[11px] text-slate-500">Hier</span>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Corrigé type de la session 2024 de Microéconomie II disponible !</h4>
+          <p class="text-xs text-slate-600 dark:text-slate-300">J'ai uploadé la résolution détaillée de la partie sur l'équilibre concurrentiel Walrasien dans la banque d'épreuves.</p>
+          <div class="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-4 text-xs text-slate-500">
+            <button onclick="togglePostLike(this)" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-thumbs-up"></i> <span>28</span> likes</button>
+            <button onclick="showToast('Section réponses ouverte')" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-comment"></i> 12 réponses</button>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-1);">
-          <i class="fas fa-check-circle" style="color:var(--brand-2);"></i> Tableau de bord d'analyse avec alertes d'abandon et de baisse de note
+      </div>
+    </div>
+    <!-- ── PAGE 7: DASHBOARD PROFILE VIEW ─────────────── -->
+    <div id="view-dashboard" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+      <div class="card-editorial p-8 rounded-3xl mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div class="flex items-center gap-4">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-2xl object-cover ring-4 ring-indigo-500/30" alt="Avatar" />
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">Aurelien KOUASSI</h2>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">Étudiant Vérifié</span>
+              </div>
+              <p class="text-xs text-slate-500 font-mono mt-0.5">Matricule : 2023-04921 • FAST (Informatique) — Licence 2</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 text-center">
+              <div class="text-[10px] text-slate-500 uppercase font-bold">Niveau</div>
+              <div class="text-lg font-black text-indigo-500">7</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 text-center">
+              <div class="text-[10px] text-slate-500 uppercase font-bold">Streak</div>
+              <div class="text-lg font-black text-amber-500">14j</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 text-center">
+              <div class="text-[10px] text-slate-500 uppercase font-bold">Crédits IA</div>
+              <div class="text-lg font-black text-cyan-500"><span id="user-credits-val">42</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-5 border-t border-slate-200 dark:border-white/10">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="font-bold text-slate-700 dark:text-slate-300">Progression vers le Niveau 8</span>
+            <span class="font-mono text-indigo-500 font-bold"><span id="user-xp-val">3,450</span> / 5,000 XP (70%)</span>
+          </div>
+          <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-indigo-500 via-sky-400 to-emerald-400 rounded-full" style="width: 70%"></div>
+          </div>
         </div>
       </div>
 
-      <a href="classrooms.html" class="btn btn-accent btn-lg" data-i18n="teacher_cta">
-        Découvrir les Classrooms <i class="fas fa-arrow-right"></i>
-      </a>
+      <!-- FedaPay Mobile Money Topup Card -->
+      <div class="p-8 rounded-3xl bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white shadow-2xl relative overflow-hidden mb-8">
+        <div class="text-xs font-bold tracking-wider uppercase text-cyan-300 mb-1">Pass Étudiant FedaPay</div>
+        <h3 class="text-xl font-black mb-2">Abonnement Révision & Crédits IA</h3>
+        <p class="text-xs text-slate-300 max-w-xl mb-4">Débloquez tous les corrigés d'examen et générez des QCM illimités sur vos propres cours via MTN Mobile Money ou Moov Money.</p>
+        <div class="flex items-baseline gap-1 mb-4">
+          <span class="text-3xl font-black">1 500</span>
+          <span class="text-xs text-indigo-300">FCFA / mois</span>
+        </div>
+        <button onclick="openPaymentModal()" class="px-6 py-3 rounded-2xl bg-white text-indigo-950 font-black text-xs hover:bg-slate-100 transition-colors shadow-lg flex items-center gap-2">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <span>Recharger par Mobile Money (MTN & Moov)</span>
+        </button>
+      </div>
     </div>
 
-  </div>
-</section>
+  </main>
 
-<!-- SECTION 8: COMPOSITIONS & ÉVALUATIONS -->
-<section class="section" id="compositions" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="comp_tag">Évaluations à Distance</span>
-    <h2 class="section-title">
-      <span data-i18n="comp_title">Évaluez vos apprenants,</span> <span data-i18n="comp_title_span" style="color:var(--brand-1);">où qu'ils soient.</span>
-    </h2>
-    <p class="section-desc" data-i18n="comp_desc">
-      Organisez des compositions d'amphi et examens blancs surveillés avec correction automatique, barème sur 20 et génération de copie personnelle.
-    </p>
-  </div>
-
-  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;padding:0 5%;">
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
-      <div style="font-size:1.8rem;color:var(--brand-1);margin-bottom:10px;"><i class="fas fa-hourglass-half"></i></div>
-      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Durée & Chronomètre</h4>
-      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Compte à rebours synchronisé avec soumission automatique dès la fin du temps imparti.</p>
+  <!-- ================= EDITORIAL FOOTER ================= -->
+  <footer class="border-t border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-950 py-12 px-4 text-xs text-slate-500 mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex flex-col items-center md:items-start gap-1">
+        <span class="font-extrabold text-slate-900 dark:text-white text-sm">Campusly • Écosystème Éducatif UAC</span>
+        <p class="text-[11px] text-slate-500">Conçu pour le Bénin et l'Afrique francophone. Inspiré des plus hauts standards pédagogiques.</p>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-[11px] font-semibold">
+        <button onclick="navigateTo('epreuves')" class="hover:text-indigo-500">Épreuves</button>
+        <button onclick="navigateTo('quiz')" class="hover:text-indigo-500">Quiz IA</button>
+        <button onclick="navigateTo('exam')" class="hover:text-indigo-500">Examen Blanc</button>
+        <button onclick="navigateTo('classrooms')" class="hover:text-indigo-500">Classrooms</button>
+        <button onclick="navigateTo('forum')" class="hover:text-indigo-500">Forum</button>
+        <a href="https://wa.me/2290158519556" target="_blank" class="text-emerald-500 hover:underline">Support WhatsApp (+229)</a>
+      </div>
     </div>
+  </footer>
 
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
-      <div style="font-size:1.8rem;color:var(--accent);margin-bottom:10px;"><i class="fas fa-shield-halved"></i></div>
-      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Surveillance & Proctoring</h4>
-      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Mode plein écran requis et journalisation des changements d'onglets pour garantir l'intégrité.</p>
-    </div>
-
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
-      <div style="font-size:1.8rem;color:var(--success);margin-bottom:10px;"><i class="fas fa-circle-check"></i></div>
-      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Outils de Correction</h4>
-      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Le professeur dispose d'outils d'assistance à la correction avant validation finale et publication de la note.</p>
-    </div>
-
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;">
-      <div style="font-size:1.8rem;color:var(--brand-2);margin-bottom:10px;"><i class="fas fa-file-invoice"></i></div>
-      <h4 style="font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">Copie Personnelle</h4>
-      <p style="font-size:0.82rem;color:var(--text-2);line-height:1.5;">Remise d'une copie corrigée détaillée avec feedback pédagogique et corrigé modèle.</p>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin-top:32px;">
-    <a href="composition.html" class="btn btn-primary btn-lg">
-      Accéder aux Compositions <i class="fas fa-arrow-right"></i>
-    </a>
-  </div>
-</section>
-
-<!-- SECTION 9: PROGRESSION & GAMIFICATION -->
-<section class="section" id="progression" style="padding:70px 5%;max-width:1200px;margin:0 auto;">
-  <div class="section-center">
-    <span class="section-tag">Régularité & Réussite</span>
-    <h2 class="section-title">
-      Chaque session vous rapproche <span>de votre objectif.</span>
-    </h2>
-    <p class="section-desc">
-      Suivez l'évolution de vos compétences, maintenez votre streak d'étude et gagnez des badges académiques.
-    </p>
-  </div>
-
-  <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
-      <div style="font-size:2.2rem;margin-bottom:8px;color:var(--accent);"><i class="fa-solid fa-fire"></i></div>
-      <div style="font-size:1.8rem;font-weight:900;color:var(--accent);">Série d'étude</div>
-      <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">Maintenez votre régularité pour doubler vos gains d'XP et recevoir des crédits bonus.</p>
-    </div>
-
-    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
-      <div style="font-size:2.2rem;margin-bottom:8px;color:var(--brand-1);"><i class="fa-solid fa-graduation-cap"></i></div>
-      <div style="font-size:1.8rem;font-weight:900;color:var(--brand-1);">Niveau Apprenti</div>
-      <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">Cumulez de l'expérience et atteignez de nouveaux paliers de progression.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- SECTION 10: POUR LES ÉTABLISSEMENTS -->
-<section class="section" id="etablissements" style="background:rgba(21,101,192,0.06);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 5%;">
-  <div style="max-width:900px;margin:0 auto;text-align:center;">
-    <span class="section-tag">Enseignement Supérieur</span>
-    <h2 style="font-size:clamp(1.8rem,3.5vw,2.2rem);font-weight:900;color:var(--text-1);margin:10px 0 14px;line-height:1.15;letter-spacing:-0.02em;">
-      Une plateforme pour vos apprenants.
-    </h2>
-    <p style="font-size:0.95rem;color:var(--text-2);line-height:1.65;max-width:700px;margin:0 auto 24px;">
-      Facultés, écoles d'ingénieurs et instituts de l'UAC : découvrez comment déployer Campusly comme infrastructure numérique d'apprentissage, d'évaluations certifiées et de suivi des promotions.
-    </p>
-    <a href="mailto:contact@campusly.app?subject=Partenariat%20Établissement%20UAC" class="btn btn-outline btn-lg" style="background:var(--surface);">
-      Nous contacter
-    </a>
-  </div>
-</section>
-
-<!-- SECTION 11: FAQ PAR CATÉGORIES -->
-<section class="section" id="faq" style="padding:70px 5%;max-width:1100px;margin:0 auto;">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="nav_faq">Support & FAQ</span>
-    <h2 class="section-title">Questions <span>fréquentes</span></h2>
-    <p class="section-desc">Toutes les réponses pour maîtriser Campusly 2.0 en tant qu'étudiant ou enseignant.</p>
-  </div>
-
-  <!-- FAQ Filter buttons -->
-  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:28px;">
-    <button class="faq-category-btn active" onclick="filterFaq('all', this)">Toutes</button>
-    <button class="faq-category-btn" onclick="filterFaq('ai', this)">Campusly AI</button>
-    <button class="faq-category-btn" onclick="filterFaq('learning', this)">Apprentissage</button>
-    <button class="faq-category-btn" onclick="filterFaq('teachers', this)">Professeurs & Classrooms</button>
-    <button class="faq-category-btn" onclick="filterFaq('compositions', this)">Compositions</button>
-    <button class="faq-category-btn" onclick="filterFaq('credits', this)">Crédits & Paiement</button>
-    <button class="faq-category-btn" onclick="filterFaq('privacy', this)">Confidentialité</button>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:12px;" id="faqList">
-    <!-- Q1 -->
-    <div class="faq-item" data-cat="ai">
-      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
-        Comment fonctionne la génération de quiz avec Campusly AI ?
-      </h4>
-      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
-        Vous importez votre support (cours, TD, épreuve ou notes). Campusly AI en extrait la structure pédagogique, dégage les concepts fondamentaux et formule des questions (QCM, Q/R, Vrai/Faux) avec corrections et justifications. Vous pouvez relire, modifier ou régénérer chaque question avant de lancer l'exercice.
-      </p>
-    </div>
-
-    <!-- Q2 -->
-    <div class="faq-item" data-cat="learning">
-      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
-        Qu'est-ce que le Marathon Adaptatif ?
-      </h4>
-      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
-        Le Marathon Adaptatif cible en priorité les notions où votre taux de réussite nécessite un renforcement. L'algorithme vous soumet de nouvelles questions progressives jusqu'à ce que votre score atteigne le palier de maîtrise.
-      </p>
-    </div>
-
-    <!-- Q3 -->
-    <div class="faq-item" data-cat="teachers">
-      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
-        Comment un enseignant peut-il créer une classe amphi et suivre ses apprenants ?
-      </h4>
-      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
-        Lors de l'inscription, sélectionnez "Je suis professeur". Vous accédez au panneau de création de classe, recevez un code d'invitation à transmettre à vos étudiants, et profitez du centre de pilotage avec alertes pédagogiques automatiques ("À surveiller").
-      </p>
-    </div>
-
-    <!-- Q4 -->
-    <div class="faq-item" data-cat="compositions">
-      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
-        Comment se déroule la surveillance des compositions en ligne ?
-      </h4>
-      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
-        La salle de composition active un compte à rebours strict, un mode plein écran et consigne les changements d'onglets intempestifs. À l'issue de l'épreuve, la copie est automatiquement corrigée et commentée.
-      </p>
-    </div>
-
-
-    <!-- Q6 -->
-    <div class="faq-item" data-cat="privacy">
-      <h4 style="font-size:0.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px;">
-        Mes documents de cours restent-ils confidentiels ?
-      </h4>
-      <p style="font-size:0.85rem;color:var(--text-2);line-height:1.6;margin:0;">
-        Absolument. Vos documents importés restent strictement privés. Ils ne sont jamais partagés publiquement ni réutilisés sans votre autorisation préalable.
-      </p>
+  <!-- ================= HIGH-END MODALS ================= -->
+  <!-- Modal 1: Epreuve Preview Modal -->
+  <div id="modal-epreuve-preview" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="card-editorial w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 shadow-2xl space-y-4">
+      <div class="flex items-start justify-between">
+        <div>
+          <span id="preview-modal-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-500">FAST • S3</span>
+          <h3 id="preview-modal-title" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-1">Titre de l'épreuve</h3>
+          <p id="preview-modal-code" class="text-xs text-slate-500 font-mono mt-0.5">CODE-000</p>
+        </div>
+        <button onclick="closeModal('modal-epreuve-preview')" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="p-5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5 space-y-3 font-serif">
+        <div class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider font-sans flex items-center gap-2">
+          <i class="fa-solid fa-file-lines text-indigo-500"></i> Extrait du Sujet Officiel
+        </div>
+        <p id="preview-modal-body" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">Extrait...</p>
+      </div>
+      <div class="flex items-center justify-end gap-3 pt-3">
+        <button onclick="closeModal('modal-epreuve-preview')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white">Fermer</button>
+        <button id="preview-modal-btn-quiz" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-1.5 shadow-lg">
+          <i class="fa-solid fa-wand-magic-sparkles text-cyan-300"></i><span>Lancer le Quiz IA</span>
+        </button>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- PRICING & CREDITS -->
-<section class="section pricing-section" id="pricing" style="background:var(--surface);border-top:1px solid var(--border);">
-  <div class="section-center">
-    <span class="section-tag" data-i18n="pricing_tag">Crédits & Tarifs</span>
-    <h2 class="section-title">
-      Des packs <span>accessibles à tous</span>
-    </h2>
-    <p class="section-desc">Rechargez vos crédits selon vos besoins d'étude ou activez un accès complet pour tout le semestre.</p>
-  </div>
-
-  <div class="pricing-grid">
-    <div class="pricing-card fade-up">
-      <div class="pricing-duration">Pack Découverte</div>
-      <div class="pricing-price">500 <span>FCFA</span></div>
-      <ul class="pricing-features">
-        <li><span class="check"><i class="fas fa-check"></i></span> <strong>100 Campusly Credits</strong></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> 6 analyses complètes de polycopiés</li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Accès aux 5 modes d'apprentissage</li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Accès aux épreuves et annales UAC</li>
-      </ul>
-      <button onclick="window.creditService && window.creditService.showCreditModal(100)" class="btn btn-outline" style="width:100%;">
-        Recharger ce pack
-      </button>
-    </div>
-
-    <div class="pricing-card popular fade-up">
-      <div class="popular-badge">Recommandé</div>
-      <div class="pricing-duration">Pack Révision Amphi</div>
-      <div class="pricing-price">1 000 <span>FCFA</span></div>
-      <ul class="pricing-features">
-        <li><span class="check"><i class="fas fa-check"></i></span> <strong>250 Campusly Credits</strong></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> 18 analyses complètes de documents</li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Marathons adaptatifs illimités</li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Accès aux Classrooms et Compositions</li>
-      </ul>
-      <button onclick="window.creditService && window.creditService.showCreditModal(250)" class="btn btn-primary" style="width:100%;">
-        Activer le pack
-      </button>
-    </div>
-
-    <div class="pricing-card fade-up">
-      <div class="pricing-duration">Pack Semestre Élite</div>
-      <div class="pricing-price">2 500 <span>FCFA</span></div>
-      <ul class="pricing-features">
-        <li><span class="check"><i class="fas fa-check"></i></span> <strong>700 Campusly Credits</strong></li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Analyses de cours illimitées pour le semestre</li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Diagnostic de niveau et copies archivées</li>
-        <li><span class="check"><i class="fas fa-check"></i></span> Support académique prioritaire</li>
-      </ul>
-      <button onclick="window.creditService && window.creditService.showCreditModal(700)" class="btn btn-outline" style="width:100%;">
-        Débloquer le semestre
-      </button>
+  <!-- Modal 2: Join Classroom Modal -->
+  <div id="modal-join-class" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="card-editorial w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 shadow-2xl space-y-4">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-users-rectangle"></i></div>
+          <div><h3 class="text-base font-bold text-slate-900 dark:text-white">Rejoindre une Classroom</h3><p class="text-xs text-slate-500">Code fourni par votre professeur</p></div>
+        </div>
+        <button onclick="closeModal('modal-join-class')" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <input type="text" id="join-class-input" placeholder="Ex: UAC-INFO-2026" class="w-full px-4 py-3 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:border-emerald-500" />
+      <button onclick="submitJoinClass()" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30">Valider et Accéder au Cours</button>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <span class="logo-text"><span class="logo-campus">Campus</span><span class="logo-ly">ly</span></span>
-      <p>Accélérez votre parcours universitaire à l'Université d'Abomey-Calavi (UAC) avec des outils d'apprentissage de nouvelle génération.</p>
-      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-3);">Bénin 🇧🇯 · Version 2.0</div>
-    </div>
-    <div class="footer-col">
-      <h4>Plateforme</h4>
-      <a href="epreuves.html">Épreuves & Annales</a>
-      <a href="revision.html">Campusly AI</a>
-      <a href="classrooms.html">Classrooms</a>
-      <a href="composition.html">Compositions</a>
-      <a href="dashboard.html">Tableau de bord</a>
-    </div>
-    <div class="footer-col">
-      <h4>Facultés UAC</h4>
-      <a href="epreuves.html?faculte=FAST">FAST</a>
-      <a href="epreuves.html?faculte=FASEG">FASEG</a>
-      <a href="epreuves.html?faculte=FADESP">FADESP</a>
-      <a href="epreuves.html?faculte=EPAC">EPAC</a>
-      <a href="epreuves.html?faculte=FSS">FSS</a>
-    </div>
-    <div class="footer-col">
-      <h4>Ressources & Légal</h4>
-      <a href="apropos.html">À propos</a>
-      <a href="conditions.html">Conditions Générales</a>
-      <a href="politique.html">Confidentialité</a>
-      <a href="https://wa.me/22997000000" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Support WhatsApp</a>
+  <!-- Modal 3: Payment Mobile Money Modal -->
+  <div id="modal-payment" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="card-editorial w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 shadow-2xl space-y-5">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center"><i class="fa-solid fa-mobile-screen"></i></div>
+          <div><h3 class="text-base font-bold text-slate-900 dark:text-white">Recharge FedaPay Mobile Money</h3><p class="text-xs text-slate-500">Paiement instantané en FCFA</p></div>
+        </div>
+        <button onclick="closeModal('modal-payment')" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="space-y-3">
+        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Numéro de téléphone (MTN ou Moov)</label>
+        <input type="tel" id="fedapay-phone" placeholder="+229 97 00 00 00" class="w-full px-4 py-3 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs" />
+        <div class="flex gap-2">
+          <button type="button" class="flex-1 py-2 rounded-xl bg-amber-500/20 text-amber-600 font-bold text-xs border border-amber-500/40">MTN Mobile Money</button>
+          <button type="button" class="flex-1 py-2 rounded-xl bg-sky-500/20 text-sky-600 font-bold text-xs border border-sky-500/40">Moov Money</button>
+        </div>
+      </div>
+      <button onclick="processPayment()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-indigo-600 text-white font-black text-xs shadow-lg">Confirmer le Paiement (1 500 FCFA)</button>
     </div>
   </div>
-  <div class="footer-bottom">
-    © 2026 Campusly 2.0 — Conçu pour l'excellence académique à l'UAC.
+
+  <!-- Toast Notification Pill -->
+  <div id="toast-pill" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3 rounded-2xl bg-slate-900 border border-white/20 text-white text-xs font-bold shadow-2xl flex items-center gap-2.5 toast-animate">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toast-message">Notification</span>
   </div>
-</footer>
 
-<script type="module">
-  import { authService } from './js/services/authService.js';
-  import { creditService } from './js/services/creditService.js';
-  import { notificationService } from './js/services/notificationService.js';
+  <!-- ================= SPA LOGIC SCRIPT ================= -->
+  <script>
+    function toggleMobileMenu(forceState) {
+      const drawer = document.getElementById('mobile-drawer');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (!drawer || !icon) return;
 
-  // Toggle Navbar Hero Visual Tabs
-  window.switchHeroTab = function(mode) {
-    document.querySelectorAll('.tab-toggle-btn').forEach(b => b.classList.remove('active'));
-    if (mode === 'learner') {
-      document.getElementById('heroTabLearner')?.classList.add('active');
-      document.getElementById('heroViewLearner').style.display = 'block';
-      document.getElementById('heroViewTeacher').style.display = 'none';
-    } else {
-      document.getElementById('heroTabTeacher')?.classList.add('active');
-      document.getElementById('heroViewLearner').style.display = 'none';
-      document.getElementById('heroViewTeacher').style.display = 'block';
-    }
-  };
+      const isCurrentlyOpen = drawer.classList.contains('is-open') || !drawer.classList.contains('hidden');
+      const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
 
-  // FAQ Filter
-  window.filterFaq = function(cat, el) {
-    document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    
-    const faqList = document.getElementById('faqList');
-    faqList.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-    faqList.style.opacity = '0';
-    faqList.style.transform = 'translateY(10px)';
-    
-    setTimeout(() => {
-      document.querySelectorAll('.faq-item').forEach(item => {
-        if (cat === 'all' || item.dataset.cat === cat) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-      faqList.style.opacity = '1';
-      faqList.style.transform = 'translateY(0)';
-    }, 250);
-  };
-
-  // Synchronisation navbar avec l'utilisateur
-    function updateNav() {
-    const user = authService.getUser();
-    const navActions = document.getElementById('navActions');
-    
-    document.querySelectorAll(".nav-auth-only").forEach(el => el.style.display = user ? "block" : "none");
-    document.querySelectorAll(".nav-guest-only").forEach(el => el.style.display = user ? "none" : "block");
-    
-    if (user && navActions) {
-      navActions.innerHTML = `
-        <span style="font-size:0.85rem;font-weight:700;color:var(--text-1);">${user.prenom || 'Rosaire'}</span>
-        <a href="dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
-        <button id="logoutBtn" class="btn btn-ghost btn-sm">Déconnexion</button>
-      `;
-      const lgBtn = document.getElementById('logoutBtn');
-      if (lgBtn) {
-        lgBtn.addEventListener('click', async () => {
-          await authService.logout();
-          window.location.reload();
-        });
+      if (shouldOpen) {
+        drawer.classList.remove('hidden');
+        drawer.classList.add('is-open');
+        drawer.style.display = 'block';
+        icon.className = 'fa-solid fa-xmark text-lg text-rose-500';
+      } else {
+        drawer.classList.remove('is-open');
+        drawer.classList.add('hidden');
+        drawer.style.display = 'none';
+        icon.className = 'fa-solid fa-bars text-lg';
       }
     }
-    creditService.updatePillUI();
-  }
 
-  // Scroll animations
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    function navigateTo(viewId) {
+      document.querySelectorAll('.spa-view').forEach(v => v.classList.add('hidden'));
+      const active = document.getElementById(`view-${viewId}`);
+      if (active) active.classList.remove('hidden');
 
-  // Navbar scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 20));
+      // Update Desktop Nav
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.className = 'nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5';
+      });
+      const activeNav = document.getElementById(`nav-${viewId}`);
+      if (activeNav) {
+        activeNav.className = 'nav-link px-4 py-2 rounded-xl text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10 flex items-center gap-1.5';
+      }
 
-  // Init i18n
-  updateNav();
-</script>
+      // Update Mobile Nav
+      document.querySelectorAll('.mob-nav-link').forEach(link => {
+        link.className = 'mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900';
+      });
+      const activeMobNav = document.getElementById(`mob-nav-${viewId}`);
+      if (activeMobNav) {
+        activeMobNav.className = 'mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10';
+      }
+
+      toggleMobileMenu(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setRole(role) {
+      const btnApp = document.getElementById('nav-btn-apprenant');
+      const btnEns = document.getElementById('nav-btn-enseignant');
+      const pathApp = document.getElementById('path-apprenant');
+      const pathEns = document.getElementById('path-enseignant');
+
+      const mobApp = document.getElementById('mob-btn-apprenant');
+      const mobEns = document.getElementById('mob-btn-enseignant');
+
+      if (role === 'apprenant') {
+        if (btnApp) btnApp.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30';
+        if (btnEns) btnEns.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+        if (mobApp) mobApp.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30';
+        if (mobEns) mobEns.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400';
+        if (pathApp) pathApp.className = 'card-editorial p-8 rounded-3xl border border-indigo-500/50 bg-slate-100/80 dark:bg-slate-900/80 ring-2 ring-indigo-500/20';
+        if (pathEns) pathEns.className = 'card-editorial p-8 rounded-3xl border border-slate-300 dark:border-white/10';
+      } else {
+        if (btnEns) btnEns.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-600/30';
+        if (btnApp) btnApp.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+        if (mobEns) mobEns.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-600/30';
+        if (mobApp) mobApp.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400';
+        if (pathEns) pathEns.className = 'card-editorial p-8 rounded-3xl border border-emerald-500/50 bg-slate-100/80 dark:bg-slate-900/80 ring-2 ring-emerald-500/20';
+        if (pathApp) pathApp.className = 'card-editorial p-8 rounded-3xl border border-slate-300 dark:border-white/10';
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById('theme-icon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        icon.className = 'fa-solid fa-sun text-amber-500';
+      } else {
+        html.classList.add('dark');
+        icon.className = 'fa-solid fa-moon text-indigo-400';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-pill');
+      const text = document.getElementById('toast-message');
+      text.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function openEpreuvePreview(fac, code, title, year, body) {
+      document.getElementById('preview-modal-badge').innerText = `${fac} • ${year}`;
+      document.getElementById('preview-modal-title').innerText = title;
+      document.getElementById('preview-modal-code').innerText = code;
+      document.getElementById('preview-modal-body').innerText = `"${body}"`;
+      document.getElementById('preview-modal-btn-quiz').onclick = () => {
+        closeModal('modal-epreuve-preview');
+        loadQuizFor(title);
+        navigateTo('quiz');
+      };
+      document.getElementById('modal-epreuve-preview').classList.remove('hidden');
+    }
+
+    function openJoinClassModal() {
+      document.getElementById('modal-join-class').classList.remove('hidden');
+    }
+
+    function submitJoinClass() {
+      const val = document.getElementById('join-class-input').value.trim();
+      if (!val) { showToast("Veuillez entrer un code de classroom."); return; }
+      closeModal('modal-join-class');
+      showToast(`Félicitations ! Vous avez rejoint la classroom ${val}.`);
+    }
+
+    function openPaymentModal() {
+      document.getElementById('modal-payment').classList.remove('hidden');
+    }
+
+    function processPayment() {
+      closeModal('modal-payment');
+      showToast("Paiement validé via FedaPay (+50 crédits IA activés) !");
+      document.getElementById('user-credits-val').innerText = '92';
+      try { confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } }); } catch (e) {}
+    }
+
+    function filterFac(fac) {
+      const cards = document.querySelectorAll('.epreuve-card');
+      const btns = document.querySelectorAll('.fac-filter-btn');
+      btns.forEach(b => {
+        if (b.innerText.toLowerCase() === fac.toLowerCase() || (fac === 'all' && b.innerText === 'Tous')) {
+          b.className = 'fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white';
+        } else {
+          b.className = 'fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400';
+        }
+      });
+      cards.forEach(c => {
+        if (fac === 'all' || c.getAttribute('data-fac') === fac) { c.style.display = 'flex'; }
+        else { c.style.display = 'none'; }
+      });
+    }
+
+    function filterEpreuves(query) {
+      const cards = document.querySelectorAll('.epreuve-card');
+      const term = (query || '').toLowerCase().trim();
+      cards.forEach(c => {
+        const title = c.getAttribute('data-title') || '';
+        if (term === '' || title.includes(term)) { c.style.display = 'flex'; }
+        else { c.style.display = 'none'; }
+      });
+    }
+
+    const quizData = [
+      {
+        q: "Dans un arbre binaire de recherche auto-équilibrant de type AVL, quelle est la différence de hauteur maximale tolérée entre les sous-arbres gauche et droit de chaque nœud ?",
+        opts: ["0 (hauteurs strictement identiques)", "1 (facteur d'équilibre égal à -1, 0 ou +1)", "2 (avec rééquilibrage différé)"],
+        correct: 1,
+        exp: "Un arbre AVL est caractérisé par un facteur d'équilibre de -1, 0 ou +1 pour chaque nœud, garantissant un coût logarithmique O(log n)."
+      },
+      {
+        q: "En droit civil béninois/OHADA, quels sont les trois critères cumulatifs pour engager la responsabilité délictuelle ?",
+        opts: ["Une faute, un dommage certain et un lien de causalité direct", "Un contrat écrit et un défaut de paiement", "Un aveu judiciaire certifié par huissier"],
+        correct: 0,
+        exp: "La responsabilité délictuelle exige invariablement la réunion d'une faute, d'un préjudice direct et certain, et d'un lien de causalité incontestable."
+      },
+      {
+        q: "Quelle est la complexité asymptotique pire-cas du tri rapide (Quicksort) sans pivot aléatoire ?",
+        opts: ["O(n log n)", "O(n²)", "O(2ⁿ)"],
+        correct: 1,
+        exp: "Si le pivot choisi est systématiquement le premier ou dernier élément d'un tableau déjà ordonné, la partition dégénère en O(n²)."
+      }
+    ];
+
+    let currentQ = 0;
+    let quizAnswered = false;
+
+    function answerQuiz(idx) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const opts = document.querySelectorAll('.quiz-opt');
+      const feedback = document.getElementById('quiz-feedback');
+      const btnNext = document.getElementById('btn-next-question');
+      const exp = document.getElementById('quiz-explanation');
+
+      opts.forEach((o, i) => {
+        if (i === quizData[currentQ].correct) {
+          o.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-emerald-500 bg-emerald-100 dark:bg-emerald-950/70 text-xs sm:text-sm text-emerald-800 dark:text-emerald-200 font-bold flex items-center justify-between';
+        } else if (i === idx) {
+          o.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-rose-500 bg-rose-100 dark:bg-rose-950/70 text-xs sm:text-sm text-rose-800 dark:text-rose-200 flex items-center justify-between';
+        } else {
+          o.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-transparent bg-slate-100 dark:bg-slate-900/40 text-xs sm:text-sm text-slate-400 opacity-60 flex items-center justify-between';
+        }
+      });
+
+      if (idx === quizData[currentQ].correct) {
+        try { confetti({ particleCount: 35, spread: 60, origin: { y: 0.8 } }); } catch (e) {}
+      }
+      exp.innerText = quizData[currentQ].exp;
+      feedback.classList.remove('hidden');
+      btnNext.classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQ = (currentQ + 1) % quizData.length;
+      quizAnswered = false;
+      document.getElementById('quiz-counter').innerText = `Question ${currentQ + 1} / ${quizData.length}`;
+      document.getElementById('quiz-question').innerText = quizData[currentQ].q;
+      const optContainer = document.getElementById('quiz-options');
+      optContainer.innerHTML = '';
+      quizData[currentQ].opts.forEach((optText, i) => {
+        const btn = document.createElement('button');
+        btn.onclick = () => answerQuiz(i);
+        btn.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between';
+        btn.innerHTML = `<span>${optText}</span><span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">${String.fromCharCode(65 + i)}</span>`;
+        optContainer.appendChild(btn);
+      });
+      document.getElementById('quiz-feedback').classList.add('hidden');
+      document.getElementById('btn-next-question').classList.add('hidden');
+    }
+
+    function loadQuizFor(topic) {
+      document.getElementById('quiz-badge').innerText = `Mode Quiz : ${topic}`;
+      nextQuestion();
+    }
+
+    function switchQuizMode(mode) {
+      const tabInteractive = document.getElementById('quiz-tab-interactive');
+      const tabUpload = document.getElementById('quiz-tab-upload');
+      const modeInteractive = document.getElementById('quiz-mode-interactive');
+      const modeUpload = document.getElementById('quiz-mode-upload');
+      if (mode === 'interactive') {
+        tabInteractive.className = 'px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md';
+        tabUpload.className = 'px-5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5';
+        modeInteractive.classList.remove('hidden');
+        modeUpload.classList.add('hidden');
+      } else {
+        tabUpload.className = 'px-5 py-2 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-md flex items-center gap-1.5';
+        tabInteractive.className = 'px-5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+        modeUpload.classList.remove('hidden');
+        modeInteractive.classList.add('hidden');
+      }
+    }
+
+    function handlePdfGenerateSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit-pdf-gen');
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Extraction cognitive du cours et génération des QCM...</span>`;
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Générer le Quiz avec l'IA</span>`;
+        btn.disabled = false;
+        showToast("Quiz généré avec succès ! Démarrage de votre entraînement.");
+        switchQuizMode('interactive');
+        loadQuizFor("Polycopié Cours UAC");
+      }, 1500);
+    }
+
+    let examTimerInterval = null;
+    function startExamSession() {
+      document.getElementById('exam-pre-start').classList.add('hidden');
+      document.getElementById('exam-in-progress').classList.remove('hidden');
+      document.getElementById('exam-timer-badge').classList.remove('hidden');
+      let secondsRemaining = 45 * 60;
+      examTimerInterval = setInterval(() => {
+        secondsRemaining--;
+        const mins = Math.floor(secondsRemaining / 60);
+        const secs = secondsRemaining % 60;
+        document.getElementById('exam-timer-display').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        if (secondsRemaining <= 0) {
+          clearInterval(examTimerInterval);
+          submitExam();
+        }
+      }, 1000);
+    }
+
+    function submitExam() {
+      if (examTimerInterval) clearInterval(examTimerInterval);
+      document.getElementById('exam-in-progress').classList.add('hidden');
+      document.getElementById('exam-timer-badge').classList.add('hidden');
+      document.getElementById('exam-result').classList.remove('hidden');
+      try { confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 } }); } catch (e) {}
+    }
+
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const messages = document.getElementById('chat-messages');
+      const text = input.value.trim();
+      if (!text) return;
+      const userMsg = document.createElement('div');
+      userMsg.className = 'p-3 rounded-2xl bg-indigo-600 text-white ml-auto max-w-[85%] text-right';
+      userMsg.innerText = text;
+      messages.appendChild(userMsg);
+      input.value = '';
+      setTimeout(() => {
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 max-w-[85%]';
+        aiMsg.innerText = `Analyse académique Campusly : Sur le concept "${text}", assurez-vous de maîtriser les 3 axiomes de base ainsi que les cas d'application semestriels de l'UAC. Souhaitez-vous générer un quiz d'entraînement dessus ?`;
+        messages.appendChild(aiMsg);
+        messages.scrollTop = messages.scrollHeight;
+      }, 500);
+    }
+
+    function togglePostLike(btn) {
+      const span = btn.querySelector('span');
+      let count = parseInt(span.innerText, 10);
+      span.innerText = count + 1;
+      btn.className = 'text-indigo-500 font-bold flex items-center gap-1';
+      showToast("+1 Like ajouté !");
+    }
+
+    function openNewPostModal() {
+      const title = prompt("Sujet de votre question :");
+      if (!title) return;
+      const container = document.getElementById('forum-posts-container');
+      const newCard = document.createElement('div');
+      newCard.className = 'card-editorial p-6 rounded-3xl animate-in fade-in duration-300';
+      newCard.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-500">UAC • Général</span>
+            <span class="text-xs font-bold text-slate-900 dark:text-white">Aurelien KOUASSI</span>
+          </div>
+          <span class="text-[11px] text-slate-500">À l'instant</span>
+        </div>
+        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">${title}</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-300">Question publiée par un étudiant de l'UAC sur le forum académique.</p>
+        <div class="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-4 text-xs text-slate-500">
+          <button onclick="togglePostLike(this)" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-thumbs-up"></i> <span>0</span> likes</button>
+          <button class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-comment"></i> 0 réponse</button>
+        </div>
+      `;
+      container.prepend(newCard);
+      showToast("Votre question a été publiée sur le forum !");
+    }
+  </script>
 </body>
 </html>

@@ -15,7 +15,10 @@ firestore-debug.log
 Thumbs.db
 *.log
 
-supabase.exe
-supabase/.temp/
-supabase.tar.gz
 ;
+node_modules/
+package-lock.json
+dist/
+.campusly_data.json
+.next/
+out/
