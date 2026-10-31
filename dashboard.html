@@ -1,1325 +1,1220 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr" class="theme-light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Campusly — Plateforme Académique Intelligente UAC</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Tableau de bord — Campusly 2.0</title>
+  <meta name="description" content="Tableau de bord académique de suivi et d'apprentissage Campusly UAC" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/modern.css" />
+  <link rel="stylesheet" href="css/theme-light.css" />
+  <link rel="stylesheet" href="css/responsive-scale.css" />
+  <link rel="stylesheet" href="css/mobile.css?v=3" />
+  
+  <!-- FontAwesome & Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          }
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* App Layout Specific Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: var(--font-sans);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .app-layout {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .app-sidebar {
+      width: 260px;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 20px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--text-1);
+    }
+
+    .sidebar-user-card {
+      margin: 16px 14px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .user-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--grad-brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .user-text-info {
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .user-name-label {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text-1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--r-full);
+      margin-top: 2px;
+    }
+
+    .role-badge.learner {
+      background: rgba(21, 101, 192, 0.12);
+      color: var(--brand-1);
+    }
+
+    .role-badge.teacher {
+      background: rgba(245, 124, 0, 0.12);
+      color: var(--accent);
+    }
+
+    .role-switch-btn {
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .role-switch-btn:hover {
+      background: var(--border);
+      color: var(--text-1);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 8px 12px;
+      margin: 0;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .side-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--r-md);
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .side-link i {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+      color: var(--text-3);
+      transition: color 0.2s;
+    }
+
+    .side-link:hover {
+      background: var(--surface);
+      color: var(--text-1);
+    }
+
+    .side-link:hover i {
+      color: var(--brand-1);
+    }
+
+    .side-link.active {
+      background: rgba(21, 101, 192, 0.1);
+      color: var(--brand-1);
+      border-color: rgba(21, 101, 192, 0.2);
+      font-weight: 800;
+    }
+
+    .side-link.active i {
+      color: var(--brand-1);
+    }
+
+    .sidebar-footer {
+      padding: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .side-logout-btn {
+      width: 100%;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(211, 47, 47, 0.3);
+      border-radius: var(--r-md);
+      background: rgba(211, 47, 47, 0.06);
+      color: var(--danger);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .side-logout-btn:hover {
+      background: rgba(211, 47, 47, 0.15);
+      border-color: var(--danger);
+    }
+
+    /* MAIN CONTENT */
+    .app-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--bg);
+    }
+
+    .app-header {
+      height: 64px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-2);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .app-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sidebar-toggle-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 6px 10px;
+      color: var(--text-1);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .header-breadcrumb {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-body {
+      padding: clamp(16px, 2.2vw, 48px);
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 1280px) {
+      .app-body { max-width: var(--container-max-xl, 1360px); }
+    }
+    @media (min-width: 1600px) {
+      .app-body { max-width: var(--container-max-2xl, 1680px); }
+    }
+    @media (min-width: 1920px) {
+      .app-body { max-width: var(--container-max-3xl, 2160px); }
+    }
+    @media (min-width: 2560px) {
+      .app-body { max-width: var(--container-max-4k, 2800px); }
+    }
+
+    /* METRICS & GRIDS */
+    .dash-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(12px, 1.4vw, 24px);
+      margin-bottom: clamp(18px, 2vw, 30px);
+    }
+
+    .dash-metric-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: clamp(16px, 1.6vw, 24px);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+    }
+
+    .dash-metric-card:hover {
+      border-color: rgba(21,101,192,0.3);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .metric-icon-wrap {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .dash-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(16px, 2vw, 28px);
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+    }
+
+    .dash-grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(16px, 2vw, 28px);
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .dash-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dash-grid-3col {
+        grid-template-columns: 1fr 1fr;
       }
     }
-  </script>
-  <style>
-    /* Dark Theme */
-    html.dark body { background-color: #030712; color: #f3f4f6; }
-    html.dark .editorial-mesh {
-      background-color: #030712;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(67, 56, 202, 0.20) 0px, transparent 50%),
-        radial-gradient(at 100% 10%, rgba(2, 132, 199, 0.16) 0px, transparent 40%),
-        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.10) 0px, transparent 50%);
-    }
-    html.dark .glass-nav { background: rgba(3, 7, 18, 0.88); border-color: rgba(255, 255, 255, 0.08); }
-    html.dark .card-editorial { background: rgba(17, 24, 39, 0.70); border-color: rgba(255, 255, 255, 0.08); }
 
-    /* Light Theme */
-    html:not(.dark) body { background-color: #f8fafc; color: #0f172a; }
-    html:not(.dark) .editorial-mesh {
-      background-color: #f8fafc;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(224, 231, 255, 0.85) 0px, transparent 50%),
-        radial-gradient(at 100% 10%, rgba(224, 242, 254, 0.85) 0px, transparent 40%),
-        radial-gradient(at 50% 100%, rgba(209, 250, 229, 0.65) 0px, transparent 50%);
+    @media (max-width: 960px) {
+      .app-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+      }
+      .app-sidebar.show {
+        transform: translateX(0);
+      }
+      .sidebar-toggle-btn {
+        display: block;
+      }
+      .dash-grid-2col,
+      .dash-grid-3col {
+        grid-template-columns: 1fr;
+      }
     }
-    html:not(.dark) .glass-nav { background: rgba(255, 255, 255, 0.90); border-color: rgba(226, 232, 240, 0.9); }
-    html:not(.dark) .card-editorial { background: rgba(255, 255, 255, 0.92); border-color: rgba(226, 232, 240, 0.95); box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
 
-    .card-editorial { backdrop-filter: blur(16px); transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .card-editorial:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -12px rgba(99, 102, 241, 0.18); }
-    
-    @keyframes slideInUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .toast-animate { animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.6); }
-
-    /* Mobile Drawer Full Screen Overlay Styles */
-    #mobile-drawer {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #mobile-drawer.is-open {
-      display: block !important;
-      animation: fadeInDown 0.25s ease forwards;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @media (max-width: 600px) {
+      .dash-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .app-body {
+        padding: 14px;
+      }
+      .app-header {
+        padding: 0 14px;
+      }
     }
   </style>
 </head>
-<body class="editorial-mesh min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+<body>
 
-  <!-- ================= TOP NAVIGATION ================= -->
-  <nav class="fixed top-0 left-0 right-0 z-50 glass-nav border-b backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+<div class="app-layout">
+
+  <!-- ==================== DEDICATED APP SIDEBAR ==================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    
+    <!-- Header Sidebar -->
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="sidebar-brand logo-text">
         
-        <!-- Logo Monogram -->
-        <a href="javascript:void(0)" onclick="navigateTo('landing')" class="flex items-center gap-3 select-none group">
-          <div class="relative w-11 h-11 flex items-center justify-center">
-            <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-indigo-600 via-sky-500 to-emerald-400 opacity-70 blur-[6px] group-hover:opacity-100 transition-opacity"></div>
-            <div class="relative w-full h-full rounded-2xl bg-slate-950 border border-white/20 p-2 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform">
-              <svg viewBox="0 0 40 40" fill="none" class="w-full h-full">
-                <path d="M20 5 L35 13 L20 21 L5 13 Z" fill="url(#navGradA)" />
-                <path d="M20 22.5 L33 16 V27.5 C33 27.5 28 31 20 34 C12 31 7 27.5 7 27.5 V16 L20 22.5 Z" fill="url(#navGradB)" opacity="0.85" />
-                <circle cx="20" cy="13" r="2.2" fill="#ffffff" />
-                <path d="M20 23 V34" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
-                <defs>
-                  <linearGradient id="navGradA" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#818cf8" /><stop offset="50%" stop-color="#38bdf8" /><stop offset="100%" stop-color="#34d399" />
-                  </linearGradient>
-                  <linearGradient id="navGradB" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#6366f1" /><stop offset="100%" stop-color="#0284c7" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
+        <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
+        <span style="font-size:0.65rem;font-weight:900;background:var(--grad-brand);color:#fff;padding:2px 6px;border-radius:var(--r-full);">2.0</span>
+      </a>
+      <button class="sidebar-toggle-btn" style="padding:2px 6px;font-size:0.85rem;" onclick="toggleSidebar()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- User Mini Profile -->
+    <div class="sidebar-user-card">
+      <div class="user-info-row">
+        <div class="user-avatar-circle" id="sideUserAvatar">RO</div>
+        <div class="user-text-info">
+          <div class="user-name-label" id="sideUserName">Rosaire O.</div>
+          <div class="role-badge learner" id="sideRoleBadge">
+            <i class="fa-solid fa-user-graduate"></i> <span>Étudiant UAC</span>
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Campusly</span>
-              <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">UAC • AI</span>
-            </div>
-            <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Plateforme Académique Intelligente</span>
-          </div>
+        </div>
+      </div>
+      <button class="role-switch-btn" id="sideRoleSwitchBtn" onclick="toggleUserRole()" title="Basculer entre vue Étudiant et vue Professeur">
+        <i class="fa-solid fa-repeat"></i> <span id="sideRoleSwitchText">Passer en Professeur</span>
+      </button>
+    </div>
+
+    <!-- Navigation Menu -->
+    <ul class="sidebar-menu">
+      <li>
+        <a href="#overview" class="side-link active" data-view="overview">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Vue d'ensemble</span>
         </a>
+      </li>
+      <li>
+        <a href="#revision" class="side-link" data-view="revision">
+          <i class="fa-solid fa-brain"></i>
+          <span>Campusly AI & Quiz</span>
+        </a>
+      </li>
+      <li>
+        <a href="#classrooms" class="side-link" data-view="classrooms">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>Classrooms Amphi</span>
+        </a>
+      </li>
+      <li>
+        <a href="#composition" class="side-link" data-view="composition">
+          <i class="fa-solid fa-stopwatch"></i>
+          <span>Compositions</span>
+        </a>
+      </li>
+      <li>
+        <a href="#epreuves" class="side-link" data-view="epreuves">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>Épreuves & Annales</span>
+        </a>
+      </li>
+      <li>
+        <a href="#forum" class="side-link" data-view="forum">
+          <i class="fa-solid fa-comments"></i>
+          <span>Forum & Entraide</span>
+        </a>
+      </li>
+      <li>
+        <button class="side-link" onclick="window.creditService && window.creditService.showCreditModal()">
+          <i class="fa-solid fa-bolt" style="color:var(--accent);"></i>
+          <span>Campusly Credits</span>
+        </button>
+      </li>
+      <li style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">
+        <a href="index.html" class="side-link">
+          <i class="fa-solid fa-house"></i>
+          <span>Accueil Public</span>
+        </a>
+      </li>
+    </ul>
 
-        <!-- Dual Role Toggle Switch -->
-        <div class="hidden lg:flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1 rounded-2xl border border-slate-300/80 dark:border-white/10 shadow-inner">
-          <button id="nav-btn-apprenant" onclick="setRole('apprenant')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30">
-            <i class="fa-solid fa-graduation-cap text-cyan-300"></i>
-            <span>Espace Apprenant</span>
-          </button>
-          <button id="nav-btn-enseignant" onclick="setRole('enseignant')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-            <i class="fa-solid fa-chalkboard-user text-emerald-500"></i>
-            <span>Espace Enseignant</span>
-          </button>
-        </div>
-
-        <!-- Navigation Menu -->
-        <div class="hidden md:flex items-center gap-1.5 bg-slate-200/60 dark:bg-slate-900/50 p-1.5 rounded-2xl border border-slate-300/80 dark:border-white/5 text-xs font-bold">
-          <button onclick="navigateTo('landing')" id="nav-landing" class="nav-link px-4 py-2 rounded-xl text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10">Accueil</button>
-          <button onclick="navigateTo('epreuves')" id="nav-epreuves" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-book-bookmark text-indigo-500"></i><span>Épreuves</span>
-          </button>
-          <button onclick="navigateTo('quiz')" id="nav-quiz" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-wand-magic-sparkles text-sky-500"></i><span>Quiz & IA</span>
-          </button>
-          <button onclick="navigateTo('exam')" id="nav-exam" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-stopwatch text-rose-500"></i><span>Examen Blanc</span>
-          </button>
-          <button onclick="navigateTo('classrooms')" id="nav-classrooms" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-users-rectangle text-emerald-500"></i><span>Classrooms</span>
-          </button>
-          <button onclick="navigateTo('forum')" id="nav-forum" class="nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-comments text-amber-500"></i><span>Forum</span>
-          </button>
-        </div>
-
-        <!-- Action Items (Theme toggle & Profile) -->
-        <div class="flex items-center gap-2 sm:gap-3">
-          <button onclick="toggleTheme()" class="p-2.5 rounded-2xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-indigo-500 transition-colors" title="Basculer Mode Clair / Sombre">
-            <i id="theme-icon" class="fa-solid fa-moon"></i>
-          </button>
-          <button onclick="navigateTo('dashboard')" class="hidden sm:flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl bg-slate-200/90 dark:bg-slate-900 border border-slate-300 dark:border-white/10 hover:border-indigo-500/40 transition-all">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-8 h-8 rounded-xl object-cover" alt="Avatar" />
-            <div class="text-left">
-              <div class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1">
-                <span>Aurelien</span>
-                <span class="text-[10px] text-amber-500 font-extrabold flex items-center gap-0.5"><i class="fa-solid fa-fire text-amber-500"></i> 14j</span>
-              </div>
-              <div class="text-[10px] text-indigo-500 dark:text-indigo-300 font-mono"><span id="user-xp-display">3,450</span> XP</div>
-            </div>
-          </button>
-          <!-- Hamburger Button for Mobile -->
-          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-2xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-indigo-500 transition-colors" aria-label="Ouvrir le menu">
-            <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
-          </button>
-        </div>
-
-      </div>
+    <!-- Sidebar Bottom Logout -->
+    <div class="sidebar-footer">
+      <button onclick="handleLogout()" class="side-logout-btn" id="sideLogoutBtn">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Déconnexion</span>
+      </button>
     </div>
 
-    <!-- Mobile Drawer Menu Dropdown -->
-    <div id="mobile-drawer" class="md:hidden hidden border-t border-slate-200 dark:border-white/10 bg-white/98 dark:bg-slate-950/98 backdrop-blur-2xl px-4 py-5 space-y-3 shadow-2xl overflow-y-auto max-h-[calc(100vh-85px)] z-50">
-      <!-- Mobile Role Toggle -->
-      <div class="flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1 rounded-2xl border border-slate-300/80 dark:border-white/10 mb-2">
-        <button id="mob-btn-apprenant" onclick="setRole('apprenant'); toggleMobileMenu(false);" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30">
-          <i class="fa-solid fa-graduation-cap text-cyan-300"></i>
-          <span>Apprenant</span>
-        </button>
-        <button id="mob-btn-enseignant" onclick="setRole('enseignant'); toggleMobileMenu(false);" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400">
-          <i class="fa-solid fa-chalkboard-user text-emerald-500"></i>
-          <span>Enseignant</span>
-        </button>
-      </div>
+  </aside>
 
-      <!-- Mobile Navigation Links -->
-      <div class="space-y-1">
-        <button onclick="navigateTo('landing'); toggleMobileMenu(false);" id="mob-nav-landing" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-house text-indigo-500 w-4 text-center"></i><span>Accueil</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="app-main">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="app-header-left">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
         </button>
-        <button onclick="navigateTo('epreuves'); toggleMobileMenu(false);" id="mob-nav-epreuves" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-book-bookmark text-indigo-500 w-4 text-center"></i><span>Banque d'Épreuves</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-        </button>
-        <button onclick="navigateTo('quiz'); toggleMobileMenu(false);" id="mob-nav-quiz" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-wand-magic-sparkles text-sky-500 w-4 text-center"></i><span>Quiz & IA Vos Cours</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-        </button>
-        <button onclick="navigateTo('exam'); toggleMobileMenu(false);" id="mob-nav-exam" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-stopwatch text-rose-500 w-4 text-center"></i><span>Examen Blanc Surveillé</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-        </button>
-        <button onclick="navigateTo('classrooms'); toggleMobileMenu(false);" id="mob-nav-classrooms" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-users-rectangle text-emerald-500 w-4 text-center"></i><span>Classrooms Virtuelles</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-        </button>
-        <button onclick="navigateTo('forum'); toggleMobileMenu(false);" id="mob-nav-forum" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-comments text-amber-500 w-4 text-center"></i><span>Forum Entraide</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-        </button>
-        <button onclick="navigateTo('dashboard'); toggleMobileMenu(false);" id="mob-nav-dashboard" class="mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900">
-          <span class="flex items-center gap-3"><i class="fa-solid fa-user-graduate text-indigo-500 w-4 text-center"></i><span>Mon Profil & Recharges</span></span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-        </button>
-      </div>
-
-      <!-- Mobile Student Badge & Logout -->
-      <div class="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-xl object-cover ring-2 ring-indigo-500/30" alt="Avatar" />
-          <div>
-            <div class="text-xs font-bold text-slate-900 dark:text-white">Aurelien KOUASSI</div>
-            <div class="text-[10px] text-slate-500 font-mono">Matricule : 2023-04921</div>
-          </div>
-        </div>
-        <div class="flex items-center gap-1 text-[11px] font-extrabold text-amber-500 bg-amber-500/10 px-2 py-1 rounded-xl border border-amber-500/20">
-          <i class="fa-solid fa-fire"></i> 14j streak
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ================= SPA MAIN CONTAINER ================= -->
-  <main class="flex-1 pt-24">
-    <!-- ── PAGE 1: LANDING VIEW ────────────────────────── -->
-    <div id="view-landing" class="spa-view px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12">
-      <div class="text-center max-w-4xl mx-auto pt-6 pb-12">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-600 dark:text-indigo-300 text-xs font-bold tracking-wide backdrop-blur-md mb-6 animate-pulse">
-          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-          <span>Plateforme Éducative & Évaluations UAC — Session Académique 2025/2026</span>
-        </div>
-
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.12] text-slate-900 dark:text-white">
-          Apprenez mieux. Enseignez plus vite. <br />
-          <span class="bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent">
-            Avec l'IA et vos propres documents.
-          </span>
-        </h1>
-
-        <p class="text-base sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mt-6 leading-relaxed">
-          Campusly transforme vos épreuves d’examen, PDF de cours et notes de TD en quiz interactifs et compositions surveillées. Conçu spécifiquement pour l’Université d’Abomey-Calavi.
-        </p>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-          <button onclick="setRole('apprenant'); navigateTo('epreuves');" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-sky-600 text-white font-extrabold text-sm shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02]">
-            <div class="text-left">
-              <div class="text-xs text-indigo-200 font-semibold">Je suis apprenant</div>
-              <div class="text-sm font-extrabold">Commencer mes Révisions</div>
-            </div>
-            <i class="fa-solid fa-arrow-right text-base ml-2"></i>
-          </button>
-
-          <button onclick="setRole('enseignant'); navigateTo('classrooms');" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white font-extrabold text-sm flex items-center justify-center gap-3 transition-all hover:scale-[1.02] shadow-lg">
-            <div class="text-left">
-              <div class="text-xs text-emerald-500 font-semibold">Vous êtes enseignant ?</div>
-              <div class="text-sm font-extrabold">Espace Classrooms & Compositions</div>
-            </div>
-            <i class="fa-solid fa-shield-halved text-base text-emerald-500 ml-2"></i>
-          </button>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-8 text-xs text-slate-500 dark:text-slate-400 font-medium">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> Inscription gratuite</span>
-          <span class="flex items-center gap-2"><i class="fa-solid fa-mobile-screen text-amber-500"></i> Mobile Money via FedaPay (MTN & Moov)</span>
-          <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-sky-500"></i> Documents 100% privés</span>
+        <div class="header-breadcrumb">
+          <i class="fa-solid fa-house" style="font-size:0.75rem;color:var(--text-3);"></i>
+          <span style="color:var(--text-3);">/</span>
+          <span style="color:var(--text-1);font-weight:800;" data-i18n="dash_title">Tableau de bord</span>
         </div>
       </div>
 
-      <!-- Quick Search Bar -->
-      <div class="max-w-4xl mx-auto card-editorial p-4 sm:p-6 rounded-3xl mb-16">
-        <div class="flex flex-col sm:flex-row items-center gap-3">
-          <div class="relative flex-1 w-full">
-            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input
-              type="text"
-              id="landing-search"
-              onkeydown="if(event.key === 'Enter'){ navigateTo('epreuves'); filterEpreuves(this.value); }"
-              placeholder="Rechercher une épreuve officielle (ex: Algorithme, Droit, Microéconomie)..."
-              class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
-            />
-          </div>
-          <button onclick="navigateTo('epreuves'); filterEpreuves(document.getElementById('landing-search').value);" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all">
-            <span>Rechercher</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </button>
+      <div class="app-header-right">
+        <div class="campusly-credits-pill" onclick="window.creditService && window.creditService.showCreditModal()" style="display:inline-flex;align-items:center;padding:5px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);cursor:pointer;font-size:0.82rem;gap:6px;" title="Recharger vos Campusly Credits">
+          <strong style="font-weight:800;" id="metricCreditsCount">120</strong>
+          <span style="font-size:0.75rem;color:var(--text-3);">crédits</span>
         </div>
-      </div>
+        <!-- Campusly Credits Pill -->
 
-      <!-- Dual Role Feature Overview -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
-        <div id="path-apprenant" class="card-editorial p-8 rounded-3xl border border-indigo-500/50 bg-slate-100/80 dark:bg-slate-900/80 ring-2 ring-indigo-500/20">
-          <div class="flex items-center justify-between mb-6">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-500 flex items-center justify-center text-xl">
-              <i class="fa-solid fa-user-graduate"></i>
-            </div>
-            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Parcours Apprenant</span>
-          </div>
-          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Tout pour réussir vos examens à votre rythme</h3>
-          <p class="text-xs text-slate-600 dark:text-slate-400 mb-6">Accédez aux annales complètes de vos filières, composez en ligne et consolidez vos points faibles avec le tuteur IA.</p>
-          <ul class="space-y-3 mb-8 text-xs text-slate-700 dark:text-slate-300">
-            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> 500+ épreuves classées par faculté (S1 à S6)</li>
-            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Générateur de quiz IA sur vos propres polycopiés</li>
-            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Compositions surveillées à distance sans déplacement</li>
-          </ul>
-          <button onclick="navigateTo('epreuves')" class="w-full py-3.5 rounded-2xl bg-indigo-600 text-white font-bold text-xs shadow-lg shadow-indigo-600/30">
-            Explorer les Épreuves →
-          </button>
-        </div>
-
-        <div id="path-enseignant" class="card-editorial p-8 rounded-3xl border border-slate-300 dark:border-white/10">
-          <div class="flex items-center justify-between mb-6">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-xl">
-              <i class="fa-solid fa-chalkboard-user"></i>
-            </div>
-            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Parcours Enseignant</span>
-          </div>
-          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Gérez vos Classrooms et évaluez sans stress</h3>
-          <p class="text-xs text-slate-600 dark:text-slate-400 mb-6">Créez des QCM en 30 secondes à partir de vos cours et évaluez vos étudiants avec surveillance anti-triche intégrée.</p>
-          <ul class="space-y-3 mb-8 text-xs text-slate-700 dark:text-slate-300">
-            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Code d'invitation simple pour vos étudiants</li>
-            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Génération automatique de barèmes avec l'IA</li>
-            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-500"></i> Export des notes et statistiques des notions non acquises</li>
-          </ul>
-          <button onclick="navigateTo('classrooms')" class="w-full py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-xs shadow-lg shadow-emerald-600/30">
-            Espace Enseignant & Classes →
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- ── PAGE 2: BANQUE D'ÉPREUVES VIEW ──────────────── -->
-    <div id="view-epreuves" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-        <div>
-          <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider bg-indigo-500/10 px-3 py-1 rounded-full">Annales UAC Officielles</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Banque Numérique d'Épreuves</h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sujets originaux d'examen avec prévisualisation et corrigés types vérifiés.</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <button onclick="filterFac('all')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white">Tous</button>
-          <button onclick="filterFac('FAST')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FAST</button>
-          <button onclick="filterFac('FASEG')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FASEG</button>
-          <button onclick="filterFac('FADESP')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FADESP</button>
-          <button onclick="filterFac('EPAC')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">EPAC</button>
-          <button onclick="filterFac('ENEAM')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">ENEAM</button>
-          <button onclick="filterFac('FSS')" class="fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400">FSS</button>
-        </div>
-      </div>
-
-      <div id="epreuves-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Card 1 -->
-        <div class="epreuve-card card-editorial p-6 rounded-3xl flex flex-col justify-between" data-fac="FAST" data-title="algorithmique structures donnees">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 dark:text-indigo-300">FAST • S3 • 2024-2025</span>
-              <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> Corrigé</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 dark:text-white">Algorithmique & Structures de Données Avancées</h3>
-            <p class="text-[11px] text-slate-500 font-mono mt-1">INF-201 — Département Informatique</p>
-            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 italic bg-slate-100 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-              "Exercice 1: Analyse asymptotique des algorithmes de parcours. Exercice 2: Équilibrage dynamique des arbres AVL..."
-            </p>
-          </div>
-          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-2">
-            <button onclick="openEpreuvePreview('FAST', 'INF-201', 'Algorithmique & Structures de Données Avancées', '2024-2025', 'Exercice 1: Complexité temporelle des parcours en largeur. Exercice 2: Rotations AVL et arbres équilibrés. Problème: Graphe orienté pondéré et algorithme de Dijkstra appliqué au réseau de transport de Cotonou.')" class="py-2.5 px-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-500 text-xs font-bold">
-              <i class="fa-solid fa-eye mr-1"></i> Aperçu
-            </button>
-            <button onclick="loadQuizFor('Algorithmique & Arbres AVL'); navigateTo('quiz');" class="flex-1 py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold border border-indigo-500/30 text-center">
-              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-cyan-400"></i> Quiz IA
-            </button>
-            <button onclick="showToast('Téléchargement du sujet officiel FAST en cours...')" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600">
-              <i class="fa-solid fa-download"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="epreuve-card card-editorial p-6 rounded-3xl flex flex-col justify-between" data-fac="FASEG" data-title="microeconomie equilibre general bien etre">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 dark:text-indigo-300">FASEG • S2 • 2024-2025</span>
-              <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> Corrigé</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 dark:text-white">Microéconomie II — Équilibre Général & Bien-Être</h3>
-            <p class="text-[11px] text-slate-500 font-mono mt-1">ECO-102 — Sciences Économiques</p>
-            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 italic bg-slate-100 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-              "Partie 1: Économie d'échange pur à deux agents et deux biens. Déterminer la boîte d'Edgeworth et l'optimum de Pareto..."
-            </p>
-          </div>
-          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-2">
-            <button onclick="openEpreuvePreview('FASEG', 'ECO-102', 'Microéconomie II — Équilibre Général & Bien-Être', '2024-2025', 'Exercice 1: Dans une économie à deux agents A et B munis de fonctions d utilité Cobb-Douglas. Déterminer le sentier d expansion et le vecteur de prix d équilibre walrasien.')" class="py-2.5 px-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-500 text-xs font-bold">
-              <i class="fa-solid fa-eye mr-1"></i> Aperçu
-            </button>
-            <button onclick="loadQuizFor('Microéconomie II - Équilibre Général'); navigateTo('quiz');" class="flex-1 py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold border border-indigo-500/30 text-center">
-              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-cyan-400"></i> Quiz IA
-            </button>
-            <button onclick="showToast('Téléchargement du sujet officiel FASEG en cours...')" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600">
-              <i class="fa-solid fa-download"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="epreuve-card card-editorial p-6 rounded-3xl flex flex-col justify-between" data-fac="FADESP" data-title="droit obligations responsabilite civile">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-600 dark:text-indigo-300">FADESP • S4 • 2023-2024</span>
-              <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> Corrigé</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 dark:text-white">Droit des Obligations & Responsabilité Civile</h3>
-            <p class="text-[11px] text-slate-500 font-mono mt-1">DRT-204 — Droit Privé</p>
-            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 italic bg-slate-100 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-              "Cas pratique: Analyse de la responsabilité délictuelle pour faute et rupture abusive de pourparlers contractuels..."
-            </p>
-          </div>
-          <div class="mt-5 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-2">
-            <button onclick="openEpreuvePreview('FADESP', 'DRT-204', 'Droit des Obligations & Responsabilité Civile', '2023-2024', 'Cas Pratique: Un commerçant de Dantokpa s engage par lettre d intention verbale avant de rompre brutalement les négociations. Qualifier la nature du préjudice indemnisable.')" class="py-2.5 px-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-500 text-xs font-bold">
-              <i class="fa-solid fa-eye mr-1"></i> Aperçu
-            </button>
-            <button onclick="loadQuizFor('Droit des Obligations & OHADA'); navigateTo('quiz');" class="flex-1 py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold border border-indigo-500/30 text-center">
-              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-cyan-400"></i> Quiz IA
-            </button>
-            <button onclick="showToast('Téléchargement du sujet officiel FADESP en cours...')" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600">
-              <i class="fa-solid fa-download"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ── PAGE 3: QUIZ & STUDIO IA VIEW ───────────────── -->
-    <div id="view-quiz" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-      <div class="text-center max-w-2xl mx-auto mb-10">
-        <span class="text-xs font-bold text-cyan-500 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full">Tuteur Cognitif Adaptatif</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Studio de Quiz & Générateur IA</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Transformez vos fichiers PDF de cours en évaluations interactives conformes au LMD.</p>
+        <!-- Language Switcher (FR & EN only) -->
         
-        <div class="inline-flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1.5 rounded-2xl border border-slate-300/80 dark:border-white/10 mt-6 shadow-md">
-          <button id="quiz-tab-interactive" onclick="switchQuizMode('interactive')" class="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md">
-            Mode Marathon Quiz
-          </button>
-          <button id="quiz-tab-upload" onclick="switchQuizMode('upload')" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-file-pdf text-rose-500"></i>
-            <span>Générer d'après un PDF (Quizos AI)</span>
-          </button>
+
+        <!-- Logout Action Button -->
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Déconnexion" aria-label="Déconnexion">
+          <i class="fa-solid fa-arrow-right-from-bracket" style="color:var(--danger);"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Content Body -->
+    <div class="app-body">
+      <div id="view-overview" class="dash-view active">
+      
+      <!-- ==================== VUE ETUDIANT / APPRENANT ==================== -->
+      <div id="learnerView" style="display:none;">
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px;text-align:center;margin-bottom:30px;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3 style="font-size:1.4rem;font-weight:900;color:var(--text-1);margin:0 0 12px;">Bienvenue sur votre Tableau de Bord</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            Votre activité apparaîtra ici lorsque vous commencerez à utiliser Campusly. Rejoignez une classe ou commencez à réviser !
+          </p>
+          <div style="display:flex;justify-content:center;gap:16px;">
+            <button class="btn btn-primary" onclick="window.navigateToView('classrooms')">
+              <i class="fas fa-sign-in-alt"></i> Rejoindre un Amphi
+            </button>
+            <button class="btn btn-outline" onclick="window.navigateToView('revision')">
+              <i class="fas fa-book-reader"></i> Découvrir les ressources
+            </button>
+          </div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Statistiques</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Aucune statistique disponible pour le moment.</p>
+           </div>
+           
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-tasks"></i>
+              </div>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Tâches en attente</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Vous êtes à jour dans votre travail.</p>
+           </div>
         </div>
       </div>
 
-      <!-- Mode 1: Interactive Quiz Runner -->
-      <div id="quiz-mode-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div class="lg:col-span-7 card-editorial p-6 sm:p-8 rounded-3xl">
-          <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-200 dark:border-white/10">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span id="quiz-badge" class="text-xs font-bold text-slate-900 dark:text-slate-200">Mode Quiz : Algorithmique UAC</span>
-            </div>
-            <span id="quiz-counter" class="text-xs font-mono font-bold text-indigo-500">Question 1 / 3</span>
+      <!-- ==================== VUE PROFESSEUR / ENSEIGNANT ==================== -->
+      <div id="teacherView" style="display:none;">
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px;text-align:center;margin-bottom:30px;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-chalkboard-teacher"></i>
           </div>
-
-          <div id="quiz-container">
-            <h3 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 leading-relaxed">
-              Dans un arbre binaire de recherche auto-équilibrant de type AVL, quelle est la différence de hauteur maximale tolérée entre les sous-arbres gauche et droit de chaque nœud ?
-            </h3>
-
-            <div id="quiz-options" class="space-y-3 mb-6">
-              <button onclick="answerQuiz(0)" class="quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between">
-                <span>0 (hauteurs strictement identiques)</span>
-                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">A</span>
-              </button>
-              <button onclick="answerQuiz(1)" class="quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between">
-                <span>1 (facteur d'équilibre égal à -1, 0 ou +1)</span>
-                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">B</span>
-              </button>
-              <button onclick="answerQuiz(2)" class="quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between">
-                <span>2 (avec rééquilibrage asynchrone différé)</span>
-                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">C</span>
-              </button>
-            </div>
-
-            <div id="quiz-feedback" class="hidden p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/40 mb-6 text-xs text-slate-800 dark:text-slate-200 leading-relaxed">
-              <strong class="text-indigo-600 dark:text-indigo-300 block mb-1">Explication de l'enseignant :</strong>
-              <span id="quiz-explanation">Un arbre AVL exige que la différence de hauteur entre sous-arbres d'un même nœud ne dépasse jamais 1.</span>
-            </div>
-
-            <div class="flex items-center justify-between pt-2">
-              <span class="text-xs text-slate-500 dark:text-slate-400">+50 XP attribués par réponse exacte</span>
-              <button id="btn-next-question" onclick="nextQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg">
-                Question suivante →
-              </button>
-            </div>
+          <h3 style="font-size:1.4rem;font-weight:900;color:var(--text-1);margin:0 0 12px;">Espace Professeur</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            Aucune donnée à afficher pour le moment. Commencez par créer votre première classe d'Amphi pour inviter vos étudiants.
+          </p>
+          <div style="display:flex;justify-content:center;gap:16px;">
+            <button class="btn btn-primary" onclick="window.navigateToView('classrooms')">
+              <i class="fas fa-plus"></i> Créer un Amphi
+            </button>
+            <button class="btn btn-outline" onclick="window.navigateToView('composition')">
+              <i class="fas fa-file-signature"></i> Préparer une composition
+            </button>
           </div>
         </div>
-
-        <!-- AI Assistant Sidebar -->
-        <div class="lg:col-span-5 card-editorial p-6 rounded-3xl flex flex-col h-[520px]">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-white/10">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center">
-                <i class="fa-solid fa-sparkles"></i>
+        
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-users"></i>
               </div>
-              <div>
-                <h4 class="text-xs font-bold text-slate-900 dark:text-white">Campusly AI • Tuteur UAC</h4>
-                <p class="text-[10px] text-emerald-500 font-medium">Groq LLaMA-3 70B Versatile</p>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Apprenants actifs</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Vos étudiants apparaîtront ici.</p>
+           </div>
+           
+           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 16px;">
+                <i class="fas fa-file-invoice"></i>
               </div>
-            </div>
-            <button onclick="switchQuizMode('upload')" class="px-2.5 py-1 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[10px] font-bold border border-sky-500/20">
-              <i class="fa-solid fa-upload mr-1"></i> Charger Cours PDF
-            </button>
-          </div>
-
-          <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 py-4 text-xs pr-1">
-            <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
-              Bonjour ! Posez-moi vos questions sur le programme de révision ou chargez un cours pour concevoir un QCM personnalisé.
-            </div>
-          </div>
-
-          <form onsubmit="handleChatSubmit(event)" class="pt-3 border-t border-slate-200 dark:border-white/10 flex gap-2">
-            <input
-              type="text"
-              id="chat-input"
-              placeholder="Poser une question académique..."
-              class="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-cyan-500"
-            />
-            <button type="submit" class="p-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white transition-colors">
-              <i class="fa-solid fa-paper-plane text-xs"></i>
-            </button>
-          </form>
+              <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Copies à corriger</h4>
+              <p style="font-size:0.9rem;color:var(--text-3);margin:0;">Vous êtes à jour dans vos corrections.</p>
+           </div>
         </div>
       </div>
 
-      <!-- Mode 2: PDF Document AI Generator (like Quizos) -->
-      <div id="quiz-mode-upload" class="hidden max-w-3xl mx-auto card-editorial p-8 rounded-3xl">
-        <div class="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200 dark:border-white/10">
-          <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-xl">
-            <i class="fa-solid fa-file-arrow-up"></i>
-          </div>
+    </div>
+    <!-- VUE CLASSROOMS -->
+      <div id="view-classrooms" class="dash-view" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
           <div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Générateur Automatique de Quiz depuis vos PDF</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Importez votre polycopié de cours ou vos notes de travaux dirigés.</p>
+            <h2 style="font-size:1.6rem;font-weight:900;color:var(--text-1);margin:0 0 6px;">Classrooms Amphi</h2>
+            <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Vos groupes de cours, suivis et évaluations centralisés.</p>
+          </div>
+          <div style="display:flex;gap:12px;" id="teacherClassroomActions">
+            <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);">
+              <i class="fas fa-plus"></i> Créer un Amphi
+            </button>
+          </div>
+          <div style="display:flex;gap:12px;" id="learnerClassroomActions" style="display:none;">
+            <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);">
+              <i class="fas fa-sign-in-alt"></i> Rejoindre un Amphi
+            </button>
           </div>
         </div>
-
-        <form onsubmit="handlePdfGenerateSubmit(event)" class="space-y-6">
-          <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50 dark:bg-slate-950 cursor-pointer relative transition-all">
-            <input type="file" id="pdf-file-input" accept=".pdf,.txt,.docx" onchange="document.getElementById('pdf-file-name').innerText = this.files[0]?.name || 'Fichier sélectionné';" class="absolute inset-0 opacity-0 cursor-pointer" />
-            <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-400 mb-3"></i>
-            <div id="pdf-file-name" class="text-sm font-bold text-slate-900 dark:text-white">Glissez votre cours PDF ici ou cliquez pour parcourir</div>
-            <p class="text-xs text-slate-500 mt-1">PDF de cours, TD ou polycopié (max 15 Mo)</p>
+        
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+          <div style="width:80px;height:80px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-chalkboard"></i>
           </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucun cours disponible</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto;line-height:1.6;">
+            Vous n'avez rejoint aucun amphi pour le moment.
+          </p>
+        </div>
+      </div>
+      <!-- VUE COMPOSITION -->
+      <div id="view-composition" class="dash-view" style="display:none;">
+        
+        <!-- ==================== COTE PROFESSEUR ==================== -->
+        <div id="teacherCompositionView" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nombre de questions</label>
-              <select id="gen-question-count" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-                <option value="5">5 questions (Express • 1 crédit IA)</option>
-                <option value="10" selected>10 questions (Standard • 2 crédits IA)</option>
-                <option value="20">20 questions (Examen Blanc complet • 3 crédits IA)</option>
-              </select>
+              <h2 style="font-size:1.6rem;font-weight:900;color:var(--text-1);margin:0 0 6px;">Compositions & Évaluations</h2>
+              <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Gérez vos épreuves, générez des codes et analysez les résultats.</p>
             </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Difficulté du barème</label>
-              <select id="gen-difficulty" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-                <option value="fondamental">Fondamentaux & Définitions</option>
-                <option value="standard" selected>Standard Examen UAC (Recommandé)</option>
-                <option value="expert">Cas Pratiques & Synthèse Avancée</option>
-              </select>
+            <div style="display:flex;gap:12px;">
+              <button class="btn btn-primary" style="box-shadow: 0 4px 12px rgba(21,101,192,0.3);" onclick="document.getElementById('createCompModal').classList.add('show')">
+                <i class="fas fa-plus"></i> Créer une composition
+              </button>
             </div>
           </div>
 
-          <div class="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-between text-xs">
-            <span class="text-indigo-900 dark:text-indigo-200 flex items-center gap-2">
-              <i class="fa-solid fa-bolt text-amber-500"></i>
-              Vos crédits IA disponibles : <strong class="font-bold">42 crédits</strong>
-            </span>
-            <span class="text-emerald-500 font-bold">100% Chiffré & Privé</span>
-          </div>
-
-          <button type="submit" id="btn-submit-pdf-gen" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-600 text-white font-extrabold text-sm shadow-xl flex items-center justify-center gap-2">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span>Générer le Quiz avec l'IA</span>
-          </button>
-        </form>
-      </div>
-    </div>
-    <!-- ── PAGE 4: EXAMEN BLANC SURVEILLÉ (PROCTORING) ─── -->
-    <div id="view-exam" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-      <div class="flex items-center justify-between mb-8">
-        <div>
-          <span class="text-xs font-bold text-rose-500 uppercase tracking-wider bg-rose-500/10 px-3 py-1 rounded-full">Conditions Réelles UAC</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Salle d'Examen Blanc Surveillé</h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Évaluation chronométrée avec surveillance anti-triche et note officielle sur 20.</p>
-        </div>
-        <div id="exam-timer-badge" class="hidden px-4 py-2 rounded-2xl bg-rose-500/20 text-rose-500 border border-rose-500/30 text-sm font-mono font-bold flex items-center gap-2 animate-pulse">
-          <i class="fa-solid fa-clock"></i>
-          <span id="exam-timer-display">45:00</span>
-        </div>
-      </div>
-
-      <!-- Exam Setup Card -->
-      <div id="exam-pre-start" class="card-editorial p-8 rounded-3xl max-w-3xl mx-auto text-center space-y-6">
-        <div class="w-16 h-16 rounded-3xl bg-rose-500/20 text-rose-500 flex items-center justify-center text-2xl mx-auto">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Composition Blanche : Algorithmique & Graphes</h3>
-        <p class="text-xs text-slate-500 max-w-lg mx-auto">
-          Durée : <strong>45 minutes</strong> • 5 questions • Barème : <strong>20 points</strong>. <br />
-          Le système détectera tout changement d'onglet ou sortie de plein écran.
-        </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left text-xs">
-          <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5">
-            <i class="fa-solid fa-expand text-indigo-500 mb-1 block"></i>
-            <strong class="text-slate-900 dark:text-white">Plein Écran Forcé</strong>
-            <p class="text-slate-500 text-[11px] mt-0.5">La session s'annule si vous quittez la fenêtre.</p>
-          </div>
-          <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5">
-            <i class="fa-solid fa-camera text-sky-500 mb-1 block"></i>
-            <strong class="text-slate-900 dark:text-white">Surveillance Proctoring</strong>
-            <p class="text-slate-500 text-[11px] mt-0.5">Vérification de présence et intégrité.</p>
-          </div>
-          <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5">
-            <i class="fa-solid fa-trophy text-emerald-500 mb-1 block"></i>
-            <strong class="text-slate-900 dark:text-white">Note Immédiate</strong>
-            <p class="text-slate-500 text-[11px] mt-0.5">Calcul du résultat et corrigé détaillé.</p>
-          </div>
-        </div>
-
-        <button onclick="startExamSession()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-indigo-600 text-white font-black text-sm shadow-xl hover:opacity-95 transition-all">
-          Démarrer l'Épreuve Surveillée Maintenant
-        </button>
-      </div>
-
-      <!-- Exam In-Progress Live Arena -->
-      <div id="exam-in-progress" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div class="lg:col-span-8 card-editorial p-8 rounded-3xl">
-          <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-200 dark:border-white/10">
-            <span class="text-xs font-bold text-rose-500 uppercase tracking-wider flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
-              Enregistrement Surveillé Actif
-            </span>
-            <span class="text-xs font-mono text-slate-500">Question <span id="exam-q-idx">1</span> / 3</span>
-          </div>
-
-          <h3 id="exam-q-title" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 leading-relaxed">
-            Quelle est la complexité asymptotique temporelle pire cas de la recherche dans un arbre binaire non équilibré à n nœuds ?
-          </h3>
-
-          <div id="exam-q-options" class="space-y-3 mb-8">
-            <label class="p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-950 flex items-center justify-between cursor-pointer hover:border-indigo-500">
-              <div class="flex items-center gap-3">
-                <input type="radio" name="exam_opt" value="0" class="accent-indigo-600" />
-                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-200">O(1)</span>
-              </div>
-              <span class="font-mono text-xs text-slate-500">4 pts</span>
-            </label>
-            <label class="p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-950 flex items-center justify-between cursor-pointer hover:border-indigo-500">
-              <div class="flex items-center gap-3">
-                <input type="radio" name="exam_opt" value="1" class="accent-indigo-600" />
-                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-200">O(log n)</span>
-              </div>
-              <span class="font-mono text-xs text-slate-500">4 pts</span>
-            </label>
-            <label class="p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-950 flex items-center justify-between cursor-pointer hover:border-indigo-500">
-              <div class="flex items-center gap-3">
-                <input type="radio" name="exam_opt" value="2" class="accent-indigo-600" />
-                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-200">O(n)</span>
-              </div>
-              <span class="font-mono text-xs text-slate-500">4 pts</span>
-            </label>
-          </div>
-
-          <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-white/10">
-            <button onclick="submitExam()" class="px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-lg">
-              Terminer & Soumettre ma Copie
+          <!-- Liste des compositions -->
+          <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+            <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+              <i class="fas fa-file-signature"></i>
+            </div>
+            <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune composition créée</h3>
+            <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+              Vous n'avez pas encore créé de composition. Cliquez sur "Créer une composition" pour démarrer.
+            </p>
+            <button class="btn btn-primary" onclick="document.getElementById('createCompModal').classList.add('show')">
+              <i class="fas fa-plus"></i> Créer ma première composition
             </button>
           </div>
         </div>
 
-        <!-- Proctoring Live Feed Simulation -->
-        <div class="lg:col-span-4 card-editorial p-6 rounded-3xl space-y-4">
-          <div class="text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between">
-            <span>Flux Webcam Simulation</span>
-            <span class="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Conforme
-            </span>
-          </div>
-          <div class="aspect-video rounded-2xl bg-slate-950 flex flex-col items-center justify-center border border-slate-800 relative overflow-hidden">
-            <i class="fa-solid fa-user text-4xl text-slate-700"></i>
-            <span class="text-[10px] text-slate-500 mt-2 font-mono">ID: Matricule 2023-04921</span>
-            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-rose-600 text-white text-[9px] font-bold font-mono">REC</div>
-          </div>
-          <div class="text-[11px] text-slate-500 space-y-1">
-            <div class="flex items-center justify-between">
-              <span>Alertes changement onglet :</span>
-              <strong class="text-emerald-500">0 anomalie</strong>
+        <!-- ==================== COTE ETUDIANT ==================== -->
+        <div id="learnerCompositionView" style="display:none;height:100%;">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;min-height:60vh;">
+            <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:24px;">
+              <i class="fas fa-stopwatch"></i>
             </div>
-            <div class="flex items-center justify-between">
-              <span>Temps écoulé :</span>
-              <strong class="text-slate-700 dark:text-slate-300 font-mono">03 min 12 s</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Exam Result Dialog -->
-      <div id="exam-result" class="hidden card-editorial p-8 rounded-3xl max-w-xl mx-auto text-center space-y-5">
-        <div class="w-16 h-16 rounded-3xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-3xl mx-auto">
-          <i class="fa-solid fa-award"></i>
-        </div>
-        <h3 class="text-2xl font-black text-slate-900 dark:text-white">Copie Corrigée & Validée !</h3>
-        <div class="text-4xl font-black text-emerald-500 font-mono">16.0 / 20</div>
-        <p class="text-xs text-slate-500">Mention Très Bien • 4 réponses exactes sur 5. Votre note a été enregistrée dans la classroom officielle.</p>
-        <button onclick="navigateTo('dashboard')" class="px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold text-xs shadow-lg">
-          Voir mon Tableau de Bord →
-        </button>
-      </div>
-    </div>
-    <!-- ── PAGE 5: CLASSROOMS & COMPOSITIONS VIEW ──────── -->
-    <div id="view-classrooms" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-      <div class="flex items-center justify-between mb-8">
-        <div>
-          <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider bg-emerald-500/10 px-3 py-1 rounded-full">Salles de Cours Virtuelles</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Classrooms & Compositions</h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Rejoignez une classe avec son code ou administrez vos promotions.</p>
-        </div>
-        <button onclick="openJoinClassModal()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30">
-          <i class="fa-solid fa-plus"></i>
-          <span>Rejoindre avec un Code</span>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card-editorial p-6 rounded-3xl space-y-4">
-          <div class="flex items-start justify-between">
-            <div>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">FAST • Licence 2</span>
-              <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">Algorithmique & Structures de Données</h3>
-              <p class="text-xs text-slate-500">Dr. K. AGBOTON — Université d'Abomey-Calavi</p>
-            </div>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold">
-              UAC-INFO-2026
-            </span>
-          </div>
-          <div class="grid grid-cols-3 gap-2 py-2 border-y border-slate-200 dark:border-white/5 text-center text-xs">
-            <div><div class="text-slate-500 text-[10px]">Étudiants</div><div class="font-bold text-slate-900 dark:text-white mt-0.5">142</div></div>
-            <div><div class="text-slate-500 text-[10px]">Quiz Actifs</div><div class="font-bold text-cyan-500 mt-0.5">3</div></div>
-            <div><div class="text-slate-500 text-[10px]">Moyenne Promo</div><div class="font-bold text-emerald-500 mt-0.5">15.2/20</div></div>
-          </div>
-          <button onclick="navigateTo('exam')" class="w-full py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold transition-colors">
-            Lancer la Composition Surveillée
-          </button>
-        </div>
-
-        <div class="card-editorial p-6 rounded-3xl space-y-4">
-          <div class="flex items-start justify-between">
-            <div>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">FASEG • Licence 2</span>
-              <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">Microéconomie II — Équilibre Général</h3>
-              <p class="text-xs text-slate-500">Pr. M. HOUNGBEDJI — UAC</p>
-            </div>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold">
-              UAC-ECO-2026
-            </span>
-          </div>
-          <div class="grid grid-cols-3 gap-2 py-2 border-y border-slate-200 dark:border-white/5 text-center text-xs">
-            <div><div class="text-slate-500 text-[10px]">Étudiants</div><div class="font-bold text-slate-900 dark:text-white mt-0.5">198</div></div>
-            <div><div class="text-slate-500 text-[10px]">Quiz Actifs</div><div class="font-bold text-cyan-500 mt-0.5">2</div></div>
-            <div><div class="text-slate-500 text-[10px]">Moyenne Promo</div><div class="font-bold text-emerald-500 mt-0.5">12.8/20</div></div>
-          </div>
-          <button onclick="navigateTo('exam')" class="w-full py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold transition-colors">
-            Lancer la Composition Surveillée
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PAGE 6: FORUM COMMUNAUTAIRE VIEW ────────────── -->
-    <div id="view-forum" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-      <div class="flex items-center justify-between mb-8">
-        <div>
-          <span class="text-xs font-bold text-amber-500 uppercase tracking-wider bg-amber-500/10 px-3 py-1 rounded-full">Entraide & Questions</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Forum Étudiant UAC</h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Posez vos questions sur les exercices et partagez vos fiches de révision.</p>
-        </div>
-        <button onclick="openNewPostModal()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-indigo-600/30">
-          <i class="fa-solid fa-plus"></i>
-          <span>Créer un Sujet</span>
-        </button>
-      </div>
-
-      <div id="forum-posts-container" class="space-y-4 max-w-4xl mx-auto">
-        <div class="card-editorial p-6 rounded-3xl">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-500">FAST • Informatique</span>
-              <span class="text-xs font-bold text-slate-900 dark:text-white">Awa Dossou</span>
-            </div>
-            <span class="text-[11px] text-slate-500">Il y a 2h</span>
-          </div>
-          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Compréhension des rotations simples vs doubles dans les arbres AVL ?</h4>
-          <p class="text-xs text-slate-600 dark:text-slate-300">Quelqu'un aurait un schéma simple pour distinguer le cas Gauche-Droite (GD) lors de l'insertion dans un arbre AVL pour l'examen de demain ?</p>
-          <div class="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-4 text-xs text-slate-500">
-            <button onclick="togglePostLike(this)" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-thumbs-up"></i> <span>14</span> likes</button>
-            <button onclick="showToast('Section réponses ouverte')" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-comment"></i> 6 réponses</button>
-          </div>
-        </div>
-
-        <div class="card-editorial p-6 rounded-3xl">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-500">FASEG • Économie</span>
-              <span class="text-xs font-bold text-slate-900 dark:text-white">Koffi Mensah</span>
-            </div>
-            <span class="text-[11px] text-slate-500">Hier</span>
-          </div>
-          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Corrigé type de la session 2024 de Microéconomie II disponible !</h4>
-          <p class="text-xs text-slate-600 dark:text-slate-300">J'ai uploadé la résolution détaillée de la partie sur l'équilibre concurrentiel Walrasien dans la banque d'épreuves.</p>
-          <div class="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-4 text-xs text-slate-500">
-            <button onclick="togglePostLike(this)" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-thumbs-up"></i> <span>28</span> likes</button>
-            <button onclick="showToast('Section réponses ouverte')" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-comment"></i> 12 réponses</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ── PAGE 7: DASHBOARD PROFILE VIEW ─────────────── -->
-    <div id="view-dashboard" class="spa-view hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-      <div class="card-editorial p-8 rounded-3xl mb-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-          <div class="flex items-center gap-4">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-2xl object-cover ring-4 ring-indigo-500/30" alt="Avatar" />
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">Aurelien KOUASSI</h2>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">Étudiant Vérifié</span>
+            <h2 style="font-size:2rem;font-weight:900;color:var(--text-1);margin:0 0 12px;">Rejoindre une composition</h2>
+            <p style="font-size:1rem;color:var(--text-2);margin:0 0 32px;max-width:400px;">
+              Entrez le code unique fourni par votre professeur pour accéder à la salle d'attente de votre évaluation.
+            </p>
+            
+            <form id="joinCompForm" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:320px;" onsubmit="handleJoinComposition(event)">
+              <div style="position:relative;">
+                <i class="fas fa-key" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-3);"></i>
+                <input type="text" id="compCodeInput" placeholder="Code..." style="width:100%;background:#fff;border:2px solid var(--border-2);border-radius:var(--r-lg);padding:14px 14px 14px 44px;font-family:var(--font-mono);font-size:1.2rem;font-weight:800;color:var(--text-1);text-transform:uppercase;letter-spacing:1px;transition:all 0.2s;text-align:center;" required />
               </div>
-              <p class="text-xs text-slate-500 font-mono mt-0.5">Matricule : 2023-04921 • FAST (Informatique) — Licence 2</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 text-center">
-              <div class="text-[10px] text-slate-500 uppercase font-bold">Niveau</div>
-              <div class="text-lg font-black text-indigo-500">7</div>
-            </div>
-            <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 text-center">
-              <div class="text-[10px] text-slate-500 uppercase font-bold">Streak</div>
-              <div class="text-lg font-black text-amber-500">14j</div>
-            </div>
-            <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 text-center">
-              <div class="text-[10px] text-slate-500 uppercase font-bold">Crédits IA</div>
-              <div class="text-lg font-black text-cyan-500"><span id="user-credits-val">42</span></div>
-            </div>
-          </div>
-        </div>
+              <button type="submit" class="btn btn-primary" style="padding:14px;font-size:1.05rem;border-radius:var(--r-lg);box-shadow:0 4px 12px rgba(21,101,192,0.25);">
+                Continuer <i class="fas fa-arrow-right" style="margin-left:8px;"></i>
+              </button>
+            </form>
+            
+            <p id="joinCompError" style="color:var(--danger);font-size:0.85rem;font-weight:700;margin-top:16px;display:none;">
+              Code introuvable. Vérifiez le code fourni par votre professeur.
+            </p>
 
-        <div class="mt-6 pt-5 border-t border-slate-200 dark:border-white/10">
-          <div class="flex items-center justify-between text-xs mb-2">
-            <span class="font-bold text-slate-700 dark:text-slate-300">Progression vers le Niveau 8</span>
-            <span class="font-mono text-indigo-500 font-bold"><span id="user-xp-val">3,450</span> / 5,000 XP (70%)</span>
-          </div>
-          <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-indigo-500 via-sky-400 to-emerald-400 rounded-full" style="width: 70%"></div>
+            <div style="width: 100%; max-width: 800px; margin-top: 60px; text-align: left; background:var(--bg-2); border-radius:var(--r-xl); padding:40px; border:1px solid var(--border);">
+              <div style="text-align:center;">
+                <div style="width:60px;height:60px;background:rgba(100,116,139,0.1);color:var(--text-3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 16px;">
+                  <i class="fas fa-folder-open"></i>
+                </div>
+                <h3 style="font-size:1.2rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune évaluation récente</h3>
+                <p style="font-size:0.95rem;color:var(--text-2);margin:0 auto;line-height:1.6;max-width:400px;">
+                  Vous n'avez passé aucune composition récemment. Les résultats de vos prochaines évaluations apparaîtront ici.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- FedaPay Mobile Money Topup Card -->
-      <div class="p-8 rounded-3xl bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white shadow-2xl relative overflow-hidden mb-8">
-        <div class="text-xs font-bold tracking-wider uppercase text-cyan-300 mb-1">Pass Étudiant FedaPay</div>
-        <h3 class="text-xl font-black mb-2">Abonnement Révision & Crédits IA</h3>
-        <p class="text-xs text-slate-300 max-w-xl mb-4">Débloquez tous les corrigés d'examen et générez des QCM illimités sur vos propres cours via MTN Mobile Money ou Moov Money.</p>
-        <div class="flex items-baseline gap-1 mb-4">
-          <span class="text-3xl font-black">1 500</span>
-          <span class="text-xs text-indigo-300">FCFA / mois</span>
+      <!-- VUE EPREUVES (NOUVELLE) -->
+      <div id="view-epreuves" class="dash-view" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2 style="font-size:1.6rem;font-weight:900;color:var(--text-1);margin:0 0 6px;">Bibliothèque d'Épreuves</h2>
+            <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Annales de l'Université, TD et corrections.</p>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <input type="text" placeholder="Rechercher une matière..." class="form-input" style="width:250px;" />
+            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
         </div>
-        <button onclick="openPaymentModal()" class="px-6 py-3 rounded-2xl bg-white text-indigo-950 font-black text-xs hover:bg-slate-100 transition-colors shadow-lg flex items-center gap-2">
-          <i class="fa-solid fa-mobile-screen"></i>
-          <span>Recharger par Mobile Money (MTN & Moov)</span>
-        </button>
+        
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-folder-open"></i>
+          </div>
+          <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune épreuve trouvée</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            La bibliothèque est actuellement vide. Les épreuves apparaîtront ici lorsqu'elles seront partagées.
+          </p>
+        </div>
       </div>
-    </div>
+      <!-- VUE FORUM (NOUVELLE) -->
+      <div id="view-forum" class="dash-view" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2 style="font-size:1.6rem;font-weight:900;color:var(--text-1);margin:0 0 6px;">Forum & Entraide</h2>
+            <p style="font-size:0.95rem;color:var(--text-2);margin:0;">Posez vos questions et échangez avec la communauté Campusly.</p>
+          </div>
+          <button class="btn btn-primary"><i class="fas fa-pen"></i> Nouvelle discussion</button>
+        </div>
+        
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:60px 20px;text-align:center;">
+          <div style="width:80px;height:80px;background:rgba(21,101,192,0.1);color:var(--brand-1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 24px;">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3 style="font-size:1.4rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Aucune discussion pour le moment</h3>
+          <p style="font-size:1.05rem;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.6;">
+            Soyez le premier à lancer un sujet ! Posez une question sur un cours ou partagez une ressource utile.
+          </p>
+          <button class="btn btn-primary"><i class="fas fa-pen"></i> Démarrer une discussion</button>
+        </div>
+      </div>
 
   </main>
 
-  <!-- ================= EDITORIAL FOOTER ================= -->
-  <footer class="border-t border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-950 py-12 px-4 text-xs text-slate-500 mt-auto">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex flex-col items-center md:items-start gap-1">
-        <span class="font-extrabold text-slate-900 dark:text-white text-sm">Campusly • Écosystème Éducatif UAC</span>
-        <p class="text-[11px] text-slate-500">Conçu pour le Bénin et l'Afrique francophone. Inspiré des plus hauts standards pédagogiques.</p>
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-6 text-[11px] font-semibold">
-        <button onclick="navigateTo('epreuves')" class="hover:text-indigo-500">Épreuves</button>
-        <button onclick="navigateTo('quiz')" class="hover:text-indigo-500">Quiz IA</button>
-        <button onclick="navigateTo('exam')" class="hover:text-indigo-500">Examen Blanc</button>
-        <button onclick="navigateTo('classrooms')" class="hover:text-indigo-500">Classrooms</button>
-        <button onclick="navigateTo('forum')" class="hover:text-indigo-500">Forum</button>
-        <a href="https://wa.me/2290158519556" target="_blank" class="text-emerald-500 hover:underline">Support WhatsApp (+229)</a>
-      </div>
-    </div>
-  </footer>
+</div>
 
-  <!-- ================= HIGH-END MODALS ================= -->
-  <!-- Modal 1: Epreuve Preview Modal -->
-  <div id="modal-epreuve-preview" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="card-editorial w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 shadow-2xl space-y-4">
-      <div class="flex items-start justify-between">
-        <div>
-          <span id="preview-modal-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-500">FAST • S3</span>
-          <h3 id="preview-modal-title" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-1">Titre de l'épreuve</h3>
-          <p id="preview-modal-code" class="text-xs text-slate-500 font-mono mt-0.5">CODE-000</p>
-        </div>
-        <button onclick="closeModal('modal-epreuve-preview')" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-      <div class="p-5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/5 space-y-3 font-serif">
-        <div class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider font-sans flex items-center gap-2">
-          <i class="fa-solid fa-file-lines text-indigo-500"></i> Extrait du Sujet Officiel
-        </div>
-        <p id="preview-modal-body" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">Extrait...</p>
-      </div>
-      <div class="flex items-center justify-end gap-3 pt-3">
-        <button onclick="closeModal('modal-epreuve-preview')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white">Fermer</button>
-        <button id="preview-modal-btn-quiz" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-1.5 shadow-lg">
-          <i class="fa-solid fa-wand-magic-sparkles text-cyan-300"></i><span>Lancer le Quiz IA</span>
-        </button>
-      </div>
-    </div>
-  </div>
+<script type="module">
+  import { authService } from './js/services/authService.js';
+  import { userService } from './js/services/userService.js';
+  import { creditService } from './js/services/creditService.js';
+  import './js/theme.js';
 
-  <!-- Modal 2: Join Classroom Modal -->
-  <div id="modal-join-class" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="card-editorial w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 shadow-2xl space-y-4">
-      <div class="flex items-start justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-users-rectangle"></i></div>
-          <div><h3 class="text-base font-bold text-slate-900 dark:text-white">Rejoindre une Classroom</h3><p class="text-xs text-slate-500">Code fourni par votre professeur</p></div>
-        </div>
-        <button onclick="closeModal('modal-join-class')" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <input type="text" id="join-class-input" placeholder="Ex: UAC-INFO-2026" class="w-full px-4 py-3 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:border-emerald-500" />
-      <button onclick="submitJoinClass()" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30">Valider et Accéder au Cours</button>
-    </div>
-  </div>
 
-  <!-- Modal 3: Payment Mobile Money Modal -->
-  <div id="modal-payment" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="card-editorial w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 shadow-2xl space-y-5">
-      <div class="flex items-start justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center"><i class="fa-solid fa-mobile-screen"></i></div>
-          <div><h3 class="text-base font-bold text-slate-900 dark:text-white">Recharge FedaPay Mobile Money</h3><p class="text-xs text-slate-500">Paiement instantané en FCFA</p></div>
-        </div>
-        <button onclick="closeModal('modal-payment')" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="space-y-3">
-        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Numéro de téléphone (MTN ou Moov)</label>
-        <input type="tel" id="fedapay-phone" placeholder="+229 97 00 00 00" class="w-full px-4 py-3 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs" />
-        <div class="flex gap-2">
-          <button type="button" class="flex-1 py-2 rounded-xl bg-amber-500/20 text-amber-600 font-bold text-xs border border-amber-500/40">MTN Mobile Money</button>
-          <button type="button" class="flex-1 py-2 rounded-xl bg-sky-500/20 text-sky-600 font-bold text-xs border border-sky-500/40">Moov Money</button>
-        </div>
-      </div>
-      <button onclick="processPayment()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-indigo-600 text-white font-black text-xs shadow-lg">Confirmer le Paiement (1 500 FCFA)</button>
-    </div>
-  </div>
-
-  <!-- Toast Notification Pill -->
-  <div id="toast-pill" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3 rounded-2xl bg-slate-900 border border-white/20 text-white text-xs font-bold shadow-2xl flex items-center gap-2.5 toast-animate">
-    <i class="fa-solid fa-circle-check text-emerald-400"></i>
-    <span id="toast-message">Notification</span>
-  </div>
-
-  <!-- ================= SPA LOGIC SCRIPT ================= -->
-  <script>
-    function toggleMobileMenu(forceState) {
-      const drawer = document.getElementById('mobile-drawer');
-      const icon = document.getElementById('mobile-menu-icon');
-      if (!drawer || !icon) return;
-
-      const isCurrentlyOpen = drawer.classList.contains('is-open') || !drawer.classList.contains('hidden');
-      const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
-
-      if (shouldOpen) {
-        drawer.classList.remove('hidden');
-        drawer.classList.add('is-open');
-        drawer.style.display = 'block';
-        icon.className = 'fa-solid fa-xmark text-lg text-rose-500';
-      } else {
-        drawer.classList.remove('is-open');
-        drawer.classList.add('hidden');
-        drawer.style.display = 'none';
-        icon.className = 'fa-solid fa-bars text-lg';
-      }
+  
+  
+  authService.protectRoute();
+  
+  window.handleJoinComposition = function(e) {
+    e.preventDefault();
+    const code = document.getElementById('compCodeInput').value.trim().toUpperCase();
+    const errorEl = document.getElementById('joinCompError');
+    errorEl.style.display = 'none';
+    
+    if (code.length < 5) {
+      errorEl.textContent = "Code invalide. Veuillez entrer un code complet.";
+      errorEl.style.display = 'block';
+      return;
     }
-
-    function navigateTo(viewId) {
-      document.querySelectorAll('.spa-view').forEach(v => v.classList.add('hidden'));
-      const active = document.getElementById(`view-${viewId}`);
-      if (active) active.classList.remove('hidden');
-
-      // Update Desktop Nav
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.className = 'nav-link px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white flex items-center gap-1.5';
-      });
-      const activeNav = document.getElementById(`nav-${viewId}`);
-      if (activeNav) {
-        activeNav.className = 'nav-link px-4 py-2 rounded-xl text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10 flex items-center gap-1.5';
-      }
-
-      // Update Mobile Nav
-      document.querySelectorAll('.mob-nav-link').forEach(link => {
-        link.className = 'mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-900';
-      });
-      const activeMobNav = document.getElementById(`mob-nav-${viewId}`);
-      if (activeMobNav) {
-        activeMobNav.className = 'mob-nav-link w-full text-left px-4 py-3 rounded-2xl text-xs font-bold flex items-center justify-between text-indigo-600 dark:text-white bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-white/10';
-      }
-
-      toggleMobileMenu(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Simuler une vérification backend
+    if (code !== 'CMP-7K4P92' && code !== 'TEST26') {
+      errorEl.textContent = "Code introuvable ou épreuve non ouverte. Vérifiez le code fourni.";
+      errorEl.style.display = 'block';
+      return;
     }
+    
+    // Code valide, redirection vers la salle d'attente de l'examen
+    window.location.href = `exam-room.html?code=${code}`;
+  };
 
-    function setRole(role) {
-      const btnApp = document.getElementById('nav-btn-apprenant');
-      const btnEns = document.getElementById('nav-btn-enseignant');
-      const pathApp = document.getElementById('path-apprenant');
-      const pathEns = document.getElementById('path-enseignant');
-
-      const mobApp = document.getElementById('mob-btn-apprenant');
-      const mobEns = document.getElementById('mob-btn-enseignant');
-
-      if (role === 'apprenant') {
-        if (btnApp) btnApp.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30';
-        if (btnEns) btnEns.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-        if (mobApp) mobApp.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30';
-        if (mobEns) mobEns.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400';
-        if (pathApp) pathApp.className = 'card-editorial p-8 rounded-3xl border border-indigo-500/50 bg-slate-100/80 dark:bg-slate-900/80 ring-2 ring-indigo-500/20';
-        if (pathEns) pathEns.className = 'card-editorial p-8 rounded-3xl border border-slate-300 dark:border-white/10';
-      } else {
-        if (btnEns) btnEns.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-600/30';
-        if (btnApp) btnApp.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-        if (mobEns) mobEns.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-600/30';
-        if (mobApp) mobApp.className = 'flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400';
-        if (pathEns) pathEns.className = 'card-editorial p-8 rounded-3xl border border-emerald-500/50 bg-slate-100/80 dark:bg-slate-900/80 ring-2 ring-emerald-500/20';
-        if (pathApp) pathApp.className = 'card-editorial p-8 rounded-3xl border border-slate-300 dark:border-white/10';
-      }
-    }
-
-    function toggleTheme() {
-      const html = document.documentElement;
-      const icon = document.getElementById('theme-icon');
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        icon.className = 'fa-solid fa-sun text-amber-500';
-      } else {
-        html.classList.add('dark');
-        icon.className = 'fa-solid fa-moon text-indigo-400';
-      }
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast-pill');
-      const text = document.getElementById('toast-message');
-      text.innerText = msg;
-      toast.classList.remove('hidden');
-      setTimeout(() => { toast.classList.add('hidden'); }, 3000);
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-
-    function openEpreuvePreview(fac, code, title, year, body) {
-      document.getElementById('preview-modal-badge').innerText = `${fac} • ${year}`;
-      document.getElementById('preview-modal-title').innerText = title;
-      document.getElementById('preview-modal-code').innerText = code;
-      document.getElementById('preview-modal-body').innerText = `"${body}"`;
-      document.getElementById('preview-modal-btn-quiz').onclick = () => {
-        closeModal('modal-epreuve-preview');
-        loadQuizFor(title);
-        navigateTo('quiz');
-      };
-      document.getElementById('modal-epreuve-preview').classList.remove('hidden');
-    }
-
-    function openJoinClassModal() {
-      document.getElementById('modal-join-class').classList.remove('hidden');
-    }
-
-    function submitJoinClass() {
-      const val = document.getElementById('join-class-input').value.trim();
-      if (!val) { showToast("Veuillez entrer un code de classroom."); return; }
-      closeModal('modal-join-class');
-      showToast(`Félicitations ! Vous avez rejoint la classroom ${val}.`);
-    }
-
-    function openPaymentModal() {
-      document.getElementById('modal-payment').classList.remove('hidden');
-    }
-
-    function processPayment() {
-      closeModal('modal-payment');
-      showToast("Paiement validé via FedaPay (+50 crédits IA activés) !");
-      document.getElementById('user-credits-val').innerText = '92';
-      try { confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } }); } catch (e) {}
-    }
-
-    function filterFac(fac) {
-      const cards = document.querySelectorAll('.epreuve-card');
-      const btns = document.querySelectorAll('.fac-filter-btn');
-      btns.forEach(b => {
-        if (b.innerText.toLowerCase() === fac.toLowerCase() || (fac === 'all' && b.innerText === 'Tous')) {
-          b.className = 'fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white';
-        } else {
-          b.className = 'fac-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400';
-        }
-      });
-      cards.forEach(c => {
-        if (fac === 'all' || c.getAttribute('data-fac') === fac) { c.style.display = 'flex'; }
-        else { c.style.display = 'none'; }
-      });
-    }
-
-    function filterEpreuves(query) {
-      const cards = document.querySelectorAll('.epreuve-card');
-      const term = (query || '').toLowerCase().trim();
-      cards.forEach(c => {
-        const title = c.getAttribute('data-title') || '';
-        if (term === '' || title.includes(term)) { c.style.display = 'flex'; }
-        else { c.style.display = 'none'; }
-      });
-    }
-
-    const quizData = [
-      {
-        q: "Dans un arbre binaire de recherche auto-équilibrant de type AVL, quelle est la différence de hauteur maximale tolérée entre les sous-arbres gauche et droit de chaque nœud ?",
-        opts: ["0 (hauteurs strictement identiques)", "1 (facteur d'équilibre égal à -1, 0 ou +1)", "2 (avec rééquilibrage différé)"],
-        correct: 1,
-        exp: "Un arbre AVL est caractérisé par un facteur d'équilibre de -1, 0 ou +1 pour chaque nœud, garantissant un coût logarithmique O(log n)."
-      },
-      {
-        q: "En droit civil béninois/OHADA, quels sont les trois critères cumulatifs pour engager la responsabilité délictuelle ?",
-        opts: ["Une faute, un dommage certain et un lien de causalité direct", "Un contrat écrit et un défaut de paiement", "Un aveu judiciaire certifié par huissier"],
-        correct: 0,
-        exp: "La responsabilité délictuelle exige invariablement la réunion d'une faute, d'un préjudice direct et certain, et d'un lien de causalité incontestable."
-      },
-      {
-        q: "Quelle est la complexité asymptotique pire-cas du tri rapide (Quicksort) sans pivot aléatoire ?",
-        opts: ["O(n log n)", "O(n²)", "O(2ⁿ)"],
-        correct: 1,
-        exp: "Si le pivot choisi est systématiquement le premier ou dernier élément d'un tableau déjà ordonné, la partition dégénère en O(n²)."
-      }
-    ];
-
-    let currentQ = 0;
-    let quizAnswered = false;
-
-    function answerQuiz(idx) {
-      if (quizAnswered) return;
-      quizAnswered = true;
-      const opts = document.querySelectorAll('.quiz-opt');
-      const feedback = document.getElementById('quiz-feedback');
-      const btnNext = document.getElementById('btn-next-question');
-      const exp = document.getElementById('quiz-explanation');
-
-      opts.forEach((o, i) => {
-        if (i === quizData[currentQ].correct) {
-          o.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-emerald-500 bg-emerald-100 dark:bg-emerald-950/70 text-xs sm:text-sm text-emerald-800 dark:text-emerald-200 font-bold flex items-center justify-between';
-        } else if (i === idx) {
-          o.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-rose-500 bg-rose-100 dark:bg-rose-950/70 text-xs sm:text-sm text-rose-800 dark:text-rose-200 flex items-center justify-between';
-        } else {
-          o.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-transparent bg-slate-100 dark:bg-slate-900/40 text-xs sm:text-sm text-slate-400 opacity-60 flex items-center justify-between';
-        }
-      });
-
-      if (idx === quizData[currentQ].correct) {
-        try { confetti({ particleCount: 35, spread: 60, origin: { y: 0.8 } }); } catch (e) {}
-      }
-      exp.innerText = quizData[currentQ].exp;
-      feedback.classList.remove('hidden');
-      btnNext.classList.remove('hidden');
-    }
-
-    function nextQuestion() {
-      currentQ = (currentQ + 1) % quizData.length;
-      quizAnswered = false;
-      document.getElementById('quiz-counter').innerText = `Question ${currentQ + 1} / ${quizData.length}`;
-      document.getElementById('quiz-question').innerText = quizData[currentQ].q;
-      const optContainer = document.getElementById('quiz-options');
-      optContainer.innerHTML = '';
-      quizData[currentQ].opts.forEach((optText, i) => {
-        const btn = document.createElement('button');
-        btn.onclick = () => answerQuiz(i);
-        btn.className = 'quiz-opt w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-slate-900/80 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between';
-        btn.innerHTML = `<span>${optText}</span><span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-500 flex items-center justify-center font-mono text-xs">${String.fromCharCode(65 + i)}</span>`;
-        optContainer.appendChild(btn);
-      });
-      document.getElementById('quiz-feedback').classList.add('hidden');
-      document.getElementById('btn-next-question').classList.add('hidden');
-    }
-
-    function loadQuizFor(topic) {
-      document.getElementById('quiz-badge').innerText = `Mode Quiz : ${topic}`;
-      nextQuestion();
-    }
-
-    function switchQuizMode(mode) {
-      const tabInteractive = document.getElementById('quiz-tab-interactive');
-      const tabUpload = document.getElementById('quiz-tab-upload');
-      const modeInteractive = document.getElementById('quiz-mode-interactive');
-      const modeUpload = document.getElementById('quiz-mode-upload');
-      if (mode === 'interactive') {
-        tabInteractive.className = 'px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md';
-        tabUpload.className = 'px-5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5';
-        modeInteractive.classList.remove('hidden');
-        modeUpload.classList.add('hidden');
-      } else {
-        tabUpload.className = 'px-5 py-2 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-md flex items-center gap-1.5';
-        tabInteractive.className = 'px-5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-        modeUpload.classList.remove('hidden');
-        modeInteractive.classList.add('hidden');
-      }
-    }
-
-    function handlePdfGenerateSubmit(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btn-submit-pdf-gen');
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Extraction cognitive du cours et génération des QCM...</span>`;
-      btn.disabled = true;
+  window.navigateToView = function(viewId) {
+    // 1. Hide all views
+    document.querySelectorAll('.dash-view').forEach(el => el.style.display = 'none');
+    
+    // 2. Show target view
+    const target = document.getElementById('view-' + viewId);
+    if (target) {
+      target.style.display = 'block';
+      // Trigger animation
+      target.style.opacity = '0';
+      target.style.transform = 'translateY(10px)';
       setTimeout(() => {
-        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Générer le Quiz avec l'IA</span>`;
-        btn.disabled = false;
-        showToast("Quiz généré avec succès ! Démarrage de votre entraînement.");
-        switchQuizMode('interactive');
-        loadQuizFor("Polycopié Cours UAC");
-      }, 1500);
+        target.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        target.style.opacity = '1';
+        target.style.transform = 'translateY(0)';
+      }, 10);
     }
+    
+    // 3. Update sidebar active state
+    document.querySelectorAll('.side-link').forEach(link => link.classList.remove('active'));
+    const activeLink = document.querySelector(`.side-link[data-view="${viewId}"]`);
+    if (activeLink) activeLink.classList.add('active');
+    
+    // 4. Update breadcrumb
+    const breadcrumbLabel = activeLink ? activeLink.querySelector('span').textContent : 'Tableau de bord';
+    const dashTitle = document.querySelector('[data-i18n="dash_title"]');
+    if (dashTitle) dashTitle.textContent = breadcrumbLabel;
+    
+    // 5. Close sidebar on mobile
+    if (window.innerWidth <= 1024) {
+      const sb = document.getElementById('appSidebar');
+      if (sb) sb.classList.remove('show');
+    }
+  };
 
-    let examTimerInterval = null;
-    function startExamSession() {
-      document.getElementById('exam-pre-start').classList.add('hidden');
-      document.getElementById('exam-in-progress').classList.remove('hidden');
-      document.getElementById('exam-timer-badge').classList.remove('hidden');
-      let secondsRemaining = 45 * 60;
-      examTimerInterval = setInterval(() => {
-        secondsRemaining--;
-        const mins = Math.floor(secondsRemaining / 60);
-        const secs = secondsRemaining % 60;
-        document.getElementById('exam-timer-display').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        if (secondsRemaining <= 0) {
-          clearInterval(examTimerInterval);
-          submitExam();
+  // Add click listeners to sidebar links
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.side-link[data-view]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const viewId = link.getAttribute('data-view');
+        // Handle external pages that haven't been ported yet
+        if (viewId === 'revision') {
+          window.location.href = viewId + '.html';
+          return;
         }
-      }, 1000);
+        window.navigateToView(viewId);
+      });
+    });
+    
+    // Handle initial hash
+    if (window.location.hash) {
+      const initialView = window.location.hash.replace('#', '');
+      if (['overview', 'classrooms', 'epreuves', 'forum', 'composition'].includes(initialView)) {
+        window.navigateToView(initialView);
+      }
+    }
+  });
+
+  function renderDashboard() {
+    const user = authService.getUser();
+    const isTeacher = user.role === 'teacher';
+
+    // Sidebar user info
+    const initials = (user.prenom ? user.prenom[0] : 'R') + (user.nom ? user.nom[0] : 'O');
+    const avatarEl = document.getElementById('sideUserAvatar');
+    if (avatarEl) avatarEl.textContent = initials.toUpperCase();
+
+    const nameEl = document.getElementById('sideUserName');
+    if (nameEl) nameEl.textContent = `${user.prenom || 'Rosaire'} ${user.nom ? user.nom[0] + '.' : 'O.'}`;
+
+    const sideBadge = document.getElementById('sideRoleBadge');
+    if (sideBadge) {
+      sideBadge.className = `role-badge ${isTeacher ? 'teacher' : 'learner'}`;
+      sideBadge.innerHTML = isTeacher 
+        ? '<i class="fa-solid fa-chalkboard-user"></i> <span>Professeur</span>' 
+        : '<i class="fa-solid fa-user-graduate"></i> <span>Étudiant UAC</span>';
     }
 
-    function submitExam() {
-      if (examTimerInterval) clearInterval(examTimerInterval);
-      document.getElementById('exam-in-progress').classList.add('hidden');
-      document.getElementById('exam-timer-badge').classList.add('hidden');
-      document.getElementById('exam-result').classList.remove('hidden');
-      try { confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 } }); } catch (e) {}
+    const switchText = document.getElementById('sideRoleSwitchText');
+    if (switchText) {
+      switchText.textContent = isTeacher ? 'Passer en mode Étudiant' : 'Passer en mode Professeur';
     }
 
-    function handleChatSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('chat-input');
-      const messages = document.getElementById('chat-messages');
-      const text = input.value.trim();
-      if (!text) return;
-      const userMsg = document.createElement('div');
-      userMsg.className = 'p-3 rounded-2xl bg-indigo-600 text-white ml-auto max-w-[85%] text-right';
-      userMsg.innerText = text;
-      messages.appendChild(userMsg);
-      input.value = '';
-      setTimeout(() => {
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 max-w-[85%]';
-        aiMsg.innerText = `Analyse académique Campusly : Sur le concept "${text}", assurez-vous de maîtriser les 3 axiomes de base ainsi que les cas d'application semestriels de l'UAC. Souhaitez-vous générer un quiz d'entraînement dessus ?`;
-        messages.appendChild(aiMsg);
-        messages.scrollTop = messages.scrollHeight;
-      }, 500);
+    // Main header greeting
+    const dashTitle = document.getElementById('dashTitle');
+    if (dashTitle) {
+      dashTitle.textContent = isTeacher
+        ? `Bonjour ${user.prenom || 'Dr.'} ${user.nom || 'Mensah'}`
+        : `Bonjour ${user.prenom || 'Rosaire'}`;
     }
 
-    function togglePostLike(btn) {
-      const span = btn.querySelector('span');
-      let count = parseInt(span.innerText, 10);
-      span.innerText = count + 1;
-      btn.className = 'text-indigo-500 font-bold flex items-center gap-1';
-      showToast("+1 Like ajouté !");
+    const mainBadge = document.getElementById('roleBadge');
+    if (mainBadge) {
+      mainBadge.className = `role-badge ${isTeacher ? 'teacher' : 'learner'}`;
+      mainBadge.innerHTML = isTeacher 
+        ? '<i class="fa-solid fa-chalkboard-user"></i> Enseignant / Professeur' 
+        : '<i class="fa-solid fa-user-graduate"></i> Apprenant / Étudiant';
     }
 
-    function openNewPostModal() {
-      const title = prompt("Sujet de votre question :");
-      if (!title) return;
-      const container = document.getElementById('forum-posts-container');
-      const newCard = document.createElement('div');
-      newCard.className = 'card-editorial p-6 rounded-3xl animate-in fade-in duration-300';
-      newCard.innerHTML = `
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-2">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-500">UAC • Général</span>
-            <span class="text-xs font-bold text-slate-900 dark:text-white">Aurelien KOUASSI</span>
+    const toggleBtn = document.getElementById('toggleRoleBtn');
+    if (toggleBtn) {
+      toggleBtn.innerHTML = isTeacher 
+        ? '<i class="fa-solid fa-repeat" style="margin-right:6px;"></i> Passer en mode Apprenant' 
+        : '<i class="fa-solid fa-repeat" style="margin-right:6px;"></i> Passer en mode Professeur';
+    }
+
+    document.getElementById('learnerView').style.display = isTeacher ? 'none' : 'block';
+    document.getElementById('teacherView').style.display = isTeacher ? 'block' : 'none';
+    document.getElementById('teacherClassroomActions').style.display = isTeacher ? 'flex' : 'none';
+
+    document.getElementById('teacherCompositionView').style.display = isTeacher ? 'block' : 'none';
+    document.getElementById('learnerCompositionView').style.display = isTeacher ? 'none' : 'block';
+
+    document.getElementById('learnerClassroomActions').style.display = isTeacher ? 'none' : 'flex';
+
+    if (!isTeacher) {
+      const data = userService.getLearnerDashboardData();
+      const levelIcon = document.getElementById('levelIcon');
+      if (levelIcon) levelIcon.innerHTML = data.academicLevel.icon;
+      
+      const levelName = document.getElementById('levelName');
+      if (levelName) levelName.textContent = data.academicLevel.name;
+
+      const levelProgress = document.getElementById('levelProgress');
+      if (levelProgress) levelProgress.textContent = `${data.academicLevel.xp} / ${data.academicLevel.nextThreshold} XP (${data.academicLevel.progressPercent}%)`;
+
+      const progressBar = document.getElementById('levelProgressBar');
+      if (progressBar) progressBar.style.width = `${data.academicLevel.progressPercent}%`;
+
+      const metricCredits = document.getElementById('metricCredits');
+      if (metricCredits) metricCredits.textContent = `${data.credits} crédits`;
+
+      const metricStreak = document.getElementById('metricStreak');
+      if (metricStreak) metricStreak.textContent = `${data.streak} Jours consécutifs`;
+    }
+
+    const creditsCountEl = document.getElementById('metricCreditsCount');
+    if (creditsCountEl) creditsCountEl.textContent = creditService.getBalance();
+
+    creditService.updatePillUI();
+  }
+
+  window.toggleUserRole = async function() {
+    const user = authService.getUser();
+    const nextRole = user.role === 'teacher' ? 'learner' : 'teacher';
+    await authService.switchRole(nextRole);
+    renderDashboard();
+  };
+
+  window.handleLogout = async function() {
+    try {
+      await authService.logout();
+    } catch(e) {}
+    localStorage.removeItem('campusly_user');
+    localStorage.removeItem('campusly_auth_user');
+    window.location.href = 'auth.html';
+  };
+
+  
+  window.openCorrectionModal = function() {
+    document.getElementById('correctionModal').classList.add('show');
+  };
+  window.openStudentResultModal = function() {
+    document.getElementById('studentResultModal').classList.add('show');
+  };
+
+  window.toggleSidebar = function() {
+    const sb = document.getElementById('appSidebar');
+    if (sb) sb.classList.toggle('show');
+  };
+
+  renderDashboard();
+</script>
+
+  <!-- MODAL CREATION COMPOSITION -->
+  <div class="modal-overlay" id="createCompModal">
+    <div class="modal-content" style="max-width:700px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Créer une composition</h3>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('createCompModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" style="max-height:60vh;overflow-y:auto;padding-right:12px;">
+        
+        <div style="margin-bottom:24px;">
+          <label class="form-label">Titre de l'épreuve</label>
+          <input type="text" class="form-input" placeholder="Ex: Algorithmique Avancée & Graphes" />
+        </div>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+          <div>
+            <label class="form-label">Matière</label>
+            <select class="form-select">
+              <option>Informatique</option>
+              <option>Mathématiques</option>
+              <option>Physique</option>
+            </select>
           </div>
-          <span class="text-[11px] text-slate-500">À l'instant</span>
+          <div>
+            <label class="form-label">Classe / Niveau</label>
+            <select class="form-select">
+              <option>L2 Informatique</option>
+              <option>L1 Mathématiques</option>
+            </select>
+          </div>
         </div>
-        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">${title}</h4>
-        <p class="text-xs text-slate-600 dark:text-slate-300">Question publiée par un étudiant de l'UAC sur le forum académique.</p>
-        <div class="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex items-center gap-4 text-xs text-slate-500">
-          <button onclick="togglePostLike(this)" class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-thumbs-up"></i> <span>0</span> likes</button>
-          <button class="hover:text-indigo-500 flex items-center gap-1"><i class="fa-regular fa-comment"></i> 0 réponse</button>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+          <div>
+            <label class="form-label">Date (Optionnel)</label>
+            <input type="date" class="form-input" />
+          </div>
+          <div>
+            <label class="form-label">Durée (minutes)</label>
+            <input type="number" class="form-input" placeholder="60" value="60" />
+          </div>
         </div>
-      `;
-      container.prepend(newCard);
-      showToast("Votre question a été publiée sur le forum !");
-    }
-  </script>
+
+        <div style="margin-bottom:24px;">
+          <label class="form-label">Consignes du professeur</label>
+          <textarea class="form-input" style="height:100px;resize:vertical;" placeholder="Lisez attentivement... Une seule tentative..."></textarea>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:24px;">
+          <h4 style="font-size:0.95rem;font-weight:800;color:var(--text-1);margin:0 0 12px;">Sécurité & Surveillance</h4>
+          
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;cursor:pointer;">
+            <input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-2);font-weight:600;">Chronomètre strict</span>
+          </label>
+          
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;cursor:pointer;">
+            <input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-2);font-weight:600;">Détection de sortie de fenêtre (Simulation)</span>
+          </label>
+          
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;margin-bottom:0;cursor:pointer;">
+            <input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-2);font-weight:600;">Surveillance caméra (Simulation)</span>
+          </label>
+        </div>
+        
+        <div style="background:rgba(21,101,192,0.05);border:1px dashed var(--brand-1);border-radius:var(--r-lg);padding:32px;text-align:center;cursor:pointer;">
+          <i class="fas fa-file-upload" style="font-size:2rem;color:var(--brand-1);margin-bottom:12px;"></i>
+          <h4 style="font-size:1rem;font-weight:800;color:var(--text-1);margin:0 0 8px;">Importer une épreuve (PDF/Doc)</h4>
+          <p style="font-size:0.85rem;color:var(--text-2);margin:0;">L'IA de Campusly extraira automatiquement les questions. (Simulation)</p>
+        </div>
+
+      </div>
+      <div class="modal-footer" style="display:flex;justify-content:space-between;align-items:center;">
+        <button class="btn btn-ghost" onclick="document.getElementById('createCompModal').classList.remove('show')">Annuler</button>
+        <button class="btn btn-primary" onclick="alert('Composition créée ! Code d\'accès : CMP-NEW26');document.getElementById('createCompModal').classList.remove('show')">Générer le code</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL CORRECTION PROFESSEUR -->
+  <div class="modal-overlay" id="correctionModal">
+    <div class="modal-content" style="max-width:900px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" style="margin-bottom:4px;">Correction Assistée : Systèmes d'Exploitation</h3>
+          <p style="font-size:0.85rem;color:var(--text-3);margin:0;">L2 Informatique • 65 copies reçues • 15 à corriger</p>
+        </div>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('correctionModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" style="max-height:70vh;overflow-y:auto;padding-right:12px;background:var(--bg-2);">
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+          <h4 style="font-size:1.1rem;font-weight:800;color:var(--text-1);margin:0;">Copie de : <span style="color:var(--brand-1);">Jean A.</span></h4>
+          <div style="display:flex;gap:12px;">
+            <button class="btn btn-outline btn-sm"><i class="fas fa-chevron-left"></i> Copie Précédente</button>
+            <button class="btn btn-outline btn-sm">Copie Suivante <i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <!-- Q1 -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-bottom:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
+            <div style="font-size:1rem;font-weight:800;color:var(--text-1);">Question 1 : Décrivez la différence entre un processus et un thread. (3 pts)</div>
+            <span style="font-size:0.85rem;font-weight:700;color:var(--text-3);background:var(--surface);padding:4px 10px;border-radius:var(--r-md);">Q. Ouverte</span>
+          </div>
+          
+          <div style="margin-bottom:16px;">
+            <div style="font-size:0.85rem;color:var(--text-3);font-weight:600;margin-bottom:4px;">Réponse de l'étudiant :</div>
+            <div style="background:var(--surface);padding:12px;border-radius:var(--r-md);font-size:0.95rem;color:var(--text-1);line-height:1.5;">
+              Un processus a son propre espace mémoire indépendant, tandis que les threads partagent l'espace mémoire de leur processus parent.
+            </div>
+          </div>
+          
+          <div style="background:rgba(21,101,192,0.05);border:1px dashed var(--brand-1);border-radius:var(--r-md);padding:16px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <i class="fas fa-robot" style="color:var(--brand-1);"></i>
+              <span style="font-size:0.9rem;font-weight:800;color:var(--brand-1);">Analyse Campusly AI</span>
+            </div>
+            <p style="font-size:0.9rem;color:var(--text-2);margin:0 0 12px;line-height:1.5;">La distinction fondamentale sur l'espace mémoire est correcte. Cependant, la définition pourrait mentionner le contexte d'exécution ou les ressources systèmes allouées.</p>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:0.9rem;font-weight:700;color:var(--text-1);">Note proposée :</span>
+              <span style="font-size:1.1rem;font-weight:900;color:var(--brand-1);">2 / 3</span>
+            </div>
+          </div>
+          
+          <div style="display:flex;align-items:center;gap:16px;border-top:1px solid var(--border);padding-top:16px;">
+            <div style="flex:1;">
+              <label class="form-label" style="font-size:0.85rem;">Note finale (modifiable)</label>
+              <input type="number" class="form-input" value="2" style="width:100px;font-size:1.1rem;font-weight:800;" max="3" min="0" step="0.5" />
+            </div>
+            <div style="flex:3;">
+              <label class="form-label" style="font-size:0.85rem;">Commentaire du professeur (Optionnel)</label>
+              <input type="text" class="form-input" placeholder="Ajouter une remarque..." value="Bonne compréhension générale, mais l'argumentation doit être approfondie." />
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer" style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-top:1px solid var(--border);">
+        <button class="btn btn-ghost" onclick="document.getElementById('correctionModal').classList.remove('show')">Ignorer pour l'instant</button>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-outline" onclick="alert('L'IA va re-analyser la copie.')"><i class="fas fa-redo"></i> Nouvelle analyse</button>
+          <button class="btn btn-primary" onclick="alert('Copie de Jean A. validée !'); document.getElementById('correctionModal').classList.remove('show'); document.getElementById('publishModal').classList.add('show');"><i class="fas fa-check"></i> Valider et Passer au Suivant</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PUBLICATION -->
+  <div class="modal-overlay" id="publishModal">
+    <div class="modal-content" style="max-width:500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Publier les résultats</h3>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('publishModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" style="padding-right:12px;">
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="width:64px;height:64px;background:rgba(16,185,129,0.1);color:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 16px;">
+            <i class="fas fa-flag-checkered"></i>
+          </div>
+          <h4 style="font-size:1.2rem;font-weight:900;color:var(--text-1);margin:0 0 8px;">Prêt pour publication</h4>
+          <p style="font-size:0.95rem;color:var(--text-2);margin:0;">65 copies reçues • 65 corrigées • 65 validées</p>
+        </div>
+        
+        <p style="font-size:0.95rem;color:var(--text-1);margin:0 0 16px;font-weight:700;">Que souhaitez-vous rendre visible aux étudiants ?</p>
+        
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;background:var(--bg-2);padding:16px;border-radius:var(--r-lg);border:1px solid var(--border);">
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+            <input type="checkbox" checked disabled style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-1);font-weight:600;">Publier la note finale (Obligatoire)</span>
+          </label>
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+            <input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-1);font-weight:600;">Publier les commentaires du professeur</span>
+          </label>
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+            <input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-1);font-weight:600;">Publier la correction détaillée / corrigé type</span>
+          </label>
+          <label class="check-label" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+            <input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--brand-1);">
+            <span style="font-size:0.9rem;color:var(--text-1);font-weight:600;">Autoriser le téléchargement de la copie PDF</span>
+          </label>
+        </div>
+        
+        <p style="font-size:0.85rem;color:var(--text-3);margin:0;line-height:1.5;">Les étudiants concernés recevront une notification et pourront consulter leur note et leur correction depuis leur tableau de bord.</p>
+      </div>
+      <div class="modal-footer" style="display:flex;justify-content:space-between;align-items:center;">
+        <button class="btn btn-ghost" onclick="document.getElementById('publishModal').classList.remove('show')">Annuler</button>
+        <button class="btn btn-primary" onclick="alert('Résultats publiés ! Les étudiants ont été notifiés.');document.getElementById('publishModal').classList.remove('show')"><i class="fas fa-paper-plane" style="margin-right:8px;"></i> Publier les résultats</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RESULTAT ETUDIANT -->
+  <div class="modal-overlay" id="studentResultModal">
+    <div class="modal-content" style="max-width:700px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Résultats : Réseaux Informatiques</h3>
+        <button class="modal-close" aria-label="Fermer la modale" onclick="document.getElementById('studentResultModal').classList.remove('show')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" style="padding-right:12px;max-height:70vh;overflow-y:auto;">
+        
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:32px;text-align:center;margin-bottom:24px;">
+          <div style="font-size:0.9rem;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Note Finale</div>
+          <div style="font-size:3rem;font-weight:900;color:var(--brand-1);line-height:1;"><span id="demoScoreVal">--</span><span style="font-size:1.5rem;color:var(--text-3);">/20</span></div>
+          <div style="font-size:1rem;color:var(--success);font-weight:800;margin-top:12px;">Résultats disponibles</div>
+        </div>
+        
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-bottom:24px;">
+          <h4 style="font-size:1.05rem;font-weight:800;color:var(--text-1);margin:0 0 16px;"><i class="fas fa-comment-dots" style="color:var(--brand-1);margin-right:8px;"></i>Appréciation globale du professeur</h4>
+          <p style="font-size:0.95rem;color:var(--text-2);margin:0;line-height:1.6;font-style:italic;">
+            "Bon ensemble. Les concepts de base du modèle OSI sont bien maîtrisés. Attention à la précision sur le routage dynamique (BGP)."
+          </p>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:16px;">
+          <button class="btn btn-outline"><i class="fas fa-list-check"></i> Voir le détail des questions</button>
+          <button class="btn btn-primary"><i class="fas fa-download"></i> Télécharger ma copie (PDF)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
