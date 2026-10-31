@@ -26,7 +26,6 @@ const STATIC_ASSETS = [
   '/js/app.js',
   '/js/theme.js',
   '/js/theme-switcher.js',
-  '/js/supabase.js',
   '/js/auth-guard.js',
   '/js/auto-logout.js',
   '/js/i18n.js',
@@ -82,14 +81,12 @@ self.addEventListener('fetch', (event) => {
 
   // Ignorer les requêtes vers des domaines externes (sauf fonts, images)
   if (url.origin !== location.origin && 
-      !url.hostname.includes('supabase') &&
       !url.hostname.includes('googleapis') &&
       !url.hostname.includes('gstatic')) {
     return;
   }
 
   // Stratégie Network First pour les API Supabase
-  if (url.hostname.includes('supabase')) {
     event.respondWith(networkFirst(request));
     return;
   }
