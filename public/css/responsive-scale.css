@@ -1,0 +1,607 @@
+/* ============================================================
+   CAMPUSLY 2.0 — RESPONSIVE SCALE SYSTEM (TOUS LES ÉCRANS)
+   Continuum Responsive : 320px -> 3840px (4K)
+   ============================================================ */
+
+/* ── 1. TOKENS & RACINE RESPONSIVE ───────────────────────────── */
+:root {
+  --container-max-sm: 100%;
+  --container-max-md: 720px;
+  --container-max-lg: 1140px;
+  --container-max-xl: 1360px;
+  --container-max-2xl: 1680px;
+  --container-max-3xl: 2160px;
+  --container-max-4k:  2800px;
+
+  --content-gutter: clamp(14px, 2.5vw, 48px);
+  --section-pad-y: clamp(40px, 6vw, 100px);
+  --dash-gap: clamp(14px, 1.8vw, 28px);
+  --card-pad: clamp(16px, 2vw, 32px);
+}
+
+/* ── 2. FLUID CONTAINERS INTELLIGENTS ────────────────────────── */
+.container,
+.hero-content,
+.section-content,
+.features-grid,
+.steps-grid,
+.footer-grid,
+.footer-bottom,
+.app-body,
+.revision-body,
+.epreuves-main-inner {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  padding-left: var(--content-gutter);
+  padding-right: var(--content-gutter);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Typographie de lecture limitée à 72ch pour éviter les lignes trop longues */
+p, .hero-desc, .section-desc, .feature-desc, .pillar-desc {
+  max-width: 72ch;
+}
+
+.section-center p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Empêcher les badges et boutons de casser du texte sur deux lignes */
+.btn, .badge, .role-badge, .stat-badge, .tab-toggle-btn, .learning-mode-tab {
+  white-space: nowrap;
+}
+
+/* Tableaux véritablement responsives */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--r-md);
+}
+
+.table-responsive table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+/* ============================================================
+   3. ADAPTATIONS PAR PALIER DE LARGEUR (CONTINUUM)
+   ============================================================ */
+
+/* ── MOBILE ULTRA-COMPACT (320px - 360px) ─────────────────────── */
+@media (max-width: 360px) {
+  :root {
+    --content-gutter: 12px;
+  }
+  .navbar {
+    padding: 0 10px !important;
+    height: 52px !important;
+  }
+  .hero-title {
+    font-size: 1.65rem !important;
+  }
+  .hero-actions .btn {
+    font-size: 0.88rem !important;
+    padding: 12px 14px !important;
+  }
+  .hero-stats {
+    gap: 8px !important;
+  }
+  .stat-item {
+    padding: 8px 10px !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .dash-metric-card {
+    padding: 14px !important;
+  }
+  .card, .pillar-card, .feature-card {
+    padding: 14px !important;
+  }
+  .learning-mode-tab {
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* ── MOBILE STANDARD (361px - 480px) ─────────────────────────── */
+@media (min-width: 361px) and (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(1.8rem, 7.5vw, 2.3rem) !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* ── TABLETTE PORTRAIT (481px - 768px) ────────────────────────── */
+@media (min-width: 481px) and (max-width: 768px) {
+  .dash-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+  .features-grid, .steps-grid, .pillars-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  .hero-actions {
+    justify-content: center;
+  }
+  .hero-stats {
+    justify-content: center;
+  }
+}
+
+/* ── TABLETTE PAYSAGE & PETIT LAPTOP (769px - 1024px) ─────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .hero-visual {
+    display: block !important;
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  .dash-main-bento {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 18px !important;
+  }
+  .features-grid, .steps-grid, .pillars-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 18px !important;
+  }
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 18px !important;
+  }
+  .footer-grid {
+    grid-template-columns: 1.5fr 1fr 1fr !important;
+    gap: 24px !important;
+  }
+  .app-sidebar {
+    width: 240px !important;
+  }
+  .app-body {
+    padding: 24px !important;
+  }
+  .revision-body {
+    grid-template-columns: 280px 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+/* ── LAPTOP STANDARD (1025px - 1280px) ────────────────────────── */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .container {
+    max-width: 1200px;
+  }
+  .hero-content {
+    grid-template-columns: 1.15fr 0.95fr !important;
+    gap: 36px !important;
+    max-width: 1200px !important;
+  }
+  .features-grid, .pillars-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px !important;
+    max-width: 1200px !important;
+  }
+  .steps-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 18px !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
+  }
+  .dash-main-bento {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+/* ── LAPTOP LARGE & DESKTOP 1080p (1281px - 1600px) ───────────── */
+@media (min-width: 1281px) and (max-width: 1600px) {
+  .container {
+    max-width: var(--container-max-xl);
+  }
+  .hero-content {
+    max-width: var(--container-max-xl) !important;
+    grid-template-columns: 1.2fr 1fr !important;
+    gap: 48px !important;
+  }
+  .features-grid, .pillars-grid {
+    max-width: var(--container-max-xl) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 24px !important;
+  }
+  .steps-grid {
+    max-width: var(--container-max-xl) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+  }
+  .pricing-grid {
+    max-width: 1100px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 24px !important;
+  }
+  .app-body {
+    max-width: var(--container-max-xl) !important;
+    padding: 32px 36px !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+  }
+  .dash-main-bento {
+    display: grid !important;
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 24px !important;
+  }
+  .footer-grid {
+    max-width: var(--container-max-xl) !important;
+    grid-template-columns: 2fr 1fr 1fr 1fr !important;
+  }
+}
+
+/* ── FULL HD & DESKTOP LARGE (1601px - 1920px) ────────────────── */
+@media (min-width: 1601px) and (max-width: 1920px) {
+  .container {
+    max-width: var(--container-max-2xl);
+  }
+  .hero {
+    padding-top: 110px !important;
+    padding-bottom: 90px !important;
+  }
+  .hero-content {
+    max-width: var(--container-max-2xl) !important;
+    grid-template-columns: 1.15fr 1fr !important;
+    gap: 64px !important;
+  }
+  .hero-title {
+    font-size: clamp(2.6rem, 3.2vw, 3.4rem) !important;
+  }
+  .hero-desc {
+    font-size: 1.12rem !important;
+    max-width: 580px !important;
+  }
+  .hero-visual {
+    transform: scale(1.03);
+    transform-origin: center right;
+  }
+  .features-grid, .pillars-grid {
+    max-width: var(--container-max-2xl) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 28px !important;
+  }
+  .steps-grid {
+    max-width: var(--container-max-2xl) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 24px !important;
+  }
+  .pricing-grid {
+    max-width: 1300px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 28px !important;
+  }
+  .app-sidebar {
+    width: 270px !important;
+  }
+  .app-body {
+    max-width: var(--container-max-2xl) !important;
+    padding: 36px 44px !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 24px !important;
+  }
+  .dash-main-bento {
+    display: grid !important;
+    grid-template-columns: 1.2fr 0.9fr 0.9fr !important;
+    gap: 28px !important;
+  }
+  .revision-body {
+    max-width: var(--container-max-2xl) !important;
+    grid-template-columns: 340px 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-grid {
+    max-width: var(--container-max-2xl) !important;
+    grid-template-columns: 2.2fr 1fr 1fr 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+/* ── 2K, ULTRA-WIDE & RETINA (1921px - 2560px) ────────────────── */
+@media (min-width: 1921px) and (max-width: 2560px) {
+  .container {
+    max-width: var(--container-max-3xl);
+  }
+  .hero {
+    padding-top: 120px !important;
+    padding-bottom: 110px !important;
+  }
+  .hero-content {
+    max-width: var(--container-max-3xl) !important;
+    grid-template-columns: 1.1fr 1fr !important;
+    gap: 80px !important;
+  }
+  .hero-title {
+    font-size: 3.6rem !important;
+  }
+  .hero-desc {
+    font-size: 1.2rem !important;
+    max-width: 640px !important;
+    line-height: 1.7 !important;
+  }
+  .hero-visual {
+    transform: scale(1.06);
+    transform-origin: center right;
+  }
+  .features-grid, .pillars-grid {
+    max-width: var(--container-max-3xl) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 32px !important;
+  }
+  .steps-grid {
+    max-width: var(--container-max-3xl) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 30px !important;
+  }
+  .pricing-grid {
+    max-width: 1500px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 36px !important;
+  }
+  .app-sidebar {
+    width: 280px !important;
+  }
+  .app-body {
+    max-width: var(--container-max-3xl) !important;
+    padding: 40px 56px !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 28px !important;
+  }
+  .dash-main-bento {
+    display: grid !important;
+    grid-template-columns: 1.2fr 1fr 1fr !important;
+    gap: 32px !important;
+  }
+  .revision-body {
+    max-width: var(--container-max-3xl) !important;
+    grid-template-columns: 380px 1fr !important;
+    gap: 40px !important;
+  }
+  .footer-grid {
+    max-width: var(--container-max-3xl) !important;
+    grid-template-columns: 2.5fr 1fr 1fr 1fr !important;
+    gap: 64px !important;
+  }
+}
+
+/* ── 4K & GRANDS ÉCRANS ULTRA-LARGES (2561px - 3840px) ───────── */
+@media (min-width: 2561px) {
+  .container {
+    max-width: var(--container-max-4k);
+  }
+  .hero {
+    padding-top: 140px !important;
+    padding-bottom: 140px !important;
+  }
+  .hero-content {
+    max-width: var(--container-max-4k) !important;
+    grid-template-columns: 1.15fr 1fr !important;
+    gap: 100px !important;
+  }
+  .hero-title {
+    font-size: 4.2rem !important;
+  }
+  .hero-desc {
+    font-size: 1.35rem !important;
+    max-width: 720px !important;
+    line-height: 1.75 !important;
+  }
+  .hero-visual {
+    transform: scale(1.1);
+    transform-origin: center right;
+  }
+  .features-grid, .pillars-grid {
+    max-width: var(--container-max-4k) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 40px !important;
+  }
+  .steps-grid {
+    max-width: var(--container-max-4k) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 36px !important;
+  }
+  .pricing-grid {
+    max-width: 1800px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 44px !important;
+  }
+  .app-sidebar {
+    width: 310px !important;
+  }
+  .app-body {
+    max-width: var(--container-max-4k) !important;
+    padding: 48px 80px !important;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 36px !important;
+  }
+  .dash-main-bento {
+    display: grid !important;
+    grid-template-columns: 1.25fr 1fr 1fr !important;
+    gap: 40px !important;
+  }
+  .revision-body {
+    max-width: var(--container-max-4k) !important;
+    grid-template-columns: 420px 1fr !important;
+    gap: 48px !important;
+  }
+  .footer-grid {
+    max-width: var(--container-max-4k) !important;
+    grid-template-columns: 2.8fr 1fr 1fr 1fr !important;
+    gap: 80px !important;
+  }
+}
+
+/* ============================================================
+   4. ADAPTATIONS POUR LA HAUTEUR D'ÉCRAN (VIEWPORT HEIGHT)
+   1366x768, 1440x900, 1920x1080, etc.
+   ============================================================ */
+@media (max-height: 800px) and (min-width: 1025px) {
+  .hero {
+    min-height: auto !important;
+    padding-top: 88px !important;
+    padding-bottom: 48px !important;
+  }
+  .hero-content {
+    gap: 32px !important;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 3.5vw, 2.7rem) !important;
+    margin-bottom: 12px !important;
+  }
+  .hero-desc {
+    margin-bottom: 20px !important;
+    font-size: 0.95rem !important;
+  }
+  .hero-stats {
+    margin-top: 24px !important;
+  }
+  .section {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+}
+
+@media (max-height: 650px) {
+  .hero {
+    padding-top: 72px !important;
+    padding-bottom: 32px !important;
+  }
+  .hero-badge {
+    margin-bottom: 8px !important;
+  }
+  .hero-stats {
+    margin-top: 16px !important;
+    gap: 12px !important;
+  }
+}
+
+/* ============================================================
+   5. MODULES SPÉCIFIQUES : QUIZ, AI WIZARD & COMPOSITIONS
+   ============================================================ */
+
+/* Disposition 2 colonnes intelligente pour Campusly AI sur Desktop/Grand écran */
+@media (min-width: 1025px) {
+  .campusly-ai-layout {
+    display: grid !important;
+    grid-template-columns: 1.1fr 0.9fr !important;
+    gap: 28px !important;
+    align-items: start;
+  }
+  
+  .exam-room-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 340px !important;
+    gap: 28px !important;
+    align-items: start;
+  }
+  
+  .exam-side-panel {
+    position: sticky;
+    top: 84px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .campusly-ai-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+  
+  .exam-room-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+}
+
+/* ============================================================
+   6. AMÉLIORATION DU DASHBOARD MULTI-COLONNES BENTO
+   ============================================================ */
+.dash-bento-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: clamp(18px, 1.8vw, 28px);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-bento-card:hover {
+  border-color: rgba(21, 101, 192, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 1280px) {
+  .dash-row-split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .dash-row-split-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .dash-row-split,
+  .dash-row-split-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+}
