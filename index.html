@@ -125,33 +125,281 @@
 </div>
 
 <!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <a href="index.html" class="nav-logo">
-    <span class="logo-text">
-      <span class="logo-campus">Campus</span><span class="logo-ly">ly</span>
-    </span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#pillars" data-i18n="nav_features">Piliers</a></li>
-    <li><a href="revision.html" data-i18n="nav_revision">Campusly AI</a></li>
-    <li><a href="classrooms.html" data-i18n="nav_classrooms">Classrooms</a></li>
-    <li><a href="composition.html">Compositions</a></li>
-    <li><a href="#pricing" data-i18n="nav_pricing">Crédits & Tarifs</a></li>
-    <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="epreuves.html" data-i18n="nav_exams">Épreuves</a></li>
-    <li class="nav-auth-only" style="display:none;"><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-    
-    
-  </ul>
-  <div class="nav-right">
-    
-    <div class="nav-actions" id="navActions">
-      <a href="auth.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Connexion</a>
-      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" data-i18n="nav_register">S'inscrire</a>
+<!-- HEADER CAMPUSLY AVEC NOUVEAU MENU HAMBURGER -->
+<header id="campuslyMainHeader" style="position:fixed;top:0;left:0;right:0;height:68px;z-index:9998;background-color:#FFFFFF;border-bottom:1px solid rgba(21, 101, 192, 0.12);box-shadow:0 2px 8px rgba(15, 23, 42, 0.05);display:flex;align-items:center;">
+  <div style="max-width:1280px;width:100%;margin:0 auto;padding:0 18px;display:flex;align-items:center;justify-content:space-between;">
+    <!-- LOGO OFFICIEL UAC -->
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg, #1565C0 0%, #42A5F5 100%);display:flex;align-items:center;justify-content:center;color:#ffffff;box-shadow:0 4px 12px rgba(21, 101, 192, 0.28);">
+        <i class="fa-solid fa-graduation-cap" style="font-size:1rem;"></i>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:1.35rem;font-weight:900;letter-spacing:-0.5px;">
+          <span style="color:#1565C0;">Campus</span><span style="color:#F57C00;">ly</span>
+        </span>
+        <span style="font-size:0.62rem;font-weight:800;padding:2px 6px;border-radius:6px;background:rgba(21, 101, 192, 0.1);color:#1565C0;">UAC</span>
+      </div>
+    </a>
+
+    <!-- LIENS DESKTOP -->
+    <nav class="campusly-desktop-nav">
+      <ul style="display:flex;list-style:none;gap:24px;margin:0;padding:0;align-items:center;">
+        <li><a href="#pillars" style="text-decoration:none;color:#334155;font-size:0.88rem;font-weight:600;">Piliers</a></li>
+        <li><a href="#campusly-ai" style="text-decoration:none;color:#334155;font-size:0.88rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;">Campusly AI <span style="font-size:0.6rem;background:#F57C00;color:#ffffff;padding:1px 5px;border-radius:6px;font-weight:800;">2.0</span></a></li>
+        <li><a href="#professeurs" style="text-decoration:none;color:#334155;font-size:0.88rem;font-weight:600;">Classrooms</a></li>
+        <li><a href="#compositions" style="text-decoration:none;color:#334155;font-size:0.88rem;font-weight:600;">Compositions</a></li>
+        <li><a href="#pricing" style="text-decoration:none;color:#334155;font-size:0.88rem;font-weight:600;">Crédits & Tarifs</a></li>
+        <li><a href="#faq" style="text-decoration:none;color:#334155;font-size:0.88rem;font-weight:600;">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <!-- ACTIONS & BOUTON HAMBURGER -->
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="campusly-desktop-actions" style="display:flex;gap:10px;align-items:center;">
+        <a href="#pillars" style="font-size:0.84rem;padding:8px 16px;border-radius:10px;text-decoration:none;font-weight:700;color:#334155;border:1px solid rgba(21, 101, 192, 0.15);background:#F8FAFC;">Connexion</a>
+        <a href="#pillars" style="font-size:0.84rem;padding:8px 18px;border-radius:10px;text-decoration:none;font-weight:700;background:#1565C0;color:#ffffff;box-shadow:0 4px 12px rgba(21, 101, 192, 0.25);">S'inscrire</a>
+      </div>
+
+      <!-- NOUVEAU BOUTON HAMBURGER -->
+      <button id="hamburgerToggleBtn" type="button" aria-label="Menu" onclick="window.toggleCampuslyMenu()" style="display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 14px 0 10px;border-radius:999px;border:1.5px solid rgba(21, 101, 192, 0.25);background:#FFFFFF;color:#0F172A;cursor:pointer;outline:none;box-shadow:0 2px 8px rgba(0,0,0,0.06);-webkit-tap-highlight-color:transparent;">
+        <div id="hamburgerIconLines" style="width:18px;height:14px;display:flex;flex-direction:column;justify-content:space-between;position:relative;">
+          <span class="ham-line top" style="display:block;width:100%;height:2.2px;border-radius:99px;background:#0F172A;transition:all 0.25s ease;transform-origin:center;"></span>
+          <span class="ham-line mid" style="display:block;width:70%;height:2.2px;border-radius:99px;background:#0F172A;transition:all 0.2s ease;"></span>
+          <span class="ham-line bot" style="display:block;width:100%;height:2.2px;border-radius:99px;background:#0F172A;transition:all 0.25s ease;transform-origin:center;"></span>
+        </div>
+        <span id="hamburgerBtnLabel" style="font-size:0.8rem;font-weight:800;letter-spacing:0.2px;color:#0F172A;">Menu</span>
+      </button>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
-</nav>
+</header>
+
+<!-- OVERLAY BACKDROP SOMBRE -->
+<div id="customBackdrop" onclick="window.toggleCampuslyMenu(false)" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(15, 23, 42, 0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:99998;"></div>
+
+<!-- TIROIR LATÉRAL MOBILE & TABLETTE -->
+<aside id="campuslyDrawerPanel" style="position:fixed;top:0;right:0;bottom:0;width:min(390px, 92vw);height:100vh;background-color:#FFFFFF;color:#0F172A;border-left:1px solid rgba(21, 101, 192, 0.18);box-shadow:-16px 0 40px rgba(0, 0, 0, 0.25);z-index:99999;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);visibility:hidden;">
+  <!-- EN-TÊTE DU DRAWER -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(21, 101, 192, 0.12);background-color:#F8FAFC;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg, #1565C0 0%, #42A5F5 100%);display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:1rem;">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div>
+        <div style="font-size:1.15rem;font-weight:900;line-height:1.1;">
+          <span style="color:#1565C0;">Campus</span><span style="color:#F57C00;">ly</span>
+        </div>
+        <div style="font-size:0.68rem;color:#64748B;font-weight:600;">Université d'Abomey-Calavi</div>
+      </div>
+    </div>
+    <button type="button" aria-label="Fermer" onclick="window.toggleCampuslyMenu(false)" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(21, 101, 192, 0.15);background-color:#FFFFFF;color:#334155;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- ONGLETS CATÉGORIES -->
+  <div style="display:flex;gap:6px;overflow-x:auto;padding:12px 18px 8px;background-color:#FFFFFF;border-bottom:1px solid rgba(21, 101, 192, 0.08);flex-shrink:0;">
+    <button type="button" onclick="window.filterDrawerCategory('all', this)" class="drawer-tab active" style="white-space:nowrap;padding:6px 13px;border-radius:99px;font-size:0.72rem;font-weight:700;border:1px solid #1565C0;background-color:#1565C0;color:#FFFFFF;cursor:pointer;">Tout explorer</button>
+    <button type="button" onclick="window.filterDrawerCategory('ai', this)" class="drawer-tab" style="white-space:nowrap;padding:6px 13px;border-radius:99px;font-size:0.72rem;font-weight:700;border:1px solid rgba(21, 101, 192, 0.15);background-color:#F8FAFC;color:#334155;cursor:pointer;">✨ Campusly AI</button>
+    <button type="button" onclick="window.filterDrawerCategory('classrooms', this)" class="drawer-tab" style="white-space:nowrap;padding:6px 13px;border-radius:99px;font-size:0.72rem;font-weight:700;border:1px solid rgba(21, 101, 192, 0.15);background-color:#F8FAFC;color:#334155;cursor:pointer;">Amphis & Examens</button>
+    <button type="button" onclick="window.filterDrawerCategory('pricing', this)" class="drawer-tab" style="white-space:nowrap;padding:6px 13px;border-radius:99px;font-size:0.72rem;font-weight:700;border:1px solid rgba(21, 101, 192, 0.15);background-color:#F8FAFC;color:#334155;cursor:pointer;">Tarifs & FAQ</button>
+  </div>
+
+  <!-- CORPS DU DRAWER -->
+  <div style="flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:14px;background-color:#FFFFFF;">
+    <div id="drawerItemsList" style="display:flex;flex-direction:column;gap:8px;">
+      <!-- Item 1 -->
+      <a href="#pillars" onclick="window.toggleCampuslyMenu(false)" data-cat="academic" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(21,101,192,0.12);color:#1565C0;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:#0F172A;margin-bottom:2px;">Piliers d'excellence</div>
+          <div style="font-size:0.72rem;color:#64748B;">Annales, IA & Compositions UAC</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+      <!-- Item 2 -->
+      <a href="#campusly-ai" onclick="window.toggleCampuslyMenu(false)" data-cat="ai" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(245,124,0,0.12);color:#F57C00;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="font-size:0.88rem;font-weight:800;color:#0F172A;">Campusly AI 2.0</span>
+            <span style="font-size:0.6rem;font-weight:800;padding:1px 6px;border-radius:99px;background-color:#F57C00;color:#FFFFFF;">Nouveau</span>
+          </div>
+          <div style="font-size:0.72rem;color:#64748B;">Générateur de quiz sur vos supports</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+      <!-- Item 3 -->
+      <a href="#adaptatif" onclick="window.toggleCampuslyMenu(false)" data-cat="academic" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(16,185,129,0.12);color:#10B981;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:#0F172A;margin-bottom:2px;">Apprentissage Adaptatif</div>
+          <div style="font-size:0.72rem;color:#64748B;">Marathons ciblés & diagnostic</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+      <!-- Item 4 -->
+      <a href="#professeurs" onclick="window.toggleCampuslyMenu(false)" data-cat="classrooms" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(99,102,241,0.12);color:#6366F1;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-chalkboard-user"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:#0F172A;margin-bottom:2px;">Classrooms Amphi</div>
+          <div style="font-size:0.72rem;color:#64748B;">Espace étudiants & devoirs</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+      <!-- Item 5 -->
+      <a href="#compositions" onclick="window.toggleCampuslyMenu(false)" data-cat="classrooms" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(236,72,153,0.12);color:#EC4899;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-stopwatch"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:#0F172A;margin-bottom:2px;">Compositions en Ligne</div>
+          <div style="font-size:0.72rem;color:#64748B;">Examens surveillés avec chrono</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+      <!-- Item 6 -->
+      <a href="#pricing" onclick="window.toggleCampuslyMenu(false)" data-cat="pricing" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(5,150,105,0.12);color:#059669;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="font-size:0.88rem;font-weight:800;color:#0F172A;">Crédits & Tarifs</span>
+            <span style="font-size:0.6rem;font-weight:800;padding:1px 6px;border-radius:99px;background-color:#059669;color:#FFFFFF;">Dès 500F</span>
+          </div>
+          <div style="font-size:0.72rem;color:#64748B;">Packs FCFA adaptés au semestre</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+      <!-- Item 7 -->
+      <a href="#faq" onclick="window.toggleCampuslyMenu(false)" data-cat="pricing" style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background-color:#F8FAFC;border:1px solid rgba(21, 101, 192, 0.12);text-decoration:none;">
+        <div style="width:38px;height:38px;border-radius:10px;background-color:rgba(100,116,139,0.12);color:#64748B;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+          <i class="fa-solid fa-circle-question"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:#0F172A;margin-bottom:2px;">Foire Aux Questions</div>
+          <div style="font-size:0.72rem;color:#64748B;">Aide, support et démarches</div>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="color:#94A3B8;font-size:0.75rem;"></i>
+      </a>
+    </div>
+
+    <!-- BANNIÈRE IA -->
+    <div style="background:linear-gradient(135deg, rgba(245, 124, 0, 0.08) 0%, rgba(21, 101, 192, 0.06) 100%);border:1px solid rgba(245, 124, 0, 0.28);border-radius:16px;padding:16px;margin-top:4px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:0.64rem;font-weight:900;color:#F57C00;letter-spacing:0.5px;"><i class="fa-solid fa-sparkles"></i> NOUVEAUTÉ 2026</span>
+        <span style="font-size:0.62rem;font-weight:800;background-color:rgba(16, 185, 129, 0.15);color:#10B981;padding:2px 7px;border-radius:99px;">Prêt</span>
+      </div>
+      <div style="font-size:0.92rem;font-weight:800;color:#0F172A;margin-bottom:4px;">Générez un Quiz en 30 secondes</div>
+      <div style="font-size:0.74rem;color:#334155;line-height:1.45;margin-bottom:12px;">Importez un PDF de cours ou une photo d'épreuve et révisez sans connexion lourde.</div>
+      <a href="#campusly-ai" onclick="window.toggleCampuslyMenu(false)" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px;border-radius:10px;background-color:#F57C00;color:#FFFFFF;font-size:0.78rem;font-weight:800;text-decoration:none;box-shadow:0 4px 12px rgba(245, 124, 0, 0.25);">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Tester l'IA gratuitement
+      </a>
+    </div>
+  </div>
+
+  <!-- PIED DU DRAWER -->
+  <div style="padding:16px 18px;border-top:1px solid rgba(21, 101, 192, 0.12);background-color:#F8FAFC;display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <a href="#pillars" onclick="window.toggleCampuslyMenu(false)" style="display:flex;align-items:center;justify-content:center;padding:10px;border-radius:10px;font-size:0.82rem;font-weight:700;text-decoration:none;text-align:center;border:1px solid rgba(21, 101, 192, 0.18);background-color:#FFFFFF;color:#0F172A;">Se connecter</a>
+      <a href="#pillars" onclick="window.toggleCampuslyMenu(false)" style="display:flex;align-items:center;justify-content:center;padding:10px;border-radius:10px;font-size:0.82rem;font-weight:700;text-decoration:none;text-align:center;background-color:#1565C0;color:#FFFFFF;">Créer un compte</a>
+    </div>
+    <a href="https://wa.me/2290158519556" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background-color:rgba(16, 185, 129, 0.08);border:1px solid rgba(16, 185, 129, 0.25);text-decoration:none;">
+      <i class="fa-brands fa-whatsapp" style="font-size:1.5rem;color:#10B981;"></i>
+      <div>
+        <div style="font-size:0.78rem;font-weight:800;color:#0F172A;">Besoin d'aide à l'UAC ?</div>
+        <div style="font-size:0.68rem;color:#10B981;font-weight:600;">Assistance WhatsApp (+229 01 58 51 95 56)</div>
+      </div>
+    </a>
+  </div>
+</aside>
+
+<script>
+window.isCampuslyMenuOpen = false;
+window.toggleCampuslyMenu = function(forceState) {
+  var drawer = document.getElementById('campuslyDrawerPanel');
+  var backdrop = document.getElementById('customBackdrop');
+  var btn = document.getElementById('hamburgerToggleBtn');
+  var label = document.getElementById('hamburgerBtnLabel');
+  var lines = document.getElementById('hamburgerIconLines');
+  
+  if (typeof forceState === 'boolean') {
+    window.isCampuslyMenuOpen = forceState;
+  } else {
+    window.isCampuslyMenuOpen = !window.isCampuslyMenuOpen;
+  }
+  
+  if (window.isCampuslyMenuOpen) {
+    if (drawer) {
+      drawer.style.visibility = 'visible';
+      drawer.style.transform = 'translateX(0)';
+    }
+    if (backdrop) backdrop.style.display = 'block';
+    if (label) label.textContent = 'Fermer';
+    if (btn) {
+      btn.style.borderColor = '#1565C0';
+      btn.style.backgroundColor = 'rgba(21, 101, 192, 0.12)';
+      btn.style.color = '#1565C0';
+    }
+    if (lines) {
+      var spans = lines.querySelectorAll('span');
+      if (spans[0]) { spans[0].style.transform = 'translateY(6px) rotate(45deg)'; spans[0].style.backgroundColor = '#1565C0'; }
+      if (spans[1]) { spans[1].style.opacity = '0'; }
+      if (spans[2]) { spans[2].style.transform = 'translateY(-6px) rotate(-45deg)'; spans[2].style.backgroundColor = '#1565C0'; }
+    }
+    document.body.style.overflow = 'hidden';
+  } else {
+    if (drawer) {
+      drawer.style.transform = 'translateX(100%)';
+      setTimeout(function() { if (!window.isCampuslyMenuOpen) drawer.style.visibility = 'hidden'; }, 320);
+    }
+    if (backdrop) backdrop.style.display = 'none';
+    if (label) label.textContent = 'Menu';
+    if (btn) {
+      btn.style.borderColor = 'rgba(21, 101, 192, 0.25)';
+      btn.style.backgroundColor = '#FFFFFF';
+      btn.style.color = '#0F172A';
+    }
+    if (lines) {
+      var spans = lines.querySelectorAll('span');
+      if (spans[0]) { spans[0].style.transform = 'none'; spans[0].style.backgroundColor = '#0F172A'; }
+      if (spans[1]) { spans[1].style.opacity = '1'; }
+      if (spans[2]) { spans[2].style.transform = 'none'; spans[2].style.backgroundColor = '#0F172A'; }
+    }
+    document.body.style.overflow = '';
+  }
+};
+
+window.filterDrawerCategory = function(cat, btn) {
+  document.querySelectorAll('.drawer-tab').forEach(function(b) {
+    b.style.backgroundColor = '#F8FAFC';
+    b.style.color = '#334155';
+    b.style.borderColor = 'rgba(21, 101, 192, 0.15)';
+  });
+  if (btn) {
+    btn.style.backgroundColor = '#1565C0';
+    btn.style.color = '#FFFFFF';
+    btn.style.borderColor = '#1565C0';
+  }
+  var items = document.querySelectorAll('#drawerItemsList a');
+  items.forEach(function(item) {
+    if (cat === 'all' || item.getAttribute('data-cat') === cat) {
+      item.style.display = 'flex';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+};
+</script>
+
 
 <!-- HERO -->
 <section class="hero" id="hero">
