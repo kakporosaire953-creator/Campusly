@@ -1,6 +1,6 @@
 # Guide du frontend — Campusly (Next.js)
 
-> Ce guide décrit l'application située dans `web/` : comment la lancer, comment elle est
+> Ce guide décrit l'application située dans la racine du dépôt : comment la lancer, comment elle est
 > organisée, quelles sont les règles à respecter pour la maintenir, et ce qui est
 > volontairement simulé.
 
@@ -26,7 +26,7 @@ fonctionne **sans backend**, entièrement à partir de données de démonstratio
 ## 2. Organisation
 
 ```
-web/
+(racine du dépôt)
 ├── app/                    # routes (App Router)
 ├── components/
 │   ├── ui/                 # Button, Card, Badge, Progress, States, Modal, Field, PageHeader, Toast
@@ -82,7 +82,7 @@ app → features → services → types
 - Un composant **ne doit jamais** importer `services/mocks/**` : seuls les services y
   accèdent. La donnée fictive reste ainsi remplaçable en un seul point.
 - Un composant ne fait pas de `fetch` : il appelle un service typé.
-- Les types de `web/types/` sont la référence commune avec le futur backend.
+- Les types de `types/` sont la référence commune avec le futur backend.
 
 ---
 
@@ -212,8 +212,8 @@ manuellement et listé dans la section 8.
 | Tests | `npm run test` | 33/33 |
 | Accessibilité des routes | `curl` sur les 23 routes principales | 200, 404 sur route inconnue |
 | Redirections historiques | `curl /index.html`, `/dashboard.html`, `/epreuves.html`, `/exam-room.html`, `/offline.html` | 308 vers les nouvelles routes |
-| Absence de Supabase | `grep -ri supabase web/` | aucune référence dans le code du frontend |
-| Absence de secret | inspection de `web/` | aucune clé, aucun `.env` |
+| Absence de Supabase | `grep -ri supabase app components features services types` | aucune référence dans le code du frontend |
+| Absence de secret | inspection de la racine du dépôt | aucune clé, aucun `.env` |
 
 Les tests ne couvrent pas le rendu visuel pixel à pixel : aucune capture automatisée
 n'est réalisée dans cet environnement.
@@ -226,7 +226,7 @@ n'est réalisée dans cet environnement.
 2. Ajouter l'entrée de navigation dans `config/site.ts` (`publicNav` / `appNav`) avec
    ses rôles autorisés (présentation uniquement).
 3. Si la page a besoin de données : ajouter la méthode au service concerné, le type
-   dans `web/types/`, les fixtures dans `services/mocks/fixtures/`.
+   dans `types/`, les fixtures dans `services/mocks/fixtures/`.
 4. Utiliser `PageHeader`, `Card`, `States` pour rester cohérent.
 5. Marquer toute donnée fictive (`DemoBadge`, mentions).
 6. Ajouter ou adapter un test si la logique est non triviale.

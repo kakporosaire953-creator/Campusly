@@ -94,31 +94,29 @@ app/ ──► features/ ──► services/ ──► types/
 
 ```
 Campusly/
-├── web/                          # nouveau frontend (phase actuelle)
-│   ├── app/                      # App Router
-│   │   ├── (public)/             # accueil, à propos, conditions, confidentialité, contribuer
-│   │   ├── (auth)/               # /auth, /onboarding
-│   │   ├── (app)/                # espace connecté : dashboard/*, enseignant, admin, assistant-ia
-│   │   ├── examen/[code]/        # salle d'examen (plein écran, hors shell)
-│   │   ├── offline/              # page hors ligne
-│   │   ├── layout.tsx            # polices, providers, skip-link
-│   │   ├── error.tsx, loading.tsx, not-found.tsx
-│   │   └── manifest.ts           # manifeste PWA
-│   ├── components/               # ui/, layout/, navigation/, shared/
-│   ├── features/                 # auth, dashboard, exams, revision, ai, classrooms,
-│   │                             # compositions, forum, credits, notifications, profile
-│   ├── services/                 # 11 services + api/ + mocks/
-│   ├── types/                    # contrats TypeScript (12 fichiers)
-│   ├── hooks/                    # useAsync
-│   ├── config/                   # site.ts (navigation, libellés, mentions)
-│   ├── styles/                   # legacy/ (historique) + app/ (compléments)
-│   ├── public/                   # logo, manifeste, fichiers statiques
-│   ├── tests/                    # Vitest (services + composants)
-│   └── docs/                     # documentation (ce fichier est dans /docs)
-├── docs/                         # documentation du projet
-├── supabase/migrations/          # HISTORIQUE — base du design D1, jamais exécuté par ce dépôt
-├── js/, *.html, sw.js            # HISTORIQUE — version Vercel de référence
-└── vercel.json                   # HISTORIQUE — CSP de la version de référence
+├── app/                          # nouveau frontend (racine du dépôt)
+│   ├── (public)/             # accueil, à propos, conditions, confidentialité, contribuer
+│   ├── (auth)/               # /auth, /onboarding
+│   ├── (app)/                # espace connecté : dashboard/*, enseignant, admin, assistant-ia
+│   ├── examen/[code]/        # salle d'examen (plein écran, hors shell)
+│   ├── offline/              # page hors ligne
+│   ├── layout.tsx            # polices, providers, skip-link
+│   ├── error.tsx, loading.tsx, not-found.tsx
+│   └── manifest.ts           # manifeste PWA
+├── components/               # ui/, layout/, navigation/, shared/
+├── features/                 # auth, dashboard, exams, revision, ai, classrooms,
+│                             # compositions, forum, credits, notifications, profile
+├── services/                 # 11 services + api/ + mocks/
+├── types/                    # contrats TypeScript (12 fichiers)
+├── hooks/                    # useAsync
+├── config/                   # site.ts (navigation, libellés, mentions)
+├── styles/                   # legacy/ (historique) + app/ (compléments)
+├── public/                   # logo, manifeste, fichiers statiques
+├── tests/                    # Vitest (services + composants)
+├── docs/                     # documentation (dont ce fichier)
+├── legacy/                   # HISTORIQUE — version statique d'origine (référence visuelle)
+├── supabase/migrations/      # HISTORIQUE — base du design D1, jamais exécuté par ce dépôt
+└── vercel.json               # configuration Vercel du frontend Next.js
 ```
 
 ### 4.1 Rôle des groupes de routes
@@ -148,7 +146,7 @@ Exemple : téléchargement d'une épreuve premium.
 4. L'interface reste inchangée : seules les implémentations de service changent.
 
 Ce principe (« contrat d'abord ») s'applique à tous les services : les types
-exportés par `web/types/` sont la référence partagée frontend ↔ backend.
+exportés par `types/` sont la référence partagée frontend ↔ backend.
 
 ---
 
