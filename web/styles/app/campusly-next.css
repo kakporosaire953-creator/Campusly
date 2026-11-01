@@ -434,6 +434,13 @@
 }
 
 /* Encart d'avertissement « démonstration » dans les cartes */
+:root {
+  /* Police mono utilisée par les minuteries (chargée dans app/layout.tsx).
+     Le token n'existait pas dans le thème clair historique : on le rétablit
+     pour que `--font-mono` ne soit plus invalide. */
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
 .demo-notice {
   display: flex;
   gap: 8px;

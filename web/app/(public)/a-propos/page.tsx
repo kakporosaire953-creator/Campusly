@@ -51,6 +51,24 @@ export default function AboutPage() {
           {FACULTIES.map((faculty) => faculty.code).join(" · ")}
         </p>
 
+        <h2
+          id="demonstration"
+          style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12, scrollMarginTop: 96 }}
+        >
+          État actuel : version de démonstration
+        </h2>
+        <p style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 12 }}>
+          Cette version présente l&apos;interface complète de Campusly avec des{" "}
+          <strong>données fictives</strong>. Les épreuves, classrooms, compositions, crédits et
+          notifications servent à parcourir les écrans ; rien n&apos;est enregistré sur un serveur.
+        </p>
+        <ul style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 24, paddingLeft: 20 }}>
+          <li>Les téléchargements de PDF sont simulés (aucun fichier n&apos;est servi).</li>
+          <li>Les paiements sont simulés (aucun débit Mobile Money, aucune page FedaPay).</li>
+          <li>Les réponses de l&apos;assistant IA proviennent d&apos;une banque locale.</li>
+          <li>Les remises de copies et les décisions d&apos;administration restent dans le navigateur.</li>
+        </ul>
+
         <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>Contact</h2>
         <p style={{ color: "var(--text-2)", lineHeight: 1.8 }}>
           Pour toute question ou suggestion, écrivez-nous via la page{" "}
