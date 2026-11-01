@@ -240,3 +240,45 @@ n'est réalisée dans cet environnement.
 - Le téléchargement de PDF, le paiement, l'IA et la modération sont simulés.
 - Le rendu a été vérifié par build, routes HTTP et revue de code ; aucun test visuel
   automatisé (capture d'écran) n'a été exécuté.
+
+---
+
+## 11. Déploiement Vercel
+
+Le frontend Next.js occupe la **racine** du dépôt ; l'ancienne version statique est
+archivée dans `legacy/` et n'est pas déployée.
+
+### 11.1 Configuration
+
+| Élément | Valeur | Rôle |
+| --- | --- | --- |
+| `vercel.json` (racine) | `framework: "nextjs"`, `buildCommand: "npm run build"`, `installCommand: "npm ci"`, `outputDirectory: ".next"` | neutralise les réglages pouvant rester dans le tableau de bord d'un projet créé à l'époque du site statique |
+| `package.json` → `engines.node` | `"22.x"` | **prend le pas sur le réglage « Node.js Version » du projet** |
+| `.nvmrc` | `22` | cohérence pour les environnements locaux |
+
+`vercel.json` a priorité sur les réglages du tableau de bord pour `buildCommand`,
+`installCommand`, `outputDirectory` et `framework`.
+
+### 11.2 Piège rencontré (à ne pas réintroduire)
+
+Les projets Vercel existants (`campusly`, `campusly-enpr`, `campusly-official`)
+épinglaient une version de Node obsolète. Résultat : build qui échoue en quelques
+secondes avec `Found invalid or discontinued Node.js Version`, sans rapport avec le
+code. La parade est `engines.node` dans `package.json`, qui est prioritaire sur ce
+réglage :
+
+```json
+"engines": { "node": "22.x", "npm": ">=10" }
+```
+
+Ne pas retirer cette clé : sans elle, les déploiements retombent sur le réglage du
+tableau de bord.
+
+### 11.3 Vérifier un déploiement de production
+
+1. `npm ci && npm run build` puis `npm run start` en local ;
+2. `curl -s http://127.0.0.1:3000/ | grep -o '/_next/static/css/[a-z0-9]*\.css'`
+   puis `curl -o /dev/null -w '%{http_code}' <url du css>` → doit renvoyer `200`
+   (une page « en texte brut » vient presque toujours d'une feuille de style en 404) ;
+3. sur Vercel, l'onglet *Deployments* doit afficher un build complet
+   (`Compiled successfully`, 26 routes) et non un « success » de quelques secondes.
