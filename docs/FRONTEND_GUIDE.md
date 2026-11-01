@@ -181,8 +181,11 @@ npm run test
   crédits, paiement (jamais d'URL réelle), compositions (correction locale).
 - `tests/components.test.tsx` : `Button` (bouton/lien/externe), `Badge`, états,
   `ProgressBar` (bornage + `aria-valuenow`), `Modal` (Échap, absence de rendu fermé).
+- `tests/features.test.tsx` : parcours réels de la bibliothèque d'épreuves (recherche,
+  état vide, réinitialisation, favoris, modale de téléchargement simulé) et du moteur
+  de quiz (réponses, résultat local, reprise).
 
-28 tests au total. Ce qui n'est **pas** couvert par des tests automatisés est vérifié
+33 tests au total. Ce qui n'est **pas** couvert par des tests automatisés est vérifié
 manuellement et listé dans la section 8.
 
 ---
@@ -190,6 +193,8 @@ manuellement et listé dans la section 8.
 ## 7. PWA et mode hors ligne
 
 - `app/manifest.ts` génère `/manifest.webmanifest` (nom, couleurs, icônes) ;
+- icônes générées à partir du logo officiel : `public/icons/icon-192.png`,
+  `icon-512.png`, `maskable-512.png`, `apple-touch-icon.png`, `favicon.ico` ;
 - la page `/offline` existe et est prête à être mise en cache ;
 - **le service worker historique n'est pas enregistré** dans cette phase : un cache
   agressif masquerait les mises à jour et fausserait la validation. La réactivation est
@@ -204,7 +209,7 @@ manuellement et listé dans la section 8.
 | Démarrage | `npm run dev` / `npm run start` | OK |
 | Build de production | `npm run build` | 26 routes générées |
 | Types | `npx tsc --noEmit` | 0 erreur |
-| Tests | `npm run test` | 28/28 |
+| Tests | `npm run test` | 33/33 |
 | Accessibilité des routes | `curl` sur les 23 routes principales | 200, 404 sur route inconnue |
 | Redirections historiques | `curl /index.html`, `/dashboard.html`, `/epreuves.html`, `/exam-room.html`, `/offline.html` | 308 vers les nouvelles routes |
 | Absence de Supabase | `grep -ri supabase web/` | aucune référence dans le code du frontend |

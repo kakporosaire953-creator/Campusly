@@ -14,7 +14,7 @@ export const metadata: Metadata = {
  */
 export default function OfflinePage() {
   return (
-    <div className="offline-page">
+    <div className="offline-page" id="contenu">
       <div className="offline-container">
         <div className="logo-brand">
           <i className="fa-solid fa-graduation-cap" aria-hidden="true" style={{ color: "#1565C0" }} /> Campus

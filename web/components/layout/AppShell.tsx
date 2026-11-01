@@ -107,9 +107,9 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
                 </li>
               );
             })}
-            <li style={{ marginTop: 10, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
-              <span className="sidebar-group-label">Mon compte</span>
-            </li>
+          </ul>
+          <span className="sidebar-group-label">Mon compte</span>
+          <ul className="sidebar-menu" style={{ flex: "0 0 auto", paddingTop: 0 }}>
             {visibleAccountNav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
@@ -121,7 +121,9 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
                 </li>
               );
             })}
-            <li style={{ marginTop: 10, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
+          </ul>
+          <ul className="sidebar-menu" style={{ flex: "0 0 auto", paddingTop: 0 }}>
+            <li style={{ borderTop: "1px solid var(--border)", paddingTop: 10, listStyle: "none" }}>
               <Link href="/" className="side-link">
                 <i className="fa-solid fa-house" aria-hidden="true" />
                 <span>Accueil public</span>

@@ -13,13 +13,23 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   applicationName: siteConfig.name,
   manifest: "/manifest.webmanifest",
-  icons: { icon: "/logo.png", apple: "/logo.png" },
+  icons: {
+    icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: ["/favicon.ico"],
+  },
   openGraph: {
     type: "website",
     locale: "fr_BJ",
     title: "Campusly — Plateforme Académique Intelligente UAC",
     description: siteConfig.description,
-    images: ["/logo.png"],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Campusly — plateforme académique de l'UAC" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Campusly — Plateforme Académique Intelligente UAC",
+    description: siteConfig.description,
+    images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
 };
@@ -33,8 +43,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr" className="theme-light">
-      <body>
-        {/* Polices et icônes : mêmes CDN que la version historique (identité conservée). */}
+      <head>
+        {/* Polices et icônes : mêmes CDN que la version historique (identité
+            conservée). Placées dans <head> pour ne pas retarder le rendu du
+            body et pour rester valides au regard de la spécification HTML. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -45,6 +57,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
+      </head>
+      <body>
         <a className="skip-link" href="#contenu">
           Aller au contenu principal
         </a>

@@ -153,7 +153,7 @@ export function ExamRoom({ code }: { code: string }) {
 
   if (phase === "loading") {
     return (
-      <div className="exam-room-page">
+      <div className="exam-room-page" id="contenu">
         <Loader label="Ouverture de la salle d'examen…" />
       </div>
     );
@@ -161,7 +161,7 @@ export function ExamRoom({ code }: { code: string }) {
 
   if (phase === "error" || !composition) {
     return (
-      <div className="exam-room-page" style={{ padding: 40 }}>
+      <div className="exam-room-page" id="contenu" style={{ padding: 40 }}>
         <ErrorState
           message={loadError ?? "Composition introuvable."}
           onRetry={load}
@@ -177,7 +177,7 @@ export function ExamRoom({ code }: { code: string }) {
 
   if (phase === "waiting") {
     return (
-      <div className="exam-room-page">
+      <div className="exam-room-page" id="contenu">
         <div className="exam-view active">
           <header className="waiting-header">
             <div className="logo-text">
@@ -309,7 +309,7 @@ export function ExamRoom({ code }: { code: string }) {
   if (phase === "exam" && question) {
     const value = answers[question.id];
     return (
-      <div className="exam-room-page">
+      <div className="exam-room-page" id="contenu">
         <div className="exam-view active">
           <header className="exam-header">
             <div className="row" style={{ gap: 10, alignItems: "center", minWidth: 0 }}>
@@ -551,7 +551,7 @@ export function ExamRoom({ code }: { code: string }) {
 
   if (phase === "done" && copy) {
     return (
-      <div className="exam-room-page">
+      <div className="exam-room-page" id="contenu">
         <div className="exam-view active" style={{ padding: "32px 5%", overflowY: "auto" }}>
           <div style={{ maxWidth: 860, margin: "0 auto", width: "100%" }}>
             <div className="card">

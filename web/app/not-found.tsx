@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="notfound-page">
+    <div className="notfound-page" id="contenu">
       <div className="not-found">
         <Link href="/" className="logo-text">
           <span className="logo-campus">Campus</span>
