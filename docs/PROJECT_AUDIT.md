@@ -300,7 +300,7 @@ Volume de styles inline par page : `dashboard.html` ≈ 400 l., `index.html` ≈
 ## 13. Décisions d'audit prises pour la suite
 
 1. **Fidélité visuelle prioritaire** : `modern.css` (et sa cascade `theme-light` → `enhancements` → `responsive-scale` → `mobile`) est **réutilisée telle quelle** dans le nouveau frontend ; les styles inline des pages sont extraits en fichiers CSS dédiés, sans réécriture des valeurs.
-2. **Les pages historiques restent en place** à la racine (référence + rollback). Le nouveau frontend vit dans `web/` et **aucune bascule de production** n'est effectuée.
+2. **Les pages historiques restent en place** à la racine (référence + rollback). Le nouveau frontend vit dans la racine du dépôt et **aucune bascule de production** n'est effectuée.
 3. **Les deux piles sont dédoublonnées dans le nouveau code** : un seul `authService` (mock explicite), un seul `creditService`, un seul `notificationService`, un seul système de crédits.
 4. **Supabase devient une dépendance historique non active** du nouveau frontend : aucun import, aucune clé, aucun appel. Le schéma SQL est conservé comme **source d'inspiration** pour le modèle D1 (voir `DATABASE_DESIGN.md`).
 5. **Toute donnée affichée dans le nouveau frontend est étiquetée « démonstration »**, et les actions (paiement, envoi, notation) sont présentées comme des simulations.

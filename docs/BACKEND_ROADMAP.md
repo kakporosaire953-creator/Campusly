@@ -3,7 +3,7 @@
 > **Périmètre** : ce document planifie la phase suivante. **Rien n'est implémenté ici** :
 > pas de route API, pas de base, pas de Redis, pas de Better Auth, pas de FedaPay,
 > pas de fonction IA, pas de déploiement Cloudflare. Le frontend actuel constitue le
-> point de départ : ses contrats (`web/types/`) et ses services (`web/services/`) sont
+> point de départ : ses contrats (`types/`) et ses services (`services/`) sont
 > déjà écrits pour être remplacés par des implémentations réseau.
 
 ---
@@ -39,7 +39,7 @@ Les composants, les états de chargement et les messages d'erreur restent identi
 ### Lot 0 — Préparation (1 semaine)
 
 - Créer `migrations/` (Wrangler) à partir de `DATABASE_DESIGN.md`.
-- Mettre en place l'adaptateur OpenNext dans `web/` (`wrangler.toml`, script `deploy`).
+- Mettre en place l'adaptateur OpenNext dans la racine du dépôt (`wrangler.toml`, script `deploy`).
 - Brancher `ApiClient` réel dans `services/api/client.ts` (fetch + gestion d'erreur).
 - Ajouter un mode « API réelle » derrière un drapeau de configuration, sans supprimer
   les mocks (bascule progressive, retour arrière immédiat).

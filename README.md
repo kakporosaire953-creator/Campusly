@@ -1,315 +1,124 @@
-# Campusly - Plateforme Academique UAC
+# Campusly — Plateforme académique UAC
 
-> ## Nouveau frontend (Next.js) — phase en cours
->
-> Le frontend migré se trouve dans [`web/`](web/README.md) : **Next.js 15 + React 19 + TypeScript**,
-> avec des données de démonstration locales (aucun backend).
->
-> ```bash
-> cd web && npm install && npm run dev
-> ```
->
-> Documentation : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/FRONTEND_GUIDE.md`](docs/FRONTEND_GUIDE.md),
-> [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md), [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md),
-> [`docs/API_CONTRACTS.md`](docs/API_CONTRACTS.md), [`docs/CLOUDFLARE_INFRASTRUCTURE.md`](docs/CLOUDFLARE_INFRASTRUCTURE.md),
-> [`docs/BACKEND_ROADMAP.md`](docs/BACKEND_ROADMAP.md).
->
-> Les fichiers historiques (`*.html`, `js/`, `supabase/`) sont conservés comme référence
-> et comme base de migration ; la version Vercel reste la référence visuelle.
-> Le backend (D1, R2, Redis, Better Auth, FedaPay, IA) n'est **pas** implémenté.
+Campusly — plateforme académique de l'UAC (Bénin). Ce dépôt contient désormais
+l'application **Next.js 15 + React 19 + TypeScript** à sa racine, migrée depuis la
+version statique historique archivée dans `legacy/`.
 
+> **Phase actuelle : frontend uniquement, sans backend.**
+> Toutes les données sont fictives et stockées dans le navigateur. Aucune route API,
+> aucune base de données, aucun paiement réel, aucune IA réelle.
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/kakporosaire953-creator/Campusly)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Supabase](https://img.shields.io/badge/Supabase-Ready-success.svg)](https://supabase.com)
-[![Groq](https://img.shields.io/badge/Groq-AI-orange.svg)](https://groq.com)
+---
 
-La plateforme academique des etudiants de l'Universite d'Abomey-Calavi (UAC)
+## Démarrage
 
-## Table des Matieres
-
-- A Propos
-- Fonctionnalites
-- Technologies
-- Installation
-- Configuration
-- Deploiement
-- Tests
-- Documentation
-- Contribution
-- License
-
-## A Propos
-
-Campusly est une plateforme web moderne concue pour les etudiants de l'UAC. Elle offre:
-
-- Acces a des centaines d'anciennes epreuves
-- Revision assistee par IA (Groq)
-- Assistant IA conversationnel
-- Forum d'entraide etudiant
-- Systeme de gamification (XP, badges, streak)
-- Groupes d'etude
-- Plans de revision personnalises
-- Abonnement Premium (FedaPay)
-
-## Fonctionnalites
-
-### Authentification
-- Inscription/Connexion par email
-- Connexion Google OAuth
-- Validation matricule UAC (8 chiffres)
-- Auto-deconnexion apres 1 minute d'inactivite
-
-### Bibliotheque d'Epreuves
-- 500+ epreuves classees par faculte
-- Filtres avances (faculte, departement, semestre, annee)
-- Recherche en temps reel
-- Systeme de favoris
-- Historique de telechargements
-
-### IA Groq
-- 3 modeles disponibles:
-  - Fast: llama-3.1-8b-instant (ultra rapide)
-  - Balanced: llama-3.3-70b-versatile (recommande)
-  - Smart: mixtral-8x7b-32768 (tres intelligent)
-- Quiz personnalises (7 questions)
-- Chatbot conversationnel
-- Questions quotidiennes par filiere
-- Explications detaillees
-
-### Gamification
-- Systeme XP (10 niveaux)
-- 8 badges a debloquer
-- Streak de revision (compteur de jours consecutifs)
-- Leaderboard (XP, Quiz, Streak)
-- Confetti pour les achievements de niveau
-
-### Social
-- Forum type feed social
-- Groupes d'etude par faculte
-- Likes et commentaires sur le forum
-- Partage de resultats (WhatsApp, Twitter)
-
-### Outils de Revision
-- Plans de revision generes par IA
-- Compte a rebours avant les examens
-- Suivi de progression
-- Notifications de rappel
-
-### Premium
-- Abonnement via FedaPay
-- 3 plans: 1 Semaine (500 FCFA), 1 Mois (1500 FCFA), 3 Mois (3500 FCFA)
-- Paiement Mobile Money (MTN, Moov) et Carte bancaire
-- Acces illimite aux epreuves Premium
-- Quiz IA la demande illimites
-
-### Design et Accessibilite
-- Mode sombre et mode clair
-- PWA installable sur smartphone
-- Responsive mobile
-- Animations fluides
-- Accessibilite WCAG AAA
-- Skeleton loaders pour le chargement
-- Lazy loading des images
-
-## Technologies
-
-### Frontend
-- HTML5, CSS3, JavaScript (Vanilla)
-- Chart.js (graphiques de progression)
-- Service Worker (support PWA)
-- Intersection Observer (chargement differe des images)
-
-### Backend
-- Supabase (BaaS)
-  - PostgreSQL (base de donnees)
-  - Auth (authentification)
-  - Storage (fichiers des epreuves)
-  - Edge Functions (fonctions serverless)
-  - Row Level Security (RLS pour la securite)
-
-### IA
-- Groq API (LLM)
-  - llama-3.1-8b-instant
-  - llama-3.3-70b-versatile
-  - mixtral-8x7b-32768
-
-### Paiement
-- FedaPay
-  - Mobile Money (MTN, Moov)
-  - Carte bancaire
-  - Webhooks de notification
-
-### Deploiement
-- Vercel (hebergement frontend)
-- GitHub (gestion de version)
-- Supabase (hebergement backend)
-
-## Installation
-
-### Prerequis
-
-- Node.js 18+
-- Git
-- Compte Supabase
-- Compte Groq
-- Compte FedaPay
-
-### Etapes
-
-1. Cloner le repository
 ```bash
-git clone https://github.com/kakporosaire953-creator/Campusly.git
-cd Campusly
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-2. Installer Supabase CLI
+Aucune variable d'environnement n'est requise.
+
 ```bash
-npm install -g supabase
+npm run typecheck  # TypeScript
+npm run test       # Vitest (33 tests)
+npm run build      # build de production
+npm run start      # serveur de production
 ```
 
-3. Lier le projet Supabase
-```bash
-supabase login
-supabase link --project-ref VOTRE_PROJECT_REF
+---
+
+## Ce qui fonctionne réellement
+
+- Navigation complète entre toutes les pages publiques, d'authentification et de l'espace
+  étudiant / enseignant / admin.
+- Recherche et filtres de la bibliothèque d'épreuves (faculté, niveau, semestre, année,
+  type, favoris), pagination.
+- Parcours de révision : assistant IA (4 étapes), 5 modes d'entraînement, quiz corrigé
+  localement avec résultat détaillé.
+- Classrooms : rejoindre par code, fil d'annonces (publication locale), ressources,
+  devoirs, membres.
+- Compositions : accès par code, salle d'examen (consignes, chronomètre, palette de
+  questions, journal d'intégrité), remise et correction locales.
+- Forum : filtres, création de sujet, réponses, mentions « j'aime » (stockage local).
+- Crédits : solde fictif, historique, packs, abonnement, tunnel de paiement **simulé**.
+- Notifications, profil, paramètres, bascule de rôle, déconnexion.
+
+## Ce qui est simulé (et signalé comme tel)
+
+| Opération | Comportement réel | Marquage dans l'interface |
+| --- | --- | --- |
+| Téléchargement d'épreuve | ticket `demo://`, aucun fichier | modale « Téléchargement simulé » |
+| Paiement Mobile Money / carte | intention locale, aucun appel FedaPay | encart « Paiement simulé » |
+| Analyse de document IA | réponse de démonstration | badge « Aucune IA réelle » |
+| Remise de composition | correction locale | bandeau « remise locale » |
+| Modération admin | décision locale | bandeau « accès de démonstration » |
+| Crédits | solde `localStorage` | mention « valeur fictive » |
+
+---
+
+## Structure
+
+```
+app/          routes (groupes public / auth / app + salle d'examen)
+components/   ui, layout, navigation, shared
+features/     logique d'interface par domaine
+services/     accès aux données — seul point d'entrée : services/index.ts
+types/        contrats TypeScript
+styles/       legacy/ (CSS historique réutilisé) + app/ (compléments)
+tests/        Vitest
 ```
 
-4. Appliquer les migrations
-```bash
-supabase db push
-```
+Règles importantes :
 
-5. Configurer les secrets
-Dans Supabase Dashboard -> Settings -> Secrets:
-```
-GROQ_API_KEY=gsk_VOTRE_CLE_GROQ_ICI
-FEDAPAY_SECRET_KEY=sk_sandbox_votre_cle_fedapay
-```
+1. **Ne pas redessiner** : le CSS de `styles/legacy/` est la référence visuelle.
+2. Un composant n'importe **jamais** `services/mocks/**` : uniquement un service.
+3. Toute donnée fictive doit rester identifiable (`DemoBadge`, bandeau, mention).
+4. Aucun secret, aucune dépendance Supabase.
 
-6. Deployer les Edge Functions
-```bash
-supabase functions deploy groq-ai
-supabase functions deploy fedapay-webhook
-```
+---
 
-7. Configurer FedaPay
-Dans dashboard.html:
-```javascript
-const FEDAPAY_PUBLIC_KEY = "pk_sandbox_votre-cle-publique";
-```
+## Version historique
 
-8. Lancer en local
-```bash
-npx serve .
-```
-
-## Configuration
-
-### Variables d'Environnement
-
-#### Supabase
-```javascript
-// js/supabase-config.js
-const SUPABASE_URL = "https://votre-project.supabase.co";
-const SUPABASE_ANON_KEY = "votre-anon-key";
-```
-
-#### Groq (Edge Function)
-```typescript
-// supabase/functions/groq-ai/index.ts
-const GROQ_API_KEY = Deno.env.get("GROQ_API_KEY");
-```
-
-#### FedaPay
-```javascript
-// dashboard.html
-const FEDAPAY_PUBLIC_KEY = "pk_sandbox_votre-cle";
-```
-
-```typescript
-// supabase/functions/fedapay-webhook/index.ts
-const FEDAPAY_SECRET_KEY = Deno.env.get("FEDAPAY_SECRET_KEY");
-```
-
-### Base de Donnees
-Les migrations SQL sont dans supabase/migrations/
-- 20260410_daily_questions.sql - Questions quotidiennes
-- 20260423_missing_tables.sql - Tables manquantes (groups, revision_plans, etc.)
-
-### Webhook FedaPay
-URL: https://VOTRE_PROJECT_REF.supabase.co/functions/v1/fedapay-webhook
-A configurer dans FedaPay Dashboard -> Parametres -> Webhooks
-
-## Deploiement
-
-### Vercel
-```bash
-npm install -g vercel
-vercel login
-vercel --prod
-```
-
-### Configuration Vercel
-Le fichier vercel.json est deja configure avec les redirections et les headers de securite.
-
-### Domaine Personnalise
-```bash
-vercel domains add campusly.uac.bj
-```
-
-## Tests
-
-### Tests Automatises
-Dans la console du navigateur (F12), chargez et executez le script de test pour verifier le fonctionnement global.
-
-### Tests de Performance
-```bash
-npm install -g lighthouse
-lighthouse https://campusly.uac.bj --view
-```
+La version statique d'origine (`*.html`, `css/`, `js/`, `supabase/`) est archivée dans
+[`legacy/`](legacy/README.md) : elle reste la **référence visuelle** et la base de
+migration. Aucun fichier n'a été supprimé.
 
 ## Documentation
 
-- Guide de Securite (SECURITE.md)
+- `docs/PROJECT_AUDIT.md` — audit du dépôt historique
+- `docs/ARCHITECTURE.md` — architecture cible
+- `docs/DATABASE_DESIGN.md` — conception D1
+- `docs/API_CONTRACTS.md` — contrats d'API
+- `docs/CLOUDFLARE_INFRASTRUCTURE.md` — infrastructure Cloudflare
+- `docs/FRONTEND_GUIDE.md` — guide du frontend (routes, composants, a11y)
+- `docs/BACKEND_ROADMAP.md` — feuille de route backend
 
-## Contribution
+---
 
-Les contributions sont les bienvenues.
-1. Fork le projet
-2. Creer une branche (git checkout -b feature/AmazingFeature)
-3. Commit les changements (git commit -m 'Add AmazingFeature')
-4. Push vers la branche (git push origin feature/AmazingFeature)
-5. Ouvrir une Pull Request
+## Anciennes URLs
 
-## Statistiques
+Les pages `.html` historiques redirigent automatiquement (308) :
 
-- Lignes de code: ~15,000
-- Fichiers: 30+
-- Score Lighthouse: 90+
-- Temps de chargement: < 3s
+| Ancienne URL | Nouvelle route |
+| --- | --- |
+| `/index.html` | `/` |
+| `/auth.html` | `/auth` |
+| `/onboarding.html` | `/onboarding` |
+| `/dashboard.html` | `/dashboard` |
+| `/epreuves.html` | `/dashboard/epreuves` |
+| `/forum.html` | `/dashboard/forum` |
+| `/classrooms.html` | `/dashboard/classrooms` |
+| `/composition.html` | `/dashboard/compositions` |
+| `/revision.html` | `/dashboard/revision` |
+| `/chatbot.html` | `/assistant-ia` |
+| `/exam-room.html` | `/examen/ALGO1` |
+| `/contribuer.html` | `/contribuer` |
+| `/admin.html` | `/admin` |
+| `/apropos.html` | `/a-propos` |
+| `/conditions.html` | `/conditions` |
+| `/politique.html` | `/politique-de-confidentialite` |
+| `/offline.html` | `/offline` |
 
-## Credits
-
-### Developpement
-- Kiro AI
-
-### Technologies
-- Supabase
-- Groq
-- FedaPay
-- Chart.js
-- Vercel
-
-### Inspiration
-- Universite d'Abomey-Calavi (UAC)
-- Etudiants beninois
-
-## Support
-
-- Email: support@campusly.uac.bj
-- WhatsApp: +229 97 00 00 00
-- GitHub Issues
-
-## License
-
-Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de details.
+Les ancres de l'ancien dashboard (`#epreuves`, `#revision`, `#classrooms`…) sont
+traduites côté client.

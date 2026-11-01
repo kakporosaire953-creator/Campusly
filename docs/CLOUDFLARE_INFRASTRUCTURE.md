@@ -40,7 +40,7 @@ Un seul Worker au départ (rendu + API). Le découpage en Workers séparés
 
 ## 2. Compatibilité du frontend avec Workers
 
-Le code de `web/` a été écrit pour cette cible :
+Le code de la racine du dépôt a été écrit pour cette cible :
 
 | Contrainte Workers | Décision dans le code |
 | --- | --- |
@@ -155,7 +155,7 @@ AI_PROVIDER_*_KEY
 SMTP_URL (si e-mails transactionnels)
 ```
 
-Aucune de ces valeurs ne doit apparaître dans `web/` (le build échouerait à la revue).
+Aucune de ces valeurs ne doit apparaître dans la racine du dépôt (le build échouerait à la revue).
 
 ---
 

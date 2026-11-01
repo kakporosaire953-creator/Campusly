@@ -10,11 +10,11 @@ import type { NextConfig } from "next";
  *    un build 100 % Node/Edge compatible.
  *  - Les anciennes URLs (`.html`) sont conservées sous forme de redirections
  *    permanentes vers les nouvelles routes App Router.
+ *  - Le frontend Next.js occupe désormais la racine du dépôt ; la version
+ *    statique historique est archivée dans `legacy/` (référence visuelle).
  */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Évite la détection du lockfile du dépôt parent (bun.lock) comme racine du workspace.
-  outputFileTracingRoot: __dirname,
   poweredByHeader: false,
   // Le build Cloudflare Workers ne peut pas embarquer sharp.
   images: { unoptimized: true },

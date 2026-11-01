@@ -2,8 +2,8 @@
 
 > **Statut** : spécification cible. **Aucune route API, aucun webhook, aucune Server
 > Action métier n'est implémenté dans cette phase.** Les fonctions listées ici sont les
-> cibles des services de `web/services/` ; les types cités existent déjà dans
-> `web/types/` et constituent la référence partagée.
+> cibles des services de `services/` ; les types cités existent déjà dans
+> `types/` et constituent la référence partagée.
 
 ---
 
@@ -38,7 +38,7 @@ interface ApiErrorBody {
 }
 ```
 
-`web/services/api/client.ts` traduit ce corps en `ApiError` (`code`, `message`, `fields`),
+`services/api/client.ts` traduit ce corps en `ApiError` (`code`, `message`, `fields`),
 ce qui permet aux formulaires d'afficher `cause.fields` sans logique supplémentaire.
 
 ---
@@ -71,7 +71,7 @@ Erreurs typiques : `VALIDATION` (400), `CONFLICT` (409, e-mail déjà utilisé),
 | `getTeacherDashboard` | `GET /api/me/teaching` | `TeacherDashboard` |
 | `getAdminOverview` | `GET /api/admin/overview` | `AdminOverview` |
 
-Contenu des agrégats (déjà typés dans `web/types/dashboard.ts`) :
+Contenu des agrégats (déjà typés dans `types/dashboard.ts`) :
 
 - `LearnerDashboard` : statistiques, reprise de révision (`resume`), maîtrise par
   matière (`mastery`), compositions à venir, activité récente, classrooms, épreuves

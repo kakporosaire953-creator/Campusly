@@ -1,21 +1,31 @@
-# ===== CLÉS ET SECRETS =====
-functions/.env
-.env
-.env.local
-.env.*.local
-
-# ===== FIREBASE =====
+# ── Dépendances ────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
 functions/node_modules/
+
+# ── Next.js ────────────────────────────────────────────────────
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# ── Tests ──────────────────────────────────────────────────────
+coverage/
+
+# ── Environnement (aucun secret ne doit être committé) ─────────
+.env
+.env*.local
+
+# ── Historique Supabase / Firebase ─────────────────────────────
 .firebase/
 firebase-debug.log
 firestore-debug.log
+supabase/.temp/
+supabase.exe
+supabase.tar.gz
 
-# ===== DIVERS =====
+# ── Divers ─────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 *.log
-
-supabase.exe
-supabase/.temp/
-supabase.tar.gz
-;
