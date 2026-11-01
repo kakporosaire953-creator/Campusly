@@ -1,0 +1,27 @@
+/*
+ * Feuille de style globale — Campusly
+ * ---------------------------------------------------------------------------
+ * L'identité visuelle est CONSERVÉE : on réutilise les feuilles historiques
+ * dans le même ordre de cascade que les pages HTML d'origine
+ * (modern.css → theme-light.css → enhancements.css → responsive-scale.css
+ * → mobile.css → interactive-buttons.css), puis on ajoute une fine couche
+ * `campusly-next.css` limitée aux besoins du nouveau frontend.
+ *
+ * Feuilles volontairement NON importées (code mort ou contradictoire, cf.
+ * docs/PROJECT_AUDIT.md §4) : style.css (ancien design system, chargée plus
+ * bas), design-system.css, components.css, sections-premium.css,
+ * hero-futuriste.css, skeleton-loaders.css, revision.css, theme-dark.css.
+ */
+
+@import "../styles/legacy/modern.css";
+@import "../styles/legacy/theme-light.css";
+@import "../styles/legacy/enhancements.css";
+@import "../styles/legacy/responsive-scale.css";
+@import "../styles/legacy/mobile.css";
+@import "../styles/legacy/interactive-buttons.css";
+
+/* Styles du shell applicatif, extraits de l'ancienne page dashboard.html */
+@import "../styles/legacy/pages/dashboard.css";
+
+/* Couche d'adaptation Next.js (aucune nouvelle direction artistique) */
+@import "../styles/app/campusly-next.css";

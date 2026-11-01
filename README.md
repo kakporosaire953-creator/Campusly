@@ -1,5 +1,24 @@
 # Campusly - Plateforme Academique UAC
 
+> ## Nouveau frontend (Next.js) — phase en cours
+>
+> Le frontend migré se trouve dans [`web/`](web/README.md) : **Next.js 15 + React 19 + TypeScript**,
+> avec des données de démonstration locales (aucun backend).
+>
+> ```bash
+> cd web && npm install && npm run dev
+> ```
+>
+> Documentation : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/FRONTEND_GUIDE.md`](docs/FRONTEND_GUIDE.md),
+> [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md), [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md),
+> [`docs/API_CONTRACTS.md`](docs/API_CONTRACTS.md), [`docs/CLOUDFLARE_INFRASTRUCTURE.md`](docs/CLOUDFLARE_INFRASTRUCTURE.md),
+> [`docs/BACKEND_ROADMAP.md`](docs/BACKEND_ROADMAP.md).
+>
+> Les fichiers historiques (`*.html`, `js/`, `supabase/`) sont conservés comme référence
+> et comme base de migration ; la version Vercel reste la référence visuelle.
+> Le backend (D1, R2, Redis, Better Auth, FedaPay, IA) n'est **pas** implémenté.
+
+
 [![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/kakporosaire953-creator/Campusly)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Supabase](https://img.shields.io/badge/Supabase-Ready-success.svg)](https://supabase.com)

@@ -1,0 +1,47 @@
+.pw-wrap { position: relative; }
+    .pw-wrap .form-input { padding-right: 44px; }
+    .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-3); padding: 4px; display: flex; align-items: center; }
+    .pw-toggle:hover { color: var(--text-1); }
+    .role-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .role-option {
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--surface);
+      transition: all 0.2s ease;
+    }
+    .role-option.active {
+      border-color: var(--brand-1);
+      background: rgba(21, 101, 192, 0.08);
+    }
+    .role-option-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-1);
+      margin-top: 4px;
+    }
+    .role-option-sub {
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 12px 18px;
+      box-shadow: var(--shadow-lg);
+      font-size: 0.85rem;
+      z-index: 9999;
+      display: none;
+    }
+    .toast.show { display: flex; align-items: center; gap: 8px; }

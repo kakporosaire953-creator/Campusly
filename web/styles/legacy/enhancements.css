@@ -1,0 +1,292 @@
+/* ============================================================
+   CAMPUSLY — Enhancements CSS (design moderne)
+   À charger après modern.css sur toutes les pages
+   ============================================================ */
+
+/* ── Navbar glassmorphism ─────────────────────────────────── */
+.navbar {
+  background: rgba(9, 10, 15, 0.8) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02), 0 4px 24px rgba(0,0,0,0.4) !important;
+}
+html.theme-light .navbar {
+  background: rgba(250, 250, 252, 0.8) !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.01), 0 4px 24px rgba(79,70,229,0.03) !important;
+}
+.navbar.scrolled {
+  background: rgba(9, 10, 15, 0.92) !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5) !important;
+}
+html.theme-light .navbar.scrolled {
+  background: rgba(250, 250, 252, 0.95) !important;
+  box-shadow: 0 4px 32px rgba(79,70,229,0.05) !important;
+}
+
+/* ── Hero amélioré ────────────────────────────────────────── */
+.hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(79,70,229,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 60%, rgba(245,158,11,0.06) 0%, transparent 60%);
+}
+.hero-title {
+  color: var(--text-1);
+}
+.hero-title span {
+  color: #F57C00;
+}
+
+/* ── Hero card flottante améliorée ───────────────────────── */
+.hero-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(32px);
+  border: 1px solid var(--border-2);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 32px 64px rgba(0,0,0,0.6),
+    0 0 80px rgba(79,70,229,0.1);
+}
+
+/* ── Feature cards améliorées ────────────────────────────── */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(79,70,229,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.feature-card:hover::after { opacity: 1; }
+.feature-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px var(--border-2);
+}
+
+/* ── Pricing cards améliorées ────────────────────────────── */
+.pricing-card.popular {
+  background: rgba(21,101,192,0.12);
+  box-shadow: 0 0 0 1px rgba(21,101,192,0.3), 0 24px 64px rgba(21,101,192,0.15);
+  transform: scale(1.03);
+}
+.pricing-card.popular:hover { transform: scale(1.03) translateY(-4px); }
+
+/* ── Stat items animés ───────────────────────────────────── */
+.stat-item {
+  position: relative;
+  padding: 12px 20px;
+  border-radius: var(--r-md);
+  transition: all 0.2s ease;
+}
+.stat-item:hover { background: var(--surface-2); }
+.stat-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1565C0;
+}
+
+/* ── Buttons améliorés ───────────────────────────────────── */
+.btn-primary {
+  background: #1565C0;
+  box-shadow: 0 4px 16px rgba(21,101,192,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-primary:hover {
+  background: #0D47A1;
+  box-shadow: 0 8px 32px rgba(21,101,192,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+.btn-accent {
+  background: #F57C00;
+  box-shadow: 0 4px 16px rgba(245,124,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.btn-accent:hover {
+  background: #E65100;
+  box-shadow: 0 8px 32px rgba(245,124,0,0.35);
+  transform: translateY(-2px);
+}
+
+/* ── Section tags ────────────────────────────────────────── */
+.section-tag {
+  background: rgba(21,101,192,0.12);
+  border: 1px solid rgba(21,101,192,0.2);
+  color: #1565C0;
+  letter-spacing: 0.1em;
+}
+
+/* ── Dashboard sidebar améliorée ─────────────────────────── */
+.sidebar {
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+}
+.sidebar-profile {
+  background: rgba(21,101,192,0.1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+}
+.sidebar-link {
+  border-radius: var(--r-md);
+  transition: all 0.15s ease;
+}
+.sidebar-link:hover {
+  background: var(--surface-2);
+  color: var(--brand-2);
+  padding-left: 16px;
+}
+.sidebar-link.active {
+  background: rgba(21,101,192,0.12);
+  color: #1565C0;
+  border: 1px solid rgba(21,101,192,0.2);
+  box-shadow: inset 3px 0 0 #1565C0;
+}
+
+/* ── Dashboard cards améliorées ──────────────────────────── */
+.stat-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: #1565C0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px var(--border-2);
+}
+.stat-card-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--text-1);
+}
+
+/* ── Page header dashboard ───────────────────────────────── */
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-1);
+  letter-spacing: -0.03em;
+}
+
+/* ── Card améliorée ──────────────────────────────────────── */
+.card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+.card:hover { border-color: var(--border-2); }
+
+/* ── Streak card ─────────────────────────────────────────── */
+.streak-card {
+  background: rgba(245,124,0,0.08);
+  border: 1px solid rgba(245,124,0,0.2);
+  box-shadow: 0 4px 24px rgba(245,124,0,0.06);
+}
+
+/* ── Toast amélioré ──────────────────────────────────────── */
+.toast {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02);
+}
+.toast.success {
+  background: rgba(16,185,129,0.15);
+  border-color: rgba(16,185,129,0.35);
+  box-shadow: 0 8px 32px rgba(16,185,129,0.15);
+}
+
+/* ── Scrollbar custom ────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(79,70,229,0.2); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(79,70,229,0.4); }
+
+/* ── Animations d'entrée ─────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.hero-text { animation: fadeInUp 0.7s cubic-bezier(0.4,0,0.2,1) both; }
+.hero-visual { animation: fadeInScale 0.8s 0.2s cubic-bezier(0.4,0,0.2,1) both; }
+.hero-badge { animation: fadeInUp 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+
+/* ── Section démo cards ──────────────────────────────────── */
+#demo .card, #demo > div > div {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#demo > div > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+
+/* ── Auth page améliorée ─────────────────────────────────── */
+.auth-right {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+}
+.auth-form-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 32px;
+}
+
+/* ── Form inputs améliorés ───────────────────────────────── */
+.form-input, .form-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+.form-input:focus, .form-select:focus {
+  background: var(--surface-2);
+  border-color: var(--brand-1);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.1), 0 0 20px rgba(79,70,229,0.06);
+}
+
+/* ── Mode clair overrides ────────────────────────────────── */
+html.theme-light .sidebar {
+  background: #FAFAFC;
+}
+html.theme-light .stat-card-value {
+  color: #1565C0;
+}
+html.theme-light .page-title {
+  color: var(--text-1);
+}
+html.theme-light .hero-title {
+  color: var(--text-1);
+}
+html.theme-light .auth-right { background: #F1F5F9; }
+html.theme-light .auth-form-container {
+  background: #fff;
+  border-color: var(--border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-title { font-size: clamp(2rem, 8vw, 3rem); }
+  .pricing-card.popular { transform: scale(1); }
+  .stat-card:hover { transform: none; }
+}
