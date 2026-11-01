@@ -72,7 +72,7 @@ export function SkeletonCard({ lines = 3 }: { lines?: number }) {
 export function LoadingGrid({ count = 3 }: { count?: number }) {
   return (
     <div className="grid-3" aria-busy="true" aria-live="polite">
-      <span className="sr-only" style={{ position: "absolute", left: -9999 }}>
+      <span className="sr-only">
         Chargement des données de démonstration…
       </span>
       {Array.from({ length: count }).map((_, index) => (
