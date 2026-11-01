@@ -1,7 +1,0 @@
-{
-  "name": "campusly-web-diagnostic",
-  "private": true,
-  "scripts": {
-    "build": "mkdir -p out && cp index.html out/index.html"
-  }
-}
