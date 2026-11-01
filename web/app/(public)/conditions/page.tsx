@@ -35,7 +35,7 @@ const SECTIONS = [
 
 export default function TermsPage() {
   return (
-    <main style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 800, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%" }}>
+    <div style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 800, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="card" style={{ padding: 40, marginBottom: 24 }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>Conditions d&apos;utilisation</h1>
         <p style={{ color: "var(--text-3)", marginBottom: 32 }}>Dernière mise à jour : novembre 2026</p>
@@ -54,6 +54,6 @@ export default function TermsPage() {
           .
         </p>
       </div>
-    </main>
+    </div>
   );
 }

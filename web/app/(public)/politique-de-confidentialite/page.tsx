@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="policy-main">
+    <div className="policy-main">
       <h1 className="policy-title">Politique de confidentialité</h1>
       <div className="policy-content">
         <p>Dernière mise à jour : novembre 2026</p>
@@ -59,6 +59,6 @@ export default function PrivacyPage() {
           ou via WhatsApp au {siteConfig.whatsapp}.
         </p>
       </div>
-    </main>
+    </div>
   );
 }

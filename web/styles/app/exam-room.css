@@ -139,66 +139,95 @@
   margin: 0 0 16px;
 }
 
-/* ── Question et options ── */
-.exam-room-page .q-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-md);
-  background: var(--surface);
-  color: var(--text-1);
-  font-size: 0.9rem;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+/* ── Légende de la palette (complète `.q-grid` / `.q-btn` historiques) ── */
+.exam-room-page .legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
 }
 
-.exam-room-page .q-option:hover {
-  border-color: var(--brand-2, #42a5f5);
+.exam-room-page .legend-swatch.answered {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid var(--success);
 }
 
-.exam-room-page .q-option.selected {
-  border-color: var(--brand-1);
-  background: rgba(21, 101, 192, 0.08);
+.exam-room-page .legend-swatch.marked {
+  border: 1px solid var(--warning, #f59e0b);
 }
 
-/* ── Palette de navigation ── */
-.exam-room-page .palette-btn {
-  position: relative;
-  aspect-ratio: 1;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-2);
-  font-size: 0.8rem;
-  font-weight: 800;
-  cursor: pointer;
+/* ── Responsive : empilement de la palette et du sujet (ergonomie) ── */
+@media (max-width: 1024px) {
+  .exam-room-page .exam-body {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .exam-room-page .exam-sidebar {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    order: -1;
+  }
+
+  .exam-room-page .q-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    padding: 12px 20px;
+  }
+
+  .exam-room-page .exam-main {
+    min-height: 60vh;
+  }
+
+  .exam-room-page .q-content {
+    padding: 28px 20px;
+  }
 }
 
-.exam-room-page .palette-btn.answered {
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.4);
-  color: var(--green-700, #047857);
-}
+@media (max-width: 600px) {
+  .exam-room-page .q-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 
-.exam-room-page .palette-btn.current {
-  border-color: var(--brand-1);
-  box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.2);
-  color: var(--brand-1);
-}
+  .exam-room-page .q-content {
+    padding: 20px 16px;
+  }
 
-.exam-room-page .palette-btn.flagged::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
+  .exam-room-page .exam-footer {
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .exam-room-page .waiting-header {
+    padding: 14px 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .exam-room-page .waiting-container {
+    padding: 18px;
+    gap: 18px;
+  }
+
+  .exam-room-page .info-panel {
+    padding: 20px;
+  }
+
+  .exam-room-page .info-title {
+    font-size: 1.35rem;
+  }
+
+  .exam-room-page .timer-box {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+  }
+
+  .exam-room-page .exam-header {
+    padding: 12px 14px;
+  }
 }
 
 /* ── Réutilisation du badge « simulation » hors des `.sec-item` ── */

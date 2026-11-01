@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContributePage() {
   return (
-    <main style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 860, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%", paddingBottom: 60 }}>
+    <div style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 860, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%", paddingBottom: 60 }}>
       <div className="card" style={{ padding: 28, marginBottom: 20 }}>
         <h1 style={{ fontSize: "1.7rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 8 }}>
           <i className="fa-solid fa-upload" aria-hidden="true" /> Contribuer à Campusly
@@ -37,6 +37,6 @@ export default function ContributePage() {
       </div>
 
       <ContributionForm />
-    </main>
+    </div>
   );
 }

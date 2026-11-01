@@ -12,7 +12,7 @@ export default function AuthPage() {
   return (
     <Suspense
       fallback={
-        <div style={{ maxWidth: 520, margin: "80px auto", padding: 20 }}>
+        <div style={{ maxWidth: 520, margin: "80px auto", padding: 20, minHeight: "70vh" }}>
           <SkeletonCard lines={5} />
         </div>
       }

@@ -335,14 +335,75 @@ export function ExamRoom({ code }: { code: string }) {
           </header>
 
           <div className="exam-body">
+            <aside className="exam-sidebar" aria-label="Navigation et intégrité">
+              <div style={{ padding: 20, borderBottom: "1px solid var(--border)" }}>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 800,
+                    color: "var(--text-2)",
+                    textTransform: "uppercase",
+                    letterSpacing: 1,
+                    marginBottom: 12,
+                  }}
+                >
+                  Navigation
+                </div>
+                <div style={{ display: "flex", gap: 12, fontSize: "0.75rem", color: "var(--text-3)", fontWeight: 600 }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <span className="legend-swatch answered" aria-hidden="true" /> Répondu
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <span className="legend-swatch marked" aria-hidden="true" /> Marqué
+                  </span>
+                </div>
+              </div>
+
+              <div className="q-grid">
+                {palette.map((entry, entryIndex) => {
+                  const answered = answers[entry.id] !== undefined;
+                  const isFlagged = flagged.includes(entry.id);
+                  return (
+                    <button
+                      key={entry.id}
+                      type="button"
+                      className={`q-btn ${entryIndex === index ? "active" : ""} ${answered ? "answered" : ""} ${isFlagged ? "marked" : ""}`}
+                      aria-label={`Question ${entryIndex + 1}${answered ? " (répondue)" : ""}${isFlagged ? " (marquée à revoir)" : ""}`}
+                      aria-current={entryIndex === index ? "step" : undefined}
+                      onClick={() => setIndex(entryIndex)}
+                    >
+                      {entryIndex + 1}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div style={{ padding: 20, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
+                <div style={{ fontSize: "0.74rem", fontWeight: 800, color: "var(--text-2)", marginBottom: 6 }}>
+                  Intégrité <span className="sim-tag">Simulation</span>
+                </div>
+                <p style={{ fontSize: "0.72rem", color: "var(--text-2)", margin: "0 0 8px" }}>
+                  {events.length === 0 ? "Aucun incident détecté." : `${events.length} événement(s) local(aux).`}
+                </p>
+                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6, maxHeight: 120, overflowY: "auto" }}>
+                  {events.slice(-4).map((event) => (
+                    <li key={event.id} style={{ fontSize: "0.7rem", color: "var(--text-2)" }}>
+                      <i className="fa-solid fa-circle-exclamation" aria-hidden="true" style={{ color: "var(--warning)" }} />{" "}
+                      {EVENT_LABEL[event.type]}
+                    </li>
+                  ))}
+                </ul>
+                <p style={{ fontSize: "0.66rem", color: "var(--text-3)", marginTop: 8, marginBottom: 0 }}>
+                  Rien n&apos;est transmis : ce journal illustre le futur dispositif.
+                </p>
+              </div>
+            </aside>
+
             <main className="exam-main">
-              <div className="row-between" style={{ marginBottom: 10 }}>
-                <span style={{ fontSize: "0.75rem", fontWeight: 800, color: "var(--brand-1)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                  Question {index + 1} / {palette.length}
-                </span>
+              <div style={{ position: "absolute", top: 20, right: 20 }}>
                 <button
                   type="button"
-                  className={`chip ${flagged.includes(question.id) ? "active" : ""}`}
+                  className="btn btn-outline btn-sm"
                   aria-pressed={flagged.includes(question.id)}
                   onClick={() =>
                     setFlagged((current) =>
@@ -350,158 +411,114 @@ export function ExamRoom({ code }: { code: string }) {
                     )
                   }
                 >
-                  <i className="fa-solid fa-flag" aria-hidden="true" /> Marquer à revoir
+                  <i className="fa-solid fa-flag" aria-hidden="true" /> Marquer pour revoir
                 </button>
               </div>
 
-              <h2 className="q-title">{question.prompt}</h2>
-              <p style={{ fontSize: "0.74rem", color: "var(--text-2)", marginBottom: 16 }}>
-                {question.points} point{question.points > 1 ? "s" : ""} · sans document
-              </p>
+              <div className="q-content">
+                <div style={{ fontSize: "0.85rem", fontWeight: 800, color: "var(--brand-1)", marginBottom: 12 }}>
+                  Question {index + 1} sur {palette.length} · {question.points} point{question.points > 1 ? "s" : ""}
+                </div>
+                <h3 className="q-title">{question.prompt}</h3>
 
-              {question.type === "qcm" ? (
-                <div className="q-grid" role="radiogroup" aria-label="Choix de réponse">
-                  {(question.options ?? []).map((option, optionIndex) => {
-                    const checked = value === optionIndex;
-                    return (
+                {question.type === "qcm" ? (
+                  <div role="radiogroup" aria-label="Choix de réponse">
+                    {(question.options ?? []).map((option, optionIndex) => {
+                      const checked = value === optionIndex;
+                      return (
+                        <button
+                          key={option}
+                          type="button"
+                          role="radio"
+                          aria-checked={checked}
+                          className={`option-btn ${checked ? "selected" : ""}`}
+                          onClick={() => setAnswers((current) => ({ ...current, [question.id]: optionIndex }))}
+                        >
+                          <span className="opt-letter" aria-hidden="true">
+                            {String.fromCharCode(65 + optionIndex)}
+                          </span>
+                          {option}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
+
+                {question.type === "true_false" ? (
+                  <div role="radiogroup" aria-label="Vrai ou faux">
+                    {[true, false].map((option) => (
                       <button
-                        key={option}
+                        key={String(option)}
                         type="button"
                         role="radio"
-                        aria-checked={checked}
-                        className={`q-option ${checked ? "selected" : ""}`}
-                        onClick={() => setAnswers((current) => ({ ...current, [question.id]: optionIndex }))}
+                        aria-checked={value === option}
+                        className={`option-btn ${value === option ? "selected" : ""}`}
+                        onClick={() => setAnswers((current) => ({ ...current, [question.id]: option }))}
                       >
-                        <span className="opt-letter" aria-hidden="true">
-                          {String.fromCharCode(65 + optionIndex)}
-                        </span>
-                        <span className="q-content">{option}</span>
+                        <span className="opt-letter" aria-hidden="true">{option ? "V" : "F"}</span>
+                        {option ? "Vrai" : "Faux"}
                       </button>
-                    );
-                  })}
-                </div>
-              ) : null}
+                    ))}
+                  </div>
+                ) : null}
 
-              {question.type === "true_false" ? (
-                <div className="q-grid" role="radiogroup" aria-label="Vrai ou faux">
-                  {[true, false].map((option) => (
+                {question.type === "open" ? (
+                  <div>
+                    <label className="form-label" htmlFor="exam-answer">
+                      Votre réponse
+                    </label>
+                    <textarea
+                      id="exam-answer"
+                      className="form-textarea"
+                      rows={7}
+                      value={typeof value === "string" ? value : ""}
+                      onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))}
+                      placeholder="Rédigez votre réponse…"
+                    />
+                    <p className="form-hint">
+                      Correction locale par mots-clés (démonstration) — {question.keywords?.length ?? 0} notions attendues.
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="row-between" style={{ marginTop: 24 }}>
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    disabled={index === 0}
+                    onClick={() => setIndex((current) => Math.max(0, current - 1))}
+                  >
+                    <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Précédent
+                  </button>
+                  <span style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>
+                    {answeredCount}/{palette.length} répondues · barème /{composition.totalPoints}
+                  </span>
+                  {index < palette.length - 1 ? (
                     <button
-                      key={String(option)}
                       type="button"
-                      role="radio"
-                      aria-checked={value === option}
-                      className={`q-option ${value === option ? "selected" : ""}`}
-                      onClick={() => setAnswers((current) => ({ ...current, [question.id]: option }))}
+                      className="btn btn-primary btn-sm"
+                      onClick={() => setIndex((current) => Math.min(palette.length - 1, current + 1))}
                     >
-                      <span className="q-content">{option ? "Vrai" : "Faux"}</span>
+                      Suivant <i className="fa-solid fa-arrow-right" aria-hidden="true" />
                     </button>
-                  ))}
+                  ) : (
+                    <button type="button" className="btn btn-primary btn-sm" onClick={() => setFinishOpen(true)}>
+                      Vérifier et remettre
+                    </button>
+                  )}
                 </div>
-              ) : null}
+              </div>
 
-              {question.type === "open" ? (
-                <div>
-                  <label className="form-label" htmlFor="exam-answer">
-                    Votre réponse
-                  </label>
-                  <textarea
-                    id="exam-answer"
-                    className="form-textarea"
-                    rows={7}
-                    value={typeof value === "string" ? value : ""}
-                    onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))}
-                    placeholder="Rédigez votre réponse…"
-                  />
-                  <p className="form-hint">
-                    Correction locale par mots-clés (démonstration) — {question.keywords?.length ?? 0} notions attendues.
-                  </p>
-                </div>
-              ) : null}
-
-              <div className="row-between" style={{ marginTop: 24 }}>
-                <Button variant="ghost" size="sm" disabled={index === 0} onClick={() => setIndex((current) => Math.max(0, current - 1))}>
-                  <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Précédent
-                </Button>
-                <span style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>
-                  {answeredCount}/{palette.length} répondues
+              <footer className="exam-footer">
+                <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
+                  <i className="fa-solid fa-shield-halved" aria-hidden="true" /> Session de démonstration · remise locale
                 </span>
-                {index < palette.length - 1 ? (
-                  <Button size="sm" onClick={() => setIndex((current) => Math.min(palette.length - 1, current + 1))}>
-                    Suivant <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-                  </Button>
-                ) : (
-                  <Button size="sm" onClick={() => setFinishOpen(true)}>
-                    Vérifier et remettre
-                  </Button>
-                )}
-              </div>
+                <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
+                  {composition.code} · {composition.teacherName}
+                </span>
+              </footer>
             </main>
-
-            <aside className="exam-sidebar" aria-label="Navigation et intégrité">
-              <div className="card" style={{ padding: 14 }}>
-                <strong style={{ fontSize: "0.78rem", color: "var(--text-1)", display: "block", marginBottom: 8 }}>
-                  Navigation
-                </strong>
-                <div className="q-grid" style={{ gap: 8, display: "grid", gridTemplateColumns: "repeat(5, 1fr)" }}>
-                  {palette.map((entry, entryIndex) => {
-                    const answered = answers[entry.id] !== undefined;
-                    const isFlagged = flagged.includes(entry.id);
-                    return (
-                      <button
-                        key={entry.id}
-                        type="button"
-                        aria-label={`Question ${entryIndex + 1}${answered ? " (répondue)" : ""}${isFlagged ? " (à revoir)" : ""}`}
-                        aria-current={entryIndex === index ? "step" : undefined}
-                        onClick={() => setIndex(entryIndex)}
-                        className={`palette-btn ${entryIndex === index ? "current" : ""} ${answered ? "answered" : ""} ${isFlagged ? "flagged" : ""}`}
-                      >
-                        {entryIndex + 1}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="card" style={{ padding: 14, marginTop: 12 }}>
-                <strong style={{ fontSize: "0.78rem", color: "var(--text-1)", display: "block", marginBottom: 6 }}>
-                  Intégrité <span className="sim-tag">Simulation</span>
-                </strong>
-                <p style={{ fontSize: "0.72rem", color: "var(--text-2)", margin: "0 0 8px" }}>
-                  {events.length === 0 ? "Aucun incident détecté." : `${events.length} événement(s) local(aux).`}
-                </p>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6, maxHeight: 160, overflowY: "auto" }}>
-                  {events.slice(-6).map((event) => (
-                    <li key={event.id} style={{ fontSize: "0.7rem", color: "var(--text-2)" }}>
-                      <i className="fa-solid fa-circle-exclamation" aria-hidden="true" style={{ color: "var(--warning, #F59E0B)" }} />{" "}
-                      {EVENT_LABEL[event.type]}
-                    </li>
-                  ))}
-                </ul>
-                <p style={{ fontSize: "0.68rem", color: "var(--text-3)", marginTop: 8, marginBottom: 0 }}>
-                  Rien n&apos;est transmis : ces événements servent uniquement à illustrer le futur dispositif.
-                </p>
-              </div>
-
-              <div className="card" style={{ padding: 14, marginTop: 12 }}>
-                <strong style={{ fontSize: "0.78rem", color: "var(--text-1)", display: "block", marginBottom: 6 }}>
-                  Note & sécurité
-                </strong>
-                <p style={{ fontSize: "0.72rem", color: "var(--text-2)", margin: 0 }}>
-                  Barème : /{composition.totalPoints} · seuil {composition.passMark}/20. Note estimée localement,
-                  jamais officielle.
-                </p>
-              </div>
-            </aside>
           </div>
-
-          <footer className="exam-footer">
-            <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
-              <i className="fa-solid fa-shield-halved" aria-hidden="true" /> Session de démonstration · remise locale
-            </span>
-            <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
-              {composition.code} · {composition.teacherName}
-            </span>
-          </footer>
 
           {finishOpen ? (
             <div className="finish-modal show" role="dialog" aria-modal="true" aria-labelledby="finish-title">

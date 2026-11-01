@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 800, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%" }}>
+    <div style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 800, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="card" style={{ padding: 40, marginBottom: 24 }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>À propos de Campusly</h1>
         <p style={{ color: "var(--text-3)", marginBottom: 32 }}>La plateforme académique des étudiants de l&apos;UAC</p>
@@ -78,6 +78,6 @@ export default function AboutPage() {
           ou à <a href={`mailto:${siteConfig.supportEmail}`} style={{ color: "var(--brand-1)" }}>{siteConfig.supportEmail}</a>.
         </p>
       </div>
-    </main>
+    </div>
   );
 }
