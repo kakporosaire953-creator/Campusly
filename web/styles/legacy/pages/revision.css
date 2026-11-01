@@ -1,0 +1,12 @@
+.revision-main { padding-top: 68px; min-height: 100vh; }
+    .learning-mode-tab {
+      padding: 10px 18px; border-radius: var(--r-full); font-size: 0.85rem; font-weight: 700;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+      cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .learning-mode-tab:hover { background: var(--surface-2); color: var(--text-1); }
+    .learning-mode-tab.active {
+      background: var(--grad-brand); color: #fff; border-color: transparent; box-shadow: var(--shadow-sm);
+    }
+    .summary-spinner { width: 20px; height: 20px; border: 2px solid var(--surface-2); border-top-color: var(--brand-1); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }

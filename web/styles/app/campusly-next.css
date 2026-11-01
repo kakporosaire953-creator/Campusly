@@ -1,0 +1,468 @@
+/* ============================================================
+   CAMPUSLY — couche d'adaptation Next.js
+   ------------------------------------------------------------
+   Cette feuille ne crée PAS une nouvelle identité : elle ajoute
+   uniquement ce dont le frontend React a besoin (états, focus,
+   bandeau de démonstration, grilles réutilisables) en réutilisant
+   les tokens existants de modern.css.
+   ============================================================ */
+
+/* ── Accessibilité : focus visible et lien d'évitement ─────── */
+:focus-visible {
+  outline: 3px solid rgba(21, 101, 192, 0.55);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 3000;
+  background: var(--brand-1);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  transition: top var(--t-fast) var(--ease);
+}
+.skip-link:focus {
+  top: 12px;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Bandeau « mode démonstration » ────────────────────────── */
+.demo-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  background: rgba(245, 124, 0, 0.1);
+  border-bottom: 1px solid rgba(245, 124, 0, 0.28);
+  color: var(--text-2);
+  font-size: 0.78rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1200;
+}
+.demo-banner i {
+  color: var(--accent);
+}
+.demo-banner strong {
+  color: var(--text-1);
+  font-weight: 800;
+}
+.demo-banner a {
+  color: var(--brand-1);
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/* Badge « démo » discret posé à côté d'un titre ou d'une donnée */
+.demo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+  background: rgba(245, 124, 0, 0.12);
+  border: 1px solid rgba(245, 124, 0, 0.3);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ── Grilles utilitaires (mêmes valeurs que les styles inline
+      historiques des pages dashboard) ───────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ── Cartes d'état vides / erreurs (alignées sur .empty-state) ─ */
+.state-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 48px 24px;
+  text-align: center;
+}
+.state-card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  margin: 0 auto 18px;
+  background: rgba(21, 101, 192, 0.1);
+  color: var(--brand-1);
+}
+.state-card h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-1);
+  margin-bottom: 8px;
+}
+.state-card p {
+  font-size: 0.92rem;
+  color: var(--text-2);
+  max-width: 460px;
+  margin: 0 auto 18px;
+  line-height: 1.6;
+}
+
+/* ── Squelettes de chargement (les styles .skeleton-loaders.css
+      n'étaient jamais chargés : on redéfinit le minimum ici) ─── */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.4s ease infinite;
+  border-radius: var(--r-md);
+}
+.skeleton-line {
+  height: 12px;
+  margin-bottom: 10px;
+}
+.skeleton-card {
+  height: 132px;
+  border-radius: var(--r-xl);
+}
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* ── Formulaires : messages d'erreur accessibles ───────────── */
+.form-error {
+  display: block;
+  color: var(--danger);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 6px;
+  min-height: 0;
+}
+.form-input[aria-invalid="true"],
+.form-select[aria-invalid="true"],
+.form-textarea[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-1);
+  background: var(--surface);
+  resize: vertical;
+  min-height: 110px;
+}
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+
+/* ── Modale accessible (reprend .modal-overlay / .modal) ───── */
+.modal-overlay {
+  padding: 20px;
+}
+.modal-close {
+  font-size: 1.1rem;
+}
+
+/* ── Tableaux responsive ──────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.data-table th,
+.data-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  background: var(--surface);
+}
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.data-table tbody tr:hover {
+  background: var(--surface);
+}
+
+/* ── Contraste renforcé (constat d'audit a11y) ─────────────── */
+.muted-strong {
+  color: var(--text-2);
+}
+
+/* ── En-têtes de page ─────────────────────────────────────── */
+.page-head {
+  margin-bottom: 24px;
+}
+.page-head h1,
+.page-head h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-1);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.page-head p {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ── Barre de progression ────────────────────────────────── */
+.progress-track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--grad-brand);
+  transition: width var(--t-slow) var(--ease);
+}
+.progress-fill.is-success {
+  background: var(--success);
+}
+.progress-fill.is-danger {
+  background: var(--danger);
+}
+.progress-fill.is-accent {
+  background: var(--accent);
+}
+
+/* ── Pastilles de filtre ─────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease);
+}
+.chip:hover {
+  border-color: var(--brand-1);
+  color: var(--brand-1);
+}
+.chip[aria-pressed="true"],
+.chip.is-active {
+  background: var(--brand-1);
+  border-color: var(--brand-1);
+  color: #fff;
+}
+
+/* ── Bouton icône (barre d'outils) ──────────────────────── */
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--t-fast) var(--ease);
+}
+.icon-btn:hover {
+  color: var(--brand-1);
+  border-color: var(--brand-1);
+}
+
+/* ── Badges de rôle (repris du dashboard historique) ─────── */
+.role-badge.admin {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.live {
+  background: var(--success);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+.status-dot.closed {
+  background: var(--text-4);
+}
+
+/* ── Ajustements de la landing pour le rendu React ───────── */
+.hero-cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.hero-pillars {
+  margin-top: 36px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.hero-pillar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.hero-pillar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.hero-pillar-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-1);
+}
+.hero-pillar-sub {
+  font-size: 0.72rem;
+  color: var(--text-3);
+}
+
+/* Le router Next remplace la navigation multi-pages : on neutralise le
+   scroll-behavior global pour éviter les sauts lors des transitions. */
+@media (max-width: 768px) {
+  .page-head h1,
+  .page-head h2 {
+    font-size: 1.35rem;
+  }
+}
+
+/* Groupe « Mon compte » du menu latéral (ajout, aucune refonte) */
+.sidebar-group-label {
+  display: block;
+  padding: 4px 14px 2px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.chip.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(245, 124, 0, 0.1);
+}
+
+/* Encart d'avertissement « démonstration » dans les cartes */
+.demo-notice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  border: 1px dashed rgba(245, 124, 0, 0.4);
+  background: rgba(245, 124, 0, 0.07);
+  font-size: 0.76rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.demo-notice i {
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+/* Solde de crédits (démonstration) */
+.credit-balance-big {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--brand-1);
+  line-height: 1;
+}
+
+.credit-balance-big span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-2);
+  margin-left: 6px;
+}

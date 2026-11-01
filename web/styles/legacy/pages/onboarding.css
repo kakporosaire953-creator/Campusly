@@ -1,0 +1,15 @@
+.onboarding-wrap { display: flex; flex-direction: column; min-height: 100vh; }
+    .onboarding-container { max-width: 600px; width: 100%; margin: 60px auto; background: #fff; border-radius: var(--r-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--border); padding: 40px; }
+    .step { display: none; animation: fadeIn 0.4s ease-out; }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-bar { display: flex; gap: 8px; margin-bottom: 32px; }
+    .progress-dot { flex: 1; height: 8px; border-radius: 4px; background: var(--border); transition: all 0.3s ease; }
+    .progress-dot.active { background: var(--brand-1); }
+    .step-title { font-size: 1.8rem; font-weight: 900; color: var(--text-1); margin: 0 0 16px; }
+    .step-desc { font-size: 1.1rem; color: var(--text-2); margin: 0 0 24px; line-height: 1.6; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .option-card { padding: 16px; border: 2px solid var(--border); border-radius: var(--r-lg); cursor: pointer; transition: all 0.2s ease; text-align: center; }
+    .option-card:hover { border-color: var(--brand-1); background: rgba(21,101,192,0.02); }
+    .option-card.selected { border-color: var(--brand-1); background: rgba(21,101,192,0.05); color: var(--brand-1); font-weight: 800; }
+    .option-icon { font-size: 1.5rem; margin-bottom: 8px; color: inherit; }

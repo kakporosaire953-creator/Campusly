@@ -1,0 +1,352 @@
+.exam-room-page {
+      background: var(--bg-2);
+      color: var(--text-1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Utility for views */
+    .exam-view { display: none; flex: 1; }
+    .exam-view.active { display: flex; flex-direction: column; }
+
+    /* ========== STATE 1: WAITING ROOM ========== */
+    .waiting-header {
+      padding: 20px 40px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .waiting-container {
+      display: flex;
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      gap: 40px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    @media (max-width: 900px) {
+      .waiting-container { flex-direction: column; }
+    }
+    
+    /* Left Panel - Info */
+    .info-panel {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-2xl);
+      padding: 32px;
+      height: fit-content;
+    }
+    
+    /* Right Panel - Onboarding Steps */
+    .onboarding-panel {
+      flex: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .step-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 24px;
+      opacity: 0.5;
+      pointer-events: none;
+      transition: all 0.3s;
+      transform: translateY(10px);
+    }
+    .step-card.active {
+      opacity: 1;
+      pointer-events: auto;
+      border-color: var(--brand-2);
+      box-shadow: 0 4px 20px rgba(21,101,192,0.08);
+      transform: translateY(0);
+    }
+    .step-card.completed {
+      opacity: 0.8;
+      border-color: var(--success);
+    }
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-1);
+      margin: 0;
+    }
+    .step-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: var(--r-full);
+      color: var(--text-2);
+    }
+    
+    /* Security List */
+    .sec-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--surface);
+      border-radius: var(--r-md);
+      margin-bottom: 8px;
+    }
+    .sec-item.simulated {
+      border: 1px dashed var(--border-2);
+    }
+    .sim-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      background: rgba(245,124,0,0.1);
+      color: var(--warning);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: auto;
+    }
+    
+    /* Checklist */
+    .check-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    .check-label input {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--brand-1);
+    }
+    .check-text {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    /* ========== STATE 2: ACTIVE EXAM ========== */
+    .exam-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .timer-box {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-1);
+      background: var(--surface);
+      padding: 6px 16px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      letter-spacing: 2px;
+    }
+    .timer-box.urgent {
+      color: var(--danger);
+      border-color: rgba(239,68,68,0.3);
+      background: rgba(239,68,68,0.05);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
+    
+    .exam-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 76px);
+    }
+    
+    /* Left Sidebar - Nav */
+    .exam-sidebar {
+      width: 280px;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .q-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .q-btn {
+      aspect-ratio: 1;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border-2);
+      background: var(--bg-2);
+      color: var(--text-2);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .q-btn.active {
+      border-color: var(--brand-1);
+      background: var(--surface);
+      color: var(--brand-1);
+    }
+    .q-btn.answered {
+      background: rgba(16,185,129,0.1);
+      border-color: rgba(16,185,129,0.3);
+      color: var(--success);
+    }
+    .q-btn.marked {
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+    .q-btn.marked::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 12px;
+      height: 12px;
+      background: var(--warning);
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+    }
+    
+    /* Main Question Area */
+    .exam-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-2);
+      position: relative;
+    }
+    .q-content {
+      flex: 1;
+      padding: 40px 60px;
+      overflow-y: auto;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .q-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-1);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    
+    .option-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--bg);
+      border: 1px solid var(--border-2);
+      border-radius: var(--r-lg);
+      margin-bottom: 12px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 1rem;
+      color: var(--text-2);
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .option-btn:hover {
+      background: var(--surface);
+      border-color: var(--border);
+    }
+    .option-btn.selected {
+      background: rgba(21,101,192,0.06);
+      border-color: var(--brand-1);
+      color: var(--brand-1);
+      font-weight: 700;
+    }
+    .opt-letter {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-weight: 800;
+      color: var(--text-3);
+    }
+    .option-btn.selected .opt-letter {
+      background: var(--brand-1);
+      color: #fff;
+    }
+    
+    .exam-footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ========== STATE 3: MODAL & SCREENS ========== */
+    .countdown-overlay {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .countdown-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cd-number {
+      font-size: 6rem;
+      font-weight: 900;
+      color: var(--brand-1);
+      font-family: var(--font-mono);
+    }
+    
+    .finish-modal {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(15,23,42,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 9000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .finish-modal.show { display: flex; }
+    .modal-content {
+      background: var(--bg);
+      padding: 32px;
+      border-radius: var(--r-2xl);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }

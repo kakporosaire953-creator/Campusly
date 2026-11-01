@@ -1,0 +1,215 @@
+/*
+ * Salle d'examen — compléments de mise en forme.
+ * ---------------------------------------------------------------------------
+ * L'ancienne page `exam-room.html` portait ses styles en attributs `style=`
+ * directement dans le HTML. Lors du portage vers Next.js, ces attributs ont été
+ * remplacés par des classes afin de garder le markup lisible et accessible :
+ * ce fichier reproduit EXACTEMENT les valeurs d'origine (couleurs, tailles,
+ * espacements) sous le préfixe `.exam-room-page`.
+ * Aucune nouvelle direction artistique : uniquement la traduction en CSS des
+ * styles inline historiques.
+ */
+
+.exam-room-page .logo-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.exam-room-page .logo-text svg {
+  margin-right: 6px;
+}
+
+.exam-room-page .exam-tag {
+  font-size: 0.65rem;
+  font-weight: 900;
+  background: var(--bg-2);
+  color: var(--text-3);
+  padding: 2px 6px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  margin-left: 6px;
+}
+
+.exam-room-page .exam-student-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-2);
+  background: var(--bg-2);
+  padding: 6px 16px;
+  border-radius: var(--r-full);
+}
+
+/* ── Colonne d'informations (salle d'attente) ── */
+.exam-room-page .info-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(21, 101, 192, 0.1);
+  color: var(--brand-1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 24px;
+}
+
+.exam-room-page .info-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--text-1);
+  margin: 0 0 8px;
+}
+
+.exam-room-page .info-subject {
+  font-size: 1rem;
+  color: var(--brand-1);
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+.exam-room-page .info-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+
+.exam-room-page .info-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.exam-room-page .info-row > i {
+  color: var(--text-3);
+  width: 20px;
+  text-align: center;
+}
+
+.exam-room-page .info-label {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.exam-room-page .info-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-1);
+}
+
+/* ── Étapes de la salle d'attente ── */
+.exam-room-page .step-text {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.exam-room-page .rules-box {
+  background: var(--surface);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin-bottom: 16px;
+}
+
+.exam-room-page .rules-box ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+  color: var(--text-1);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exam-room-page .sec-list {
+  margin-bottom: 16px;
+}
+
+.exam-room-page .step-note {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin: 0 0 16px;
+}
+
+/* ── Question et options ── */
+.exam-room-page .q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--text-1);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.exam-room-page .q-option:hover {
+  border-color: var(--brand-2, #42a5f5);
+}
+
+.exam-room-page .q-option.selected {
+  border-color: var(--brand-1);
+  background: rgba(21, 101, 192, 0.08);
+}
+
+/* ── Palette de navigation ── */
+.exam-room-page .palette-btn {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.exam-room-page .palette-btn.answered {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: var(--green-700, #047857);
+}
+
+.exam-room-page .palette-btn.current {
+  border-color: var(--brand-1);
+  box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.2);
+  color: var(--brand-1);
+}
+
+.exam-room-page .palette-btn.flagged::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ── Réutilisation du badge « simulation » hors des `.sec-item` ── */
+.exam-room-page .sim-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(245, 124, 0, 0.14);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: var(--r-full);
+  margin-left: 6px;
+}

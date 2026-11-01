@@ -1,0 +1,92 @@
+.hero-workflow-node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-1);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+    .hero-workflow-node:hover {
+      border-color: var(--brand-1);
+      transform: translateY(-2px);
+    }
+    .hero-workflow-arrow {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+    .tab-toggle-btn {
+      padding: 7px 16px;
+      border-radius: var(--r-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-toggle-btn.active {
+      background: var(--grad-brand);
+      color: #fff;
+      border-color: transparent;
+    }
+    .pillar-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 26px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .pillar-card:hover {
+      border-color: rgba(21,101,192,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+    }
+    .workflow-step-pill {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-full);
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .faq-category-btn {
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .faq-category-btn.active {
+      background: var(--brand-1);
+      color: #fff;
+      border-color: var(--brand-1);
+    }
+    .faq-item {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 18px 20px;
+      transition: all 0.2s;
+    }
+    .faq-item:hover {
+      border-color: rgba(21,101,192,0.3);
+    }
