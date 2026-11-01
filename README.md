@@ -78,6 +78,13 @@ Règles importantes :
 
 ---
 
+## Déploiement
+
+Vercel déploie la **racine** du dépôt (`vercel.json` : framework Next.js). Le champ
+`engines.node` de `package.json` force Node 22 et prend le pas sur le réglage
+« Node.js Version » du projet Vercel — sans lui, le build échoue immédiatement.
+Voir `docs/FRONTEND_GUIDE.md` § 11.
+
 ## Version historique
 
 La version statique d'origine (`*.html`, `css/`, `js/`, `supabase/`) est archivée dans
