@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { AppProviders } from "@/components/shared/AppProviders";
+import { LegacyServiceWorkerCleanup } from "@/components/shared/LegacyServiceWorkerCleanup";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
+        <LegacyServiceWorkerCleanup />
         <a className="skip-link" href="#contenu">
           Aller au contenu principal
         </a>

@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { AuthSession, LoginInput, RegisterInput, UserProfile, UserRole } from "@/types";
-import { authService } from "@/services/authService";
+import { authService, startDemoSession } from "@/services/authService";
 
 export type SessionStatus = "loading" | "authenticated" | "anonymous";
 
@@ -24,6 +24,8 @@ interface SessionContextValue {
   logout: () => Promise<void>;
   /** Bascule de rôle : outil de démonstration, jamais une autorisation. */
   switchRole: (role: UserRole) => Promise<void>;
+  /** Reprend une session de démonstration même après une déconnexion explicite. */
+  enterDemo: (role?: UserRole) => Promise<void>;
   refresh: () => Promise<void>;
   setUser: (user: UserProfile) => void;
 }
@@ -93,6 +95,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setStatus("authenticated");
   }, []);
 
+  const enterDemo = useCallback(async (role: UserRole = "learner") => {
+    const next = await startDemoSession(role);
+    setSession(next);
+    setStatus("authenticated");
+  }, []);
+
   const setUser = useCallback((user: UserProfile) => {
     setSession((current) => (current ? { ...current, user } : current));
   }, []);
@@ -107,10 +115,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       register,
       logout,
       switchRole,
+      enterDemo,
       refresh,
       setUser,
     }),
-    [session, status, login, register, logout, switchRole, refresh, setUser],
+    [session, status, login, register, logout, switchRole, enterDemo, refresh, setUser],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

@@ -30,8 +30,12 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
   }, [pathname]);
 
   useEffect(() => {
-    if (status === "anonymous") router.replace("/auth");
-  }, [status, router]);
+    if (status === "anonymous") {
+      // On mémorise la page demandée pour y revenir après connexion.
+      const target = pathname && pathname !== "/" ? `?next=${encodeURIComponent(pathname)}` : "";
+      router.replace(`/auth${target}`);
+    }
+  }, [status, pathname, router]);
 
   const visibleNav = appNav.filter(
     (item) => item.group !== "account" && (role ? item.roles.includes(role) : false),
@@ -51,7 +55,11 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
       <DemoBanner />
 
       {/* ───────────────────── SIDEBAR ───────────────────── */}
-      <aside className={`app-sidebar ${drawerOpen ? "open" : ""}`} id="appSidebar" aria-label="Navigation de l'espace">
+      <aside
+        className={`app-sidebar ${drawerOpen ? "open show" : ""}`}
+        id="appSidebar"
+        aria-label="Navigation de l'espace"
+      >
         <div className="sidebar-header">
           <Link href="/" className="sidebar-brand" aria-label="Campusly — accueil">
             <LogoCap size={24} />
