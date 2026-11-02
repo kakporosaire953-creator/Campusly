@@ -1,0 +1,30 @@
+name: diag-live
+on:
+  push:
+    paths:
+      - ".github/workflows/diag-live.yml"
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer la page d'accueil
+        run: |
+          echo "=== HEAD / ==="
+          curl -sS -o /tmp/home.html -D - -w "\nHTTP %{http_code} taille=%{size_download}\n" https://campusly-one.vercel.app/ | head -40
+          echo "=== balises <link rel=stylesheet> et <script src> ==="
+          grep -oE '<(link[^>]*stylesheet[^>]*|script[^>]*src="[^"]*")[^>]*>' /tmp/home.html | head -40
+          echo "=== en-têtes d'un asset CSS et JS ==="
+          for u in $(grep -oE '/_next/static/(css|chunks)/[A-Za-z0-9(._)/-]+\.(css|js)' /tmp/home.html | sort -u | head -8); do
+            printf '%s -> ' "$u"; curl -sS -o /dev/null -w '%{http_code} %{size_download}o\n' "https://campusly-one.vercel.app$u"
+          done
+      - name: Pages clés
+        run: |
+          for p in /auth /dashboard /dashboard/epreuves /examen/ALGO1 /manifest.webmanifest; do
+            printf '%-28s ' "$p"; curl -sS -o /tmp/p.html -w '%{http_code} %{size_download}o ' "https://campusly-one.vercel.app$p"
+            echo "stylesheets=$(grep -c 'rel="stylesheet"' /tmp/p.html) scripts=$(grep -c '<script' /tmp/p.html)"
+          done
+          echo "=== extrait HTML de /auth ==="
+          curl -sS https://campusly-one.vercel.app/auth | head -c 2500
+          echo
+          echo "=== texte visible de /auth (hors balises) ==="
+          curl -sS https://campusly-one.vercel.app/auth | sed 's/<[^>]*>/ /g' | tr -s ' \n' ' \n' | head -c 1800
