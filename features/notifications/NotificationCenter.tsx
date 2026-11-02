@@ -33,7 +33,7 @@ export function NotificationCenter() {
   const markAll = async () => {
     await notificationService.markAllAsRead();
     if (data) setData({ ...data, items: data.items.map((item) => ({ ...item, read: true })), unread: 0 });
-    toast("Toutes les notifications sont marquées comme lues (démo).", "info");
+    toast("Toutes les notifications sont marquées comme lues.", "info");
   };
 
   const markOne = async (id: string) => {
@@ -135,7 +135,7 @@ export function NotificationCenter() {
       <Card>
         <CardHeader
           title="Canaux de diffusion"
-          subtitle="Les préférences sont enregistrées localement (démonstration)"
+          subtitle="Les préférences sont conservées sur cet appareil"
           icon="fa-solid fa-sliders"
           action={<Button href="/dashboard/parametres" variant="ghost" size="sm">Configurer</Button>}
         />

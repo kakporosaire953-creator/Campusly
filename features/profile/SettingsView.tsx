@@ -34,7 +34,7 @@ export function SettingsView() {
     try {
       const next = await notificationService.updatePreferences({ [key]: !preferences.data[key] });
       preferences.setData(next);
-      toast("Préférence enregistrée localement (démonstration).", "info");
+      toast("Préférence enregistrée sur cet appareil.", "info");
     } finally {
       setSavingKey(null);
     }
@@ -44,7 +44,7 @@ export function SettingsView() {
     <div className="stack" style={{ gap: 20 }}>
       <PageHeader
         title="Paramètres"
-        subtitle="Notifications, accessibilité et réinitialisation de l'environnement de démonstration."
+        subtitle="Notifications, accessibilité et réinitialisation de l'espace local."
       />
 
       <Card>
@@ -123,7 +123,7 @@ export function SettingsView() {
       </Card>
 
       <Card>
-        <CardHeader title="Données de démonstration" subtitle="Stockage local du navigateur (localStorage)" icon="fa-solid fa-database" />
+        <CardHeader title="Données locales" subtitle="Stockage du navigateur (localStorage)" icon="fa-solid fa-database" />
         <p style={{ fontSize: "0.82rem", color: "var(--text-2)", marginBottom: 12 }}>
           Les favoris, quiz, classrooms, compositions et crédits affichés sont conservés uniquement dans ce
           navigateur. Aucune donnée n&apos;est envoyée à un serveur.
@@ -135,7 +135,7 @@ export function SettingsView() {
             icon="fa-solid fa-rotate-left"
             onClick={() => {
               authService.resetDemo();
-              toast("Session de démonstration réinitialisée.", "info");
+              toast("Espace local réinitialisé.", "info");
             }}
           >
             Réinitialiser la session

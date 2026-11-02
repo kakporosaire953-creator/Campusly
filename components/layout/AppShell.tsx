@@ -42,7 +42,7 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
   const visibleAccountNav = appNav.filter(
     (item) => item.group === "account" && (role ? item.roles.includes(role) : false),
   );
-  const fullName = user ? `${user.prenom} ${user.nom}` : "Session de démonstration";
+  const fullName = user ? `${user.prenom} ${user.nom}` : "Session locale";
 
   const handleLogout = async () => {
     await logout();

@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 
 /**
  * Point d'entrée du tableau de bord : affiche l'espace correspondant au rôle
- * de la session de démonstration. Le rôle ne protège aucun accès — il choisit
+ * de la session locale. Le rôle ne protège aucun accès — il choisit
  * simplement la vue présentée.
  */
 export function RoleHome() {

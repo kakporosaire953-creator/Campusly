@@ -6,8 +6,8 @@ import { creditService } from "@/services/creditService";
 
 /**
  * Pastille de crédits de l'en-tête.
- * Affiche un SOLDE DE DÉMONSTRATION : la valeur est locale et précédée de la
- * mention « démo » pour ne jamais laisser croire à un vrai solde.
+ * Le solde n'est pas encore servi par un backend : la pastille rappelle que les
+ * crédits ne sont pas ouverts plutôt que d'afficher un nombre inventé.
  */
 export function CreditsPill() {
   const [balance, setBalance] = useState<number | null>(null);
@@ -31,7 +31,7 @@ export function CreditsPill() {
     <Link
       href="/dashboard/credits"
       className="campusly-credits-pill"
-      title="Solde de démonstration — voir le détail des crédits"
+      title="Crédits Campusly — service pas encore ouvert"
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -45,10 +45,8 @@ export function CreditsPill() {
       }}
     >
       <i className="fa-solid fa-bolt" style={{ color: "var(--accent)" }} aria-hidden="true" />
-      <strong style={{ fontWeight: 800, color: "var(--text-1)" }}>
-        {balance === null ? "—" : balance}
-      </strong>
-      <span style={{ fontSize: "0.72rem", color: "var(--text-2)" }}>crédits (démo)</span>
+      <strong style={{ fontWeight: 800, color: "var(--text-1)" }}>{balance === null ? "—" : balance}</strong>
+      <span style={{ fontSize: "0.72rem", color: "var(--text-2)" }}>crédits</span>
     </Link>
   );
 }

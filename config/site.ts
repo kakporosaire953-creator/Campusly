@@ -12,9 +12,12 @@ export const siteConfig = {
     "Accédez aux anciennes épreuves, révisez avec Campusly AI, créez des évaluations et suivez votre progression.",
   supportEmail: "support@campusly.uac.bj",
   whatsapp: "+229 97 00 00 00",
-  /** Mention affichée partout où des données fictives sont utilisées. */
-  demoNotice:
-    "Environnement de démonstration : toutes les données affichées sont fictives et aucune action n'est enregistrée sur un serveur.",
+  /**
+   * État réel de la plateforme, affiché sur les pages qui doivent l'expliquer
+   * (connexion, à propos). Ce n'est plus un bandeau permanent.
+   */
+  environmentNotice:
+    "Version de préfiguration : la connexion et les données restent sur cet appareil jusqu'à l'ouverture du backend.",
   /** Version du frontend (phase de migration). */
   version: "3.0.0-web",
 } as const;

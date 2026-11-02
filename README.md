@@ -41,19 +41,28 @@ npm run start      # serveur de production
 - Compositions : accès par code, salle d'examen (consignes, chronomètre, palette de
   questions, journal d'intégrité), remise et correction locales.
 - Forum : filtres, création de sujet, réponses, mentions « j'aime » (stockage local).
-- Crédits : solde fictif, historique, packs, abonnement, tunnel de paiement **simulé**.
+- Crédits et abonnement : pages d'attente expliquant l'ouverture prochaine (aucun tarif, aucun paiement).
 - Notifications, profil, paramètres, bascule de rôle, déconnexion.
 
-## Ce qui est simulé (et signalé comme tel)
+## Ce qui n'est pas encore ouvert (et qui est dit tel quel)
 
-| Opération | Comportement réel | Marquage dans l'interface |
+Aucune donnée n'est inventée pour remplir un écran : les services absents sont
+annoncés comme indisponibles et les pages affichent un état vide explicite.
+
+| Opération | Comportement réel | Ce que voit l'utilisateur |
 | --- | --- | --- |
-| Téléchargement d'épreuve | ticket `demo://`, aucun fichier | modale « Téléchargement simulé » |
-| Paiement Mobile Money / carte | intention locale, aucun appel FedaPay | encart « Paiement simulé » |
-| Analyse de document IA | réponse de démonstration | badge « Aucune IA réelle » |
-| Remise de composition | correction locale | bandeau « remise locale » |
-| Modération admin | décision locale | bandeau « accès de démonstration » |
-| Crédits | solde `localStorage` | mention « valeur fictive » |
+| Téléchargement d'épreuve | aucun fichier hébergé | bouton désactivé + statut du document |
+| Bibliothèque d'épreuves | catalogue vide | état vide « La bibliothèque ouvre bientôt » |
+| Paiement Mobile Money / carte | refus `BACKEND_UNAVAILABLE` | encart « paiement pas encore ouvert » |
+| Analyse de document IA | refus `BACKEND_UNAVAILABLE` | carte « disponible prochainement » |
+| Assistant IA | refus `BACKEND_UNAVAILABLE` | page d'indisponibilité, aucune réponse pré-écrite |
+| Crédits / abonnement | solde 0, aucun pack ni formule | pages d'attente sans tarif |
+| Compositions | aucune composition ouverte | codes refusés proprement |
+| Modération admin | file vide | état vide |
+
+Seul avertissement conservé : sur `/auth`, qui explique que la connexion,
+l'inscription et le tableau de bord restent locaux tant que le backend n'existe
+pas.
 
 ---
 
@@ -73,7 +82,7 @@ Règles importantes :
 
 1. **Ne pas redessiner** : le CSS de `styles/legacy/` est la référence visuelle.
 2. Un composant n'importe **jamais** `services/mocks/**` : uniquement un service.
-3. Toute donnée fictive doit rester identifiable (`DemoBadge`, bandeau, mention).
+3. Aucune donnée inventée : un service absent s'annonce indisponible (état vide, message clair).
 4. Aucun secret, aucune dépendance Supabase.
 
 ---

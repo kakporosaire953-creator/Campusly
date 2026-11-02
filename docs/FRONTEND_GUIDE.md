@@ -158,16 +158,16 @@ logo, hiérarchie typographique, ton des textes.
 - Réinitialisation : `/dashboard/parametres` → « Réinitialiser la session », ou
   `localStorage.clear()`.
 
-| Identité de démonstration | Valeurs |
+| Parcours de connexion | Valeurs |
 | --- | --- |
-| Étudiant | Rosaire Kakpo · matricule `23180001` · FAST · 120 crédits fictifs |
-| Enseignant | Dr. Komlan Agboton · vérifié · 500 crédits fictifs |
+| Étudiant | Rosaire Kakpo · matricule `23180001` · FAST · compteurs à zéro |
+| Enseignant | Komlan Agboton · profil local |
 | Admin | Aline Sossou |
-| Code composition | `ALGO1`, `BDDTP2`, `ANALTD` |
-| Codes classroom | `ALGO24`, `ANAL24`, `BDD24X`, `DRPT30` |
+| Codes de composition | aucun : les compositions ne sont pas encore ouvertes |
+| Codes classroom | aucun : les classes sont celles que vous créez |
 
-Toute donnée affichée doit rester identifiable comme fictive (badge, bandeau ou mention
-en pied de carte).
+Aucune donnée d'activité n'est pré-remplie. Une page sans contenu réel affiche un état
+vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 
 ---
 
@@ -347,23 +347,21 @@ qu'après bascule en rôle administration, `/enseignant` en rôle enseignant. Ce
 contrôles sont **de présentation**, jamais une autorisation. La bascule de rôle se
 fait depuis la carte utilisateur de la barre latérale.
 
-### 12.5 Le bandeau ne doit jamais entrer dans `.app-layout`
+### 12.5 Pas de bandeau permanent, et jamais dans `.app-layout`
 
 `.app-layout` (feuille historique `styles/legacy/pages/dashboard.css`) est un
 **flex row**. Tout enfant placé dedans est solidaire de la rangée : barre latérale
 (260 px, `flex-shrink: 0`), contenu (`.app-main`, `min-width: 0`)… et, si on l'y
 met, le bandeau de démonstration.
 
-C'est exactement la régression qui a été livrée : le bandeau en premier enfant
-partageait la largeur avec la sidebar ; sur mobile le contenu tombait à quelques
-pixels et **l'écran n'affichait plus que le bandeau** « Mode démonstration —
-données fictives… ».
+Le bandeau « Mode démonstration » a été **retiré** : l'application ne prétend plus
+afficher des données réelles, elle n'affiche simplement rien qui n'existe pas. Le
+seul avertissement conservé est celui de `/auth`.
 
-L'invariant est donc, dans `components/layout/AppShell.tsx` :
+L'invariant reste la structure de `components/layout/AppShell.tsx` :
 
 ```tsx
-<div className="app-shell">      {/* colonne : bandeau puis rangée */}
-  <DemoBanner />
+<div className="app-shell">
   <div className="app-layout">   {/* flex row historique : sidebar + main */}
     <aside className="app-sidebar">…</aside>
     <main className="app-main">…</main>
@@ -371,6 +369,5 @@ L'invariant est donc, dans `components/layout/AppShell.tsx` :
 </div>
 ```
 
-Le test `tests/auth-flow.test.tsx` (« le bandeau de démonstration est au-dessus du
-layout ») verrouille cet invariant : il échoue si le bandeau redevient un enfant de
-`.app-layout`.
+Le test `tests/auth-flow.test.tsx` verrouille cet invariant : `.app-layout` doit
+contenir exactement deux enfants (sidebar + contenu) et plus aucun bandeau.

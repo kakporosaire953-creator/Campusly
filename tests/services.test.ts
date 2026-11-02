@@ -152,76 +152,57 @@ describe("quizService", () => {
 });
 
 describe("creditService", () => {
-  it("débite un solde fictif et l'inscrit dans l'historique", async () => {
-    const before = await creditService.getBalance();
-    const ok = creditService.spend("quiz_generation", "Quiz de test");
-    expect(ok).toBe(true);
-    const after = await creditService.getBalance();
-    expect(after.balance).toBe(before.balance - 10);
+  it("démarre sans solde et sans mouvement", async () => {
+    const balance = await creditService.getBalance();
+    expect(balance.balance).toBe(0);
+    expect(balance.unlimited).toBe(false);
 
     const history = await creditService.history();
-    expect(history.items[0].label).toBe("Quiz de test");
-    expect(history.items[0].amount).toBe(-10);
+    expect(history.items).toEqual([]);
   });
 
-  it("refuse un débit supérieur au solde disponible", async () => {
-    const balance = await creditService.getBalance();
-    // On vide volontairement le solde de démonstration.
-    for (let i = 0; i < Math.ceil(balance.balance / 10); i += 1) {
-      creditService.spend("quiz_generation", "Vidage");
-    }
-    expect(creditService.spend("ai_analysis", "Analyse impossible")).toBe(false);
-  });
-
-  it("expose les formules d'abonnement annoncées par la landing", async () => {
-    const plans = await creditService.plans();
-    expect(plans.map((plan) => plan.priceXof)).toEqual([500, 1500, 3500]);
+  it("ne propose ni pack ni formule tant que le paiement est fermé", async () => {
+    expect(await creditService.packs()).toEqual([]);
+    expect(await creditService.plans()).toEqual([]);
   });
 });
 
 describe("paymentService", () => {
-  it("crée une intention marquée simulation, sans URL de paiement", async () => {
-    const packs = await creditService.packs();
-    const intent = await paymentService.createIntent({
-      packId: packs[0].id,
+  it("refuse de créer une intention : le paiement n'est pas ouvert", async () => {
+    const refusal = paymentService.createIntent({
+      packId: "pack-revision",
       provider: "mtn_momo",
       phoneNumber: "+22997000000",
-      amountXof: packs[0].priceXof,
+      amountXof: 1000,
     });
 
-    expect(intent.status).toBe("pending");
-    expect(intent.checkoutUrl).toBeUndefined();
-    expect(JSON.stringify(intent)).not.toMatch(/https?:\/\//);
+    await expect(refusal).rejects.toBeInstanceOf(ApiError);
+    await expect(refusal).rejects.toMatchObject({ code: "BACKEND_UNAVAILABLE" });
   });
 
-  it("rejette un numéro Mobile Money invalide", async () => {
-    const packs = await creditService.packs();
+  it("rejette un numéro Mobile Money invalide avant tout traitement", async () => {
     await expect(
-      paymentService.createIntent({ packId: packs[0].id, provider: "mtn_momo", phoneNumber: "12", amountXof: 500 }),
-    ).rejects.toBeInstanceOf(ApiError);
+      paymentService.createIntent({ packId: "pack-revision", provider: "mtn_momo", phoneNumber: "12", amountXof: 500 }),
+    ).rejects.toMatchObject({ code: "VALIDATION" });
+  });
+
+  it("ne retourne aucun reçu", async () => {
+    const receipts = await paymentService.receipts();
+    expect(receipts.items).toEqual([]);
+    expect(receipts.total).toBe(0);
   });
 });
 
 describe("compositionService", () => {
-  it("trouve une composition par son code (insensible à la casse)", async () => {
-    const composition = await compositionService.findByCode(" algo1 ");
-    expect(composition.code).toBe("ALGO1");
+  it("n'ouvre aucune composition : la saisie du code est refusée", async () => {
+    await expect(compositionService.findByCode("ALGO1")).rejects.toMatchObject({ code: "NOT_FOUND" });
   });
 
   it("refuse un code inconnu", async () => {
     await expect(compositionService.findByCode("XXXXXX")).rejects.toBeInstanceOf(ApiError);
   });
 
-  it("remet une copie locale non validée officiellement", async () => {
-    const composition = await compositionService.findByCode("ALGO1");
-    const copy = await compositionService.submit({
-      compositionId: composition.id,
-      answers: [],
-      proctorEvents: [],
-      durationSeconds: 120,
-    });
-    expect(copy.validation).toBe("pending_review");
-    expect(copy.scoreOn20).toBeGreaterThanOrEqual(0);
-    expect(copy.scoreOn20).toBeLessThanOrEqual(20);
+  it("ne renvoie aucune copie", async () => {
+    expect(await compositionService.copies()).toEqual([]);
   });
 });

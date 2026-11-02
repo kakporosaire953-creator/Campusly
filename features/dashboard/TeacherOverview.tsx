@@ -10,7 +10,11 @@ import { Badge } from "@/components/ui/Badge";
 import { ErrorState, LoadingGrid, EmptyState } from "@/components/ui/States";
 import { formatRelativeFr } from "@/services/mocks/store";
 
-/** Centre de pilotage enseignant — données de démonstration. */
+/**
+ * Centre de pilotage enseignant.
+ * Les compteurs proviennent des classes réellement créées dans l'espace :
+ * aucun chiffre n'est inventé quand il n'y a encore rien à suivre.
+ */
 export function TeacherOverview() {
   const { data, status, error, reload } = useAsync(() => userService.getTeacherDashboard(), []);
 
@@ -27,11 +31,13 @@ export function TeacherOverview() {
     return <ErrorState message={error ?? "Espace enseignant indisponible."} onRetry={reload} />;
   }
 
+  const hasClasses = data.totals.activeClassrooms > 0 || data.totals.students > 0;
+
   return (
     <div className="stack" style={{ gap: 24 }}>
       <PageHeader
         title={`Bonjour ${data.user.prenom}`}
-        subtitle="Centre de pilotage pédagogique UAC — valeurs de démonstration."
+        subtitle="Vos classes, vos évaluations et les copies à valider."
         actions={
           <>
             <Badge tone="accent" icon="fa-solid fa-person-chalkboard">
@@ -44,17 +50,43 @@ export function TeacherOverview() {
         }
       />
 
-      <div className="stats-grid" style={{ marginBottom: 0 }}>
-        <StatCard label="Apprenants suivis" value={data.totals.students} icon="fa-solid fa-users" tone="blue" />
-        <StatCard label="Classrooms actives" value={data.totals.activeClassrooms} icon="fa-solid fa-chalkboard-user" tone="green" />
-        <StatCard label="Compositions ouvertes" value={data.totals.compositionsLive} icon="fa-solid fa-stopwatch" tone="orange" />
-        <StatCard label="Copies à valider" value={data.totals.pendingReviews} icon="fa-solid fa-file-circle-check" tone="purple" />
-      </div>
+      {hasClasses ? (
+        <div className="stats-grid" style={{ marginBottom: 0 }}>
+          <StatCard label="Apprenants suivis" value={data.totals.students} icon="fa-solid fa-users" tone="blue" />
+          <StatCard label="Classrooms actives" value={data.totals.activeClassrooms} icon="fa-solid fa-chalkboard-user" tone="green" />
+          <StatCard label="Compositions ouvertes" value={data.totals.compositionsLive} icon="fa-solid fa-stopwatch" tone="orange" />
+          <StatCard label="Copies à valider" value={data.totals.pendingReviews} icon="fa-solid fa-file-circle-check" tone="purple" />
+        </div>
+      ) : (
+        <Card>
+          <CardHeader
+            title="Aucune classe pour l'instant"
+            subtitle="Créez un amphi pour rassembler vos étudiants et suivre leurs rendus."
+            icon="fa-solid fa-chalkboard"
+          />
+          <ul className="dashboard-onboarding">
+            <li>
+              <span aria-hidden="true">01</span> Créez la classe et choisissez la matière enseignée.
+            </li>
+            <li>
+              <span aria-hidden="true">02</span> Transmettez le code de l&apos;amphi à vos étudiants.
+            </li>
+            <li>
+              <span aria-hidden="true">03</span> Déposez un support ou programmez une évaluation.
+            </li>
+          </ul>
+          <div className="row" style={{ gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+            <Link href="/dashboard/classrooms" className="btn btn-primary btn-sm">
+              Créer un amphi
+            </Link>
+          </div>
+        </Card>
+      )}
 
       <div className="grid-2">
         <div className="stack" style={{ gap: 20 }}>
           <Card>
-            <CardHeader title="Alertes pédagogiques" subtitle="Suivi automatique simulé" icon="fa-solid fa-triangle-exclamation" />
+            <CardHeader title="Alertes pédagogiques" subtitle="Signalements issus de vos classes" icon="fa-solid fa-triangle-exclamation" />
             {data.alerts.length === 0 ? (
               <EmptyState title="Aucune alerte" description="Vos classes ne présentent pas de signalement." />
             ) : (

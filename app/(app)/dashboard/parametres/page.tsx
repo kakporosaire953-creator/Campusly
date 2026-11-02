@@ -3,7 +3,7 @@ import { SettingsView } from "@/features/profile/SettingsView";
 
 export const metadata: Metadata = {
   title: "Paramètres",
-  description: "Notifications, accessibilité et données de démonstration Campusly.",
+  description: "Notifications, accessibilité et données locales Campusly.",
 };
 
 export default function SettingsPage() {

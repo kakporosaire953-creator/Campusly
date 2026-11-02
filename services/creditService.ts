@@ -1,8 +1,9 @@
 /**
- * creditService — SIMULATION frontend
+ * creditService — socle frontend
  * ---------------------------------------------------------------------------
- * Le solde affiché est un solde de DÉMONSTRATION, stocké dans le navigateur.
- * Il ne correspond à aucun achat réel. En production :
+ * Le solde local démarre à zéro : aucun crédit n'est offert ni acheté tant que
+ * le paiement n'est pas ouvert. Aucun pack ni abonnement n'est proposé à la
+ * vente. En production :
  *   - le solde provient de la table `credit_ledger` (D1, append-only),
  *   - toute écriture est déclenchée par un Worker après vérification,
  *   - aucun crédit ne peut être ajouté depuis le client.
@@ -42,7 +43,7 @@ class CreditService implements CreditServiceContract {
       .reduce((sum, entry) => sum + Math.abs(entry.amount), 0);
 
     return {
-      balance: balance ?? 120,
+      balance: balance ?? 0,
       spentThisMonth,
       unlimited: false,
       renewsAt: undefined,
@@ -57,12 +58,13 @@ class CreditService implements CreditServiceContract {
 
   async packs(): Promise<CreditPack[]> {
     await demoDelay(50);
+    // Aucun pack n'est commercialisé : le paiement n'est pas ouvert.
     return DEMO_CREDIT_PACKS;
   }
 
   async plans(): Promise<SubscriptionPlan[]> {
     await demoDelay(50);
-    // Copie typée : les fixtures sont `as const`, le contrat expose `string[]`.
+    // Aucune formule n'est souscrite pour l'instant ; la vente arrive avec le backend.
     return DEMO_SUBSCRIPTION_PLANS.map((plan) => ({
       id: plan.id,
       label: plan.label,
@@ -79,52 +81,9 @@ class CreditService implements CreditServiceContract {
     return { cost: unit * quantity };
   }
 
-  /**
-   * Débit local de démonstration (analyse IA, génération de quiz…).
-   * Renvoie `false` si le solde fictif est insuffisant.
-   */
-  spend(action: Extract<CreditReason, "ai_analysis" | "quiz_generation" | "exam_download">, label: string): boolean {
-    const cost = DEMO_CREDIT_COSTS[action] ?? 0;
-    const current = demoStore.read<number | null>(BALANCE_KEY, null) ?? 120;
-    if (current < cost) return false;
-    const next = current - cost;
-    demoStore.write(BALANCE_KEY, next);
-    this.pushLedger({
-      id: uid("trx"),
-      amount: -cost,
-      reason: action,
-      label,
-      occurredAt: nowIso(),
-      balanceAfter: next,
-    });
-    return true;
-  }
-
-  /**
-   * Crédit local de démonstration — utilisé uniquement après confirmation
-   * explicite « simulation » dans l'interface. Ne représente aucun paiement.
-   */
-  addDemoCredits(amount: number, label: string): void {
-    const current = demoStore.read<number | null>(BALANCE_KEY, null) ?? 120;
-    const next = current + amount;
-    demoStore.write(BALANCE_KEY, next);
-    this.pushLedger({
-      id: uid("trx"),
-      amount,
-      reason: "topup",
-      label,
-      occurredAt: nowIso(),
-      balanceAfter: next,
-    });
-  }
-
-  /** Remet le solde de démonstration à sa valeur initiale. */
-  reset(): void {
-    demoStore.remove(BALANCE_KEY);
-    demoStore.remove(LEDGER_KEY);
-  }
-
   private ledger(): CreditTransaction[] {
+    // Aucun crédit n'étant vendu ni débité, le grand livre reste vide tant que
+    // le backend ne l'alimente pas.
     return demoStore.read<CreditTransaction[]>(LEDGER_KEY, DEMO_CREDIT_TRANSACTIONS);
   }
 

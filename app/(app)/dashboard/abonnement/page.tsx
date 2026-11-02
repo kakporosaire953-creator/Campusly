@@ -3,7 +3,7 @@ import { SubscriptionView } from "@/features/credits/SubscriptionView";
 
 export const metadata: Metadata = {
   title: "Abonnement",
-  description: "Formules d'abonnement Campusly et parcours de souscription simulé.",
+  description: "État de l'abonnement Campusly — service pas encore ouvert.",
 };
 
 export default function SubscriptionPage() {

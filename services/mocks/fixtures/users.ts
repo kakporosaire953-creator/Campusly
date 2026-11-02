@@ -1,8 +1,10 @@
 /**
- * DONNÉES DE DÉMONSTRATION — utilisateurs
+ * Profils des trois espaces de démonstration
  * ---------------------------------------------------------------------------
- * Ces comptes n'existent nulle part ailleurs que dans le navigateur.
- * Aucun mot de passe n'est vérifié : l'authentification est simulée.
+ * Ces profils servent uniquement à parcourir les trois interfaces (étudiant,
+ * enseignant, administration) tant qu'il n'y a pas de backend. Ils ne portent
+ * AUCUNE donnée d'activité : ni XP, ni série, ni crédits, ni résultat. Les
+ * compteurs sont à zéro et les pages affichent un état vide explicite.
  */
 
 import type { AcademicLevel, FacultyCode, TeacherStatus, UserProfile, UserRole } from "@/types";
@@ -65,9 +67,9 @@ const SEEDS: DemoUserSeed[] = [
     matricule: "23180001",
     faculty: "FAST",
     department: "Informatique",
-    xp: 350,
-    streakDays: 7,
-    credits: 120,
+    xp: 0,
+    streakDays: 0,
+    credits: 0,
     joinedAt: "2025-10-14T09:12:00.000Z",
   },
   {
@@ -80,9 +82,9 @@ const SEEDS: DemoUserSeed[] = [
     faculty: "FAST",
     department: "Informatique",
     title: "Enseignant Chercheur",
-    xp: 1200,
-    streakDays: 12,
-    credits: 500,
+    xp: 0,
+    streakDays: 0,
+    credits: 0,
     joinedAt: "2024-09-02T08:00:00.000Z",
     subjects: ["Algorithmique", "Structures de Données"],
   },
@@ -126,15 +128,8 @@ export const DEMO_LEARNER = DEMO_USERS[0];
 export const DEMO_TEACHER = DEMO_USERS[1];
 export const DEMO_ADMIN = DEMO_USERS[2];
 
-export const DEMO_WEAK_TOPICS = [
-  { subject: "Analyse réelle", mastery: 52, priority: "Haute" as const },
-  { subject: "Probabilités", mastery: 43, priority: "Haute" as const },
-  { subject: "Algorithmique", mastery: 61, priority: "Moyenne" as const },
-];
+export const DEMO_WEAK_TOPICS: Array<{ subject: string; mastery: number; priority: "Haute" | "Moyenne" }> = [];
 
-export const DEMO_STRONG_TOPICS = [
-  { subject: "Bases de données SQL", mastery: 93 },
-  { subject: "Algèbre linéaire", mastery: 88 },
-];
+export const DEMO_STRONG_TOPICS: Array<{ subject: string; mastery: number }> = [];
 
-export const DEMO_WEEKLY_GOAL = { target: 4, current: 3, period: "Semaine en cours" };
+export const DEMO_WEEKLY_GOAL = { target: 0, current: 0, period: "Aucune révision enregistrée" };

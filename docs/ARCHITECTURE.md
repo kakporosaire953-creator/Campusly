@@ -169,14 +169,17 @@ exportés par `types/` sont la référence partagée frontend ↔ backend.
 
 Trois catégories de données sont distinguées dans l'interface :
 
-| Catégorie | Origine | Marquage visuel |
+| Catégorie | Origine | Traitement |
 | --- | --- | --- |
-| Données fictives | `services/mocks/fixtures/*` | `DemoBadge`, `.demo-chip`, bandeau `DemoBanner` |
-| Saisies locales | `localStorage` (`campusly.web.demo.v1.*`) | mentions « enregistré localement » |
+| Catalogue vide (épreuves, compositions, forum) | constantes vides | état vide explicite, jamais de faux contenu |
+| Saisies locales | `localStorage` (`campusly.web.demo.v1.*`) | mentions « sur cet appareil » |
+| Services absents (paiement, IA, téléchargement) | refus `BACKEND_UNAVAILABLE` | encart « pas encore ouvert » |
 | Données réelles (phase future) | API Worker | aucune mention de démonstration |
 
-Toute opération qui ne persiste pas côté serveur est décrite comme une **simulation**
-(téléchargement, paiement, remise de copie, analyse IA, modération).
+Aucune opération n'est simulée pour de faux : une capacité manquante est refusée
+explicitement (`ApiError` `BACKEND_UNAVAILABLE`) et l'interface l'annonce. Seul
+l'avertissement de `/auth` rappelle que la connexion et le tableau de bord restent
+locaux.
 
 ---
 

@@ -83,7 +83,7 @@ describe("QuizRunner", () => {
     }
 
     expect(await screen.findByText("Résultat du quiz", undefined, { timeout: 4000 })).toBeInTheDocument();
-    expect(screen.getByText(/correction locale de démonstration/i)).toBeInTheDocument();
+    expect(screen.getByText(/correction locale, non officielle/i)).toBeInTheDocument();
     expect(screen.getByText("Score global")).toBeInTheDocument();
     // La note n'est jamais présentée comme officielle.
     expect(screen.queryByText(/note officielle/i)).not.toBeInTheDocument();

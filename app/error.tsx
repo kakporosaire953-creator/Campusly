@@ -15,7 +15,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
           <i className="fa-solid fa-plug-circle-xmark" />
         </div>
         <h3>La page n&apos;a pas pu se charger</h3>
-        <p>Réessayez : l&apos;environnement de démonstration n&apos;utilise aucun serveur métier.</p>
+        <p>Réessayez : cette version n&apos;utilise aucun serveur métier.</p>
         <button type="button" className="btn btn-primary" onClick={reset}>
           <i className="fa-solid fa-rotate-right" aria-hidden="true" /> Réessayer
         </button>

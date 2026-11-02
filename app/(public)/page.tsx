@@ -227,6 +227,11 @@ export default function HomePage() {
               ))}
             </ol>
 
+            <p className="ai-status">
+              Ouverture progressive : l&apos;analyse de document n&apos;est pas encore disponible. En attendant,
+              la banque d&apos;exercices permet déjà de s&apos;entraîner, avec une correction locale non officielle.
+            </p>
+
             <p className="ai-assurance">
               <strong>Vos documents restent privés.</strong> Ils ne sont ni publiés ni partagés sans
               votre accord, et ne servent qu&apos;à produire vos entraînements.
@@ -399,8 +404,8 @@ export default function HomePage() {
       <section className="cta-section">
         <h2 className="cta-title">Commencez par vos propres cours.</h2>
         <p className="cta-desc">
-          Créez votre compte, importez un support et lancez un premier entraînement. Le reste de
-          l&apos;espace s&apos;ouvre au fur et à mesure.
+          Créez votre compte et commencez par les exercices d&apos;entraînement ou la bibliothèque
+          d&apos;épreuves. Les autres services ouvriront au fur et à mesure.
         </p>
         <div className="cta-actions" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/auth?tab=register" className="btn btn-primary btn-lg">

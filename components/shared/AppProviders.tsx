@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import { SessionProvider } from "@/features/auth/SessionProvider";
 
-/** Providers globaux du frontend Campusly (session simulée + toasts). */
+/** Providers globaux du frontend Campusly (session locale + toasts). */
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <SessionProvider>

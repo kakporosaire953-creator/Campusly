@@ -20,7 +20,7 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
       </div>
       <h3>Une erreur est survenue</h3>
       <p>
-        Cette section n&apos;a pas pu s&apos;afficher. Vos données de démonstration sont conservées dans votre
+        Cette section n&apos;a pas pu s&apos;afficher. Vos données locales sont conservées dans votre
         navigateur.
       </p>
       <div className="row" style={{ justifyContent: "center" }}>

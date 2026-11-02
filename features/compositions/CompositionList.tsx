@@ -66,7 +66,7 @@ export function CompositionList() {
             </Badge>
           ) : (
             <Badge tone="accent" icon="fa-solid fa-stopwatch">
-              Surveillance simulée
+              Surveillance
             </Badge>
           )
         }
@@ -86,7 +86,7 @@ export function CompositionList() {
               placeholder="Ex : ALGO1"
               maxLength={6}
               error={codeError}
-              hint="Codes de démonstration : ALGO1 (algorithmique), BDDTP2 (bases de données), ANALTD (analyse)"
+              hint="Utilisez le code transmis par votre enseignant"
             />
             <div style={{ paddingTop: 27 }}>
               <Button
@@ -143,7 +143,7 @@ export function CompositionList() {
             description={
               tab === "upcoming"
                 ? "Les compositions créées par vos enseignants apparaîtront ici dès leur programmation."
-                : "Vos compositions corrigées et vos notes de démonstration s'afficheront ici."
+                : "Vos compositions corrigées et vos notes s'afficheront ici."
             }
           />
         ) : (
@@ -159,7 +159,7 @@ export function CompositionList() {
         <Card>
           <CardHeader
             title="Copies rendues"
-            subtitle="Correction automatique simulée, validation enseignant requise en production"
+            subtitle="Correction automatique, validation par l'enseignant avant publication"
             icon="fa-solid fa-file-signature"
             action={<Badge tone="neutral">{copies.data?.length ?? 0} copies</Badge>}
           />
@@ -250,7 +250,7 @@ function CompositionRow({ composition, isTeacher }: { composition: Composition; 
       </div>
       {composition.status === "scheduled" ? (
         <p style={{ fontSize: "0.74rem", color: "var(--text-2)", marginTop: 10, marginBottom: 0 }}>
-          Ouverture dans {formatRelativeFr(composition.opensAt)} (horloge simulée).
+          Ouverture dans {formatRelativeFr(composition.opensAt)}.
         </p>
       ) : null}
     </Card>

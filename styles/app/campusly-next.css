@@ -606,3 +606,116 @@
 .contribution-notice strong {
   color: var(--text-1);
 }
+
+/* Liste d'amorçage du tableau de bord (aucune donnée encore enregistrée) */
+.dashboard-onboarding {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-onboarding li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.dashboard-onboarding li span {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--brand-1);
+  flex-shrink: 0;
+}
+
+/* Parcours guidé de révision */
+.learning-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.learning-step {
+  flex: 1 1 110px;
+  padding: 8px 10px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-3);
+}
+
+.learning-step.done {
+  color: var(--text-1);
+}
+
+.learning-step.done i {
+  color: var(--success);
+  margin-right: 2px;
+}
+
+.learning-step.current {
+  color: var(--text-1);
+  border-color: var(--brand-1);
+  background: rgba(21, 101, 192, 0.08);
+}
+
+.revision-step-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-1);
+  margin: 0 0 12px;
+}
+
+.revision-step-text {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin: 0 0 16px;
+}
+
+/* Encart « service indisponible » (crédits, paiement, analyse IA) */
+.availability-note {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  padding: 16px 18px;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.availability-note p {
+  margin: 0 0 10px;
+}
+
+.availability-note ul {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Statut d'ouverture affiché dans la section IA de la landing */
+.ai-status {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
