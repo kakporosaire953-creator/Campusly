@@ -1050,3 +1050,401 @@
     opacity: 1 !important;
   }
 }
+
+/* ============================================================
+   CENTRAGE ÉDITORIAL + DOSAGE DE LA SECONDE COULEUR
+   ------------------------------------------------------------
+   Demande : tous les textes de la landing centrés, et la seconde
+   couleur du site utilisée à 40 % — c'est-à-dire un équilibre
+   bleu 60 / orange 40, avec des aplats orange à 40 % d'opacité.
+   Aucune couleur nouvelle : #F57C00 et #1565C0 restent la base.
+   ============================================================ */
+
+:root {
+  /* Aplats de la seconde couleur à 40 % d'opacité. */
+  --accent-40: rgba(245, 124, 0, 0.4);
+  --accent-20: rgba(245, 124, 0, 0.2);
+  --accent-12: rgba(245, 124, 0, 0.12);
+  --accent-06: rgba(245, 124, 0, 0.06);
+  /* Orange assombri pour le petit texte : même teinte, contraste AA. */
+  --accent-ink: #a85000;
+  --brand-40: rgba(21, 101, 192, 0.4);
+  --brand-16: rgba(21, 101, 192, 0.16);
+}
+
+/* ── 1. Centrage des textes ───────────────────────────────── */
+
+.hero-text {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.hero-title,
+.hero-sub {
+  margin-inline: auto;
+}
+
+.hero-actions,
+.hero-note {
+  justify-content: center;
+}
+
+.landing-section,
+.cta-section {
+  text-align: center;
+}
+
+.landing-head {
+  margin-inline: auto;
+}
+
+.landing-section .section-title,
+.landing-section .section-desc,
+.cta-title,
+.cta-desc {
+  text-align: center;
+  margin-inline: auto;
+}
+
+/* Les blocs historiquement alignés à gauche suivent le centrage. */
+.ai-grid > div:first-child,
+.teachers-grid > div:first-child,
+.institutions > div {
+  text-align: center;
+}
+
+.institutions {
+  text-align: center;
+}
+
+.institutions p,
+.credits-band p,
+.progression-note {
+  margin-inline: auto;
+}
+
+/* Listes éditoriales : le numéro passe au-dessus du texte, tout est centré. */
+.pillar-row,
+.ai-step,
+.compo-item,
+.teachers-list li,
+.stage-row {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.pillar-row-index,
+.ai-step-num,
+.compo-index,
+.progression-index,
+.teachers-list li span {
+  padding-top: 0;
+}
+
+.pillar-feature {
+  align-items: center;
+  text-align: center;
+}
+
+.pillar-feature .btn {
+  align-self: center;
+}
+
+.pillar-feature-list {
+  align-items: center;
+}
+
+.pillar-feature-list li {
+  justify-content: center;
+  text-align: center;
+}
+
+.progression-step,
+.credits-band,
+.stage-panel,
+.compo-actions {
+  text-align: center;
+}
+
+.progression-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progression-note,
+.compo-actions {
+  margin-inline: auto;
+}
+
+.stage-panel {
+  align-items: center;
+}
+
+.stage-panel-label {
+  text-align: center;
+  width: 100%;
+}
+
+.stage-dot {
+  margin-top: 0;
+}
+
+.faculty-list {
+  justify-content: center;
+}
+
+/* FAQ : en-tête et filtres centrés, réponses en lecture gauche-droite. */
+.faq-category-btn {
+  margin-inline: auto;
+}
+
+#faq .faq-item summary {
+  text-align: center;
+}
+
+#faq .faq-item p {
+  text-align: left;
+  margin-inline: auto;
+  max-width: 68ch;
+}
+
+#faq .faq-item summary::marker {
+  content: "";
+}
+
+/* ── 2. Dosage de la seconde couleur (orange) ─────────────── */
+
+/* Les étiquettes de section passent à l'orange 40 %. */
+.landing-section .section-tag,
+#faq .section-tag {
+  color: var(--accent-ink);
+  background: var(--accent-12);
+  border-color: var(--accent-40);
+}
+
+/* Surtitre du hero : trait déjà orange, on renforce le contraste du texte. */
+.hero-eyebrow::before {
+  background: var(--accent);
+}
+
+/* Repères éditoriaux : une part en bleu, une part en orange. */
+.pillar-row:nth-child(odd) .pillar-row-index,
+.ai-step:nth-child(2) .ai-step-num,
+.ai-step:nth-child(4) .ai-step-num,
+.compo-item:nth-child(even) .compo-index,
+.progression-step:nth-child(2) .progression-index,
+.progression-step:nth-child(3) .progression-index,
+.teachers-list li:nth-child(even) span {
+  color: var(--accent-ink);
+}
+
+.pillar-row:nth-child(even) .pillar-row-index,
+.ai-step:nth-child(1) .ai-step-num,
+.ai-step:nth-child(3) .ai-step-num,
+.compo-item:nth-child(odd) .compo-index,
+.progression-step:nth-child(1) .progression-index,
+.teachers-list li:nth-child(odd) span {
+  color: var(--brand-1);
+}
+
+/* Traits de section : alternance 60/40. */
+.pillar-row,
+.ai-step,
+.compo-item,
+.teachers-list li,
+.stage-row {
+  border-top-color: var(--brand-16);
+}
+
+.pillar-row:nth-child(even),
+.ai-step:nth-child(even),
+.compo-item:nth-child(even),
+.teachers-list li:nth-child(even) {
+  border-top-color: var(--accent-40);
+}
+
+/* Progression : deux traits sur trois en orange 40 %. */
+.progression-step {
+  border-top-color: var(--brand-40);
+}
+
+.progression-step:nth-child(2),
+.progression-step:nth-child(3) {
+  border-top-color: var(--accent-40);
+}
+
+/* Points de la trame « classe » : bleu, orange, orange 40 %. */
+.stage-dot {
+  background: var(--brand-1);
+}
+
+.stage-row:nth-of-type(2) .stage-dot {
+  background: var(--accent);
+}
+
+.stage-row:nth-of-type(3) .stage-dot {
+  background: var(--accent-40);
+}
+
+/* Puces de la vedette : moitié bleu, moitié orange. */
+.pillar-feature-list li::before {
+  background: var(--brand-1);
+}
+
+.pillar-feature-list li:nth-child(even)::before {
+  background: var(--accent);
+}
+
+/* Carte vedette : liseré orange 40 % en haut. */
+.pillar-feature {
+  border-top: 3px solid var(--accent-40);
+}
+
+/* Schéma du parcours : traits et puces orange 40 %. */
+.study-flow-link svg {
+  stroke: var(--accent-40);
+}
+
+.study-sheet-line {
+  background: var(--brand-16);
+}
+
+.study-sheet-line.is-short {
+  background: var(--accent-20);
+}
+
+.study-chips li {
+  border-color: var(--brand-16);
+}
+
+.study-chips li:nth-child(even) {
+  border-color: var(--accent-40);
+  background: var(--accent-06);
+}
+
+/* Encarts d'information : filet orange 40 %. */
+.ai-assurance,
+.ai-status {
+  border-left-color: var(--accent-40);
+  background: var(--accent-06);
+}
+
+/* Bandeau crédits : bordure et fond dans la seconde couleur. */
+.credits-band {
+  flex-direction: column;
+  align-items: center;
+  border-color: var(--accent-40);
+  background: var(--accent-06);
+}
+
+.credits-band .btn {
+  align-self: center;
+}
+
+/* Boutons secondaires de la landing : contour orange. */
+.hero-actions .btn-outline,
+.cta-actions .btn-outline,
+.credits-band .btn-outline {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.hero-actions .btn-outline:hover,
+.cta-actions .btn-outline:hover,
+.credits-band .btn-outline:hover {
+  background: var(--accent-12);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Halo orange 40 % derrière la composition du hero. */
+.hero-visual {
+  position: relative;
+}
+
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: -14% -10% -12% -8%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--accent-20), transparent 72%);
+  pointer-events: none;
+}
+
+.hero-visual > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Chips des facultés : une sur deux dans la seconde couleur. */
+.faculty-list li {
+  border-color: var(--brand-16);
+}
+
+.faculty-list li:nth-child(even) {
+  border-color: var(--accent-40);
+  background: var(--accent-06);
+}
+
+/* Liens éditoriaux des piliers : orange pour la moitié des entrées. */
+.pillar-row:nth-child(even) .pillar-row-link {
+  color: var(--accent-ink);
+}
+
+@media (max-width: 768px) {
+  .landing-section,
+  .cta-section,
+  .hero-text {
+    text-align: center;
+  }
+
+  .hero-visual::before {
+    inset: -8% -4%;
+  }
+}
+
+/* ── 3. Répartition 60 / 40 dans les titres ───────────────── */
+
+/* La ligne accentuée du hero passe à la seconde couleur : le bleu reste
+   porté par le bouton principal et les liens. */
+.hero-line-accent,
+.hero-title .hero-line-accent > span {
+  color: var(--accent);
+  -webkit-text-fill-color: currentColor;
+  background: none;
+}
+
+/* Les mots mis en avant alternent : bleu là où le titre reste bleu,
+   orange dans les sections où la seconde couleur doit apparaître. */
+#campusly-ai .section-title span,
+#progression .section-title span,
+#compositions .section-title span {
+  background: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#piliers .section-title span,
+#faq .section-title span,
+.cta-title span {
+  background: var(--brand-1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Filet orange 40 % au-dessus du CTA final. */
+.cta-section::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin: 0 auto 26px;
+  border-radius: 3px;
+  background: var(--accent-40);
+}

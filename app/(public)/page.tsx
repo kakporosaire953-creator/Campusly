@@ -205,10 +205,10 @@ export default function HomePage() {
         <div className="ai-grid">
           <div data-reveal>
             <span className="section-tag">Moteur pédagogique</span>
-            <h2 className="section-title" style={{ textAlign: "left", marginTop: 12 }}>
+            <h2 className="section-title" style={{ marginTop: 12 }}>
               Vos cours deviennent <span>des questions.</span>
             </h2>
-            <p className="section-desc" style={{ margin: "0 0 4px", textAlign: "left" }}>
+            <p className="section-desc" style={{ margin: "0 auto 4px" }}>
               Un support de cours entre, des exercices sortent. Rien d&apos;automatique dans ce que
               vous révisez : vous validez chaque question.
             </p>
@@ -282,10 +282,10 @@ export default function HomePage() {
         <div className="teachers-grid">
           <div data-reveal>
             <span className="section-tag">Espace enseignants</span>
-            <h2 className="section-title" style={{ textAlign: "left", marginTop: 12 }}>
+            <h2 className="section-title" style={{ marginTop: 12 }}>
               Un centre de pilotage <span>pour vos amphis.</span>
             </h2>
-            <p className="section-desc" style={{ margin: "0 0 4px", textAlign: "left" }}>
+            <p className="section-desc" style={{ margin: "0 auto 4px" }}>
               Créez votre classe, déposez vos supports, suivez les rendus. Campusly ne remplace pas
               votre pédagogie : il vous évite la dispersion entre messagerie, fichiers et tableurs.
             </p>
