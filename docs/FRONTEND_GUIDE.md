@@ -346,3 +346,31 @@ Chaque page de l'espace est filtrée par rôle : `/admin` n'apparaît dans le me
 qu'après bascule en rôle administration, `/enseignant` en rôle enseignant. Ces
 contrôles sont **de présentation**, jamais une autorisation. La bascule de rôle se
 fait depuis la carte utilisateur de la barre latérale.
+
+### 12.5 Le bandeau ne doit jamais entrer dans `.app-layout`
+
+`.app-layout` (feuille historique `styles/legacy/pages/dashboard.css`) est un
+**flex row**. Tout enfant placé dedans est solidaire de la rangée : barre latérale
+(260 px, `flex-shrink: 0`), contenu (`.app-main`, `min-width: 0`)… et, si on l'y
+met, le bandeau de démonstration.
+
+C'est exactement la régression qui a été livrée : le bandeau en premier enfant
+partageait la largeur avec la sidebar ; sur mobile le contenu tombait à quelques
+pixels et **l'écran n'affichait plus que le bandeau** « Mode démonstration —
+données fictives… ».
+
+L'invariant est donc, dans `components/layout/AppShell.tsx` :
+
+```tsx
+<div className="app-shell">      {/* colonne : bandeau puis rangée */}
+  <DemoBanner />
+  <div className="app-layout">   {/* flex row historique : sidebar + main */}
+    <aside className="app-sidebar">…</aside>
+    <main className="app-main">…</main>
+  </div>
+</div>
+```
+
+Le test `tests/auth-flow.test.tsx` (« le bandeau de démonstration est au-dessus du
+layout ») verrouille cet invariant : il échoue si le bandeau redevient un enfant de
+`.app-layout`.
