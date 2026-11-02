@@ -75,7 +75,6 @@ export function ClassroomList() {
       <PageHeader
         title="Classrooms Amphi"
         subtitle="Rejoignez un amphi avec le code de votre enseignant ou créez votre propre classe."
-        demo
         actions={
           <>
             <Button variant="outline" size="sm" icon="fa-solid fa-right-to-bracket" onClick={() => setJoinOpen(true)}>

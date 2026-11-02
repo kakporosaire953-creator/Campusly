@@ -9,7 +9,7 @@ import { ApiError } from "@/services/api/client";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Avatar } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
-import { Badge, RoleBadge, DemoBadge } from "@/components/ui/Badge";
+import { Badge, RoleBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/Field";
 import { ProgressBar } from "@/components/ui/Progress";
@@ -77,7 +77,6 @@ export function ProfileView() {
       <PageHeader
         title="Mon profil"
         subtitle="Informations académiques et préférences de compte."
-        demo
         actions={<RoleBadge role={user.role} />}
       />
 
@@ -158,7 +157,7 @@ export function ProfileView() {
 
         <div className="stack" style={{ gap: 16 }}>
           <Card>
-            <CardHeader title="Progression" subtitle="Niveau académique simulé" icon="fa-solid fa-chart-line" action={<DemoBadge />} />
+            <CardHeader title="Progression" subtitle="Niveau académique simulé" icon="fa-solid fa-chart-line" />
             <div className="row-between" style={{ marginBottom: 8 }}>
               <strong style={{ fontSize: "0.9rem", color: "var(--text-1)" }}>{user.level.name}</strong>
               <span style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>{user.level.xp} XP</span>

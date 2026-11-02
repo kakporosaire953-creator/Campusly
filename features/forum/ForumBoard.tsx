@@ -117,7 +117,6 @@ export function ForumBoard() {
       <PageHeader
         title="Forum & entraide"
         subtitle="Posez vos questions, partagez vos fiches et aidez les autres étudiants de l'UAC."
-        demo
         actions={
           <Button size="sm" icon="fa-solid fa-plus" onClick={() => setCreateOpen(true)}>
             Nouveau sujet

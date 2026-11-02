@@ -67,7 +67,6 @@ export function AssistantChat() {
       <PageHeader
         title="Assistant Campusly AI"
         subtitle="Aide à la révision et à la compréhension des cours — réponses de démonstration."
-        demo
         actions={<Badge tone="accent" icon="fa-solid fa-flask">Aucune IA réelle</Badge>}
       />
 

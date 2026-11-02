@@ -5,7 +5,7 @@ import { creditService } from "@/services/creditService";
 import { useAsync } from "@/hooks/useAsync";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, ErrorState, LoadingGrid } from "@/components/ui/States";
 
@@ -18,8 +18,6 @@ export function SubscriptionView() {
       <PageHeader
         title="Mon abonnement"
         subtitle="Formules d'accès illimité — souscription simulée."
-        demo
-        actions={<DemoBadge label="Aucun prélèvement" />}
       />
 
       <Card>

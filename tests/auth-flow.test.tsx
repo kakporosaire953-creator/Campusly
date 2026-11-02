@@ -97,20 +97,26 @@ describe("session de démonstration", () => {
     await waitFor(() => expect(push).toHaveBeenCalledWith("/dashboard"));
   });
 
-  it("le bandeau de démonstration est au-dessus du layout, pas dans la rangée sidebar/contenu", () => {
+  it("n'affiche plus de bandeau de démonstration ni de badge fictif", () => {
     renderShell();
 
-    const banner = screen.getByRole("note");
+    expect(screen.queryByRole("note")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Mode démonstration/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Données de démonstration/i)).not.toBeInTheDocument();
+  });
+
+  it("conserve la structure .app-shell > .app-layout (sidebar + contenu)", () => {
+    renderShell();
+
     const layout = document.querySelector(".app-layout");
     const shell = document.querySelector(".app-shell");
 
     expect(shell).not.toBeNull();
     expect(layout).not.toBeNull();
-    // Le bandeau ne doit pas être un enfant du flex row `.app-layout` :
-    // sinon il partage la largeur avec la sidebar et écrase le contenu.
-    expect(layout?.contains(banner)).toBe(false);
-    expect(banner.parentElement).toBe(shell);
+    // `.app-layout` est un flex row historique : il ne doit contenir que la
+    // barre latérale et la zone de contenu.
     expect(layout?.parentElement).toBe(shell);
+    expect(layout?.children).toHaveLength(2);
   });
 
   it("le bouton hamburger ouvre réellement le menu de navigation (tablette / mobile)", async () => {

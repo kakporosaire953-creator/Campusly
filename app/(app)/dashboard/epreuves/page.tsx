@@ -3,7 +3,7 @@ import { ExamLibrary } from "@/features/exams/ExamLibrary";
 
 export const metadata: Metadata = {
   title: "Épreuves & annales",
-  description: "Bibliothèque d'épreuves de l'UAC : recherche, filtres, favoris et téléchargements.",
+  description: "Bibliothèque d'épreuves de l'UAC : recherche par faculté, niveau, semestre et année, favoris et fiches détaillées.",
 };
 
 export default async function ExamsPage({

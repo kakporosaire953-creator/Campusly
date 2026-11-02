@@ -6,7 +6,7 @@ import { userService } from "@/services/userService";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ProgressBar, StatCard } from "@/components/ui/Progress";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { ErrorState, LoadingGrid, EmptyState } from "@/components/ui/States";
 import { formatRelativeFr } from "@/services/mocks/store";
 import { roleLabels } from "@/config/site";
@@ -33,7 +33,6 @@ export function LearnerOverview() {
       <PageHeader
         title={`Bonjour ${data.user.prenom}`}
         subtitle="Voici où vous en êtes aujourd'hui. Toutes les valeurs sont fictives."
-        demo
         actions={
           <>
             <Badge tone="brand" icon="fa-solid fa-user-graduate">
@@ -81,7 +80,7 @@ export function LearnerOverview() {
               title="Diagnostic par matière"
               subtitle="Points faibles et points forts identifiés"
               icon="fa-solid fa-chart-line"
-              action={<DemoBadge label="Simulation" />}
+             
             />
             <div className="stack" style={{ gap: 14 }}>
               {data.weakTopics.map((topic) => (

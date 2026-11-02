@@ -7,7 +7,7 @@ import { paymentService } from "@/services/paymentService";
 import { useAsync } from "@/hooks/useAsync";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { TextField } from "@/components/ui/Field";
@@ -96,8 +96,6 @@ export function CreditsCenter() {
       <PageHeader
         title="Campusly Credits"
         subtitle="Solde, historique et rechargement — le solde affiché est une donnée de démonstration."
-        demo
-        actions={<DemoBadge label="Aucun débit réel" />}
       />
 
       <div className="grid-2" style={{ alignItems: "stretch" }}>

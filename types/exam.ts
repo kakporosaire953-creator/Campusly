@@ -85,9 +85,13 @@ export interface ExamServiceContract {
   facets(): Promise<ExamFacets>;
   favorites(): Promise<Exam[]>;
   toggleFavorite(examId: string): Promise<{ favorited: boolean }>;
+  /** Lecture synchrone du cache local des favoris (hydratation de l'interface). */
+  isFavorite(examId: string): boolean;
   requestDownload(examId: string): Promise<ExamDownloadTicket>;
   history(): Promise<ExamHistoryEntry[]>;
   submitContribution(input: ExamContributionInput): Promise<Contribution>;
+  /** Contributions en attente de modération (vide tant que le dépôt est fermé). */
+  contributions(): Promise<Contribution[]>;
 }
 
 /** Contribution d'une épreuve par un étudiant ou un enseignant. */

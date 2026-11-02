@@ -45,7 +45,6 @@ export function SettingsView() {
       <PageHeader
         title="Paramètres"
         subtitle="Notifications, accessibilité et réinitialisation de l'environnement de démonstration."
-        demo
       />
 
       <Card>

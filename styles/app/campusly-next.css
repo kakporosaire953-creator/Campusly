@@ -533,3 +533,76 @@
   flex: 0 0 auto;
   width: 100%;
 }
+
+/* ── Bibliothèque d'épreuves : état vide éditorial ──────────────────────────
+   Aucun document fictif n'est affiché : tant que le catalogue est vide, on
+   présente une mise en page soignée plutôt qu'une carte d'erreur. */
+.exam-empty {
+  max-width: 560px;
+  margin: 12px auto 0;
+  padding: clamp(26px, 4vw, 40px);
+  text-align: center;
+  border: 1px dashed var(--border-2);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+}
+
+.exam-empty-mark {
+  display: block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-4);
+  margin-bottom: 14px;
+}
+
+.exam-empty h2 {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+
+.exam-empty p {
+  font-size: 0.87rem;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin-bottom: 20px;
+}
+
+.exam-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Statut du document sur la fiche épreuve */
+.exam-document-status {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: rgba(245, 124, 0, 0.08);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  font-size: 0.79rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* Bandeau d'information du formulaire de contribution (dépôt fermé) */
+.contribution-notice {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(245, 124, 0, 0.32);
+  background: rgba(245, 124, 0, 0.08);
+  border-radius: var(--r-md);
+  font-size: 0.79rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.contribution-notice strong {
+  color: var(--text-1);
+}

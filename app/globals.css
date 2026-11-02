@@ -25,3 +25,6 @@
 
 /* Couche d'adaptation Next.js (aucune nouvelle direction artistique) */
 @import "../styles/app/campusly-next.css";
+
+/* Mise en scène de la landing page (composition, rythme, hero) */
+@import "../styles/app/landing.css";

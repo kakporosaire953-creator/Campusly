@@ -59,7 +59,6 @@ export function CompositionList() {
             ? "Pilotez les évaluations de vos classes et suivez les copies rendues."
             : "Accédez à une évaluation avec le code de votre enseignant et suivez vos résultats."
         }
-        demo
         actions={
           isTeacher ? (
             <Badge tone="brand" icon="fa-solid fa-user-tie">

@@ -7,7 +7,7 @@ import { FACULTIES } from "@/types";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/States";
 import { ProgressBar } from "@/components/ui/Progress";
 import { useToast } from "@/components/ui/ToastProvider";
@@ -130,7 +130,6 @@ export function RevisionHub() {
       <PageHeader
         title="Campusly AI & révision adaptative"
         subtitle="Importez un cours, générez des entraînements et suivez votre maîtrise — simulations locales."
-        demo
         actions={<Badge tone="brand" icon="fa-solid fa-brain">Moteur pédagogique</Badge>}
       />
 
@@ -452,7 +451,7 @@ export function RevisionHub() {
               title="Configurer l'entraînement"
               subtitle="Sujet et difficulté utilisés pour construire la session"
               icon="fa-solid fa-sliders"
-              action={<DemoBadge label="Banque de démonstration" />}
+             
             />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 12, marginBottom: 14 }}>
               <div className="form-group" style={{ marginBottom: 0 }}>

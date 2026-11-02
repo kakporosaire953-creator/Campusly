@@ -49,7 +49,6 @@ export function NotificationCenter() {
       <PageHeader
         title="Notifications"
         subtitle="Activité de votre espace : compositions, classrooms, crédits et forum."
-        demo
         actions={
           <>
             <Button

@@ -3,36 +3,30 @@
 import { useState } from "react";
 import type { Exam } from "@/types";
 import { examService } from "@/services/examService";
-import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/ToastProvider";
 
-/** Actions de la fiche épreuve : favori + téléchargement simulé. */
+/**
+ * Actions de la fiche épreuve : favori (stocké localement) et accès au
+ * document. Aucun téléchargement n'est simulé : tant que les fichiers ne sont
+ * pas déposés sur le stockage objet, le bouton reste désactivé et le motif est
+ * affiché.
+ */
 export function ExamDetailActions({ exam }: { exam: Exam }) {
   const { toast } = useToast();
   const [favorite, setFavorite] = useState(() => examService.isFavorite(exam.id));
-  const [modalOpen, setModalOpen] = useState(false);
 
   const toggleFavorite = async () => {
     const result = await examService.toggleFavorite(exam.id);
     setFavorite(result.favorited);
-    toast(result.favorited ? "Ajouté aux favoris (démo)." : "Retiré des favoris (démo).", "info");
-  };
-
-  const download = async () => {
-    const ticket = await examService.requestDownload(exam.id);
-    setModalOpen(false);
-    toast(
-      `Téléchargement simulé (${ticket.creditsSpent} crédit(s) fictif(s)). Aucun fichier n'est servi.`,
-      "info",
-    );
+    toast(result.favorited ? "Ajouté à vos favoris." : "Retiré de vos favoris.", "info");
   };
 
   return (
-    <>
-      <div className="row" style={{ gap: 10 }}>
-        <Button variant="primary" icon="fa-solid fa-download" onClick={() => setModalOpen(true)}>
-          Télécharger (simulation)
+    <div className="exam-detail-actions">
+      <div className="row" style={{ gap: 10, flexWrap: "wrap" }}>
+        <Button variant="primary" icon="fa-solid fa-download" disabled aria-describedby="document-status">
+          Télécharger le document
         </Button>
         <Button
           variant={favorite ? "accent" : "outline"}
@@ -40,32 +34,13 @@ export function ExamDetailActions({ exam }: { exam: Exam }) {
           onClick={toggleFavorite}
           aria-pressed={favorite}
         >
-          {favorite ? "Dans les favoris" : "Ajouter aux favoris"}
+          {favorite ? "Dans vos favoris" : "Ajouter aux favoris"}
         </Button>
       </div>
-
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title="Téléchargement simulé"
-        description={exam.title}
-        footer={
-          <div className="row" style={{ justifyContent: "flex-end" }}>
-            <Button variant="ghost" onClick={() => setModalOpen(false)}>
-              Annuler
-            </Button>
-            <Button variant="primary" onClick={download}>
-              Confirmer la simulation
-            </Button>
-          </div>
-        }
-      >
-        <p style={{ fontSize: "0.85rem", color: "var(--text-2)", lineHeight: 1.6 }}>
-          Le PDF de démonstration n&apos;existe pas. En production, le Worker vérifiera vos droits
-          (abonnement ou crédits), générera une URL signée R2 valable quelques minutes et journalisera le
-          téléchargement.
-        </p>
-      </Modal>
-    </>
+      <p id="document-status" className="exam-document-status">
+        Le fichier de cette épreuve n&apos;est pas encore disponible au téléchargement. La fiche
+        reste consultable et l&apos;accès sera ouvert dès la mise en ligne des documents.
+      </p>
+    </div>
   );
 }

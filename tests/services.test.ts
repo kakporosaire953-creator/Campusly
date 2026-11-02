@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from "vitest";
-import { examService } from "@/services/examService";
+import { createExamService, examService } from "@/services/examService";
+import { DEMO_EXAMS } from "@/services/mocks/fixtures/exams";
 import { quizService } from "@/services/quizService";
 import { creditService } from "@/services/creditService";
 import { paymentService } from "@/services/paymentService";
@@ -16,58 +17,96 @@ beforeEach(() => {
   demoStore.resetAll();
 });
 
-describe("examService", () => {
-  it("filtre les épreuves par faculté et par recherche", async () => {
+describe("examService (catalogue de l'application)", () => {
+  it("ne sert aucune épreuve fictive", async () => {
     const all = await examService.list({ pageSize: 50 });
-    expect(all.total).toBeGreaterThan(0);
-
-    const fast = await examService.list({ faculty: "FAST", pageSize: 50 });
-    expect(fast.items.every((exam) => exam.faculty === "FAST")).toBe(true);
-
-    const search = await examService.list({ search: "algorithm", pageSize: 50 });
-    expect(search.items.length).toBeGreaterThan(0);
-    expect(
-      search.items.every((exam) =>
-        `${exam.title} ${exam.subject} ${exam.tags.join(" ")}`.toLowerCase().includes("algorithm"),
-      ),
-    ).toBe(true);
-  });
-
-  it("pagine les résultats sans doublon", async () => {
-    const first = await examService.list({ pageSize: 3, page: 1 });
-    const second = await examService.list({ pageSize: 3, page: 2 });
-    const ids = new Set([...first.items, ...second.items].map((exam) => exam.id));
-    expect(ids.size).toBe(first.items.length + second.items.length);
-  });
-
-  it("bascule un favori de façon idempotente", async () => {
-    // Les fixtures pré-remplissent deux favoris de démonstration : on en choisit
-    // volontairement une épreuve qui n'est pas encore en favori.
-    const initial = await examService.favorites();
-    const candidates = (await examService.list({ pageSize: 50 })).items;
-    const exam = candidates.find((item) => !initial.some((fav) => fav.id === item.id));
-    expect(exam).toBeDefined();
-
-    const added = await examService.toggleFavorite(exam!.id);
-    expect(added.favorited).toBe(true);
-    expect(examService.isFavorite(exam!.id)).toBe(true);
-    expect(await examService.favorites()).toHaveLength(initial.length + 1);
-
-    const removed = await examService.toggleFavorite(exam!.id);
-    expect(removed.favorited).toBe(false);
-    expect(await examService.favorites()).toHaveLength(initial.length);
+    expect(all.total).toBe(0);
+    expect(all.items).toHaveLength(0);
+    expect(await examService.history()).toEqual([]);
+    expect(await examService.contributions()).toEqual([]);
   });
 
   it("refuse une épreuve inexistante avec une erreur NOT_FOUND", async () => {
     await expect(examService.getById("inconnue")).rejects.toBeInstanceOf(ApiError);
   });
 
-  it("ne sert aucun fichier : le téléchargement est un ticket simulé", async () => {
-    const [exam] = (await examService.list({ pageSize: 1 })).items;
-    const ticket = await examService.requestDownload(exam.id);
-    // URL symbolique uniquement : aucun fichier réel n'est exposé.
-    expect(ticket.url.startsWith("demo://")).toBe(true);
-    expect(ticket.creditsSpent).toBeGreaterThanOrEqual(0);
+  it("n'invente ni URL de téléchargement ni contribution enregistrée", async () => {
+    await expect(examService.requestDownload("epr-001")).rejects.toBeInstanceOf(ApiError);
+    await expect(
+      examService.submitContribution({
+        title: "Sujet",
+        subject: "Algorithmique",
+        faculty: "FAST",
+        department: "Informatique",
+        level: "L2",
+        semester: "S1",
+        academicYear: "2024-2025",
+        type: "Examen",
+        fileName: "sujet.pdf",
+        fileSize: 1024,
+      }),
+    ).rejects.toBeInstanceOf(ApiError);
+  });
+
+  it("expose des facettes issues de la nomenclature UAC quand le catalogue est vide", async () => {
+    const facets = await examService.facets();
+    expect(facets.faculties).toContain("FAST");
+    expect(facets.levels).toContain("L2");
+    expect(facets.types).toContain("Examen");
+    expect(facets.academicYears.length).toBeGreaterThan(0);
+  });
+});
+
+/**
+ * Le moteur de recherche et de filtrage reste testé avec des documents
+ * injectés : il sera branché tel quel sur le backend, sans réécriture de
+ * l'interface.
+ */
+describe("examService (moteur de recherche)", () => {
+  const service = createExamService(DEMO_EXAMS);
+
+  it("filtre par faculté, recherche et type", async () => {
+    const all = await service.list({ pageSize: 50 });
+    expect(all.total).toBeGreaterThan(0);
+
+    const fast = await service.list({ faculty: "FAST", pageSize: 50 });
+    expect(fast.items.every((exam) => exam.faculty === "FAST")).toBe(true);
+
+    const search = await service.list({ search: "algorithm", pageSize: 50 });
+    expect(search.items.length).toBeGreaterThan(0);
+    expect(
+      search.items.every((exam) =>
+        `${exam.title} ${exam.subject} ${exam.tags.join(" ")}`.toLowerCase().includes("algorithm"),
+      ),
+    ).toBe(true);
+
+    const corrections = await service.list({ type: "Correction", pageSize: 50 });
+    expect(corrections.items.every((exam) => exam.type === "Correction")).toBe(true);
+  });
+
+  it("trie par titre et pagine sans doublon", async () => {
+    const sorted = await service.list({ sortBy: "title", pageSize: 50 });
+    const titles = sorted.items.map((exam) => exam.title);
+    expect([...titles].sort((a, b) => a.localeCompare(b, "fr"))).toEqual(titles);
+
+    const first = await service.list({ pageSize: 3, page: 1 });
+    const second = await service.list({ pageSize: 3, page: 2 });
+    const ids = new Set([...first.items, ...second.items].map((exam) => exam.id));
+    expect(ids.size).toBe(first.items.length + second.items.length);
+  });
+
+  it("bascule un favori de façon idempotente", async () => {
+    const initial = await service.favorites();
+    expect(initial).toHaveLength(0);
+    const [exam] = (await service.list({ pageSize: 1 })).items;
+    expect(exam).toBeDefined();
+
+    expect((await service.toggleFavorite(exam!.id)).favorited).toBe(true);
+    expect(service.isFavorite(exam!.id)).toBe(true);
+    expect(await service.favorites()).toHaveLength(1);
+
+    expect((await service.toggleFavorite(exam!.id)).favorited).toBe(false);
+    expect(await service.favorites()).toHaveLength(0);
   });
 });
 

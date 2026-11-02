@@ -60,7 +60,6 @@ export function AdminPanel() {
       <PageHeader
         title="Panel administrateur"
         subtitle="Validation des contributions et supervision de la plateforme."
-        demo
         actions={<Badge tone="danger" icon="fa-solid fa-shield-halved">Accès de démonstration</Badge>}
       />
 

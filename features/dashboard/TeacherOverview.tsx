@@ -32,7 +32,6 @@ export function TeacherOverview() {
       <PageHeader
         title={`Bonjour ${data.user.prenom}`}
         subtitle="Centre de pilotage pédagogique UAC — valeurs de démonstration."
-        demo
         actions={
           <>
             <Badge tone="accent" icon="fa-solid fa-person-chalkboard">

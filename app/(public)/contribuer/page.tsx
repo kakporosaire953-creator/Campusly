@@ -5,7 +5,7 @@ import { ContributionForm } from "@/features/exams/ContributionForm";
 
 export const metadata: Metadata = {
   title: "Contribuer",
-  description: "Partagez vos épreuves avec la communauté UAC et gagnez des récompenses Campusly.",
+  description: "Proposez une épreuve à la bibliothèque Campusly : les documents sont vérifiés avant publication.",
 };
 
 export default function ContributePage() {
@@ -16,24 +16,17 @@ export default function ContributePage() {
           <i className="fa-solid fa-upload" aria-hidden="true" /> Contribuer à Campusly
         </h1>
         <p style={{ fontSize: "0.9rem", color: "var(--text-2)", lineHeight: 1.6, marginBottom: 14 }}>
-          Partagez vos épreuves avec la communauté UAC. Chaque contribution aide des milliers d&apos;étudiants à
-          mieux préparer leurs examens.
+          Une épreuve, un sujet de TD ou une correction manque dans la bibliothèque ? Proposez-le : chaque
+          document est relu avant publication, puis rattaché à sa faculté, son niveau et son année.
         </p>
         <div className="row" style={{ gap: 10, flexWrap: "wrap" }}>
-          <Badge tone="accent" icon="fa-solid fa-star">
-            +50 XP par épreuve validée
+          <Badge tone="brand" icon="fa-solid fa-check">
+            Document vérifié avant publication
           </Badge>
-          <Badge tone="brand" icon="fa-solid fa-crown">
-            1 semaine Premium offerte à 5 contributions
-          </Badge>
-          <Badge tone="success" icon="fa-solid fa-award">
-            Badge « Contributeur » débloqué
+          <Badge tone="neutral" icon="fa-solid fa-user-pen">
+            Votre nom peut être crédité
           </Badge>
         </div>
-        <p style={{ fontSize: "0.76rem", color: "var(--text-3)", marginTop: 12 }}>
-          Les récompenses sont annoncées à titre indicatif : aucune attribution réelle n&apos;est effectuée dans
-          cette version de démonstration.
-        </p>
       </div>
 
       <ContributionForm />

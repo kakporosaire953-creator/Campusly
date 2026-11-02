@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import { ExamLibrary } from "@/features/exams/ExamLibrary";
@@ -17,62 +17,42 @@ function withProviders(ui: React.ReactElement) {
 }
 
 describe("Bibliothèque d'épreuves", () => {
-  it("charge les épreuves, filtre par recherche et affiche l'état vide", async () => {
+  it("affiche un état vide explicite quand aucun document n'est publié", async () => {
+    withProviders(<ExamLibrary />);
+
+    expect(
+      await screen.findByText(/La bibliothèque ouvre bientôt/i, undefined, { timeout: 4000 }),
+    ).toBeInTheDocument();
+    // Aucune carte d'épreuve, donc aucune fausse fiche.
+    expect(screen.queryAllByRole("article")).toHaveLength(0);
+    expect(screen.queryByText(/Télécharger/i)).not.toBeInTheDocument();
+  });
+
+  it("conserve la recherche et les filtres et propose de les réinitialiser", async () => {
     const user = userEvent.setup();
     withProviders(<ExamLibrary />);
 
-    // Chargement puis résultats
-    expect(await screen.findByText(/épreuves? trouvée/i, undefined, { timeout: 4000 })).toBeInTheDocument();
-    const search = screen.getByLabelText("Rechercher");
+    await screen.findByText(/La bibliothèque ouvre bientôt/i, undefined, { timeout: 4000 });
 
-    await user.type(search, "algorithm");
-    await waitFor(() => expect(screen.getByText(/épreuves? trouvée/i)).toHaveTextContent(/^[1-9]/), { timeout: 4000 });
+    // Les contrôles de filtrage restent présents et reliés à leurs libellés.
+    expect(screen.getByLabelText("Rechercher")).toBeInTheDocument();
+    expect(screen.getByLabelText("Faculté")).toBeInTheDocument();
+    expect(screen.getByLabelText("Niveau")).toBeInTheDocument();
+    expect(screen.getByLabelText("Semestre")).toBeInTheDocument();
+    expect(screen.getByLabelText("Année")).toBeInTheDocument();
+    expect(screen.getByLabelText("Type")).toBeInTheDocument();
 
-    await user.clear(search);
-    await user.type(search, "zzzz-inexistant");
-    expect(await screen.findByText(/Aucune épreuve ne correspond/i, undefined, { timeout: 4000 })).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Rechercher"), "algorithmique");
+
+    // Avec un filtre actif, le message devient « aucun résultat ».
+    expect(
+      await screen.findByText(/Aucune épreuve ne correspond à ces filtres/i, undefined, { timeout: 4000 }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /Réinitialiser les filtres/i }));
-    expect(await screen.findByText(/épreuves? trouvée/i, undefined, { timeout: 4000 })).toBeInTheDocument();
-  });
-
-  it("ajoute puis retire une épreuve des favoris", async () => {
-    const user = userEvent.setup();
-    withProviders(<ExamLibrary />);
-
-    // Les fixtures pré-remplissent des favoris : on attend leur hydratation pour
-    // éviter de cliquer sur une carte dont l'état va changer.
-    await screen.findAllByRole("button", { name: "Retirer des favoris" }, { timeout: 4000 });
-
-    const articles = screen.getAllByRole("article");
-    const target = articles.find((article) =>
-      within(article).queryByRole("button", { name: "Ajouter aux favoris" }),
-    );
-    expect(target).toBeDefined();
-
-    const addButton = within(target!).getByRole("button", { name: "Ajouter aux favoris" });
-    await user.click(addButton);
-
-    const removeButton = await within(target!).findByRole("button", { name: "Retirer des favoris" });
-    expect(removeButton).toHaveAttribute("aria-pressed", "true");
-
-    await user.click(removeButton);
-    expect(await within(target!).findByRole("button", { name: "Ajouter aux favoris" })).toHaveAttribute(
-      "aria-pressed",
-      "false",
-    );
-  });
-
-  it("n'ouvre aucun fichier : le téléchargement est explicitement simulé", async () => {
-    const user = userEvent.setup();
-    withProviders(<ExamLibrary />);
-
-    const downloads = await screen.findAllByRole("button", { name: /Télécharger /i }, { timeout: 4000 });
-    await user.click(downloads[0]);
-
-    const dialog = await screen.findByRole("dialog");
-    expect(within(dialog).getByText(/Téléchargement simulé/i)).toBeInTheDocument();
-    expect(within(dialog).getByText(/Aucun fichier n'est servi/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/La bibliothèque ouvre bientôt/i, undefined, { timeout: 4000 }),
+    ).toBeInTheDocument();
   });
 });
 

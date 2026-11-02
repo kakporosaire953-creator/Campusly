@@ -7,7 +7,7 @@ import { classroomService } from "@/services/classroomService";
 import { useAsync } from "@/hooks/useAsync";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar, StatCard } from "@/components/ui/Progress";
 import { ErrorState, LoadingGrid, EmptyState } from "@/components/ui/States";
@@ -73,7 +73,6 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
       <PageHeader
         title={data.name}
         subtitle={`${data.subject} · ${data.level} · ${data.faculty} · Enseignant : ${data.teacherName}`}
-        demo
         actions={<Badge tone="brand">Code {data.code}</Badge>}
       />
 
@@ -120,7 +119,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
       {tab === "flux" ? (
         <div className="stack" style={{ gap: 16 }}>
           <Card>
-            <CardHeader title="Publier une annonce" subtitle="Réservé aux enseignants en production" icon="fa-solid fa-bullhorn" action={<DemoBadge label="Local" />} />
+            <CardHeader title="Publier une annonce" subtitle="Réservé aux enseignants en production" icon="fa-solid fa-bullhorn" />
             <label className="form-label" htmlFor="post-content">
               Message
             </label>

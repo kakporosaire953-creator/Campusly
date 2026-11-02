@@ -44,19 +44,6 @@ export function Badge({
   );
 }
 
-/**
- * Marqueur de données fictives.
- * Exigence de la mission : toute donnée de démonstration doit être
- * identifiable sans ambiguïté.
- */
-export function DemoBadge({ label = "Données de démonstration" }: { label?: string }) {
-  return (
-    <span className="demo-chip" title="Contenu fictif, sans persistance serveur">
-      <i className="fa-solid fa-flask" aria-hidden="true" />
-      {label}
-    </span>
-  );
-}
 
 export function RoleBadge({ role }: { role: UserRole }) {
   const tone: Tone = role === "admin" ? "danger" : role === "teacher" ? "accent" : "brand";
