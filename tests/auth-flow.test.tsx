@@ -27,24 +27,29 @@ const { SessionProvider } = await import("@/features/auth/SessionProvider");
 const { AppShell } = await import("@/components/layout/AppShell");
 const { AuthForms } = await import("@/features/auth/AuthForms");
 const { ToastProvider } = await import("@/components/ui/ToastProvider");
+const { ThemeProvider } = await import("@/components/shared/ThemeProvider");
 
 function renderShell() {
   return render(
-    <ToastProvider>
-      <SessionProvider>
-        <AppShell>contenu de la page</AppShell>
-      </SessionProvider>
-    </ToastProvider>,
+    <ThemeProvider>
+      <ToastProvider>
+        <SessionProvider>
+          <AppShell>contenu de la page</AppShell>
+        </SessionProvider>
+      </ToastProvider>
+    </ThemeProvider>,
   );
 }
 
 function renderAuth() {
   return render(
-    <ToastProvider>
-      <SessionProvider>
-        <AuthForms />
-      </SessionProvider>
-    </ToastProvider>,
+    <ThemeProvider>
+      <ToastProvider>
+        <SessionProvider>
+          <AuthForms />
+        </SessionProvider>
+      </ToastProvider>
+    </ThemeProvider>,
   );
 }
 

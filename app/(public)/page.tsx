@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { FACULTIES } from "@/types";
 import { FaqSection } from "@/components/shared/FaqSection";
 import { LandingMotion } from "@/components/landing/LandingMotion";
-import { HeroComposition } from "@/components/landing/HeroComposition";
 import { StudyFlow } from "@/components/landing/StudyFlow";
 
 export const metadata: Metadata = {
@@ -107,10 +107,6 @@ export default function HomePage() {
       <section className="hero" id="hero">
         <div className="hero-content">
           <div className="hero-text">
-            <p className="hero-eyebrow" data-hero-eyebrow>
-              Plateforme académique · Université d&apos;Abomey-Calavi
-            </p>
-
             <h1 className="hero-title">
               <span className="hero-line">
                 <span data-hero-line>L&apos;université demande</span>
@@ -144,7 +140,23 @@ export default function HomePage() {
           </div>
 
           <div className="hero-visual" data-hero-visual>
-            <HeroComposition />
+            <figure className="hero-frame">
+              <Image
+                src="/images/hero-students.jpg"
+                alt="Étudiants de l'UAC révisant ensemble sur le campus"
+                width={1400}
+                height={933}
+                priority
+                sizes="(max-width: 1024px) 92vw, 46vw"
+                className="hero-photo"
+              />
+              <figcaption className="hero-frame-caption">
+                <span className="hero-frame-eyebrow">Campus d&apos;Abomey-Calavi</span>
+                <span className="hero-frame-text">
+                  Épreuves, cours et révisions réunis dans le même espace de travail.
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
@@ -164,6 +176,16 @@ export default function HomePage() {
 
         <div className="pillars">
           <article className="pillar-feature" data-reveal>
+            <figure className="pillar-feature-media" data-anim="frame">
+              <Image
+                src="/images/library-study.jpg"
+                alt="Étudiante travaillant ses cours à la bibliothèque universitaire"
+                width={1200}
+                height={900}
+                sizes="(max-width: 1024px) 92vw, 40vw"
+                className="media-photo"
+              />
+            </figure>
             <span className="pillar-feature-index">01 — LE CŒUR DE LA PLATEFORME</span>
             <h3>Épreuves et annales, classées comme vos maquettes</h3>
             <p>
@@ -181,7 +203,7 @@ export default function HomePage() {
             </Link>
           </article>
 
-          <ol className="pillar-rows" data-stagger>
+          <ol className="pillar-rows" data-anim="rows">
             {PILLARS.map((pillar) => (
               <li className="pillar-row" key={pillar.index}>
                 <span className="pillar-row-index" aria-hidden="true">
@@ -213,7 +235,7 @@ export default function HomePage() {
               vous révisez : vous validez chaque question.
             </p>
 
-            <ol className="ai-steps">
+            <ol className="ai-steps" data-anim="steps">
               {AI_STEPS.map((step) => (
                 <li className="ai-step" key={step.num}>
                   <span className="ai-step-num" aria-hidden="true">
@@ -238,18 +260,24 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div data-reveal data-parallax data-parallax-depth="10">
+          <div className="ai-visual" data-reveal data-parallax data-parallax-depth="10">
+            <figure className="media-frame" data-anim="frame">
+              <Image
+                src="/images/notes-desk.jpg"
+                alt="Notes de cours manuscrites, annales imprimées et crayon sur un bureau"
+                width={1200}
+                height={900}
+                sizes="(max-width: 1024px) 92vw, 44vw"
+                className="media-photo"
+              />
+            </figure>
             <StudyFlow />
           </div>
         </div>
       </section>
 
       {/* ─────────────────────── PROGRESSION ─────────────────── */}
-      <section
-        className="section landing-section"
-        id="progression"
-        style={{ background: "var(--bg-2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}
-      >
+      <section className="section landing-section" id="progression">
         <div className="section-center landing-head" data-reveal>
           <span className="section-tag">Révision ciblée</span>
           <h2 className="section-title">
@@ -261,7 +289,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="progression-grid" data-stagger>
+        <div className="progression-grid" data-anim="numerals">
           {PROGRESSION.map((step) => (
             <article className="progression-step" key={step.index}>
               <span className="progression-index">{step.index}</span>
@@ -290,7 +318,7 @@ export default function HomePage() {
               votre pédagogie : il vous évite la dispersion entre messagerie, fichiers et tableurs.
             </p>
 
-            <ul className="teachers-list">
+            <ul className="teachers-list" data-anim="rows">
               {TEACHER_FEATURES.map((item) => (
                 <li key={item.num}>
                   <span aria-hidden="true">{item.num}</span>
@@ -304,27 +332,36 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="stage-panel" data-reveal data-parallax data-parallax-depth="8">
-            <span className="stage-panel-label">Déroulé d&apos;une classe</span>
-            {STAGE_ROWS.map((row) => (
-              <div className="stage-row" key={row.title}>
-                <span className="stage-dot" aria-hidden="true" />
-                <div>
-                  <strong>{row.title}</strong>
-                  <span>{row.text}</span>
+          <div className="teachers-visual" data-reveal data-parallax data-parallax-depth="8">
+            <figure className="media-frame" data-anim="frame">
+              <Image
+                src="/images/amphi.jpg"
+                alt="Enseignant expliquant un cours magistral dans un amphithéâtre de l'UAC"
+                width={1264}
+                height={847}
+                sizes="(max-width: 1024px) 92vw, 42vw"
+                className="media-photo"
+              />
+            </figure>
+
+            <div className="stage-panel">
+              <span className="stage-panel-label">Déroulé d&apos;une classe</span>
+              {STAGE_ROWS.map((row) => (
+                <div className="stage-row" key={row.title}>
+                  <span className="stage-dot" aria-hidden="true" />
+                  <div>
+                    <strong>{row.title}</strong>
+                    <span>{row.text}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─────────────────────── COMPOSITIONS ────────────────── */}
-      <section
-        className="section landing-section"
-        id="compositions"
-        style={{ background: "var(--bg-2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}
-      >
+      <section className="section landing-section" id="compositions">
         <div className="section-center landing-head" data-reveal>
           <span className="section-tag">Évaluations</span>
           <h2 className="section-title">
@@ -336,7 +373,22 @@ export default function HomePage() {
           </p>
         </div>
 
-        <ul className="compo-list" data-stagger>
+        <figure className="media-band" data-anim="mask">
+          <Image
+            src="/images/exam-hall.jpg"
+            alt="Étudiants composant dans une salle d'examen de l'université"
+            width={1264}
+            height={847}
+            sizes="100vw"
+            className="media-photo"
+          />
+          <figcaption className="media-band-caption">
+            <span className="media-band-eyebrow">Salle d&apos;examen</span>
+            Chronomètre, plein écran, journal d&apos;intégrité local.
+          </figcaption>
+        </figure>
+
+        <ul className="compo-list" data-anim="editorial">
           {COMPOSITIONS.map((item) => (
             <li className="compo-item" key={item.index}>
               <span className="compo-index" aria-hidden="true">
@@ -360,6 +412,16 @@ export default function HomePage() {
       {/* ────────────────────── ÉTABLISSEMENTS ───────────────── */}
       <section className="section landing-section" id="etablissements">
         <div className="institutions" data-reveal>
+          <figure className="institutions-media" data-anim="frame">
+            <Image
+              src="/images/campus-building.jpg"
+              alt="Bâtiment d'une faculté de l'UAC en fin de journée"
+              width={1536}
+              height={864}
+              sizes="(max-width: 1024px) 92vw, 44vw"
+              className="media-photo"
+            />
+          </figure>
           <div>
             <span className="section-tag">Enseignement supérieur</span>
             <h2>Une plateforme pour vos promotions.</h2>
@@ -370,9 +432,7 @@ export default function HomePage() {
             <Link href="/a-propos#contact" className="btn btn-primary">
               Nous contacter
             </Link>
-          </div>
-          <div>
-            <span className="stage-panel-label" style={{ paddingBottom: 12 }}>
+            <span className="stage-panel-label" style={{ paddingBottom: 12, marginTop: 22 }}>
               Facultés et instituts concernés
             </span>
             <ul className="faculty-list" aria-label="Facultés et instituts de l'UAC">

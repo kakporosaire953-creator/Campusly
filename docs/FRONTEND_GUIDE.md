@@ -171,6 +171,21 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 
 ---
 
+## 5 bis. Thème, verre et photographies
+
+- `components/shared/ThemeProvider.tsx` : préférence `campusly.theme`, attribut
+  `data-theme` sur `<html>`, classe historique `theme-light` maintenue. Un script
+  inline dans `app/layout.tsx` applique le thème avant le premier rendu (pas de flash).
+- `styles/app/theme.css` : tokens de verre (`--glass-*`), fond liquide
+  (`--liquid-*`, `.liquid-bg`), habillage des surfaces existantes et contrastes du
+  mode sombre. Le fond animé orange/bleu est actif dans les deux modes.
+- Images : `public/images/*.jpg`, affichées via `next/image` dans les cadres
+  `.hero-frame`, `.media-frame`, `.media-band`, `.institutions-media`.
+  `images.unoptimized` reste activé (contrainte Cloudflare Workers).
+- Numération éditoriale : `--font-num` (Instrument Serif) remplace la monospace
+  générique pour les index de sections ; `--font-label` (Space Grotesk) pour les
+  micro-étiquettes.
+
 ## 6. Tests
 
 ```bash

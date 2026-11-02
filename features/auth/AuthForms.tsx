@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -10,6 +11,7 @@ import { ApiError } from "@/services/api/client";
 import { Button } from "@/components/ui/Button";
 import { LogoCap } from "@/components/layout/SiteHeader";
 import { roleLabels } from "@/config/site";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 type Tab = "login" | "register";
 type RoleChoice = "learner" | "teacher";
@@ -141,8 +143,17 @@ export function AuthForms() {
   return (
     <div className="auth-page">
       <div className="auth-left">
-        <div className="auth-left-content">
-          <Link href="/" style={{ textDecoration: "none" }}>
+        <Image
+          src="/images/auth-campus.jpg"
+          alt="Étudiants sur le campus de l'Université d'Abomey-Calavi"
+          fill
+          priority
+          sizes="(max-width: 900px) 100vw, 50vw"
+          className="auth-left-photo"
+        />
+        <span className="auth-left-veil" aria-hidden="true" />
+        <div className="auth-left-content auth-glass">
+          <Link href="/" className="auth-glass-logo">
             <span className="logo-text" style={{ fontSize: "1.6rem" }}>
               <span className="logo-cap" aria-hidden="true">
                 <LogoCap size={28} />
@@ -151,10 +162,8 @@ export function AuthForms() {
               <span className="logo-ly">ly</span>
             </span>
           </Link>
-          <h2 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text-1)", margin: "32px 0 12px", letterSpacing: "-0.02em" }}>
-            La réussite académique intelligente
-          </h2>
-          <p style={{ color: "var(--text-2)", lineHeight: 1.7, marginBottom: 32 }}>
+          <h2 className="auth-glass-title">La réussite académique intelligente</h2>
+          <p className="auth-glass-text">
             Accédez aux épreuves UAC, révisez avec Campusly AI, intégrez vos Classrooms d&apos;amphi et
             préparez vos compositions.
           </p>
@@ -177,6 +186,12 @@ export function AuthForms() {
       </div>
 
       <div className="auth-right">
+        <div className="auth-topbar">
+          <Link href="/" className="auth-topbar-back">
+            <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Accueil
+          </Link>
+          <ThemeToggle compact />
+        </div>
         <div className="auth-form-container">
           <div className="auth-form-header">
             <h1 id="authTitle">{tab === "login" ? "Bienvenue sur Campusly" : "Créer votre compte"}</h1>

@@ -1,0 +1,188 @@
+/* ============================================================
+   /auth — panneau photographique + carte de verre
+   ------------------------------------------------------------
+   Le split-screen historique est conservé (formulaire à droite),
+   mais la colonne de gauche devient une photographie réelle du
+   campus, avec un bloc de verre dépoli lisible sur l'image.
+   ============================================================ */
+
+.auth-page {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-left {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: clamp(24px, 4vw, 48px);
+  background: var(--bg-2);
+}
+
+.auth-left-photo {
+  object-fit: cover;
+  object-position: center 32%;
+  z-index: 0;
+}
+
+/* Voile orange/bleu : la photo reste lisible, la palette est conservée. */
+.auth-left-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(6, 12, 24, 0.34) 0%, rgba(6, 12, 24, 0.12) 38%, rgba(6, 12, 24, 0.62) 100%),
+    radial-gradient(120% 80% at 20% 100%, rgba(245, 124, 0, 0.32), transparent 62%),
+    radial-gradient(100% 70% at 80% 0%, rgba(21, 101, 192, 0.34), transparent 60%);
+}
+
+.auth-left-content.auth-glass {
+  position: relative;
+  z-index: 2;
+  max-width: 430px;
+  width: 100%;
+  padding: clamp(22px, 2.6vw, 32px);
+  border-radius: var(--r-xl);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(12, 18, 30, 0.42);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.65), 0 1px 0 rgba(255, 255, 255, 0.22) inset;
+  color: #F6F9FF;
+}
+
+.auth-glass-logo {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* Le logo garde ses couleurs d'origine sur le verre sombre. */
+.auth-glass-logo .logo-campus,
+.auth-glass-logo .logo-ly {
+  color: #FFFFFF;
+}
+
+.auth-glass-title {
+  font-size: clamp(1.5rem, 2.1vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+  color: #FFFFFF;
+  margin: 26px 0 12px;
+}
+
+.auth-glass-text {
+  color: rgba(240, 246, 255, 0.86);
+  line-height: 1.7;
+  margin-bottom: 26px;
+  font-size: 0.92rem;
+}
+
+.auth-glass .auth-feature-item {
+  color: rgba(245, 249, 255, 0.92);
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.auth-glass .auth-feature-icon {
+  color: #FFC078;
+  background: rgba(245, 124, 0, 0.2);
+}
+
+/* ── Colonne formulaire ───────────────────────────────────── */
+
+.auth-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 56px) clamp(20px, 4vw, 48px);
+  background: transparent;
+}
+
+.auth-topbar {
+  position: absolute;
+  top: clamp(14px, 2vw, 22px);
+  left: clamp(16px, 3vw, 28px);
+  right: clamp(16px, 3vw, 28px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 3;
+}
+
+.auth-topbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px 6px 11px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--glass-border-soft, var(--border));
+  background: var(--glass-bg-soft, var(--surface));
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  color: var(--text-2);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-topbar-back:hover {
+  color: var(--text-1);
+  border-color: var(--accent);
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 460px;
+  padding: clamp(22px, 2.6vw, 34px);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--glass-border, var(--border-2));
+  background: var(--glass-bg, var(--bg));
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  backdrop-filter: blur(22px) saturate(165%);
+  box-shadow: var(--glass-shadow, var(--shadow-md)), 0 1px 0 var(--glass-highlight, transparent) inset;
+}
+
+/* ── Mobile : la photo reste visible en bandeau ───────────── */
+
+@media (max-width: 900px) {
+  .auth-page {
+    grid-template-columns: 1fr !important;
+    min-height: 100vh;
+  }
+
+  .auth-left {
+    display: block !important;
+    min-height: 210px;
+    max-height: 240px;
+    padding: 0 !important;
+  }
+
+  .auth-left-content.auth-glass {
+    display: none;
+  }
+
+  .auth-left-photo {
+    object-position: center 38%;
+  }
+
+  .auth-right {
+    padding: 76px 18px 32px !important;
+    align-items: flex-start;
+  }
+
+  .auth-form-container {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-left-photo {
+    transform: none !important;
+  }
+}

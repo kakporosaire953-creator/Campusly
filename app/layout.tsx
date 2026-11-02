@@ -4,6 +4,8 @@ import "./globals.css";
 import { AppProviders } from "@/components/shared/AppProviders";
 import { LegacyServiceWorkerCleanup } from "@/components/shared/LegacyServiceWorkerCleanup";
 import { siteConfig } from "@/config/site";
+import { ThemeProvider, themeInitScript } from "@/components/shared/ThemeProvider";
+import { LiquidBackground } from "@/components/shared/LiquidBackground";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://campusly-one.vercel.app"),
@@ -43,8 +45,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="fr" className="theme-light">
+    <html lang="fr" className="theme-light" data-theme="light" suppressHydrationWarning>
       <head>
+        {/* Thème appliqué avant le premier rendu : aucun flash clair/sombre. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/* Polices et icônes : mêmes CDN que la version historique (identité
             conservée). Placées dans <head> pour ne pas retarder le rendu du
             body et pour rester valides au regard de la spécification HTML. */}
@@ -52,7 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap"
         />
         <link
           rel="stylesheet"
@@ -64,7 +68,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a className="skip-link" href="#contenu">
           Aller au contenu principal
         </a>
-        <AppProviders>{children}</AppProviders>
+        <LiquidBackground />
+        <ThemeProvider>
+          <AppProviders>{children}</AppProviders>
+        </ThemeProvider>
       </body>
     </html>
   );

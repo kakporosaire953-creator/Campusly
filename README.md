@@ -41,6 +41,8 @@ npm run start      # serveur de production
 - Compositions : accès par code, salle d'examen (consignes, chronomètre, palette de
   questions, journal d'intégrité), remise et correction locales.
 - Forum : filtres, création de sujet, réponses, mentions « j'aime » (stockage local).
+- Thème clair / sombre (bascule dans la navbar et l'espace, préférence conservée) avec
+  surfaces « liquid glass » et fond animé bleu/orange dans les deux modes.
 - Crédits et abonnement : pages d'attente expliquant l'ouverture prochaine (aucun tarif, aucun paiement).
 - Notifications, profil, paramètres, bascule de rôle, déconnexion.
 
