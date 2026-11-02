@@ -73,7 +73,7 @@ export function LoadingGrid({ count = 3 }: { count?: number }) {
   return (
     <div className="grid-3" aria-busy="true" aria-live="polite">
       <span className="sr-only">
-        Chargement des données de démonstration…
+        Chargement des données…
       </span>
       {Array.from({ length: count }).map((_, index) => (
         <SkeletonCard key={index} />

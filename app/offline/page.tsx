@@ -42,7 +42,7 @@ export default function OfflinePage() {
               <i className="fa-solid fa-check" aria-hidden="true" /> Désactivez le mode avion si activé
             </li>
             <li>
-              <i className="fa-solid fa-check" aria-hidden="true" /> Vos données de démonstration restent dans le navigateur
+              <i className="fa-solid fa-check" aria-hidden="true" /> Vos données locales restent dans le navigateur
             </li>
           </ul>
         </div>

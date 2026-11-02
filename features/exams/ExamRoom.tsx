@@ -30,7 +30,7 @@ const RULES = [
 /**
  * Salle d'examen (`/examen/[code]`).
  * Chronomètre et validation réels côté navigateur ; la remise de copie est
- * LOCALE. Le journal d'intégrité (proctoring) est une simulation : aucun
+ * LOCALE. Le journal d'intégrité (proctoring) est local : aucun
  * média n'est capturé et rien ne quitte l'appareil.
  */
 export function ExamRoom({ code }: { code: string }) {
@@ -98,7 +98,7 @@ export function ExamRoom({ code }: { code: string }) {
         if (auto) logEvent("resume");
       } catch {
         submitted.current = false;
-        setLoadError("La remise simulée a échoué. Réessayez.");
+        setLoadError("La remise de la copie a échoué. Réessayez.");
       } finally {
         setSubmitting(false);
       }
@@ -122,7 +122,7 @@ export function ExamRoom({ code }: { code: string }) {
     return () => window.clearInterval(timer);
   }, [phase, submit]);
 
-  // Journal d'intégrité (simulation) : détection de sortie d'onglet + copie
+  // Journal d'intégrité local : sortie d'onglet + copie du texte
   useEffect(() => {
     if (phase !== "exam") return;
     const onVisibility = () => logEvent(document.hidden ? "tab_blur" : "tab_focus");
@@ -187,7 +187,7 @@ export function ExamRoom({ code }: { code: string }) {
               <span className="exam-tag">EXAMEN</span>
             </div>
             <div className="exam-student-badge">
-              <i className="fa-solid fa-user-graduate" aria-hidden="true" /> Session de démonstration
+              <i className="fa-solid fa-user-graduate" aria-hidden="true" /> Session locale
             </div>
           </header>
 
@@ -216,7 +216,7 @@ export function ExamRoom({ code }: { code: string }) {
                   <p className="step-text">
                     Vous êtes sur le point de commencer une composition. Vérifiez les informations à gauche
                     et assurez-vous d&apos;avoir une connexion stable. Cette session est une{" "}
-                    <strong>démonstration</strong> : aucune copie n&apos;est envoyée à un serveur.
+                    <strong>cette version</strong> : aucune copie n&apos;est envoyée à un serveur.
                   </p>
                   <Button size="sm" onClick={() => setStep(2)} iconAfter="fa-solid fa-arrow-right">
                     Suivant
@@ -258,10 +258,10 @@ export function ExamRoom({ code }: { code: string }) {
                       <i className="fa-solid fa-window-restore" aria-hidden="true" />
                       <span>Plein écran recommandé</span>
                     </div>
-                    <div className="sec-item simulated">
+                    <div className="sec-item">
                       <i className="fa-solid fa-eye" aria-hidden="true" />
-                      <span>Détection changement d&apos;onglet</span>
-                      <span className="sim-tag">Simulation</span>
+                      <span>Changement d&apos;onglet journalisé</span>
+                      <span className="sim-tag">Local</span>
                     </div>
                     <div className="sec-item simulated">
                       <i className="fa-solid fa-video" aria-hidden="true" />
@@ -270,8 +270,8 @@ export function ExamRoom({ code }: { code: string }) {
                     </div>
                   </div>
                   <p className="step-note">
-                    Les fonctions marquées « Simulation » n&apos;enregistrent aucune donnée biométrique : le
-                    journal d&apos;intégrité reste dans votre navigateur.
+                    Aucune donnée biométrique n&apos;est enregistrée : le journal d&apos;intégrité reste dans
+                    votre navigateur et la caméra n&apos;est pas activée.
                   </p>
                   <Button size="sm" onClick={() => setStep(4)} iconAfter="fa-solid fa-shield-halved">
                     Accepter la sécurité
@@ -476,7 +476,7 @@ export function ExamRoom({ code }: { code: string }) {
                       placeholder="Rédigez votre réponse…"
                     />
                     <p className="form-hint">
-                      Correction locale par mots-clés (démonstration) — {question.keywords?.length ?? 0} notions attendues.
+                      Correction locale par mots-clés — {question.keywords?.length ?? 0} notions attendues.
                     </p>
                   </div>
                 ) : null}
@@ -511,7 +511,7 @@ export function ExamRoom({ code }: { code: string }) {
 
               <footer className="exam-footer">
                 <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
-                  <i className="fa-solid fa-shield-halved" aria-hidden="true" /> Session de démonstration · remise locale
+                  <i className="fa-solid fa-shield-halved" aria-hidden="true" /> Session locale · remise sur cet appareil
                 </span>
                 <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
                   {composition.code} · {composition.teacherName}
@@ -530,7 +530,7 @@ export function ExamRoom({ code }: { code: string }) {
                   {answeredCount}/{palette.length} questions répondues · {flagged.length} marquée(s) à revoir.
                 </p>
                 <div className="payment-notice" style={{ background: "rgba(245,124,0,0.1)", marginBottom: 16 }}>
-                  La remise est <strong>simulée</strong> : aucune copie n&apos;est transmise et la note affichée
+                  La remise reste <strong>locale</strong> : aucune copie n&apos;est transmise et la note affichée
                   est calculée dans votre navigateur.
                 </div>
                 <div className="row" style={{ justifyContent: "flex-end" }}>
@@ -557,7 +557,7 @@ export function ExamRoom({ code }: { code: string }) {
             <div className="card">
               <div className="row-between" style={{ marginBottom: 10 }}>
                 <h1 style={{ fontSize: "1.4rem", fontWeight: 900, color: "var(--text-1)", margin: 0 }}>
-                  Copie remise (simulation)
+                  Copie remise
                 </h1>
                 <Badge tone={copy.passed ? "success" : "danger"}>
                   {copy.scoreOn20.toFixed(1)}/20 · {copy.passed ? "Seuil atteint" : "Sous le seuil"}

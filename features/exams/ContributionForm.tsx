@@ -6,7 +6,6 @@ import { DEPARTMENTS_BY_FACULTY, FACULTIES } from "@/types";
 import { examService } from "@/services/examService";
 import { ApiError } from "@/services/api/client";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 
 const EMPTY: ExamContributionInput = {
   title: "",
@@ -25,16 +24,16 @@ const MAX_SIZE = 10 * 1024 * 1024;
 
 /**
  * Formulaire de contribution d'épreuve.
- * Aucun fichier n'est envoyé : le fichier est seulement nommé et pesé, puis la
- * contribution est enregistrée localement. En production, une URL présignée R2
- * sera demandée au Worker avant l'upload direct.
+ * La saisie et la validation sont fonctionnelles, mais le dépôt n'est pas
+ * ouvert : le service refuse explicitement l'envoi et aucun fichier n'est
+ * transmis. Aucune contribution n'est donc enregistrée, ni localement ni
+ * ailleurs.
  */
 export function ContributionForm() {
   const [form, setForm] = useState<ExamContributionInput>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState<{ id: string; title: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const set = <K extends keyof ExamContributionInput>(key: K, value: ExamContributionInput[K]) =>
@@ -55,10 +54,7 @@ export function ContributionForm() {
     setBusy(true);
     setErrors({});
     try {
-      const created = await examService.submitContribution({ ...form, file: file ?? undefined });
-      setDone({ id: created.id, title: created.title });
-      setForm(EMPTY);
-      setFile(null);
+      await examService.submitContribution({ ...form, file: file ?? undefined });
     } catch (cause) {
       if (cause instanceof ApiError) setErrors(cause.fields ?? { form: cause.message });
       else setErrors({ form: "Envoi impossible." });
@@ -67,35 +63,18 @@ export function ContributionForm() {
     }
   };
 
-  if (done) {
-    return (
-      <div className="card" style={{ padding: 28, textAlign: "center" }} role="status">
-        <div style={{ fontSize: "2rem", color: "var(--success)", marginBottom: 10 }} aria-hidden="true">
-          <i className="fa-solid fa-circle-check" />
-        </div>
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 6 }}>
-          Contribution enregistrée (simulation)
-        </h2>
-        <p style={{ fontSize: "0.86rem", color: "var(--text-2)", marginBottom: 6 }}>
-          « {done.title} » a été ajoutée à la file de modération locale. Aucun fichier n&apos;a été transféré :
-          la publication réelle nécessitera le stockage R2 et une validation par l&apos;équipe.
-        </p>
-        <p style={{ fontSize: "0.76rem", color: "var(--text-3)", marginBottom: 16 }}>Référence : {done.id}</p>
-        <Button variant="outline" onClick={() => setDone(null)} icon="fa-solid fa-plus">
-          Contribuer une autre épreuve
-        </Button>
-      </div>
-    );
-  }
-
   return (
     <div className="card" style={{ padding: 24 }}>
+      <div className="contribution-notice" role="note">
+        <strong>Dépôt fermé pour le moment.</strong> Le formulaire est prêt, mais les fichiers ne
+        peuvent pas encore être reçus : aucune contribution n&apos;est enregistrée à l&apos;envoi.
+      </div>
       <h2 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 4 }}>
         <i className="fa-solid fa-upload" aria-hidden="true" /> Soumettre une épreuve
       </h2>
       <p style={{ fontSize: "0.8rem", color: "var(--text-2)", marginBottom: 16 }}>
-        Formats acceptés : PDF, DOC, DOCX, JPG, PNG — 10 Mo maximum. Le fichier n&apos;est pas lu dans cette
-        version de démonstration.
+        Formats attendus : PDF, DOC, DOCX, JPG, PNG — 10 Mo maximum. Le fichier reste sur votre
+        appareil.
       </p>
 
       <div
@@ -136,6 +115,11 @@ export function ContributionForm() {
         </div>
       </div>
       {errors.file ? <p className="form-error">{errors.file}</p> : null}
+      {errors.form ? (
+        <p className="form-error" role="alert" style={{ marginBottom: 12 }}>
+          {errors.form}
+        </p>
+      ) : null}
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12 }}>
         <div className="form-group">
@@ -253,14 +237,12 @@ export function ContributionForm() {
         </div>
       </div>
 
-      {errors.form ? <p className="form-error">{errors.form}</p> : null}
-
-      <div className="row-between" style={{ marginTop: 8 }}>
-        <Badge tone="accent" icon="fa-solid fa-flask">
-          Envoi simulé — aucun fichier transmis
-        </Badge>
+      <div className="row-between" style={{ marginTop: 8, gap: 12, flexWrap: "wrap" }}>
+        <span style={{ fontSize: "0.76rem", color: "var(--text-3)" }}>
+          Aucun fichier n&apos;est transmis tant que le dépôt est fermé.
+        </span>
         <Button variant="primary" onClick={submit} disabled={busy} icon="fa-solid fa-paper-plane">
-          {busy ? "Envoi…" : "Soumettre l'épreuve"}
+          {busy ? "Vérification…" : "Soumettre l'épreuve"}
         </Button>
       </div>
     </div>

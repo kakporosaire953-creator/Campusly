@@ -30,50 +30,13 @@ import {
 } from "./mocks/fixtures/users";
 import { ApiError } from "./api/client";
 
-const DEMO_ACTIVITIES: ActivityEntry[] = [
-  {
-    id: "act-1",
-    type: "quiz",
-    title: "Quiz — Algorithmique",
-    detail: "Score 13/20 · Structures de données",
-    occurredAt: "2026-10-30T21:15:00.000Z",
-    icon: "fa-solid fa-brain",
-    tone: "brand",
-  },
-  {
-    id: "act-2",
-    type: "exam",
-    title: "Téléchargement — Algorithmique 2024-2025",
-    detail: "Bibliothèque d'épreuves · FAST",
-    occurredAt: "2026-10-27T18:22:00.000Z",
-    icon: "fa-solid fa-file-lines",
-    tone: "accent",
-  },
-  {
-    id: "act-3",
-    type: "composition",
-    title: "Contrôle continu — Séries numériques",
-    detail: "Note 15/20 · validée par l'enseignant",
-    occurredAt: "2026-10-20T09:12:00.000Z",
-    icon: "fa-solid fa-stopwatch",
-    tone: "success",
-  },
-  {
-    id: "act-4",
-    type: "classroom",
-    title: "Nouvelle annonce — L2 Informatique",
-    detail: "TD déplacé à l'amphi C",
-    occurredAt: "2026-10-29T16:20:00.000Z",
-    icon: "fa-solid fa-chalkboard-user",
-    tone: "brand",
-  },
-];
+const DEMO_ACTIVITIES: ActivityEntry[] = [];
 
 class UserService {
   async getLearnerDashboard(): Promise<LearnerDashboard> {
     await demoDelay(160);
     const session = await authService.getSession();
-    if (!session) throw ApiError.of("UNAUTHENTICATED", "Aucune session de démonstration active.");
+    if (!session) throw ApiError.of("UNAUTHENTICATED", "Aucune session active.");
 
     const [exams, classrooms, compositions, attempts] = await Promise.all([
       examService.list({ faculty: session.user.faculty, pageSize: 3 }),
@@ -90,11 +53,15 @@ class UserService {
       streakDays: session.user.streakDays,
       credits: session.user.credits,
       weeklyGoal: DEMO_WEEKLY_GOAL,
-      lastActivity: {
-        title: "Algorithmique — Complexité",
-        chapter: "Chapitre 3 : Notations asymptotiques",
-        progressPercent: 68,
-      },
+      // Aucun chapitre « en cours » n'est inventé : la carte n'apparaît que
+      // lorsqu'une tentative réelle existe.
+      lastActivity: lastAttempt
+        ? {
+            title: lastAttempt.quizTitle,
+            chapter: "Dernière tentative enregistrée",
+            progressPercent: Math.round((lastAttempt.score / Math.max(1, lastAttempt.total)) * 100),
+          }
+        : null,
       weakTopics: DEMO_WEAK_TOPICS as MasteryTopic[],
       strongTopics: DEMO_STRONG_TOPICS as MasteryTopic[],
       recentActivities: lastAttempt
@@ -122,7 +89,7 @@ class UserService {
   async getTeacherDashboard(): Promise<TeacherDashboard> {
     await demoDelay(180);
     const session = await authService.getSession();
-    if (!session) throw ApiError.of("UNAUTHENTICATED", "Aucune session de démonstration active.");
+    if (!session) throw ApiError.of("UNAUTHENTICATED", "Aucune session active.");
 
     const [classrooms, compositions, copies] = await Promise.all([
       classroomService.list(),
@@ -177,46 +144,22 @@ class UserService {
   async getAdminOverview(): Promise<AdminOverview> {
     await demoDelay(200);
     const session = await authService.getSession();
-    if (!session) throw ApiError.of("UNAUTHENTICATED", "Aucune session de démonstration active.");
+    if (!session) throw ApiError.of("UNAUTHENTICATED", "Aucune session active.");
+
+    // La plateforme n'a encore ni utilisateurs réels ni contributions : tous les
+    // compteurs partent de zéro plutôt que d'un ordre de grandeur inventé.
+    const exams = await examService.list({ pageSize: 1 });
 
     return {
       totals: {
-        users: 1284,
-        learners: 1211,
-        teachers: 73,
-        pendingTeacherRequests: 4,
+        users: 0,
+        learners: 0,
+        teachers: 0,
+        pendingTeacherRequests: 0,
       },
-      contributions: { pending: 3, approved: 148, rejected: 11 },
-      ai: { analysesThisMonth: 412, creditsConsumed: 10_300 },
-      moderationQueue: [
-        {
-          id: "contrib-1",
-          title: "Analyse réelle — Suites et séries (2025-2026)",
-          faculty: "FAST",
-          academicYear: "2025-2026",
-          contributorName: "Mireille Hounkpe",
-          submittedAt: "2026-10-30T08:12:00.000Z",
-          status: "pending",
-        },
-        {
-          id: "contrib-2",
-          title: "Droit civil — Obligations (2025-2026)",
-          faculty: "FADESP",
-          academicYear: "2025-2026",
-          contributorName: "Ismaël Bio",
-          submittedAt: "2026-10-29T17:40:00.000Z",
-          status: "pending",
-        },
-        {
-          id: "contrib-3",
-          title: "Comptabilité générale — Écritures (2025-2026)",
-          faculty: "FASEG",
-          academicYear: "2025-2026",
-          contributorName: "Fabiola Adjamou",
-          submittedAt: "2026-10-28T11:05:00.000Z",
-          status: "pending",
-        },
-      ],
+      contributions: { pending: 0, approved: 0, rejected: exams.total },
+      ai: { analysesThisMonth: 0, creditsConsumed: 0 },
+      moderationQueue: [],
       isDemo: true,
     };
   }

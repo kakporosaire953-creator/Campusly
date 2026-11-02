@@ -6,12 +6,17 @@ import { userService } from "@/services/userService";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ProgressBar, StatCard } from "@/components/ui/Progress";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { ErrorState, LoadingGrid, EmptyState } from "@/components/ui/States";
 import { formatRelativeFr } from "@/services/mocks/store";
 import { roleLabels } from "@/config/site";
 
-/** Tableau de bord apprenant — données de démonstration. */
+/**
+ * Tableau de bord apprenant.
+ * Aucune statistique n'est inventée : tant que l'étudiant n'a rien révisé, les
+ * cartes de progression affichent un état vide qui explique ce qui les
+ * remplira.
+ */
 export function LearnerOverview() {
   const { data, status, error, reload } = useAsync(() => userService.getLearnerDashboard(), []);
 
@@ -28,12 +33,14 @@ export function LearnerOverview() {
     return <ErrorState message={error ?? "Tableau de bord indisponible."} onRetry={reload} />;
   }
 
+  const hasActivity =
+    data.level.xp > 0 || data.streakDays > 0 || data.credits > 0 || data.recentActivities.length > 0;
+
   return (
     <div className="stack" style={{ gap: 24 }}>
       <PageHeader
         title={`Bonjour ${data.user.prenom}`}
-        subtitle="Voici où vous en êtes aujourd'hui. Toutes les valeurs sont fictives."
-        demo
+        subtitle="Vos révisions, vos classes et vos échéances, au même endroit."
         actions={
           <>
             <Badge tone="brand" icon="fa-solid fa-user-graduate">
@@ -46,18 +53,53 @@ export function LearnerOverview() {
         }
       />
 
-      <div className="stats-grid" style={{ marginBottom: 0 }}>
-        <StatCard label="Niveau académique" value={data.level.name} icon="fa-solid fa-graduation-cap" tone="blue" hint={`${data.level.xp} XP · prochain palier ${data.level.nextThreshold}`} />
-        <StatCard label="Série d'étude" value={`${data.streakDays} j`} icon="fa-solid fa-fire" tone="orange" hint="Régularité simulée" />
-        <StatCard label="Crédits (démo)" value={data.credits} icon="fa-solid fa-bolt" tone="green" hint="Aucun solde réel" />
-        <StatCard
-          label="Objectif hebdomadaire"
-          value={`${data.weeklyGoal.current}/${data.weeklyGoal.target}`}
-          icon="fa-solid fa-bullseye"
-          tone="purple"
-          hint={data.weeklyGoal.period}
-        />
-      </div>
+      {hasActivity ? (
+        <div className="stats-grid" style={{ marginBottom: 0 }}>
+          <StatCard
+            label="Niveau académique"
+            value={data.level.name}
+            icon="fa-solid fa-graduation-cap"
+            tone="blue"
+            hint={`${data.level.xp} XP · prochain palier ${data.level.nextThreshold}`}
+          />
+          <StatCard label="Série d'étude" value={`${data.streakDays} j`} icon="fa-solid fa-fire" tone="orange" hint="Jours consécutifs" />
+          <StatCard label="Crédits" value={data.credits} icon="fa-solid fa-bolt" tone="green" hint="Solde disponible" />
+          <StatCard
+            label="Objectif hebdomadaire"
+            value={`${data.weeklyGoal.current}/${data.weeklyGoal.target}`}
+            icon="fa-solid fa-bullseye"
+            tone="purple"
+            hint={data.weeklyGoal.period}
+          />
+        </div>
+      ) : (
+        <Card>
+          <CardHeader
+            title="Votre espace se remplit en révisant"
+            subtitle="Aucune activité n'est encore enregistrée sur ce compte."
+            icon="fa-solid fa-seedling"
+          />
+          <ul className="dashboard-onboarding">
+            <li>
+              <span aria-hidden="true">01</span> Importez un cours ou une fiche dans Campusly AI.
+            </li>
+            <li>
+              <span aria-hidden="true">02</span> Lancez un premier entraînement pour situer vos acquis.
+            </li>
+            <li>
+              <span aria-hidden="true">03</span> Rejoignez un amphi avec le code de votre enseignant.
+            </li>
+          </ul>
+          <div className="row" style={{ gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+            <Link href="/dashboard/revision" className="btn btn-primary btn-sm">
+              Commencer une révision
+            </Link>
+            <Link href="/dashboard/classrooms" className="btn btn-ghost btn-sm">
+              Rejoindre un amphi
+            </Link>
+          </div>
+        </Card>
+      )}
 
       <div className="grid-2">
         <div className="stack" style={{ gap: 20 }}>
@@ -81,8 +123,20 @@ export function LearnerOverview() {
               title="Diagnostic par matière"
               subtitle="Points faibles et points forts identifiés"
               icon="fa-solid fa-chart-line"
-              action={<DemoBadge label="Simulation" />}
+             
             />
+            {data.weakTopics.length === 0 && data.strongTopics.length === 0 ? (
+              <EmptyState
+                icon="fa-solid fa-chart-simple"
+                title="Pas encore de diagnostic"
+                description="Les notions à travailler apparaîtront après votre premier entraînement."
+                action={
+                  <Link href="/dashboard/revision" className="btn btn-primary btn-sm">
+                    Lancer un entraînement
+                  </Link>
+                }
+              />
+            ) : null}
             <div className="stack" style={{ gap: 14 }}>
               {data.weakTopics.map((topic) => (
                 <div key={topic.subject}>
@@ -161,6 +215,13 @@ export function LearnerOverview() {
         <div className="stack" style={{ gap: 20 }}>
           <Card>
             <CardHeader title="Activité récente" icon="fa-solid fa-clock-rotate-left" />
+            {data.recentActivities.length === 0 ? (
+              <EmptyState
+                icon="fa-regular fa-clock"
+                title="Aucune activité"
+                description="Vos quiz, téléchargements et remises de copies s'afficheront ici."
+              />
+            ) : null}
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
               {data.recentActivities.map((activity) => (
                 <li key={activity.id} className="history-row">
@@ -232,6 +293,18 @@ export function LearnerOverview() {
 
           <Card>
             <CardHeader title="Épreuves recommandées" icon="fa-solid fa-file-lines" action={<Link href="/dashboard/epreuves" className="link-primary" style={{ fontSize: "0.8rem" }}>Bibliothèque</Link>} />
+            {data.recommendedExams.length === 0 ? (
+              <EmptyState
+                icon="fa-solid fa-folder-open"
+                title="Bibliothèque en préparation"
+                description="Les épreuves de votre faculté apparaîtront ici dès leur publication."
+                action={
+                  <Link href="/dashboard/epreuves" className="btn btn-ghost btn-sm">
+                    Ouvrir la bibliothèque
+                  </Link>
+                }
+              />
+            ) : null}
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
               {data.recommendedExams.map((exam) => (
                 <li key={exam.id} className="epreuve-item" style={{ marginBottom: 0 }}>

@@ -26,7 +26,7 @@ export function RoleSwitcher({ compact = false }: { compact?: boolean }) {
     setPending(true);
     try {
       await switchRole(next);
-      toast(`Vue « ${roleLabels[next]} » activée (démonstration).`, "info");
+      toast(`Vue « ${roleLabels[next]} » activée.`, "info");
       router.push(next === "teacher" ? "/enseignant" : next === "admin" ? "/admin" : "/dashboard");
     } finally {
       setPending(false);
@@ -46,12 +46,12 @@ export function RoleSwitcher({ compact = false }: { compact?: boolean }) {
             marginBottom: 6,
           }}
         >
-          Vue de démonstration
+          Vue de l'espace
         </div>
       ) : null}
       <div
         role="group"
-        aria-label="Changer de rôle (démonstration)"
+        aria-label="Changer de vue"
         style={{ display: "flex", gap: 6, flexWrap: "wrap" }}
       >
         {ROLES.map((item) => (

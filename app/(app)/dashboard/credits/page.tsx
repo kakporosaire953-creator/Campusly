@@ -3,7 +3,7 @@ import { CreditsCenter } from "@/features/credits/CreditsCenter";
 
 export const metadata: Metadata = {
   title: "Campusly Credits",
-  description: "Solde, historique et rechargement de crédits Campusly — simulation.",
+  description: "Crédits Campusly : état du service, historique et actions à venir.",
 };
 
 export default function CreditsPage() {

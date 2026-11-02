@@ -7,7 +7,7 @@ import { classroomService } from "@/services/classroomService";
 import { useAsync } from "@/hooks/useAsync";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar, StatCard } from "@/components/ui/Progress";
 import { ErrorState, LoadingGrid, EmptyState } from "@/components/ui/States";
@@ -46,7 +46,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
       const post = await classroomService.addPost(data.id, draft);
       setData({ ...data, posts: [post, ...(data.posts ?? [])] });
       setDraft("");
-      toast("Message publié localement (démonstration).", "success");
+      toast("Message publié sur cet appareil.", "success");
     } catch (cause) {
       toast(cause instanceof Error ? cause.message : "Publication impossible.", "danger");
     } finally {
@@ -73,7 +73,6 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
       <PageHeader
         title={data.name}
         subtitle={`${data.subject} · ${data.level} · ${data.faculty} · Enseignant : ${data.teacherName}`}
-        demo
         actions={<Badge tone="brand">Code {data.code}</Badge>}
       />
 
@@ -84,7 +83,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
           value={analytics.data?.classAverage !== null && analytics.data?.classAverage !== undefined ? `${analytics.data.classAverage.toFixed(1)}/20` : "—"}
           icon="fa-solid fa-chart-simple"
           tone="green"
-          hint="Calcul simulé"
+          hint="Pas encore calculée"
         />
         <StatCard
           label="Taux de participation"
@@ -97,7 +96,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
           value={analytics.data?.strugglingCount ?? "—"}
           icon="fa-solid fa-triangle-exclamation"
           tone="orange"
-          hint="Alerte pédagogique simulée"
+          hint="Aucun signalement"
         />
       </div>
 
@@ -120,7 +119,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
       {tab === "flux" ? (
         <div className="stack" style={{ gap: 16 }}>
           <Card>
-            <CardHeader title="Publier une annonce" subtitle="Réservé aux enseignants en production" icon="fa-solid fa-bullhorn" action={<DemoBadge label="Local" />} />
+            <CardHeader title="Publier une annonce" subtitle="Réservé aux enseignants en production" icon="fa-solid fa-bullhorn" />
             <label className="form-label" htmlFor="post-content">
               Message
             </label>
@@ -133,7 +132,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
             />
             <div className="row" style={{ marginTop: 10 }}>
               <Button variant="primary" size="sm" onClick={publish} disabled={posting || draft.trim().length === 0}>
-                {posting ? "Publication…" : "Publier (démo)"}
+                {posting ? "Publication…" : "Publier"}
               </Button>
               <span style={{ fontSize: "0.74rem", color: "var(--text-2)" }}>
                 Le message n&apos;est visible que dans votre navigateur.
@@ -183,7 +182,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
                   {resource.sizeLabel ? ` · ${resource.sizeLabel}` : ""} · ajouté le {formatDateFr(resource.addedAt)}
                 </div>
                 <Button variant="ghost" size="sm" style={{ marginTop: 10 }} disabled icon="fa-solid fa-download">
-                  Téléchargement indisponible (démo)
+                  Téléchargement indisponible
                 </Button>
               </Card>
             ))}
@@ -220,7 +219,7 @@ export function ClassroomDetail({ classroomId }: { classroomId: string }) {
 
       {tab === "membres" ? (
         (data.members ?? []).length === 0 ? (
-          <EmptyState icon="fa-solid fa-users" title="Aucun membre listé" description="Seuls quelques membres de démonstration sont exposés." />
+          <EmptyState icon="fa-solid fa-users" title="Aucun membre pour l'instant" description="Les étudiants apparaîtront ici après avoir rejoint la classe avec le code." />
         ) : (
           <div className="table-wrap">
             <table className="data-table">

@@ -5,7 +5,7 @@ import { ExamRoom } from "@/features/exams/ExamRoom";
 
 export const metadata: Metadata = {
   title: "Salle d'examen",
-  description: "Salle d'examen surveillée Campusly — démonstration locale.",
+  description: "Salle d'examen surveillée Campusly.",
   robots: { index: false, follow: false },
 };
 

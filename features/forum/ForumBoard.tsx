@@ -49,7 +49,7 @@ export function ForumBoard() {
       });
       setThreads(result.items);
     } catch {
-      setError("Le forum de démonstration est temporairement indisponible.");
+      setError("Le forum est momentanément indisponible.");
     } finally {
       setLoading(false);
     }
@@ -75,7 +75,7 @@ export function ForumBoard() {
       setCreateOpen(false);
       setForm({ title: "", content: "", tags: "" });
       setThreads((current) => [created, ...current]);
-      toast("Sujet publié localement (démonstration).", "success");
+      toast("Sujet publié sur cet appareil.", "success");
     } catch (cause) {
       if (cause instanceof ApiError) setFormErrors(cause.fields ?? { form: cause.message });
       else setFormErrors({ form: "Publication impossible." });
@@ -104,7 +104,7 @@ export function ForumBoard() {
         current ? { ...current, replies: [...(current.replies ?? []), created], repliesCount: current.repliesCount + 1 } : current,
       );
       setReply("");
-      toast("Réponse publiée localement (démonstration).", "success");
+      toast("Réponse publiée sur cet appareil.", "success");
     } catch (cause) {
       toast(cause instanceof Error ? cause.message : "Réponse impossible.", "danger");
     } finally {
@@ -117,7 +117,6 @@ export function ForumBoard() {
       <PageHeader
         title="Forum & entraide"
         subtitle="Posez vos questions, partagez vos fiches et aidez les autres étudiants de l'UAC."
-        demo
         actions={
           <Button size="sm" icon="fa-solid fa-plus" onClick={() => setCreateOpen(true)}>
             Nouveau sujet
@@ -283,7 +282,7 @@ export function ForumBoard() {
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         title="Nouveau sujet"
-        description="Publication locale de démonstration"
+        description="Votre sujet reste sur cet appareil tant que le forum n'est pas connecté."
         maxWidth={560}
         footer={
           <div className="row" style={{ justifyContent: "flex-end" }}>
@@ -291,7 +290,7 @@ export function ForumBoard() {
               Annuler
             </Button>
             <Button variant="primary" onClick={createThread} disabled={busy}>
-              {busy ? "Publication…" : "Publier (démo)"}
+              {busy ? "Publication…" : "Publier le sujet"}
             </Button>
           </div>
         }
@@ -345,7 +344,7 @@ export function ForumBoard() {
                 Fermer
               </Button>
               <Button variant="primary" size="sm" onClick={sendReply} disabled={busy || reply.trim().length === 0}>
-                Répondre (démo)
+                Répondre
               </Button>
             </div>
           </div>

@@ -1,17 +1,14 @@
 import type { ReactNode } from "react";
-import { DemoBadge } from "./Badge";
 
 export function PageHeader({
   title,
   subtitle,
   actions,
-  demo = false,
   icon,
 }: {
   title: string;
   subtitle?: string;
   actions?: ReactNode;
-  demo?: boolean;
   icon?: string;
 }) {
   return (
@@ -20,7 +17,6 @@ export function PageHeader({
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           {icon ? <i className={icon} aria-hidden="true" style={{ color: "var(--brand-1)", fontSize: "1.2rem" }} /> : null}
           {title}
-          {demo ? <DemoBadge /> : null}
         </h1>
         {subtitle ? <p>{subtitle}</p> : null}
       </div>

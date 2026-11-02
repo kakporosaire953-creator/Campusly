@@ -241,9 +241,9 @@ Règles :
 - Webhook : signature vérifiée, idempotence par `fedapay_ref`, rejeu sans effet.
 - Crédits accordés uniquement sur `succeeded`, jamais sur `pending`.
 
-Dans la version actuelle, `paymentService.createIntent` renvoie une intention locale
-`simulation: true`, **sans `checkoutUrl`**, et `markDemoIntentAsSimulated` crédite un
-solde fictif explicitement affiché comme tel.
+Dans la version actuelle, `paymentService.createIntent` valide les champs puis lève
+`BACKEND_UNAVAILABLE` : aucune intention locale n'est fabriquée, aucun crédit n'est
+accordé et l'interface annonce que le paiement n'est pas ouvert.
 
 ---
 
@@ -314,7 +314,7 @@ précisées comme simulations.
 
 | Contrat | Simulation frontend | Conséquence |
 | --- | --- | --- |
-| Correction serveur des quiz | correction locale (corrigés embarqués) | mention « correction locale de démonstration » |
+| Correction serveur des quiz | correction locale sur une banque d'exercices | mention « correction locale, non officielle » |
 | Remise de copie horodatée serveur | stockage `localStorage` | mention « copie simulée » |
 | URL R2 présignée | ticket `demo://r2/…` | bouton « téléchargement simulé » |
 | Paiement FedaPay | intention locale `simulation: true` | aucun débit, aucune redirection |

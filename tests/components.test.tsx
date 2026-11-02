@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Button } from "@/components/ui/Button";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { EmptyState, ErrorState, Loader } from "@/components/ui/States";
 import { ProgressBar, StatCard } from "@/components/ui/Progress";
 import { Modal } from "@/components/ui/Modal";
@@ -38,12 +38,7 @@ describe("Button", () => {
 });
 
 describe("Badge", () => {
-  it("explicite toujours les données de démonstration", () => {
-    render(<DemoBadge />);
-    expect(screen.getByText("Données de démonstration")).toBeInTheDocument();
-  });
-
-  it("affiche un libellé personnalisé", () => {
+  it("affiche son contenu", () => {
     render(<Badge tone="success">Vérifié</Badge>);
     expect(screen.getByText("Vérifié")).toBeInTheDocument();
   });

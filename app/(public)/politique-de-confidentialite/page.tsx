@@ -40,7 +40,7 @@ export default function PrivacyPage() {
         <h2>3. Protection et sécurité</h2>
         <p>
           Les mots de passe sont hachés côté serveur. Aucune donnée personnelle n&apos;est revendue. Dans cette
-          version de démonstration, <strong>aucune donnée ne quitte votre navigateur</strong> : les informations
+          version actuelle, <strong>aucune donnée ne quitte votre navigateur</strong> : les informations
           saisies restent dans le stockage local et peuvent être effacées à tout moment depuis les paramètres.
         </p>
 

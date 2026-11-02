@@ -13,7 +13,7 @@ type AnswerValue = number | boolean | string;
 
 /**
  * Moteur de quiz des 5 modes d'apprentissage.
- * Correction locale de démonstration ; l'énoncé indique clairement que la note
+ * Correction locale ; l'énoncé indique clairement que la note
  * n'est pas officielle.
  */
 export function QuizRunner({ quiz, onExit }: { quiz: Quiz; onExit: () => void }) {
@@ -191,7 +191,7 @@ export function QuizRunner({ quiz, onExit }: { quiz: Quiz; onExit: () => void })
               placeholder="Rédigez votre réponse en quelques lignes…"
             />
             <p className="form-hint">
-              Correction par mots-clés en mode démonstration ({question.keywords?.length ?? 0} attendus).
+              Correction par mots-clés ({question.keywords?.length ?? 0} mots attendus).
             </p>
           </div>
         ) : null}
@@ -239,7 +239,7 @@ function QuizResult({
         <Badge tone={result.passed ? "success" : "danger"}>{result.passed ? "Objectif atteint" : "À consolider"}</Badge>
       </div>
       <p style={{ fontSize: "0.78rem", color: "var(--text-2)", marginBottom: 16 }}>
-        {result.quizTitle} · correction locale de démonstration (non officielle)
+        {result.quizTitle} · correction locale, non officielle
       </p>
 
       <div className="stats-grid" style={{ marginBottom: 20 }}>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { examService } from "@/services/examService";
 import { ApiError } from "@/services/api/client";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { ExamDetailActions } from "@/features/exams/ExamDetailActions";
 import { formatDateFr } from "@/services/mocks/store";
@@ -39,7 +39,6 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ id:
           <div className="row" style={{ gap: 8, marginBottom: 12 }}>
             <Badge tone="brand">{exam.type}</Badge>
             <Badge tone={exam.isPremium ? "accent" : "neutral"}>{exam.isPremium ? "Premium" : "Accès libre"}</Badge>
-            <DemoBadge label="Épreuve fictive" />
           </div>
           <h1 style={{ fontSize: "1.5rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 8, lineHeight: 1.25 }}>
             {exam.title}
@@ -73,7 +72,7 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ id:
             <CardHeader title="Épreuves liées" icon="fa-solid fa-layer-group" />
             {related.length === 0 ? (
               <p style={{ fontSize: "0.85rem", color: "var(--text-2)" }}>
-                Aucune autre épreuve de démonstration pour cette faculté.
+                Aucune autre épreuve n&apos;est publiée pour cette faculté.
               </p>
             ) : (
               <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
@@ -104,10 +103,10 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ id:
           <Card>
             <CardHeader title="Besoin de réviser ce sujet ?" icon="fa-solid fa-brain" />
             <p style={{ fontSize: "0.85rem", color: "var(--text-2)", marginBottom: 14 }}>
-              Générez un quiz d&apos;entraînement sur cette matière avec Campusly AI (démonstration).
+              Générez un quiz d&apos;entraînement sur cette matière avec Campusly AI.
             </p>
             <Link href={`/dashboard/revision?subject=${encodeURIComponent(exam.subject)}`} className="btn btn-primary btn-sm">
-              <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" /> Générer un quiz
+              <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" /> Ouvrir la révision
             </Link>
           </Card>
         </div>

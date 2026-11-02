@@ -1,21 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Difficulty, FacultyCode, LearningMode, Quiz } from "@/types";
 import { FACULTIES } from "@/types";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge, DemoBadge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/States";
-import { ProgressBar } from "@/components/ui/Progress";
 import { useToast } from "@/components/ui/ToastProvider";
-import { aiService } from "@/services/aiService";
 import { quizService } from "@/services/quizService";
-import { creditService } from "@/services/creditService";
-import { DEMO_DOCUMENT_ANALYSIS, DEMO_SUMMARY } from "@/services/mocks/fixtures/quizzes";
-import type { DocumentAnalysis } from "@/types";
+import { DEMO_SUMMARY } from "@/services/mocks/fixtures/quizzes";
 import { QuizRunner } from "./QuizRunner";
 
 const MODES: Array<{ id: LearningMode; label: string; icon: string; description: string }> = [
@@ -29,20 +25,20 @@ const MODES: Array<{ id: LearningMode; label: string; icon: string; description:
 const SUBJECTS = ["Algorithmique", "Analyse", "Bases de données"] as const;
 
 /**
- * Hub de révision : assistant Campusly AI (parcours guidé) + 5 modes
- * d'entraînement. Tout est simulé : analyse de document, génération de quiz et
- * correction sont locales.
+ * Hub de révision.
+ * Les entraînements sont réellement jouables : les énoncés proviennent d'une
+ * banque d'exercices écrite pour l'application, la correction est locale et
+ * assumée comme non officielle. Aucun document n'est analysé, aucune IA n'est
+ * interrogée et aucun crédit n'est débité — l'analyse de cours est annoncée
+ * comme indisponible plutôt que simulée.
  */
 export function RevisionHub() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [view, setView] = useState<"wizard" | "practice">("wizard");
 
-  // ── Assistant IA ────────────────────────────────────────────
+  // ── Parcours guidé ──────────────────────────────────────────
   const [step, setStep] = useState(1);
-  const [fileName, setFileName] = useState("cours-algorithmique-ch3.pdf");
-  const [analysis, setAnalysis] = useState<DocumentAnalysis | null>(null);
-  const [analyzing, setAnalyzing] = useState(false);
   const [subject, setSubject] = useState<string>(searchParams.get("subject") ?? "Algorithmique");
   const [faculty, setFaculty] = useState<FacultyCode>("FAST");
   const [difficulty, setDifficulty] = useState<Difficulty>("Intermédiaire");
@@ -54,23 +50,6 @@ export function RevisionHub() {
   const [mode, setMode] = useState<LearningMode>("qcm");
   const [practiceQuiz, setPracticeQuiz] = useState<Quiz | null>(null);
   const [practiceLoading, setPracticeLoading] = useState(false);
-
-  const analysisCost = DEMO_DOCUMENT_ANALYSIS.creditsCost;
-
-  const runAnalysis = async () => {
-    setAnalyzing(true);
-    try {
-      const result = await aiService.analyzeDocument({ fileName, faculty, subject });
-      setAnalysis(result);
-      creditService.spend("ai_analysis", `Analyse de document — ${fileName}`);
-      setStep(3);
-      toast("Analyse simulée terminée (25 crédits de démonstration débités).", "success");
-    } catch (cause) {
-      toast(cause instanceof Error ? cause.message : "Analyse impossible.", "danger");
-    } finally {
-      setAnalyzing(false);
-    }
-  };
 
   const generate = async () => {
     setGenerating(true);
@@ -85,8 +64,8 @@ export function RevisionHub() {
         mode: "qcm",
       });
       setGeneratedQuiz(quiz);
-      setStep(5);
-      toast("Quiz de démonstration généré.", "success");
+      setStep(3);
+      toast(`${quiz.questions.length} questions prêtes à être relues.`, "success");
     } catch (cause) {
       toast(cause instanceof Error ? cause.message : "Génération impossible.", "danger");
     } finally {
@@ -111,7 +90,7 @@ export function RevisionHub() {
       });
       setPracticeQuiz(quiz);
       if (selectedMode === "marathon") {
-        toast("Marathon adaptatif : 5 questions ciblées sur vos points faibles (démo).", "info");
+        toast("Marathon adaptatif : 5 questions enchaînées sans pause.", "info");
       }
     } catch (cause) {
       toast(cause instanceof Error ? cause.message : "Impossible de préparer l'entraînement.", "danger");
@@ -120,17 +99,13 @@ export function RevisionHub() {
     }
   };
 
-  const wizardSteps = useMemo(
-    () => ["Importer", "Analyse", "Configurer", "Générer", "Relire", "S'entraîner", "Exporter"],
-    [],
-  );
+  const wizardSteps = ["Choisir", "Préparer", "Relire"] as const;
 
   return (
     <div className="stack" style={{ gap: 24 }}>
       <PageHeader
         title="Campusly AI & révision adaptative"
-        subtitle="Importez un cours, générez des entraînements et suivez votre maîtrise — simulations locales."
-        demo
+        subtitle="Entraînez-vous sur une banque d'exercices UAC, avec correction immédiate et suivi de vos tentatives."
         actions={<Badge tone="brand" icon="fa-solid fa-brain">Moteur pédagogique</Badge>}
       />
 
@@ -153,7 +128,7 @@ export function RevisionHub() {
             className={`learning-mode-tab ${view === "wizard" ? "active" : ""}`}
             onClick={() => setView("wizard")}
           >
-            <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" /> 1. Assistant Campusly AI
+            <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" /> 1. Parcours guidé
           </button>
           <button
             type="button"
@@ -174,29 +149,16 @@ export function RevisionHub() {
         <div className="stack" style={{ gap: 20 }}>
           <Card>
             <CardHeader
-              title="Parcours guidé"
-              subtitle="7 étapes : import → analyse → configuration → génération → relecture → entraînement → export"
+              title="Préparer un entraînement"
+              subtitle="Trois étapes : choisir, préparer la série, relire avant de commencer."
               icon="fa-solid fa-wand-magic-sparkles"
             />
-            <ol style={{ display: "flex", gap: 6, listStyle: "none", flexWrap: "wrap", marginBottom: 18 }} aria-label="Étapes du parcours">
+            <ol className="learning-steps" aria-label="Étapes du parcours">
               {wizardSteps.map((label, index) => {
                 const number = index + 1;
                 const state = step > number ? "done" : step === number ? "current" : "todo";
                 return (
-                  <li
-                    key={label}
-                    aria-current={state === "current" ? "step" : undefined}
-                    style={{
-                      flex: "1 1 110px",
-                      padding: "8px 10px",
-                      borderRadius: "var(--r-md)",
-                      border: `1px solid ${state === "current" ? "var(--brand-1)" : "var(--border)"}`,
-                      background: state === "current" ? "rgba(21,101,192,0.08)" : "var(--surface)",
-                      fontSize: "0.72rem",
-                      fontWeight: 700,
-                      color: state === "todo" ? "var(--text-3)" : "var(--text-1)",
-                    }}
-                  >
+                  <li key={label} aria-current={state === "current" ? "step" : undefined} className={`learning-step ${state}`}>
                     {state === "done" ? <i className="fa-solid fa-check" aria-hidden="true" /> : `${number}.`} {label}
                   </li>
                 );
@@ -205,105 +167,7 @@ export function RevisionHub() {
 
             {step === 1 ? (
               <div>
-                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>
-                  Étape 1 — Importer un support
-                </h3>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-2)", marginBottom: 16 }}>
-                  Sélectionnez un PDF (le fichier n&apos;est pas lu ni envoyé dans cette version de démonstration).
-                </p>
-                <label
-                  htmlFor="ai-file"
-                  style={{
-                    display: "block",
-                    border: "2px dashed var(--border-2)",
-                    borderRadius: "var(--r-lg)",
-                    padding: 28,
-                    textAlign: "center",
-                    cursor: "pointer",
-                    background: "var(--surface)",
-                    marginBottom: 16,
-                  }}
-                >
-                  <span style={{ fontSize: "1.8rem", color: "var(--brand-1)" }} aria-hidden="true">
-                    <i className="fa-solid fa-file-arrow-up" />
-                  </span>
-                  <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "var(--text-1)", marginTop: 8 }}>
-                    {fileName || "Choisir un PDF"}
-                  </div>
-                  <div style={{ fontSize: "0.75rem", color: "var(--text-2)" }}>PDF uniquement · 20 Mo max (simulation)</div>
-                </label>
-                <input
-                  id="ai-file"
-                  type="file"
-                  accept="application/pdf"
-                  style={{ display: "none" }}
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (file) setFileName(file.name);
-                  }}
-                />
-
-                <div className="row">
-                  <Button variant="ghost" onClick={() => setFileName("cours-algorithmique-ch3.pdf")}>
-                    Utiliser le document d&apos;exemple
-                  </Button>
-                  <Button variant="primary" onClick={() => setStep(2)} iconAfter="fa-solid fa-arrow-right">
-                    Continuer
-                  </Button>
-                </div>
-              </div>
-            ) : null}
-
-            {step === 2 ? (
-              <div>
-                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>
-                  Étape 2 — Analyser le document
-                </h3>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-2)", marginBottom: 16 }}>
-                  Coût annoncé : <strong>{analysisCost} crédits de démonstration</strong>. Aucune IA n&apos;est
-                  réellement sollicitée.
-                </p>
-                <div className="row">
-                  <Button variant="ghost" onClick={() => setStep(1)}>
-                    Retour
-                  </Button>
-                  <Button variant="primary" onClick={runAnalysis} disabled={analyzing}>
-                    {analyzing ? "Analyse en cours…" : "Lancer l'analyse simulée"}
-                  </Button>
-                </div>
-              </div>
-            ) : null}
-
-            {step === 3 && analysis ? (
-              <div>
-                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>
-                  Étape 3 — Résultat de l&apos;analyse
-                </h3>
-                <div className="grid-2" style={{ marginBottom: 16 }}>
-                  <div className="card" style={{ padding: 16 }}>
-                    <div style={{ fontWeight: 800, color: "var(--text-1)", marginBottom: 6 }}>{analysis.title}</div>
-                    <p style={{ fontSize: "0.82rem", color: "var(--text-2)", lineHeight: 1.55 }}>{analysis.summary}</p>
-                    <div className="row" style={{ gap: 6 }}>
-                      <Badge tone="brand">{analysis.detectedFaculty}</Badge>
-                      <Badge tone="neutral">{analysis.pageCount} pages</Badge>
-                      <Badge tone="accent">{analysis.estimatedLevel}</Badge>
-                    </div>
-                  </div>
-                  <div className="card" style={{ padding: 16 }}>
-                    <div style={{ fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>Concepts clés</div>
-                    <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
-                      {analysis.keyConcepts.map((concept) => (
-                        <li key={concept.id} style={{ fontSize: "0.8rem", color: "var(--text-2)" }}>
-                          <strong style={{ color: "var(--text-1)" }}>{concept.concept}</strong> — {concept.definition}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <h4 style={{ fontSize: "0.88rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 10 }}>
-                  Configurer l&apos;entraînement
-                </h4>
+                <h3 className="revision-step-title">Étape 1 — Choisir la matière</h3>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12 }}>
                   <div className="form-group" style={{ marginBottom: 0 }}>
                     <label className="form-label" htmlFor="ai-subject">
@@ -352,42 +216,36 @@ export function RevisionHub() {
                 </div>
 
                 <div className="row" style={{ marginTop: 16 }}>
-                  <Button variant="ghost" onClick={() => setStep(2)}>
-                    Retour
-                  </Button>
-                  <Button variant="primary" onClick={() => setStep(4)} iconAfter="fa-solid fa-arrow-right">
+                  <Button variant="primary" onClick={() => setStep(2)} iconAfter="fa-solid fa-arrow-right">
                     Continuer
                   </Button>
                 </div>
               </div>
             ) : null}
 
-            {step === 4 ? (
+            {step === 2 ? (
               <div>
-                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>
-                  Étape 4 — Générer les questions
-                </h3>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-2)", marginBottom: 16 }}>
-                  Les questions proviennent d&apos;une banque de démonstration (aucune génération IA réelle).
+                <h3 className="revision-step-title">Étape 2 — Préparer la série</h3>
+                <p className="revision-step-text">
+                  Les questions sont tirées d&apos;une banque d&apos;exercices écrite pour Campusly sur la matière
+                  choisie. Aucun document n&apos;est lu et aucun modèle d&apos;IA n&apos;est appelé.
                 </p>
                 <div className="row">
-                  <Button variant="ghost" onClick={() => setStep(3)}>
+                  <Button variant="ghost" onClick={() => setStep(1)}>
                     Retour
                   </Button>
                   <Button variant="primary" onClick={generate} disabled={generating}>
-                    {generating ? "Génération…" : `Générer ${questionCount} questions`}
+                    {generating ? "Préparation…" : `Préparer ${questionCount} questions`}
                   </Button>
                 </div>
               </div>
             ) : null}
 
-            {step === 5 && generatedQuiz ? (
+            {step === 3 && generatedQuiz ? (
               <div>
-                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>
-                  Étape 5 — Relire et personnaliser
-                </h3>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-2)", marginBottom: 12 }}>
-                  Vérifiez les énoncés avant de vous entraîner ({generatedQuiz.questions.length} questions).
+                <h3 className="revision-step-title">Étape 3 — Relire la série</h3>
+                <p className="revision-step-text">
+                  {generatedQuiz.questions.length} questions · {subject} · {difficulty}
                 </p>
                 <ol style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
                   {generatedQuiz.questions.map((question, index) => (
@@ -402,16 +260,16 @@ export function RevisionHub() {
                   ))}
                 </ol>
                 <div className="row">
-                  <Button variant="ghost" onClick={() => setStep(4)}>
-                    Régénérer
+                  <Button variant="ghost" onClick={() => setStep(2)}>
+                    Refaire la série
                   </Button>
                   <Button
                     variant="primary"
                     onClick={() => {
                       setPracticeQuiz(generatedQuiz);
                       setMode("qcm");
+                      setStep(3);
                       setView("practice");
-                      setStep(6);
                     }}
                     iconAfter="fa-solid fa-arrow-right"
                   >
@@ -422,10 +280,18 @@ export function RevisionHub() {
             ) : null}
           </Card>
 
-          <p style={{ fontSize: "0.74rem", color: "var(--text-2)", textAlign: "center" }}>
-            <i className="fa-solid fa-flask" aria-hidden="true" /> Parcours de démonstration — en production, chaque
-            étape appellera le Worker IA et consommera de vrais crédits.
-          </p>
+          <Card>
+            <CardHeader
+              title="Analyse automatique de vos cours"
+              subtitle="Disponible prochainement — service IA non connecté"
+              icon="fa-solid fa-file-circle-question"
+            />
+            <p className="revision-step-text" style={{ marginBottom: 0 }}>
+              L&apos;analyse d&apos;un PDF importé demande le service IA, qui n&apos;est pas encore ouvert. Aucun
+              document n&apos;est lu et aucun crédit n&apos;est débité. En attendant, entraînez-vous sur la banque
+              d&apos;exercices : la correction restera locale et signalée comme non officielle.
+            </p>
+          </Card>
         </div>
       ) : null}
 
@@ -452,7 +318,7 @@ export function RevisionHub() {
               title="Configurer l'entraînement"
               subtitle="Sujet et difficulté utilisés pour construire la session"
               icon="fa-solid fa-sliders"
-              action={<DemoBadge label="Banque de démonstration" />}
+             
             />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 12, marginBottom: 14 }}>
               <div className="form-group" style={{ marginBottom: 0 }}>
@@ -503,7 +369,7 @@ export function RevisionHub() {
             <Card>
               <div style={{ display: "flex", alignItems: "center", gap: 12, color: "var(--text-2)", fontSize: "0.9rem" }}>
                 <span className="loader-spinner" style={{ width: 22, height: 22 }} aria-hidden="true" />
-                Préparation de la session de démonstration…
+                Préparation de la session…
               </div>
             </Card>
           ) : null}
@@ -530,15 +396,18 @@ export function RevisionHub() {
             <EmptyState
               icon="fa-solid fa-layer-group"
               title="Aucune session en cours"
-              description="Choisissez un mode, ajustez la matière puis lancez une session d'entraînement de démonstration."
+              description="Choisissez un mode, ajustez la matière puis lancez une série d'exercices."
               action={<Button variant="primary" onClick={() => startPractice(mode)}>Démarrer maintenant</Button>}
             />
           ) : null}
 
           {mode === "marathon" ? (
             <Card>
-              <CardHeader title="Progression du marathon" subtitle="Palier de maîtrise simulé" icon="fa-solid fa-bolt" />
-              <ProgressBar value={practiceQuiz ? 40 : 0} tone="accent" label="Maîtrise estimée sur les notions ciblées" />
+              <CardHeader title="Marathon adaptatif" subtitle="Cinq questions enchaînées" icon="fa-solid fa-bolt" />
+              <p className="revision-step-text" style={{ marginBottom: 0 }}>
+                La maîtrise par notion sera calculée à partir de vos tentatives réelles, une fois le suivi de
+                progression branché. D&apos;ici là, aucun palier n&apos;est estimé.
+              </p>
             </Card>
           ) : null}
         </div>

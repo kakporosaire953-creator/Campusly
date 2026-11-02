@@ -10,7 +10,6 @@ import { CreditsPill } from "@/components/navigation/CreditsPill";
 import { NotificationBell } from "@/components/navigation/NotificationBell";
 import { RoleSwitcher } from "@/components/navigation/RoleSwitcher";
 import { LogoCap } from "@/components/layout/SiteHeader";
-import { DemoBanner } from "@/components/layout/SiteHeader";
 import { Avatar } from "@/components/ui/PageHeader";
 
 /**
@@ -43,7 +42,7 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
   const visibleAccountNav = appNav.filter(
     (item) => item.group === "account" && (role ? item.roles.includes(role) : false),
   );
-  const fullName = user ? `${user.prenom} ${user.nom}` : "Session de démonstration";
+  const fullName = user ? `${user.prenom} ${user.nom}` : "Session locale";
 
   const handleLogout = async () => {
     await logout();
@@ -59,7 +58,6 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
         latérale (260 px) et le bandeau se partageaient la largeur et le contenu
         se retrouvait écrasé à zéro — on ne voyait plus que le bandeau.
       */}
-      <DemoBanner />
 
       <div className="app-layout">
         {/* ───────────────────── SIDEBAR ───────────────────── */}

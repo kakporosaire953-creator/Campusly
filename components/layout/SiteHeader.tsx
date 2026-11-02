@@ -195,16 +195,3 @@ export function LogoCap({ size = 26 }: { size?: number }) {
     </svg>
   );
 }
-
-/** Bandeau de démonstration affiché au-dessus de l'espace applicatif. */
-export function DemoBanner() {
-  return (
-    <div className="demo-banner" role="note">
-      <i className="fa-solid fa-flask" aria-hidden="true" />
-      <span>
-        <strong>Mode démonstration</strong> — données fictives, aucune action enregistrée sur un serveur.
-      </span>
-      <Link href="/a-propos#demonstration">En savoir plus</Link>
-    </div>
-  );
-}

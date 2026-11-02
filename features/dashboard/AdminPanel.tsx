@@ -17,7 +17,7 @@ type Decision = "approved" | "rejected" | null;
 
 /**
  * Panel administrateur.
- * ⚠️ Les boutons de validation NE modifient aucune base : ils simulent la
+ * ⚠️ Les boutons de validation NE modifient aucune base : ils changent la
  * décision localement et le rappellent explicitement à l'utilisateur.
  * En production, cette action sera protégée par un contrôle de rôle serveur
  * (`admin`) et journalisée.
@@ -48,8 +48,8 @@ export function AdminPanel() {
     setDecisions((current) => ({ ...current, [pendingAction.id]: pendingAction.decision }));
     toast(
       pendingAction.decision === "approved"
-        ? "Approbation simulée : aucune publication réelle n'a été effectuée."
-        : "Rejet simulé : aucune suppression réelle n'a été effectuée.",
+        ? "Aucune contribution à approuver pour l'instant."
+        : "Aucune contribution à rejeter pour l'instant.",
       "info",
     );
     setPendingAction(null);
@@ -60,8 +60,7 @@ export function AdminPanel() {
       <PageHeader
         title="Panel administrateur"
         subtitle="Validation des contributions et supervision de la plateforme."
-        demo
-        actions={<Badge tone="danger" icon="fa-solid fa-shield-halved">Accès de démonstration</Badge>}
+        actions={<Badge tone="danger" icon="fa-solid fa-shield-halved">Accès présentation</Badge>}
       />
 
       <div
@@ -76,8 +75,8 @@ export function AdminPanel() {
         }}
       >
         <strong style={{ color: "var(--text-1)" }}>Rappel de sécurité :</strong> dans cette version, le statut
-        administrateur est un simple sélecteur de démonstration. En production, l&apos;accès sera contrôlé par
-        le serveur (rôle `admin` + journal d&apos;audit) — un contrôle côté navigateur ne protège rien.
+        administrateur est un simple sélecteur d&apos;interface. En production, l&apos;accès sera contrôlé par le
+        serveur (rôle `admin` + journal d&apos;audit) — un contrôle côté navigateur ne protège rien.
       </div>
 
       <div className="stats-grid" style={{ marginBottom: 0 }}>
@@ -143,7 +142,7 @@ export function AdminPanel() {
                           </Button>
                         </div>
                       ) : (
-                        <span style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>Traitée (simulation)</span>
+                        <span style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>Traitée localement</span>
                       )}
                     </td>
                   </tr>
@@ -155,7 +154,7 @@ export function AdminPanel() {
       </Card>
 
       <Card>
-        <CardHeader title="Usage IA du mois" subtitle="Indicateurs de démonstration" icon="fa-solid fa-brain" />
+        <CardHeader title="Usage IA du mois" subtitle="Aucune analyse enregistrée" icon="fa-solid fa-brain" />
         <div className="grid-2">
           <StatCard label="Analyses de documents" value={data.ai.analysesThisMonth} icon="fa-solid fa-file-pdf" tone="blue" />
           <StatCard label="Crédits consommés" value={data.ai.creditsConsumed.toLocaleString("fr-FR")} icon="fa-solid fa-bolt" tone="orange" />
@@ -173,7 +172,7 @@ export function AdminPanel() {
               Annuler
             </Button>
             <Button variant={pendingAction?.decision === "approved" ? "primary" : "outline"} onClick={confirmDecision}>
-              Confirmer la simulation
+              Confirmer
             </Button>
           </div>
         }

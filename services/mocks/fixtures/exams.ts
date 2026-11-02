@@ -1,10 +1,10 @@
 /**
- * DONNÉES DE DÉMONSTRATION — bibliothèque d'épreuves
+ * Fixtures de test uniquement.
  * ---------------------------------------------------------------------------
- * Sujets fictifs inspirés des intitulés UAC. Aucun fichier n'est réellement
- * stocké : `storageKey` est un identifiant symbolique (futur objet R2).
+ * Le catalogue applicatif est vide (aucun PDF réel n'est encore hébergé) :
+ * `examService` est instancié avec `[]` et ces entrées ne servent plus qu'à
+ * tester le moteur de recherche, de tri et de pagination.
  */
-
 import type { Exam, ExamHistoryEntry } from "@/types";
 
 const row = (

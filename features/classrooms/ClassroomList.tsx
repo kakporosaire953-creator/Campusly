@@ -45,7 +45,7 @@ export function ClassroomList() {
       const classroom = await classroomService.join({ code: joinCode });
       setJoinOpen(false);
       setJoinCode("");
-      toast(`Classroom « ${classroom.name} » rejointe (simulation).`, "success");
+      toast(`Vous avez rejoint « ${classroom.name} ».`, "success");
       router.push(`/dashboard/classrooms/${classroom.id}`);
     } catch (cause) {
       setJoinError(cause instanceof ApiError ? cause.message : "Impossible de rejoindre cette classroom.");
@@ -60,7 +60,7 @@ export function ClassroomList() {
     try {
       const classroom = await classroomService.create(form);
       setCreateOpen(false);
-      toast("Classroom créée localement (démonstration).", "success");
+      toast("Classe créée, conservée sur cet appareil.", "success");
       router.push(`/dashboard/classrooms/${classroom.id}`);
     } catch (cause) {
       if (cause instanceof ApiError) setFormErrors(cause.fields ?? { form: cause.message });
@@ -75,7 +75,6 @@ export function ClassroomList() {
       <PageHeader
         title="Classrooms Amphi"
         subtitle="Rejoignez un amphi avec le code de votre enseignant ou créez votre propre classe."
-        demo
         actions={
           <>
             <Button variant="outline" size="sm" icon="fa-solid fa-right-to-bracket" onClick={() => setJoinOpen(true)}>
@@ -98,7 +97,7 @@ export function ClassroomList() {
           <EmptyState
             icon="fa-solid fa-chalkboard"
             title="Aucune classroom disponible"
-            description="Les classes de démonstration apparaîtront ici, ou rejoignez-en une avec un code."
+            description="Créez votre première classe, ou rejoignez-en une avec le code de votre professeur."
             action={<Button onClick={() => setJoinOpen(true)}>Rejoindre un amphi</Button>}
           />
         ) : (
@@ -158,7 +157,7 @@ export function ClassroomList() {
             </p>
           </div>
           <Badge tone="brand" icon="fa-solid fa-circle-info">
-            Codes de démo : ALGO24, ANAL24, BDD24X, DRPT30
+            Le code vous est donné par votre professeur
           </Badge>
         </div>
       </Card>
@@ -189,7 +188,7 @@ export function ClassroomList() {
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         title="Créer un amphi"
-        description="Cette création reste locale (démonstration)."
+        description="La classe et ses contenus restent sur cet appareil."
         maxWidth={520}
         footer={
           <div className="row" style={{ justifyContent: "flex-end" }}>

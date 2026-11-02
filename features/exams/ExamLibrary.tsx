@@ -9,15 +9,15 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState, ErrorState, LoadingGrid } from "@/components/ui/States";
-import { Modal } from "@/components/ui/Modal";
 import { formatDateFr } from "@/services/mocks/store";
 
 const PAGE_SIZE = 9;
 
 /**
- * Bibliothèque d'épreuves : recherche, filtres, favoris et téléchargement
- * simulé. Les documents ne sont pas réellement disponibles (R2 non déployé) :
- * le tunnel l'indique explicitement.
+ * Bibliothèque d'épreuves : recherche, filtres, tri, pagination et favoris.
+ * Aucun document fictif n'est présenté : tant qu'aucune épreuve réelle n'est
+ * publiée, l'interface affiche un état vide explicite. Le jour où le backend
+ * expose le catalogue, seule la source de données change.
  */
 export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
   const { toast } = useToast();
@@ -39,7 +39,6 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [downloadTarget, setDownloadTarget] = useState<Exam | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -48,8 +47,8 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
       const result = await examService.list(filters);
       setItems(result.items);
       setTotal(result.total);
-    } catch (cause) {
-      setError("Impossible de charger la bibliothèque de démonstration.");
+    } catch {
+      setError("Impossible de charger la bibliothèque pour le moment.");
     } finally {
       setLoading(false);
     }
@@ -72,15 +71,8 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
     setFavorites((current) =>
       result.favorited ? [...current, examId] : current.filter((id) => id !== examId),
     );
-    toast(result.favorited ? "Ajouté aux favoris (démo)." : "Retiré des favoris (démo).", "info");
+    toast(result.favorited ? "Ajouté à vos favoris." : "Retiré de vos favoris.", "info");
     if (filters.favoritesOnly) load();
-  };
-
-  const confirmDownload = async () => {
-    if (!downloadTarget) return;
-    await examService.requestDownload(downloadTarget.id);
-    setDownloadTarget(null);
-    toast("Téléchargement simulé : aucun fichier n'est stocké dans cette version.", "info");
   };
 
   const activeFilterCount = useMemo(
@@ -91,14 +83,14 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
     [filters],
   );
 
+  const hasActiveFilters = activeFilterCount > 0 || Boolean(filters.search?.trim());
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
     <div className="stack" style={{ gap: 20 }}>
       <PageHeader
         title="Bibliothèque d'épreuves"
-        subtitle="Annales de l'Université, TD et corrections — contenus de démonstration."
-        demo
+        subtitle="Annales, TD et corrections de l'UAC, classés par faculté, niveau, semestre et année universitaire."
         actions={
           <>
             <Link href="/contribuer" className="btn btn-outline btn-sm">
@@ -277,12 +269,41 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
       {!error && loading ? <LoadingGrid count={6} /> : null}
 
       {!error && !loading && items.length === 0 ? (
-        <EmptyState
-          icon="fa-solid fa-folder-open"
-          title="Aucune épreuve ne correspond"
-          description="Modifiez vos filtres ou réinitialisez la recherche pour explorer toute la bibliothèque de démonstration."
-          action={<Button variant="outline" onClick={() => setFilters({ page: 1, pageSize: PAGE_SIZE, sortBy: "recent", search: "" })}>Réinitialiser les filtres</Button>}
-        />
+        hasActiveFilters ? (
+          <EmptyState
+            icon="fa-solid fa-folder-open"
+            title="Aucune épreuve ne correspond à ces filtres"
+            description="Modifiez la recherche ou réinitialisez les filtres pour élargir la sélection."
+            action={
+              <Button
+                variant="outline"
+                onClick={() => setFilters({ page: 1, pageSize: PAGE_SIZE, sortBy: "recent", search: "" })}
+              >
+                Réinitialiser les filtres
+              </Button>
+            }
+          />
+        ) : (
+          <div className="exam-empty">
+            <span className="exam-empty-mark" aria-hidden="true">
+              00
+            </span>
+            <h2>La bibliothèque ouvre bientôt</h2>
+            <p>
+              Aucun document n&apos;est encore publié : les épreuves et annales seront ajoutées au fur
+              et à mesure de leur vérification. Cette page est prête à les afficher — recherche,
+              filtres et tri compris.
+            </p>
+            <div className="exam-empty-actions">
+              <Link href="/contribuer" className="btn btn-primary btn-sm">
+                Proposer un document
+              </Link>
+              <Link href="/dashboard/revision" className="btn btn-ghost btn-sm">
+                Réviser un cours en attendant
+              </Link>
+            </div>
+          </div>
+        )
       ) : null}
 
       {!error && !loading && items.length > 0 ? (
@@ -293,7 +314,6 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
               exam={exam}
               favorite={favorites.includes(exam.id)}
               onToggleFavorite={() => toggleFavorite(exam.id)}
-              onDownload={() => setDownloadTarget(exam)}
             />
           ))}
         </div>
@@ -323,39 +343,6 @@ export function ExamLibrary({ initialFaculty }: { initialFaculty?: string }) {
         </nav>
       ) : null}
 
-      <Modal
-        open={Boolean(downloadTarget)}
-        onClose={() => setDownloadTarget(null)}
-        title="Téléchargement simulé"
-        description={downloadTarget?.title}
-        footer={
-          <div className="row" style={{ justifyContent: "flex-end" }}>
-            <Button variant="ghost" onClick={() => setDownloadTarget(null)}>
-              Annuler
-            </Button>
-            <Button variant="primary" onClick={confirmDownload} icon="fa-solid fa-download">
-              Simuler le téléchargement
-            </Button>
-          </div>
-        }
-      >
-        <div className="payment-notice" style={{ background: "rgba(245,124,0,0.1)" }}>
-          <strong>Aucun fichier n&apos;est servi.</strong> Dans la version de production, le backend générera une
-          URL signée R2 à durée de vie courte et débitera les crédits nécessaires.
-        </div>
-        <ul style={{ listStyle: "none", fontSize: "0.82rem", color: "var(--text-2)", display: "flex", flexDirection: "column", gap: 6 }}>
-          <li>
-            <i className="fa-solid fa-check" aria-hidden="true" /> Faculté : {downloadTarget?.faculty}
-          </li>
-          <li>
-            <i className="fa-solid fa-check" aria-hidden="true" /> Année : {downloadTarget?.academicYear}
-          </li>
-          <li>
-            <i className="fa-solid fa-check" aria-hidden="true" /> {downloadTarget?.pages} pages ·{" "}
-            {downloadTarget?.isPremium ? "épreuve premium (5 crédits)" : "accès libre"}
-          </li>
-        </ul>
-      </Modal>
     </div>
   );
 }
@@ -364,12 +351,10 @@ function ExamCard({
   exam,
   favorite,
   onToggleFavorite,
-  onDownload,
 }: {
   exam: Exam;
   favorite: boolean;
   onToggleFavorite: () => void;
-  onDownload: () => void;
 }) {
   return (
     <article className="card" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -429,12 +414,9 @@ function ExamCard({
         <span style={{ fontSize: "0.72rem", color: "var(--text-2)" }}>
           {exam.pages} p. · {exam.downloads} vues
         </span>
-        <div className="row" style={{ gap: 6 }}>
-          <Link href={`/dashboard/epreuves/${exam.id}`} className="btn btn-ghost btn-sm">
-            Détails
-          </Link>
-          <Button size="sm" variant="primary" icon="fa-solid fa-download" onClick={onDownload} aria-label={`Télécharger ${exam.title}`} />
-        </div>
+        <Link href={`/dashboard/epreuves/${exam.id}`} className="btn btn-ghost btn-sm">
+          Ouvrir la fiche
+        </Link>
       </div>
       <div style={{ fontSize: "0.68rem", color: "var(--text-3)" }}>Publié le {formatDateFr(exam.publishedAt)}</div>
     </article>

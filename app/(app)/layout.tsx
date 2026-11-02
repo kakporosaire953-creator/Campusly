@@ -4,8 +4,9 @@ import { LegacyHashRedirect } from "@/components/shared/LegacyHashRedirect";
 
 /**
  * Gabarit de l'espace connecté (étudiant, enseignant, admin).
- * En production, ce layout vérifiera la session serveur ; en démonstration,
- * il s'appuie sur la session simulée et affiche le bandeau de démonstration.
+ * En production, ce layout vérifiera la session serveur. Pour l'instant il
+ * s'appuie sur la session locale du navigateur (parcours de connexion conservé
+ * et signalé sur /auth).
  */
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (

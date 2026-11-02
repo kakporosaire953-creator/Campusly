@@ -9,7 +9,7 @@ import { ApiError } from "@/services/api/client";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Avatar } from "@/components/ui/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
-import { Badge, RoleBadge, DemoBadge } from "@/components/ui/Badge";
+import { Badge, RoleBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/Field";
 import { ProgressBar } from "@/components/ui/Progress";
@@ -39,7 +39,7 @@ export function ProfileView() {
   }, [user]);
 
   if (status === "loading") return <LoadingGrid count={2} />;
-  if (!user) return <ErrorState message="Aucune session de démonstration active." />;
+  if (!user) return <ErrorState message="Aucune session active." />;
 
   const save = async () => {
     setSaving(true);
@@ -52,7 +52,7 @@ export function ProfileView() {
         department: form.department,
       });
       setUser(updated);
-      toast("Profil mis à jour localement (démonstration).", "success");
+      toast("Profil mis à jour sur cet appareil.", "success");
     } catch (cause) {
       if (cause instanceof ApiError) setErrors(cause.fields ?? { form: cause.message });
       else setErrors({ form: "Enregistrement impossible." });
@@ -66,7 +66,7 @@ export function ProfileView() {
     try {
       await authService.requestTeacherActivation(activation);
       setActivationOpen(false);
-      toast("Demande d'activation enseignante enregistrée (démonstration).", "success");
+      toast("Demande d'activation enseignante enregistrée sur cet appareil.", "success");
     } catch (cause) {
       setActivationError(cause instanceof ApiError ? cause.message : "Demande impossible.");
     }
@@ -77,7 +77,6 @@ export function ProfileView() {
       <PageHeader
         title="Mon profil"
         subtitle="Informations académiques et préférences de compte."
-        demo
         actions={<RoleBadge role={user.role} />}
       />
 
@@ -158,7 +157,7 @@ export function ProfileView() {
 
         <div className="stack" style={{ gap: 16 }}>
           <Card>
-            <CardHeader title="Progression" subtitle="Niveau académique simulé" icon="fa-solid fa-chart-line" action={<DemoBadge />} />
+            <CardHeader title="Progression" subtitle="Votre niveau se construit avec vos révisions" icon="fa-solid fa-chart-line" />
             <div className="row-between" style={{ marginBottom: 8 }}>
               <strong style={{ fontSize: "0.9rem", color: "var(--text-1)" }}>{user.level.name}</strong>
               <span style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>{user.level.xp} XP</span>
@@ -186,7 +185,7 @@ export function ProfileView() {
                 </Badge>
               </li>
               <li className="row-between">
-                <span>Crédits (démo)</span>
+                <span>Crédits</span>
                 <Badge tone="neutral">{user.credits}</Badge>
               </li>
             </ul>
@@ -199,14 +198,14 @@ export function ProfileView() {
             {activationOpen ? (
               <div style={{ marginTop: 14, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
                 <p style={{ fontSize: "0.78rem", color: "var(--text-2)", marginBottom: 10 }}>
-                  Simulation : la demande n&apos;est pas transmise. En production, un justificatif et une validation
+                  La demande n&apos;est pas transmise. Une fois le service ouvert, un justificatif et une validation
                   par le secrétariat académique seront exigés.
                 </p>
                 <TextField label="Matricule" value={activation.matricule} onChange={(value) => setActivation((c) => ({ ...c, matricule: value }))} required />
                 <TextField label="Titre" value={activation.title} onChange={(value) => setActivation((c) => ({ ...c, title: value }))} placeholder="Assistant, Maître-assistant…" />
                 {activationError ? <p className="form-error">{activationError}</p> : null}
                 <Button variant="primary" size="sm" onClick={requestActivation}>
-                  Envoyer la demande (démo)
+                  Enregistrer la demande
                 </Button>
               </div>
             ) : null}
