@@ -3,28 +3,48 @@ on:
   push:
     paths:
       - ".github/workflows/diag-live.yml"
+permissions:
+  contents: write
 jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Récupérer la page d'accueil
+      - name: Collecte
         run: |
-          echo "=== HEAD / ==="
-          curl -sS -o /tmp/home.html -D - -w "\nHTTP %{http_code} taille=%{size_download}\n" https://campusly-one.vercel.app/ | head -40
-          echo "=== balises <link rel=stylesheet> et <script src> ==="
-          grep -oE '<(link[^>]*stylesheet[^>]*|script[^>]*src="[^"]*")[^>]*>' /tmp/home.html | head -40
-          echo "=== en-têtes d'un asset CSS et JS ==="
-          for u in $(grep -oE '/_next/static/(css|chunks)/[A-Za-z0-9(._)/-]+\.(css|js)' /tmp/home.html | sort -u | head -8); do
-            printf '%s -> ' "$u"; curl -sS -o /dev/null -w '%{http_code} %{size_download}o\n' "https://campusly-one.vercel.app$u"
-          done
-      - name: Pages clés
-        run: |
-          for p in /auth /dashboard /dashboard/epreuves /examen/ALGO1 /manifest.webmanifest; do
-            printf '%-28s ' "$p"; curl -sS -o /tmp/p.html -w '%{http_code} %{size_download}o ' "https://campusly-one.vercel.app$p"
-            echo "stylesheets=$(grep -c 'rel="stylesheet"' /tmp/p.html) scripts=$(grep -c '<script' /tmp/p.html)"
-          done
-          echo "=== extrait HTML de /auth ==="
-          curl -sS https://campusly-one.vercel.app/auth | head -c 2500
-          echo
-          echo "=== texte visible de /auth (hors balises) ==="
-          curl -sS https://campusly-one.vercel.app/auth | sed 's/<[^>]*>/ /g' | tr -s ' \n' ' \n' | head -c 1800
+          {
+            echo "### HEAD /"
+            curl -sS -o /tmp/home.html -w "HTTP %{http_code} taille=%{size_download}\n" https://campusly-one.vercel.app/
+            echo "### assets référencés par la page d'accueil"
+            grep -oE '/_next/static/(css|chunks)/[A-Za-z0-9(._)/-]+\.(css|js)' /tmp/home.html | sort -u
+            echo "### statut de chaque asset"
+            for u in $(grep -oE '/_next/static/(css|chunks)/[A-Za-z0-9(._)/-]+\.(css|js)' /tmp/home.html | sort -u | head -12); do
+              printf '%s -> ' "$u"; curl -sS -o /dev/null -w '%{http_code} %{size_download}o\n' "https://campusly-one.vercel.app$u"
+            done
+            echo "### pages"
+            for p in /auth /dashboard /dashboard/epreuves /examen/ALGO1; do
+              printf '%-24s ' "$p"
+              curl -sS -o /tmp/p.html -w '%{http_code} %{size_download}o ' "https://campusly-one.vercel.app$p"
+              echo "css=$(grep -c 'rel="stylesheet"' /tmp/p.html) scripts=$(grep -c '<script' /tmp/p.html)"
+            done
+            echo "### texte visible de /auth"
+            curl -sS https://campusly-one.vercel.app/auth | sed 's/<script[^>]*>.*<\/script>//g' | sed 's/<[^>]*>/ /g' | tr -s ' \n' ' \n' | head -c 1500
+            echo
+            echo "### extrait brut /auth"
+            curl -sS https://campusly-one.vercel.app/auth | head -c 1200
+          } > /tmp/diag.txt 2>&1
+          python3 - <<'PY'
+          import json, os, urllib.request
+          body = open('/tmp/diag.txt', encoding='utf-8', errors='replace').read()[:60000]
+          sha = os.environ['GITHUB_SHA']
+          repo = os.environ['GITHUB_REPOSITORY']
+          token = os.environ['GH_TOKEN']
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/commits/{sha}/comments",
+              data=json.dumps({"body": "```\n" + body + "\n```"}).encode(),
+              headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json",
+                       "Content-Type": "application/json"},
+              method="POST")
+          print(urllib.request.urlopen(req).status)
+          PY
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
