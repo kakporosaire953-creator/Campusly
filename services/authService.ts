@@ -30,6 +30,18 @@ const SESSION_KEY = "session";
 const PROFILE_KEY = "profile";
 const LOGGED_OUT_KEY = "logged-out";
 
+/**
+ * Entrée en mode démonstration, même après une déconnexion explicite.
+ *
+ * Sans cette fonction, un visiteur qui a cliqué « Déconnexion » reste bloqué :
+ * `getSession()` renvoie `null` tant que l'indicateur `logged-out` est présent,
+ * et toutes les pages de l'espace connecté le renvoient vers /auth.
+ * Aucun appel réseau : la session reste une simulation locale.
+ */
+export async function startDemoSession(role: UserRole = "learner"): Promise<AuthSession> {
+  return authService.switchDemoRole(role);
+}
+
 export const DEMO_PROFILES: Record<UserRole, UserProfile> = {
   learner: DEMO_LEARNER,
   teacher: DEMO_TEACHER,

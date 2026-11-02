@@ -23,13 +23,21 @@ type RoleChoice = "learner" | "teacher";
 export function AuthForms() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { status, login, register } = useSession();
+  const { status, login, register, enterDemo } = useSession();
   const { toast } = useToast();
+
+  /**
+   * Page demandée avant la redirection vers /auth (`?next=/dashboard/epreuves`).
+   * Seuls les chemins internes sont acceptés : pas de redirection ouverte.
+   */
+  const rawNext = searchParams.get("next") ?? "";
+  const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/dashboard";
 
   const [tab, setTab] = useState<Tab>(searchParams.get("tab") === "register" ? "register" : "login");
   const [role, setRole] = useState<RoleChoice>("learner");
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [exploring, setExploring] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [loginIdentifier, setLoginIdentifier] = useState("");
@@ -48,13 +56,17 @@ export function AuthForms() {
     confirm: "",
   });
 
+  // L'onglet courant est reflété dans l'URL sans perdre la page demandée (`?next`).
   useEffect(() => {
-    if (tab === "register") router.replace("/auth?tab=register");
-  }, [tab, router]);
+    if (tab !== "register") return;
+    const params = new URLSearchParams({ tab: "register" });
+    if (rawNext) params.set("next", rawNext);
+    router.replace(`/auth?${params.toString()}`);
+  }, [tab, rawNext, router]);
 
   useEffect(() => {
-    if (status === "authenticated") router.replace("/dashboard");
-  }, [status, router]);
+    if (status === "authenticated") router.replace(next);
+  }, [status, next, router]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -63,7 +75,7 @@ export function AuthForms() {
     try {
       await login({ identifier: loginIdentifier, password: loginPassword });
       toast("Connexion simulée réussie — bienvenue !", "success");
-      router.push("/dashboard");
+      router.push(next);
     } catch (cause) {
       if (cause instanceof ApiError) {
         setErrors(cause.fields ?? { form: cause.message });
@@ -105,6 +117,21 @@ export function AuthForms() {
       }
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  /**
+   * Explorer sans compte : rouvre la session de démonstration (apprenant) puis
+   * renvoie vers la page demandée. Sans cela, un visiteur déconnecté qui clique
+   * ici repartait vers /dashboard… qui le renvoyait aussitôt vers /auth.
+   */
+  const handleExplore = async () => {
+    setExploring(true);
+    try {
+      await enterDemo("learner");
+      router.push(next);
+    } finally {
+      setExploring(false);
     }
   };
 
@@ -159,6 +186,28 @@ export function AuthForms() {
                 : "Rejoignez la communauté universitaire de l'UAC"}
             </p>
           </div>
+
+          {rawNext ? (
+            <div
+              role="status"
+              style={{
+                marginBottom: 18,
+                padding: "10px 14px",
+                borderRadius: "var(--r-md)",
+                border: "1px solid rgba(21,101,192,0.25)",
+                background: "rgba(21,101,192,0.07)",
+                fontSize: "0.8rem",
+                color: "var(--text-2)",
+                lineHeight: 1.5,
+              }}
+            >
+              <i className="fa-solid fa-lock" aria-hidden="true" style={{ marginRight: 8, color: "var(--primary)" }} />
+              <strong style={{ color: "var(--text-1)" }}>Connexion requise</strong> pour accéder à cet
+              espace. En mode démonstration, n&apos;importe quel identifiant associé à un mot de passe
+              d&apos;au moins 4 caractères ouvre l&apos;espace étudiant, ou utilisez{" "}
+              <strong style={{ color: "var(--text-1)" }}>Explorer sans compte</strong> ci-dessous.
+            </div>
+          ) : null}
 
           <div className="auth-tabs" role="tablist" aria-label="Connexion ou inscription">
             <button
@@ -446,11 +495,22 @@ export function AuthForms() {
             <strong style={{ color: "var(--text-1)" }}>Démonstration :</strong> aucun mot de passe n&apos;est
             vérifié et aucun compte réel n&apos;est créé. En production, l&apos;authentification sera assurée
             par Better Auth côté serveur.
+            <span style={{ display: "block", marginTop: 8 }}>
+              Pour parcourir les trois espaces : <code>23180001</code> (étudiant),{" "}
+              <code>prof.agboton</code> (enseignant), <code>admin.sossou</code> (administration) — mot
+              de passe au choix, 4 caractères minimum.
+            </span>
           </div>
 
           <div style={{ marginTop: 16, textAlign: "center" }}>
-            <Button href="/dashboard" variant="ghost" size="sm" icon="fa-solid fa-compass">
-              Explorer sans compte
+            <Button
+              variant="ghost"
+              size="sm"
+              icon="fa-solid fa-compass"
+              onClick={handleExplore}
+              disabled={exploring}
+            >
+              {exploring ? "Ouverture de la démonstration…" : "Explorer sans compte"}
             </Button>
           </div>
         </div>

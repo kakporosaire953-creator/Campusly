@@ -282,3 +282,67 @@ tableau de bord.
    (une page « en texte brut » vient presque toujours d'une feuille de style en 404) ;
 3. sur Vercel, l'onglet *Deployments* doit afficher un build complet
    (`Compiled successfully`, 26 routes) et non un « success » de quelques secondes.
+
+---
+
+## 12. Dépannage — « je n'accède pas aux autres pages »
+
+Trois causes distinctes ont été identifiées et corrigées. Elles produisaient toutes
+le même symptôme : on reste sur la page de connexion (ou sur la page courante) quand
+on demande une autre page.
+
+### 12.1 Déconnexion explicite verrouillante
+
+`authService.logout()` posait un indicateur `logged-out` dans `localStorage`. Tant
+qu'il était présent, `getSession()` renvoyait `null` : **toutes** les pages de
+l'espace connecté redirigeaient vers `/auth`. Or le bouton « Explorer sans compte »
+pointait lui-même vers `/dashboard`, donc rebondissait immédiatement vers `/auth`.
+Un visiteur qui avait cliqué une fois sur « Déconnexion » ne pouvait plus jamais
+revoir les pages internes, même après un rechargement.
+
+Correctifs (`services/authService.ts`, `features/auth/SessionProvider.tsx`,
+`features/auth/AuthForms.tsx`) :
+
+- nouvelle fonction `startDemoSession(role)` et méthode `enterDemo()` du provider :
+  elles rouvrent explicitement une session de démonstration ;
+- « Explorer sans compte » appelle `enterDemo()` puis navigue (ce n'est plus un lien
+  vers une page protégée) ;
+- la page demandée est conservée dans l'URL : `/dashboard/epreuves` redirige vers
+  `/auth?next=%2Fdashboard%2Fepreuves`, et la connexion (ou « Explorer ») ramène
+  ensuite sur cette page ;
+- `?next` n'accepte qu'un chemin interne (rejet de `//` et des URL absolues) : pas
+  de redirection ouverte ;
+- un bandeau « Connexion requise » explique la situation, et les trois identifiants
+  de démonstration sont rappelés sous le formulaire.
+
+### 12.2 Menu inutilisable sur tablette et mobile
+
+La feuille historique `styles/legacy/pages/dashboard.css` ne révèle la barre
+latérale (≤ 960 px) qu'avec la classe `.show`, alors que le composant React la
+pilotait avec `.open` : le bouton hamburger n'ouvrait rien. De plus l'overlay
+historique est en `z-index: 1000` et la barre latérale en `100` : même ouverte, elle
+serait restée recouverte, donc incliquable.
+
+Correctifs : `AppShell` applique `open show`, et `styles/app/campusly-next.css`
+ajoute, sous `@media (max-width: 960px)`, `.app-sidebar.open { transform: translateX(0) }`
+ainsi que `.app-sidebar { z-index: 1100 }`.
+
+### 12.3 Ancien service worker PWA
+
+L'ancienne version statique enregistrait `/sw.js` (cache `campusly-v3.1.0`). Le
+nouveau frontend n'embarque aucun service worker : l'ancien ne se met donc plus à
+jour et peut servir du HTML ou des charges RSC périmés, voire renvoyer vers
+`/offline.html` (fichier qui n'existe plus). Le composant
+`components/shared/LegacyServiceWorkerCleanup.tsx`, monté dans `app/layout.tsx`,
+désinscrit ces service workers et supprime les caches `campusly-*` à chaque visite,
+sans toucher aux données applicatives.
+
+En cas de doute côté navigateur : `Ctrl+Shift+R` (rechargement forcé), ou
+Application → Service Workers → *Unregister* dans les outils de développement.
+
+### 12.4 Ce qui reste volontaire : le rôle
+
+Chaque page de l'espace est filtrée par rôle : `/admin` n'apparaît dans le menu
+qu'après bascule en rôle administration, `/enseignant` en rôle enseignant. Ces
+contrôles sont **de présentation**, jamais une autorisation. La bascule de rôle se
+fait depuis la carte utilisateur de la barre latérale.
