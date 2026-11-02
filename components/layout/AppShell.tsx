@@ -11,6 +11,7 @@ import { NotificationBell } from "@/components/navigation/NotificationBell";
 import { RoleSwitcher } from "@/components/navigation/RoleSwitcher";
 import { LogoCap } from "@/components/layout/SiteHeader";
 import { Avatar } from "@/components/ui/PageHeader";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 /**
  * Coquille de l'espace applicatif.
@@ -180,6 +181,7 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
           </div>
 
           <div className="app-header-right">
+            <ThemeToggle compact />
             <CreditsPill />
             <NotificationBell />
             <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Déconnexion" icon="fa-solid fa-arrow-right-from-bracket" />

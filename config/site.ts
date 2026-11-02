@@ -26,9 +26,6 @@ export const siteConfig = {
 export const publicNav = [
   { href: "/#piliers", label: "Piliers" },
   { href: "/dashboard/epreuves", label: "Épreuves" },
-  { href: "/dashboard/revision", label: "Campusly AI" },
-  { href: "/dashboard/classrooms", label: "Classrooms" },
-  { href: "/dashboard/compositions", label: "Compositions" },
   { href: "/#faq", label: "FAQ" },
 ] as const;
 

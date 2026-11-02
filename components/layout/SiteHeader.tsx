@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { publicNav } from "@/config/site";
 import { useSession } from "@/features/auth/SessionProvider";
 import { Button } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 /**
  * Barre de navigation publique.
@@ -58,12 +59,10 @@ export function SiteHeader() {
               <Link href={item.href}>{item.label}</Link>
             </li>
           ))}
-          <li>
-            <Link href="/dashboard">Mon espace</Link>
-          </li>
         </ul>
 
         <div className="nav-right" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <ThemeToggle />
           <div className="nav-actions" id="navActions">
             {status === "authenticated" && user ? (
               <>
