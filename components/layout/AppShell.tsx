@@ -51,10 +51,18 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
   };
 
   return (
-    <div className="app-layout">
+    <div className="app-shell">
+      {/*
+        Le bandeau doit occuper toute la largeur AU-DESSUS de la barre latérale.
+        Placé directement dans `.app-layout` (display:flex, direction row), il
+        devenait un troisième élément de la rangée : sur mobile, la barre
+        latérale (260 px) et le bandeau se partageaient la largeur et le contenu
+        se retrouvait écrasé à zéro — on ne voyait plus que le bandeau.
+      */}
       <DemoBanner />
 
-      {/* ───────────────────── SIDEBAR ───────────────────── */}
+      <div className="app-layout">
+        {/* ───────────────────── SIDEBAR ───────────────────── */}
       <aside
         className={`app-sidebar ${drawerOpen ? "open show" : ""}`}
         id="appSidebar"
@@ -180,8 +188,9 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
           </div>
         </header>
 
-        <div className="app-body">{children}</div>
-      </main>
+          <div className="app-body">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }
