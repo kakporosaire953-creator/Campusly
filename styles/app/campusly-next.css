@@ -511,3 +511,25 @@
     z-index: 1100;
   }
 }
+
+/* ── Coquille applicative : bandeau pleine largeur + rangée sidebar/contenu ──
+   `.app-layout` (historique) est un flex ROW : y placer le bandeau de
+   démonstration en premier enfant le rendait solidaire de la rangée. Sur
+   mobile, la barre latérale (260 px) et le bandeau se partageaient la largeur,
+   `.app-main` (min-width: 0) s'écrasait et l'écran ne montrait plus que le
+   bandeau. `.app-shell` rétablit l'empilement vertical attendu. */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-shell > .app-layout {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.app-shell > .demo-banner {
+  flex: 0 0 auto;
+  width: 100%;
+}

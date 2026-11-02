@@ -97,6 +97,22 @@ describe("session de démonstration", () => {
     await waitFor(() => expect(push).toHaveBeenCalledWith("/dashboard"));
   });
 
+  it("le bandeau de démonstration est au-dessus du layout, pas dans la rangée sidebar/contenu", () => {
+    renderShell();
+
+    const banner = screen.getByRole("note");
+    const layout = document.querySelector(".app-layout");
+    const shell = document.querySelector(".app-shell");
+
+    expect(shell).not.toBeNull();
+    expect(layout).not.toBeNull();
+    // Le bandeau ne doit pas être un enfant du flex row `.app-layout` :
+    // sinon il partage la largeur avec la sidebar et écrase le contenu.
+    expect(layout?.contains(banner)).toBe(false);
+    expect(banner.parentElement).toBe(shell);
+    expect(layout?.parentElement).toBe(shell);
+  });
+
   it("le bouton hamburger ouvre réellement le menu de navigation (tablette / mobile)", async () => {
     renderShell();
 
