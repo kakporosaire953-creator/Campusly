@@ -98,13 +98,26 @@ Voir `docs/FRONTEND_GUIDE.md` § 11.
 
 ## Convention de branches
 
-Les branches de travail sont nommées **`KRAFTER`** (préfixe `KRAFTER/` pour un
-lot de travail, ex. `KRAFTER/landing-images`, `KRAFTER/theme-glass`). Ce préfixe
-remplace définitivement `arena/` dans les prochaines branches du projet.
+Toute branche créée pour le projet s'appelle **`KRAFTER-<numéro>`** : le préfixe
+`KRAFTER`, un tiret, puis un numéro à deux chiffres dans l'ordre chronologique
+des lots de travail (`KRAFTER-01`, `KRAFTER-02`, …). Ni slash, ni suffixe, ni
+préfixe `arena/` : le nom doit rester lisible tel quel dans GitHub.
 
-La branche de session courante, elle, est imposée par l'environnement
-d'exécution et ne peut pas être renommée ; ses PR portent néanmoins la mention
-KRAFTER dans le titre et la description.
+Règle d'attribution : on prend **le numéro libre suivant**. Un lot déjà fusionné
+garde son numéro ; un lot abandonné laisse son numéro définitivement libre.
+
+| Branche | Lot |
+| --- | --- |
+| `KRAFTER-01` | migration Next.js, archives et documentation d'architecture |
+| `KRAFTER-02` | landing GSAP + retrait des simulations |
+| `KRAFTER-03` | textes centrés et seconde couleur à 40 % |
+| `KRAFTER-04` | photographies, thème liquid glass, nav resserrée |
+| `KRAFTER-05` | convention de nommage (ce lot) |
+
+La branche de session courante est imposée par l'environnement d'exécution et ne
+peut pas être renommée : ses commits y sont poussés, ses PR portent le numéro
+du lot dans le titre (`KRAFTER-05 — …`), et la branche est renommée en
+`KRAFTER-<numéro>` dès que l'environnement le permet.
 
 ## Version historique
 
