@@ -96,6 +96,16 @@ Vercel déploie la **racine** du dépôt (`vercel.json` : framework Next.js). Le
 « Node.js Version » du projet Vercel — sans lui, le build échoue immédiatement.
 Voir `docs/FRONTEND_GUIDE.md` § 11.
 
+## Convention de branches
+
+Les branches de travail sont nommées **`KRAFTER`** (préfixe `KRAFTER/` pour un
+lot de travail, ex. `KRAFTER/landing-images`, `KRAFTER/theme-glass`). Ce préfixe
+remplace définitivement `arena/` dans les prochaines branches du projet.
+
+La branche de session courante, elle, est imposée par l'environnement
+d'exécution et ne peut pas être renommée ; ses PR portent néanmoins la mention
+KRAFTER dans le titre et la description.
+
 ## Version historique
 
 La version statique d'origine (`*.html`, `css/`, `js/`, `supabase/`) est archivée dans
