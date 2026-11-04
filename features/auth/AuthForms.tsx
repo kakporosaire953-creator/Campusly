@@ -145,14 +145,18 @@ export function AuthForms() {
       <div className="auth-left">
         <Image
           src="/images/auth-campus.jpg"
-          alt="Étudiants sur le campus de l'Université d'Abomey-Calavi"
+          alt="Illustration : étudiants rassemblés sur un campus universitaire"
           fill
           priority
           sizes="(max-width: 900px) 100vw, 50vw"
           className="auth-left-photo"
         />
         <span className="auth-left-veil" aria-hidden="true" />
-        <div className="auth-left-content auth-glass">
+        <div className="auth-left-content auth-note">
+          <p className="auth-note-meta">
+            <span>Registre · UAC</span>
+            <span>Planche 02</span>
+          </p>
           <Link href="/" className="auth-glass-logo">
             <span className="logo-text" style={{ fontSize: "1.6rem" }}>
               <span className="logo-cap" aria-hidden="true">
@@ -162,8 +166,8 @@ export function AuthForms() {
               <span className="logo-ly">ly</span>
             </span>
           </Link>
-          <h2 className="auth-glass-title">La réussite académique intelligente</h2>
-          <p className="auth-glass-text">
+          <h2 className="auth-note-title">La réussite académique intelligente</h2>
+          <p className="auth-note-text">
             Accédez aux épreuves UAC, révisez avec Campusly AI, intégrez vos Classrooms d&apos;amphi et
             préparez vos compositions.
           </p>
@@ -182,6 +186,9 @@ export function AuthForms() {
               </div>
             ))}
           </div>
+          <p className="auth-note-foot">
+            Visuel d&apos;illustration — campus universitaire, sans valeur documentaire.
+          </p>
         </div>
       </div>
 
@@ -193,6 +200,14 @@ export function AuthForms() {
           <ThemeToggle compact />
         </div>
         <div className="auth-form-container">
+          <div className="auth-sheet-head">
+            <p className="auth-sheet-tag">
+              <span className="auth-sheet-index">{tab === "login" ? "01" : "02"}</span>
+              <span>{tab === "login" ? "Identification" : "Inscription"}</span>
+            </p>
+            <p className="auth-sheet-ref">Fiche 2025 — 2026</p>
+          </div>
+
           <div className="auth-form-header">
             <h1 id="authTitle">{tab === "login" ? "Bienvenue sur Campusly" : "Créer votre compte"}</h1>
             <p id="authSubtitle">

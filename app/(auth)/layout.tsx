@@ -1,6 +1,7 @@
 import "@/styles/legacy/pages/auth.css";
 import "@/styles/legacy/pages/onboarding.css";
 import "@/styles/app/auth-media.css";
+import "@/styles/app/auth-registre.css";
 import type { ReactNode } from "react";
 /**
  * Gabarit des pages d'authentification et d'onboarding.

@@ -179,12 +179,39 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - `styles/app/theme.css` : tokens de verre (`--glass-*`), fond liquide
   (`--liquid-*`, `.liquid-bg`), habillage des surfaces existantes et contrastes du
   mode sombre. Le fond animé orange/bleu est actif dans les deux modes.
-- Images : `public/images/*.jpg`, affichées via `next/image` dans les cadres
-  `.hero-frame`, `.media-frame`, `.media-band`, `.institutions-media`.
+- Images : `public/images/*.jpg`, affichées via `next/image`. La landing n'en
+  garde qu'une (`.plate-photo`, planche 01) ; `/auth` utilise la sienne sur la
+  colonne photographique. Ce sont des **visuels d'illustration** (générés), pas
+  des photographies documentaires du campus : les légendes le disent.
   `images.unoptimized` reste activé (contrainte Cloudflare Workers).
 - Numération éditoriale : `--font-num` (Instrument Serif) remplace la monospace
   générique pour les index de sections ; `--font-label` (Space Grotesk) pour les
   micro-étiquettes.
+
+## 5 ter. « Le Registre » — grammaire de la landing
+
+La page d'accueil est un **registre académique imprimé**, pas une page marketing.
+La spécification complète (diagnostic, direction, backlog) est dans
+`docs/DESIGN_DIRECTION.md`.
+
+- Structure : `.registre` → `.masthead` → `.cover` (fiche spécimen) → `.ticker` →
+  chapitres `01` … `08` (`ChapterHeader`) → `.colophon`.
+- `components/landing/ChapterHeader.tsx` : filet, numéro, libellé mono, annotation
+  technique à droite, titre display. C'est le seul en-tête de section de la landing.
+- `components/landing/SpecimenCard.tsx` : formulaire du registre. La nomenclature
+  (FAST / Informatique / L2 / S1 / 2025-2026) est réelle, les mesures restent en
+  pointillés et l'étiquette `SPÉCIMEN` est explicite : aucune épreuve inventée.
+- `components/landing/Ticker.tsx` : bande défilante CSS pure, `aria-hidden`,
+  figée sous `prefers-reduced-motion`.
+- Trois voix typographiques : Instrument Serif (`--font-display`), Space Grotesk
+  (`--font-ann`) et Plus Jakarta Sans (corps, ≤ 62 ch). `--font-num` reste le
+  serif pour les index.
+- Animations (`components/landing/LandingMotion.tsx`) : `chapter`, `rule`, `index`,
+  `plate`, `steps`, `numerals`, `editorial`, `frame`, `mask` — toutes en `gsap.from`
+  avec `once: true`, aucune animation si `prefers-reduced-motion`.
+- `/auth` est la même fiche : `styles/app/auth-registre.css` transforme le split
+  photo + carte en **fiche d'inscription** perforée. Aucun verre dépoli : le verre
+  reste réservé à la navbar et aux surfaces applicatives (`styles/app/theme.css`).
 
 ## 6. Tests
 
@@ -200,7 +227,7 @@ npm run test
   état vide, réinitialisation, favoris, modale de téléchargement simulé) et du moteur
   de quiz (réponses, résultat local, reprise).
 
-33 tests au total. Ce qui n'est **pas** couvert par des tests automatisés est vérifié
+43 tests au total (dont `tests/theme.test.tsx` pour le thème). Ce qui n'est **pas** couvert par des tests automatisés est vérifié
 manuellement et listé dans la section 8.
 
 ---
