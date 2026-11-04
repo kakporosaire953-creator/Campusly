@@ -24,8 +24,12 @@ import {
  *       [data-anim="steps"]     → étapes qui montent en se dévoilant
  *       [data-anim="numerals"]  → numéros révélés par masque vertical
  *       [data-anim="editorial"] → liste alternée gauche / droite
- *       [data-anim="frame"]     → photos cadrées : voile + zoom lent
- *       [data-anim="mask"]      → bandeau photo dévoilé par `clip-path`
+ *       [data-anim="frame"]     → fiche encadrée : voile + pose
+ *       [data-anim="mask"]      → bandeau dévoilé par `clip-path`
+ *       [data-anim="chapter"]   → en-tête de chapitre : filet, méta, titre
+ *       [data-anim="rule"]      → filet d'encre qui se trace de gauche à droite
+ *       [data-anim="index"]     → index tabulaire : colonnes puis lignes
+ *       [data-anim="plate"]     → planche : volet vertical + parallaxe
  *
  * Sécurité et sobriété :
  *  - `prefers-reduced-motion` → aucune animation n'est créée, le contenu est
@@ -170,7 +174,10 @@ export function LandingMotion({ children }: { children: ReactNode }) {
           stagger: 0.12,
           scrollTrigger: { trigger: group, start: REVEAL_START, once: true },
         });
-        const indices = gsap.utils.toArray<HTMLElement>(".progression-index", group);
+        const indices = gsap.utils.toArray<HTMLElement>(
+          ".progression-index, .movement-index, .ledger-num",
+          group,
+        );
         if (indices.length > 0) {
           gsap.from(indices, {
             yPercent: 120,
@@ -203,33 +210,148 @@ export function LandingMotion({ children }: { children: ReactNode }) {
       // Photos : le cadre se dévoile puis la photo se stabilise (zoom lent).
       gsap.utils.toArray<HTMLElement>('[data-anim="frame"]', root).forEach((frame) => {
         const photo = frame.querySelector("img");
-        gsap
-          .timeline({ scrollTrigger: { trigger: frame, start: REVEAL_START, once: true } })
-          .from(frame, {
-            clipPath: "inset(18% 12% 18% 12% round 26px)",
-            opacity: 0,
-            duration: 0.85,
-            ease: "power3.out",
-          })
-          .from(
-            photo,
-            { scale: 1.12, duration: 1.2, ease: "power2.out" },
-            0,
-          );
+        const timeline = gsap.timeline({
+          scrollTrigger: { trigger: frame, start: REVEAL_START, once: true },
+        });
+
+        // Voile qui se retire du haut vers le bas : la fiche se « pose ».
+        timeline.from(frame, {
+          clipPath: "inset(0% 0% 100% 0%)",
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        });
+
+        if (photo) {
+          timeline.from(photo, { scale: 1.08, duration: 1.1, ease: "power2.out" }, 0);
+        }
       });
 
-      // Bandeau photo : voile qui s'ouvre du centre.
+      // Bandes dévoilées : voile qui s'ouvre du centre.
       gsap.utils.toArray<HTMLElement>('[data-anim="mask"]', root).forEach((band) => {
         const photo = band.querySelector("img");
-        gsap
-          .timeline({ scrollTrigger: { trigger: band, start: REVEAL_START, once: true } })
-          .from(band, {
-            clipPath: "inset(0% 50% 0% 50% round 20px)",
-            duration: 1,
-            ease: "power3.inOut",
-          })
-          .from(photo, { scale: 1.16, duration: 1.4, ease: "power2.out" }, 0)
-          .from(".media-band-caption", { y: 14, opacity: 0, duration: 0.5 }, "-=0.35");
+        const timeline = gsap.timeline({
+          scrollTrigger: { trigger: band, start: REVEAL_START, once: true },
+        });
+
+        timeline.from(band, {
+          clipPath: "inset(0% 50% 0% 50%)",
+          duration: 1,
+          ease: "power3.inOut",
+        });
+
+        if (photo) {
+          timeline.from(photo, { scale: 1.12, duration: 1.4, ease: "power2.out" }, 0);
+        }
+      });
+
+      // En-tête de chapitre : le filet se trace, puis la méta et le titre.
+      gsap.utils.toArray<HTMLElement>('[data-anim="chapter"]', root).forEach((chapter) => {
+        const rule = chapter.querySelector<HTMLElement>(".chapter-rule");
+        const meta = chapter.querySelector<HTMLElement>(".chapter-meta");
+        const title = chapter.querySelector<HTMLElement>(".chapter-title");
+        const lede = chapter.querySelector<HTMLElement>(".chapter-lede");
+
+        const timeline = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: { trigger: chapter, start: "top 82%", once: true },
+        });
+
+        if (rule) {
+          timeline.from(rule, { scaleX: 0, duration: 0.55, ease: "power2.inOut" });
+        }
+        if (meta) {
+          timeline.from(meta, { y: 10, opacity: 0, duration: 0.5 }, "-=0.25");
+        }
+        if (title) {
+          // Masque typographique : le titre sort de son cadre par le bas.
+          timeline.from(
+            title,
+            { clipPath: "inset(0% 0% 100% 0%)", yPercent: 14, duration: 0.85 },
+            "-=0.2",
+          );
+        }
+        if (lede) {
+          timeline.from(lede, { y: 14, opacity: 0, duration: 0.55 }, "-=0.45");
+        }
+      });
+
+      // Filets isolés (hors en-tête) : tracé depuis la gauche.
+      gsap.utils.toArray<HTMLElement>('[data-anim="rule"]', root).forEach((rule) => {
+        if (rule.closest('[data-anim="chapter"]')) return;
+        gsap.from(rule, {
+          scaleX: 0,
+          transformOrigin: "left center",
+          duration: 0.6,
+          ease: "power2.inOut",
+          scrollTrigger: { trigger: rule, start: "top 90%", once: true },
+        });
+      });
+
+      // Index tabulaire : les colonnes, puis la ligne d'échantillon.
+      gsap.utils.toArray<HTMLElement>('[data-anim="index"]', root).forEach((wrap) => {
+        const head = wrap.querySelector<HTMLElement>("thead");
+        const row = wrap.querySelector<HTMLElement>("tbody tr");
+        const caption = wrap.querySelector<HTMLElement>(".index-caption");
+        const rest = gsap.utils.toArray<HTMLElement>(".index-empty, .index-actions", wrap);
+
+        const timeline = gsap.timeline({
+          defaults: { ease: "power2.out" },
+          scrollTrigger: { trigger: wrap, start: REVEAL_START, once: true },
+        });
+
+        if (caption) timeline.from(caption, { x: -14, opacity: 0, duration: 0.5 });
+        if (head) {
+          timeline.from(
+            Array.from(head.querySelectorAll("th")) as HTMLElement[],
+            { y: 8, opacity: 0, duration: 0.4, stagger: 0.05 },
+            "-=0.3",
+          );
+        }
+        if (row) timeline.from(row, { opacity: 0, duration: 0.55 }, "-=0.15");
+        if (rest.length) {
+          timeline.from(rest, { y: 12, opacity: 0, duration: 0.5, stagger: 0.08 }, "-=0.3");
+        }
+      });
+
+      // Planche photographique : volet vertical, puis parallaxe légère.
+      gsap.utils.toArray<HTMLElement>('[data-anim="plate"]', root).forEach((plate) => {
+        const photo = plate.querySelector<HTMLElement>("img");
+        const caption = plate.querySelector<HTMLElement>(".plate-caption");
+
+        const timeline = gsap.timeline({
+          scrollTrigger: { trigger: plate, start: REVEAL_START, once: true },
+        });
+
+        timeline.from(plate, {
+          clipPath: "inset(0% 0% 100% 0%)",
+          duration: 1.05,
+          ease: "power3.inOut",
+        });
+
+        if (photo) {
+          timeline.from(photo, { scale: 1.08, duration: 1.4, ease: "power2.out" }, 0);
+          if (!isCompactViewport()) {
+            gsap.fromTo(
+              photo,
+              { y: 6 },
+              {
+                y: -6,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: plate,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 0.7,
+                },
+              },
+            );
+          }
+        }
+
+        if (caption) {
+          timeline.from(caption, { y: 10, opacity: 0, duration: 0.5 }, "-=0.6");
+        }
       });
 
       /* ── 5. Parallaxe (desktop uniquement) ─────────────────── */

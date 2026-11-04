@@ -43,6 +43,10 @@ npm run start      # serveur de production
 - Forum : filtres, création de sujet, réponses, mentions « j'aime » (stockage local).
 - Thème clair / sombre (bascule dans la navbar et l'espace, préférence conservée) avec
   surfaces « liquid glass » et fond animé bleu/orange dans les deux modes.
+- Accueil « Le Registre » : chapitres numérotés (`01` → `08`), fiche d'épreuve
+  spécimen, index tabulaire, planche photographique unique, bandes défilantes et
+  colophon — trois voix typographiques, animations GSAP distinctes par chapitre,
+  bandes défilantes en CSS pur (`docs/DESIGN_DIRECTION.md`).
 - Crédits et abonnement : pages d'attente expliquant l'ouverture prochaine (aucun tarif, aucun paiement).
 - Notifications, profil, paramètres, bascule de rôle, déconnexion.
 

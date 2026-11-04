@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ChapterHeader } from "@/components/landing/ChapterHeader";
 
 const CATEGORIES = [
   { id: "all", label: "Toutes" },
@@ -20,7 +21,7 @@ const FAQ_ITEMS: Array<{ id: string; category: Exclude<CategoryId, "all">; quest
     category: "ai",
     question: "Comment fonctionne la génération de quiz avec Campusly AI ?",
     answer:
-      "Vous importez votre support (cours, TD, épreuve ou notes). Campusly AI en extrait la structure pédagogique, dégage les concepts fondamentaux et formule des questions (QCM, Q/R, Vrai/Faux) avec corrections et justifications. Vous pouvez relire, modifier ou régénérer chaque question avant de lancer l'exercice.",
+      "Vous importez votre support (cours, TD, épreuve ou notes). Campusly AI en extrait la structure pédagogique, dégage les concepts fondamentaux et formule des questions (QCM, Q/R, Vrai/Faux) avec corrections et justifications. Vous pouvez relire, modifier ou régénérer chaque question avant de lancer l'exercice. L'analyse de document n'est pas encore ouverte : elle est annoncée comme telle sur la page d'accueil.",
   },
   {
     id: "q2",
@@ -41,14 +42,14 @@ const FAQ_ITEMS: Array<{ id: string; category: Exclude<CategoryId, "all">; quest
     category: "compositions",
     question: "Comment se déroule la surveillance des compositions en ligne ?",
     answer:
-      "La salle de composition active un compte à rebours strict, un mode plein écran et consigne les changements d'onglets. Les événements sont revus par l'enseignant avant validation de la note : aucune sanction n'est automatique.",
+      "La salle de composition active un compte à rebours strict, un mode plein écran et consigne les changements d'onglets. Les événements restent sur l'appareil et sont revus par l'enseignant avant validation de la note : aucune sanction n'est automatique.",
   },
   {
     id: "q5",
     category: "credits",
     question: "À quoi servent les Campusly Credits ?",
     answer:
-      "Les crédits financent les analyses de documents, la génération de quiz et certains téléchargements d'épreuves premium. Ils se rechargent par packs via Mobile Money ou carte bancaire (FedaPay).",
+      "Les crédits financeront les analyses de documents, la génération de quiz et certains téléchargements d'épreuves. Le paiement n'est pas encore ouvert : aucun pack n'est vendu, aucune carte ni aucun Mobile Money n'est débité, et l'accès aux exercices reste libre.",
   },
   {
     id: "q6",
@@ -66,7 +67,12 @@ const FAQ_ITEMS: Array<{ id: string; category: Exclude<CategoryId, "all">; quest
   },
 ];
 
-/** FAQ filtrable — même comportement que l'ancienne page d'accueil. */
+/**
+ * FAQ — chapitre 08 du registre.
+ * Le contenu est celui de l'ancienne page d'accueil ; seuls la mise en page et
+ * les mentions d'état ont été reprises pour rester alignées sur ce qui est
+ * réellement disponible (paiement fermé, analyse de document non ouverte).
+ */
 export function FaqSection() {
   const [category, setCategory] = useState<CategoryId>("all");
 
@@ -76,22 +82,22 @@ export function FaqSection() {
   );
 
   return (
-    <section className="section" id="faq" style={{ padding: "70px 5%", maxWidth: 1100, margin: "0 auto" }}>
-      <div className="section-center">
-        <span className="section-tag">Support &amp; FAQ</span>
-        <h2 className="section-title">
-          Questions <span>fréquentes</span>
-        </h2>
-        <p className="section-desc">
-          Toutes les réponses pour maîtriser Campusly en tant qu&apos;étudiant ou enseignant.
-        </p>
-      </div>
-
-      <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 28 }}
-        role="group"
-        aria-label="Filtrer les questions par thème"
+    <section className="chapter-block" id="faq">
+      <ChapterHeader
+        index="08"
+        label="Questions fréquentes"
+        title={
+          <>
+            Ce qu&apos;on nous demande <em>le plus souvent.</em>
+          </>
+        }
+        note={`${FAQ_ITEMS.length} questions · ${CATEGORIES.length - 1} thèmes`}
       >
+        Réponses décrivant les fonctions de la plateforme. Les fonctions encore fermées sont signalées
+        comme telles, ici comme sur le reste de la page.
+      </ChapterHeader>
+
+      <div className="faq-filters" role="group" aria-label="Filtrer les questions par thème">
         {CATEGORIES.map((entry) => (
           <button
             key={entry.id}
@@ -105,23 +111,11 @@ export function FaqSection() {
         ))}
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }} id="faqList">
+      <div className="faq-list">
         {items.map((item) => (
-          <details key={item.id} className="faq-item" style={{ padding: "18px 20px" }}>
-            <summary
-              style={{
-                fontSize: "0.95rem",
-                fontWeight: 700,
-                color: "var(--text-1)",
-                cursor: "pointer",
-                listStyle: "none",
-              }}
-            >
-              {item.question}
-            </summary>
-            <p style={{ fontSize: "0.88rem", color: "var(--text-2)", lineHeight: 1.65, margin: "10px 0 0" }}>
-              {item.answer}
-            </p>
+          <details key={item.id} className="faq-item">
+            <summary className="faq-q">{item.question}</summary>
+            <p className="faq-a">{item.answer}</p>
           </details>
         ))}
       </div>
