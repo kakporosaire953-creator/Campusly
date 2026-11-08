@@ -1,11 +1,11 @@
 import "@/styles/legacy/pages/auth.css";
 import "@/styles/legacy/pages/onboarding.css";
-import "@/styles/app/auth-media.css";
+import "@/styles/app/auth.css";
 import type { ReactNode } from "react";
 /**
  * Gabarit des pages d'authentification et d'onboarding.
- * La page `/auth` reprend le split-screen historique ; l'onboarding utilise
- * une carte centrée. Ce layout ne monte donc pas de navbar.
+ * `/auth` est une colonne unique centrée (le formulaire est le point focal) ;
+ * l'onboarding garde sa carte centrée. Ce layout ne monte pas de navbar.
  */
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (

@@ -22,11 +22,65 @@ export const siteConfig = {
   version: "3.0.0-web",
 } as const;
 
-/** Navigation publique (reprise de l'ancienne navbar). */
+/**
+ * Navigation publique.
+ * Quatre entrées au maximum : chaque lien pointe vers une section réellement
+ * présente sur l'accueil. Les ancres sont absolues (`/#…`) pour rester
+ * valides depuis les pages légales et « à propos ».
+ */
 export const publicNav = [
-  { href: "/#piliers", label: "Piliers" },
-  { href: "/dashboard/epreuves", label: "Épreuves" },
+  { href: "/#fonctionnalites", label: "Fonctionnalités" },
+  { href: "/#campusly-ai", label: "Campusly AI" },
+  { href: "/#etablissements", label: "Établissements" },
   { href: "/#faq", label: "FAQ" },
+] as const;
+
+export interface FooterLink {
+  href: string;
+  label: string;
+}
+
+/** Pied de page : quatre familles de liens + un bloc institutionnel. */
+export const footerNav: ReadonlyArray<{ title: string; links: readonly FooterLink[] }> = [
+  {
+    title: "Plateforme",
+    links: [
+      { href: "/dashboard/epreuves", label: "Épreuves et annales" },
+      { href: "/dashboard/classrooms", label: "Espaces de cours" },
+      { href: "/dashboard/revision", label: "Révision et quiz" },
+      { href: "/dashboard/compositions", label: "Compositions" },
+      { href: "/dashboard", label: "Tableau de bord" },
+    ],
+  },
+  {
+    title: "Fonctionnalités",
+    links: [
+      { href: "/#fonctionnalites", label: "Vue d'ensemble" },
+      { href: "/#campusly-ai", label: "Campusly AI" },
+      { href: "/#parcours", label: "Progression" },
+      { href: "/#enseignants", label: "Espace enseignants" },
+      { href: "/#faq", label: "Questions fréquentes" },
+    ],
+  },
+  {
+    title: "Ressources",
+    links: [
+      { href: "/a-propos", label: "À propos" },
+      { href: "/contribuer", label: "Contribuer" },
+      { href: "/#etablissements", label: "Établissements" },
+      { href: "/offline", label: "Mode hors ligne" },
+      { href: "/a-propos#contact", label: "Contact" },
+    ],
+  },
+  {
+    title: "Institutions",
+    links: [
+      { href: "/a-propos#contact", label: "Demander une démonstration" },
+      { href: "/a-propos#contact", label: "Proposer un partenariat" },
+      { href: "/conditions", label: "Conditions d'utilisation" },
+      { href: "/politique-de-confidentialite", label: "Confidentialité" },
+    ],
+  },
 ] as const;
 
 /** Élément de navigation de l'espace applicatif. */

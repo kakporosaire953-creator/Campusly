@@ -12,8 +12,16 @@ export default function AuthPage() {
   return (
     <Suspense
       fallback={
-        <div style={{ maxWidth: 520, margin: "80px auto", padding: 20, minHeight: "70vh" }}>
-          <SkeletonCard lines={5} />
+        <div className="auth">
+          <p className="auth__sr" role="status">
+            Chargement du formulaire de connexion…
+          </p>
+          <div className="auth__bar" aria-hidden="true" />
+          <div className="auth__main">
+            <div className="auth__card" aria-hidden="true">
+              <SkeletonCard lines={7} />
+            </div>
+          </div>
         </div>
       }
     >

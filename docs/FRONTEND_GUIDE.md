@@ -117,8 +117,22 @@ JetBrains Mono (données techniques). Icônes : Font Awesome 6 (CDN).
 
 ### 3.2 Ce qui ne doit pas changer
 
-Proportions des sections, structure des cartes, animations existantes, palette,
-logo, hiérarchie typographique, ton des textes.
+Palette (`#1565C0` / `#F57C00`), logo au chapeau, nom des fonctions, ton des
+textes, conventions de navigation. La mise en page de l'accueil et de `/auth`
+est, elle, pilotée par les couches `styles/app/` (voir §5 bis et §5 ter).
+
+### 3.3 Couches de composition (ajoutées par-dessus le legacy)
+
+| Fichier | Portée | Rôle |
+| --- | --- | --- |
+| `styles/app/site-chrome.css` | toutes les pages publiques | navigation `.site-nav` (transparente sur le hero, resserrée au défilement) et pied de page `.site-footer` |
+| `styles/app/landing.css` | accueil | direction artistique de l'accueil (hero éditorial, fragments, sections) |
+| `styles/app/auth.css` | `/auth` + `/onboarding` | fiche d'authentification minimaliste |
+| `styles/app/theme.css` | global | thème clair/sombre et verre des surfaces applicatives |
+
+Les anciennes classes de la landing (`.pillar-*`, `.ai-step`, `.compo-item`,
+`.media-band`, `.hero-frame`, `.landing-section`…) ne sont **plus produites** par
+le markup ; leurs règles ont été retirées de `landing.css`.
 
 ---
 
@@ -179,12 +193,52 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - `styles/app/theme.css` : tokens de verre (`--glass-*`), fond liquide
   (`--liquid-*`, `.liquid-bg`), habillage des surfaces existantes et contrastes du
   mode sombre. Le fond animé orange/bleu est actif dans les deux modes.
-- Images : `public/images/*.jpg`, affichées via `next/image` dans les cadres
-  `.hero-frame`, `.media-frame`, `.media-band`, `.institutions-media`.
+- Images : `public/images/*.jpg`, affichées via `next/image`. Ce sont des
+  **visuels d'illustration** (et non des photographies documentaires du campus) :
+  les légendes de l'accueil le disent explicitement.
   `images.unoptimized` reste activé (contrainte Cloudflare Workers).
-- Numération éditoriale : `--font-num` (Instrument Serif) remplace la monospace
-  générique pour les index de sections ; `--font-label` (Space Grotesk) pour les
-  micro-étiquettes.
+- Trois voix typographiques : `--font-editorial` (Instrument Serif) pour les
+  titres, `--font-label` (Space Grotesk) pour les étiquettes et annotations,
+  `--font-sans` (Plus Jakarta Sans) pour le texte. `--font-num` reste un alias du
+  serif éditorial pour la numération.
+- Verre : réservé à la navigation au défilement et aux surfaces de l'espace
+  connecté. `/auth` n'utilise plus de verre du tout.
+
+## 5 ter. Accueil immersif et `/auth` minimaliste
+
+**Accueil** (`app/(public)/page.tsx`)
+
+- Hero : titre éditorial en trois lignes (masque par ligne), description,
+  deux CTA, puis une planche photo qui déborde à droite avec deux extraits
+  d'interface (`components/landing/AppFragments.tsx`).
+- Sections numérotées `01` → `08` via `components/landing/SectionHead.tsx`
+  (numéro + libellé à gauche, titre sur 7 colonnes, annotation à droite).
+- Quatre blocs de fonctionnalités, chacun avec sa composition : classe + photo,
+  index documentaire, bande sombre Campusly AI, suivi + règles.
+- `components/landing/AiSequence.tsx` : rail d'étapes + quatre panneaux, avec
+  mention explicite que l'analyse de document n'est pas encore ouverte.
+- Frise de progression, espace enseignants, bandeau compositions, section
+  établissements (typographique), FAQ, bandeau de conversion.
+- `components/layout/SiteFooter.tsx` : bande institutionnelle (démonstration /
+  partenariat), quatre familles de liens, mention « projet indépendant ».
+
+**/auth** (`features/auth/AuthForms.tsx`)
+
+- Colonne unique centrée, carte unique, aucun panneau photo ni liste de fonctions.
+- Inscription en deux étapes (Identité → Parcours) ; même état, mêmes
+  validations, même appel à `register()` ; retour automatique à l'étape 1 si une
+  erreur porte sur un champ d'identité.
+- Le profil étudiant/enseignant est un vrai groupe de radios (clavier + lecteur
+  d'écran) présenté comme deux options distinctes.
+- Pas de « mot de passe oublié » : la fonction n'existe pas encore.
+- La mention de démonstration reste visible sous la carte (authentification
+  simulée, jetons d'essai).
+
+**Animations** (`components/landing/LandingMotion.tsx`) : `data-hero-*`,
+`data-reveal`, `data-anim="daily|feat|frame|mask|rail|track|editorial|rows"`,
+repère actif de la séquence IA, parallaxe desktop. Toutes en `gsap.from`,
+`once: true`, aucune création si `prefers-reduced-motion`. `/auth` n'utilise que
+des transitions CSS courtes.
 
 ## 6. Tests
 
