@@ -2,27 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { publicNav } from "@/config/site";
 import { useSession } from "@/features/auth/SessionProvider";
-import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 /**
  * Barre de navigation publique.
- * Reprend le markup et les classes de l'ancienne navbar (logo « Campusly »
- * avec chapeau, liens, boutons Connexion / S'inscrire) en corrigeant
- * l'accessibilité : `<button>` réel pour le menu, `aria-expanded`,
- * fermeture au clavier, overlay cliquable.
+ * ---------------------------------------------------------------------------
+ * Trois états, une seule barre :
+ *  - `is-over` : sur l'accueil, avant défilement → effacement complet (le hero
+ *    passe dessous), texte en encre foncée ;
+ *  - `is-scrolled` : au défilement → fond translucide, filet, hauteur réduite
+ *    (76 px → 60 px) ;
+ *  - pages intérieures : fond plein dès l'arrivée.
+ *
+ * Le menu mobile est un panneau plein écran sous la barre : une seule colonne,
+ * cibles de 48 px, fermeture par Échap, par clic sur le fond ou après
+ * navigation. Aucun `onclick` inline, `aria-expanded` / `aria-controls` réels.
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { status, user } = useSession();
   const pathname = usePathname();
+  const firstRef = useRef<HTMLAnchorElement>(null);
+
+  const isHome = pathname === "/";
+  const overlay = isHome && !scrolled && !open;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -33,17 +43,37 @@ export function SiteHeader() {
   }, [pathname]);
 
   useEffect(() => {
+    if (!open) return;
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+
+    // Le défilement de la page est figé tant que le panneau est ouvert.
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    firstRef.current?.focus({ preventScroll: true });
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  const navClass = [
+    "site-nav",
+    overlay ? "is-over" : "",
+    scrolled ? "is-scrolled" : "",
+    open ? "is-open" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <>
-      <nav className={`navbar ${scrolled ? "scrolled" : ""}`} aria-label="Navigation principale">
-        <Link href="/" className="nav-logo" aria-label="Campusly — accueil">
+    <header className={navClass} data-nav>
+      <div className="site-nav__inner">
+        <Link href="/" className="site-nav__logo" aria-label="Campusly — accueil">
           <span className="logo-text">
             <span className="logo-cap" aria-hidden="true">
               <LogoCap />
@@ -53,123 +83,99 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <ul className="nav-links" id="nav-links">
+        <nav className="site-nav__links" aria-label="Sections de l'accueil">
           {publicNav.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href}>{item.label}</Link>
-            </li>
+            <Link key={item.href} href={item.href} className="site-nav__link">
+              {item.label}
+            </Link>
           ))}
-        </ul>
+        </nav>
 
-        <div className="nav-right" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <ThemeToggle />
-          <div className="nav-actions" id="navActions">
-            {status === "authenticated" && user ? (
-              <>
-                <Link href="/dashboard" className="btn btn-primary btn-sm">
-                  <i className="fa-solid fa-user-graduate" aria-hidden="true" /> {user.prenom}
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link href="/auth" className="btn btn-ghost btn-sm">
-                  Connexion
-                </Link>
-                <Link href="/auth?tab=register" className="btn btn-primary btn-sm">
-                  S&apos;inscrire
-                </Link>
-              </>
-            )}
-          </div>
-          <button
-            type="button"
-            className={`hamburger ${open ? "open" : ""}`}
-            id="hamburger"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={open}
-            aria-controls="nav-links"
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
+        <div className="site-nav__actions">
+          <ThemeToggle compact />
+          {status === "authenticated" && user ? (
+            <Link href="/dashboard" className="btn btn-primary btn-sm site-nav__cta">
+              Mon espace
+            </Link>
+          ) : (
+            <>
+              <Link href="/auth" className="site-nav__signin">
+                Connexion
+              </Link>
+              <Link href="/auth?tab=register" className="btn btn-primary btn-sm site-nav__cta">
+                Créer un compte
+              </Link>
+            </>
+          )}
         </div>
-      </nav>
+
+        <button
+          type="button"
+          className="site-nav__burger"
+          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={open}
+          aria-controls="menu-mobile"
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </button>
+      </div>
 
       {open ? (
-        <div
-          className="mobile-overlay show"
-          role="presentation"
-          onClick={() => setOpen(false)}
-        />
-      ) : null}
-
-      <MobileMenu open={open} onNavigate={() => setOpen(false)} />
-    </>
-  );
-}
-
-function MobileMenu({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
-  const { status } = useSession();
-  if (!open) return null;
-
-  return (
-    <div
-      style={{
-        position: "fixed",
-        top: 68,
-        left: 0,
-        right: 0,
-        zIndex: 1001,
-        background: "var(--bg)",
-        borderTop: "1px solid var(--border)",
-        padding: "var(--space-6) var(--space-4)",
-        display: "flex",
-        flexDirection: "column",
-        gap: 12,
-        maxHeight: "calc(100vh - 68px)",
-        overflowY: "auto",
-      }}
-      id="mobile-menu"
-    >
-      {publicNav.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          onClick={onNavigate}
-          style={{
-            padding: "12px 16px",
-            borderRadius: "var(--r-md)",
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
-            color: "var(--text-1)",
-            fontWeight: 700,
-          }}
-        >
-          {item.label}
-        </Link>
-      ))}
-      {status === "authenticated" ? (
-        <Link href="/dashboard" className="btn btn-primary" onClick={onNavigate} style={{ width: "100%" }}>
-          Mon espace
-        </Link>
-      ) : (
         <>
-          <Link href="/auth" className="btn btn-ghost" onClick={onNavigate} style={{ width: "100%" }}>
-            Connexion
-          </Link>
-          <Link
-            href="/auth?tab=register"
-            className="btn btn-primary"
-            onClick={onNavigate}
-            style={{ width: "100%" }}
-          >
-            S&apos;inscrire
-          </Link>
+          <button
+            type="button"
+            className="site-nav__scrim"
+            aria-label="Fermer le menu"
+            tabIndex={-1}
+            onClick={() => setOpen(false)}
+          />
+          <div className="site-nav__panel" id="menu-mobile" role="dialog" aria-modal="true" aria-label="Menu">
+            <nav className="site-nav__panel-links" aria-label="Sections de l'accueil">
+              {publicNav.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  ref={index === 0 ? firstRef : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="site-nav__panel-actions">
+              {status === "authenticated" && user ? (
+                <Link href="/dashboard" className="btn btn-primary btn-lg" onClick={() => setOpen(false)}>
+                  Ouvrir mon espace
+                </Link>
+              ) : (
+                <>
+                  <Link href="/auth?tab=register" className="btn btn-primary btn-lg" onClick={() => setOpen(false)}>
+                    Créer un compte
+                  </Link>
+                  <Link href="/auth" className="btn btn-outline btn-lg" onClick={() => setOpen(false)}>
+                    Connexion
+                  </Link>
+                </>
+              )}
+            </div>
+
+            <div className="site-nav__panel-foot">
+              <ThemeToggle />
+              <Link href="/a-propos" onClick={() => setOpen(false)}>
+                À propos
+              </Link>
+              <Link href="/a-propos#contact" onClick={() => setOpen(false)}>
+                Contact
+              </Link>
+            </div>
+          </div>
         </>
-      )}
-    </div>
+      ) : null}
+    </header>
   );
 }
 

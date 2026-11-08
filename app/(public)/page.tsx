@@ -4,129 +4,138 @@ import Link from "next/link";
 import { FACULTIES } from "@/types";
 import { FaqSection } from "@/components/shared/FaqSection";
 import { LandingMotion } from "@/components/landing/LandingMotion";
-import { StudyFlow } from "@/components/landing/StudyFlow";
+import { SectionHead } from "@/components/landing/SectionHead";
+import { HeroComposition } from "@/components/landing/HeroComposition";
+import { AiSequence } from "@/components/landing/AiSequence";
+import {
+  FragClassroom,
+  FragComposition,
+  FragDashboard,
+  FragLibrary,
+  FragTeacher,
+} from "@/components/landing/AppFragments";
 
 export const metadata: Metadata = {
-  title: "Campusly — Ressources, révision et évaluations à l'UAC",
+  title: { absolute: "Campusly — Ressources, cours et révisions à l'UAC" },
   description:
-    "Campusly réunit les ressources académiques, les espaces de cours et les outils de révision des étudiants et enseignants de l'Université d'Abomey-Calavi.",
+    "Campusly réunit les ressources académiques, les espaces de cours et les outils de révision dans un environnement pensé pour les étudiants et les enseignants de l'Université d'Abomey-Calavi.",
 };
 
-/** Piliers secondaires : traités en lignes éditoriales, pas en cartes identiques. */
-const PILLARS = [
+/** Situations du quotidien universitaire — le problème, pas la promesse. */
+const DAILY = [
+  {
+    index: "01",
+    title: "Retrouver les supports de cours",
+    text: "Un polycopié dans une conversation, un TD dans un dossier partagé, la version finale nulle part.",
+  },
   {
     index: "02",
-    title: "Campusly AI",
-    description:
-      "Vos cours, TD et fiches deviennent des questions de révision, relues et corrigées par vous avant l'entraînement.",
-    href: "/dashboard/revision",
-    cta: "Voir le moteur de révision",
+    title: "Accéder aux ressources académiques",
+    text: "Les anciennes épreuves circulent de main en main, rarement classées par faculté, niveau et année.",
   },
   {
     index: "03",
-    title: "Cinq modes d'entraînement",
-    description:
-      "QCM chronométré, questions-réponses, vrai/faux express, résumé pédagogique ou marathon adaptatif.",
-    href: "/dashboard/revision",
-    cta: "Découvrir les modes",
+    title: "Organiser ses révisions",
+    text: "Relire le polycopié du début à la fin ne dit pas ce qui est réellement acquis.",
   },
   {
     index: "04",
-    title: "Classrooms et amphis",
-    description:
-      "Les enseignants créent leurs classes, partagent les supports et suivent les rendus ; les étudiants rejoignent avec un code.",
-    href: "/dashboard/classrooms",
-    cta: "Ouvrir les Classrooms",
+    title: "Retrouver ses activités pédagogiques",
+    text: "Annonces, devoirs et rendus vivent dans des fils différents, parfois en dehors de la plateforme.",
   },
-  {
-    index: "05",
-    title: "Compositions",
-    description:
-      "Épreuves chronométrées, remise d'une copie et correction validée par l'enseignant.",
-    href: "/dashboard/compositions",
-    cta: "Voir les compositions",
-  },
-  {
-    index: "06",
-    title: "Progression",
-    description:
-      "Repères de révision par matière pour savoir où porter l'effort avant l'examen.",
-    href: "/dashboard",
-    cta: "Ouvrir le tableau de bord",
-  },
-];
-
-const AI_STEPS = [
-  { num: "01", title: "Importer un support", text: "Cours magistral, TD, épreuve ou notes personnelles." },
-  { num: "02", title: "Extraire les concepts", text: "Les notions structurantes du document sont dégagées." },
-  { num: "03", title: "Choisir les formats", text: "QCM, vrai/faux ou questions ouvertes, selon l'objectif." },
-  { num: "04", title: "Relire puis s'entraîner", text: "Chaque question est modifiable avant le lancement." },
 ];
 
 const PROGRESSION = [
   {
-    index: "Étape 01",
+    step: "Étape 01",
     title: "Un premier entraînement",
     text: "Vous choisissez une matière et un mode. Les questions portent sur le support que vous avez fourni.",
   },
   {
-    index: "Étape 02",
+    step: "Étape 02",
     title: "Les notions à revoir",
     text: "Les questions manquées sont regroupées par notion, pas par question : c'est le concept qui est retravaillé.",
   },
   {
-    index: "Étape 03",
+    step: "Étape 03",
     title: "L'entraînement suivant",
-    text: "La sélection suivante met l'accent sur ces notions, jusqu'à ce qu'elles soient stabilisées.",
+    text: "La sélection suivante met l'accent sur ces notions, jusqu'à ce qu'elles tiennent.",
   },
 ];
 
-const TEACHER_FEATURES = [
-  { num: "01", text: "Création d'une classe et code d'amphi à transmettre aux étudiants." },
-  { num: "02", text: "Dépôt des supports de cours et des sujets d'interrogation." },
-  { num: "03", text: "Suivi des rendus et repérage des étudiants en difficulté." },
-];
-
-const STAGE_ROWS = [
-  { title: "Classe créée", text: "L'enseignant ouvre un espace d'amphi et choisit la matière." },
-  { title: "Code partagé", text: "Les étudiants rejoignent la classe avec le code transmis en cours." },
-  { title: "Rendus suivis", text: "Devoirs, compositions et corrections restent dans un même espace." },
+const TEACHER_ROWS = [
+  {
+    num: "01",
+    title: "Créer la classe",
+    text: "Un espace d'amphi par matière, avec un code à transmettre en cours.",
+  },
+  {
+    num: "02",
+    title: "Déposer les supports",
+    text: "Cours, TD et sujets d'interrogation restent attachés à la classe.",
+  },
+  {
+    num: "03",
+    title: "Suivre les rendus",
+    text: "Devoirs remis, corrections et commentaires au même endroit.",
+  },
 ];
 
 const COMPOSITIONS = [
-  { index: "01", title: "Durée et chronomètre", text: "Un temps imparti, affiché pendant toute l'épreuve." },
-  { index: "02", title: "Salle d'examen dédiée", text: "Un espace plein écran, distinct du reste de la plateforme." },
-  { index: "03", title: "Correction assistée", text: "Des outils d'aide à la correction, la décision restant à l'enseignant." },
-  { index: "04", title: "Copie personnelle", text: "Chaque étudiant retrouve sa copie et les commentaires reçus." },
+  {
+    index: "01",
+    title: "Durée et chronomètre",
+    text: "Un temps imparti, affiché pendant toute l'épreuve.",
+  },
+  {
+    index: "02",
+    title: "Salle dédiée",
+    text: "Un espace plein écran, distinct du reste de la plateforme.",
+  },
+  {
+    index: "03",
+    title: "Correction assistée",
+    text: "Des outils d'aide à la correction, la décision restant à l'enseignant.",
+  },
+  {
+    index: "04",
+    title: "Copie personnelle",
+    text: "Chaque étudiant retrouve sa copie et les commentaires reçus.",
+  },
 ];
 
 export default function HomePage() {
   return (
     <LandingMotion>
-      {/* ───────────────────────── HERO ───────────────────────── */}
-      <section className="hero" id="hero">
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1 className="hero-title">
-              <span className="hero-line">
-                <span data-hero-line>L&apos;université demande</span>
+      {/* ═══════════════════════ HERO ═══════════════════════ */}
+      <section className="campus-hero" id="hero">
+        <div className="hero__grid">
+          <div className="hero__text">
+            <p className="hero__eyebrow" data-hero-eyebrow>
+              <span className="hero__eyebrow-dot" aria-hidden="true" />
+              Université d&apos;Abomey-Calavi · Bénin
+            </p>
+
+            <h1 className="hero__title">
+              <span className="hero__line">
+                <span data-hero-line>L&apos;université demande </span>
               </span>
-              <span className="hero-line">
-                <span data-hero-line>assez d&apos;efforts.</span>
+              <span className="hero__line">
+                <span data-hero-line>assez d&apos;efforts. </span>
               </span>
-              <span className="hero-line hero-line-accent">
+              <span className="hero__line hero__line--accent">
                 <span data-hero-line>Pas besoin de multiplier les outils.</span>
               </span>
             </h1>
 
-            <p className="hero-sub" data-hero-body>
+            <p className="hero__lede" data-hero-body>
               Campusly réunit les ressources académiques, les espaces de cours et les outils de
               révision dans un environnement pensé pour les étudiants et les enseignants de
               l&apos;UAC.
             </p>
 
-            <div className="hero-actions" data-hero-body>
-              <a href="#piliers" className="btn btn-primary btn-lg">
+            <div className="hero__actions" data-hero-body>
+              <a href="#fonctionnalites" className="btn btn-primary btn-lg">
                 Découvrir Campusly
               </a>
               <Link href="/auth?tab=register" className="btn btn-outline btn-lg">
@@ -134,264 +143,352 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <p className="hero-note" data-hero-body>
-              Ressources, révision et évaluations dans une seule interface.
-            </p>
+            <ul className="hero__facts" data-hero-body>
+              <li>Ressources classées par maquette</li>
+              <li>Entraînements corrigés localement</li>
+              <li>Projet indépendant, ouvert à l&apos;UAC</li>
+            </ul>
           </div>
 
-          <div className="hero-visual" data-hero-visual>
-            <figure className="hero-frame">
-              <Image
-                src="/images/hero-students.jpg"
-                alt="Étudiants de l'UAC révisant ensemble sur le campus"
-                width={1400}
-                height={933}
-                priority
-                sizes="(max-width: 1024px) 92vw, 46vw"
-                className="hero-photo"
-              />
-              <figcaption className="hero-frame-caption">
-                <span className="hero-frame-eyebrow">Campus d&apos;Abomey-Calavi</span>
-                <span className="hero-frame-text">
-                  Épreuves, cours et révisions réunis dans le même espace de travail.
-                </span>
-              </figcaption>
-            </figure>
-          </div>
+          <HeroComposition />
         </div>
       </section>
 
-      {/* ─────────────────────── PILIERS ─────────────────────── */}
-      <section className="section landing-section" id="piliers">
-        <div className="section-center landing-head" data-reveal>
-          <span className="section-tag">Ce que Campusly couvre</span>
-          <h2 className="section-title">
-            Tout votre parcours <span>académique</span>
-          </h2>
-          <p className="section-desc">
-            Des ressources de révision aux évaluations, sans changer d&apos;outil ni ressaisir vos
-            cours.
-          </p>
-        </div>
+      {/* ══════════════════ LE QUOTIDIEN ════════════════════ */}
+      <section className="section daily" id="quotidien">
+        <SectionHead
+          index="01"
+          label="Le quotidien"
+          title={
+            <>
+              Entre les cours, les supports, les compositions et les révisions, l&apos;organisation
+              peut vite devenir compliquée.
+            </>
+          }
+          note="Quatre points de friction"
+        >
+          Rien d&apos;extraordinaire : ce sont les mêmes difficultés chaque semestre. Campusly ne
+          les supprime pas, il les range.
+        </SectionHead>
 
-        <div className="pillars">
-          <article className="pillar-feature" data-reveal>
-            <figure className="pillar-feature-media" data-anim="frame">
+        <ol className="daily__list" data-anim="daily">
+          {DAILY.map((item) => (
+            <li className="daily__item" key={item.index}>
+              <span className="daily__num" aria-hidden="true">
+                {item.index}
+              </span>
+              <div className="daily__body">
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ═════════════════ FONCTIONNALITÉS ══════════════════ */}
+      <section className="section features" id="fonctionnalites">
+        <span id="piliers" className="anchor-alias" aria-hidden="true" />
+        <SectionHead
+          index="02"
+          label="Fonctionnalités"
+          title={
+            <>
+              Quatre espaces, <em>quatre façons de travailler.</em>
+            </>
+          }
+          note="De la ressource au rendu"
+        >
+          Chaque espace garde sa propre logique : un cours n&apos;est pas une épreuve, une épreuve
+          n&apos;est pas une révision.
+        </SectionHead>
+
+        {/* 01 — Espaces de cours */}
+        <article className="feat feat--class" data-anim="feat">
+          <div className="feat__text">
+            <p className="feat__tag">
+              <span aria-hidden="true">01</span> Espaces de cours
+            </p>
+            <h3 className="feat__title">Cours, ressources et activités au même endroit.</h3>
+            <p className="feat__lede">
+              Un enseignant crée sa classe, transmet un code d&apos;amphi, dépose supports et
+              annonces. Les étudiants rejoignent la classe et retrouvent ce qui a été partagé, sans
+              groupe de messagerie parallèle.
+            </p>
+            <ul className="feat__list">
+              <li>Code d&apos;amphi à transmettre en cours</li>
+              <li>Supports de cours et annonces</li>
+              <li>Devoirs et rendus suivis</li>
+            </ul>
+            <Link href="/dashboard/classrooms" className="feat__link">
+              Ouvrir les espaces de cours <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+
+          <div className="feat__media">
+            <figure className="feat__photo" data-anim="frame">
+              <Image
+                src="/images/amphi.jpg"
+                alt="Cours magistral dans un amphithéâtre, étudiants prenant des notes"
+                width={1264}
+                height={847}
+                sizes="(max-width: 1024px) 92vw, 34vw"
+                className="feat__photo-img"
+              />
+            </figure>
+            <FragClassroom className="feat__frag" />
+          </div>
+        </article>
+
+        {/* 02 — Épreuves et ressources */}
+        <article className="feat feat--library" data-anim="feat">
+          <div className="feat__text">
+            <p className="feat__tag">
+              <span aria-hidden="true">02</span> Épreuves et ressources
+            </p>
+            <h3 className="feat__title">Les documents au centre, pas les vignettes.</h3>
+            <p className="feat__lede">
+              Recherche par matière ou mot-clé, puis filtres par faculté, département, niveau,
+              semestre et année : la même logique que vos maquettes. Le catalogue est encore vide et
+              la bibliothèque le dit clairement, au lieu d&apos;afficher des entrées de remplissage.
+            </p>
+            <ol className="feat__steps">
+              <li>
+                <span aria-hidden="true">a</span> Rechercher une matière
+              </li>
+              <li>
+                <span aria-hidden="true">b</span> Filtrer par maquette
+              </li>
+              <li>
+                <span aria-hidden="true">c</span> Consulter le document
+              </li>
+            </ol>
+            <Link href="/dashboard/epreuves" className="feat__link">
+              Ouvrir la bibliothèque <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+
+          <div className="feat__media feat__media--library">
+            <figure className="feat__photo feat__photo--small" data-anim="frame">
               <Image
                 src="/images/library-study.jpg"
                 alt="Étudiante travaillant ses cours à la bibliothèque universitaire"
                 width={1200}
                 height={900}
-                sizes="(max-width: 1024px) 92vw, 40vw"
-                className="media-photo"
+                sizes="(max-width: 1024px) 60vw, 22vw"
+                className="feat__photo-img"
               />
             </figure>
-            <span className="pillar-feature-index">01 — LE CŒUR DE LA PLATEFORME</span>
-            <h3>Épreuves et annales, classées comme vos maquettes</h3>
-            <p>
-              Les sujets sont rangés par faculté, département, niveau, semestre et année
-              universitaire : la même logique que vos emplois du temps, pour retrouver un sujet sans
-              fouiller.
-            </p>
-            <ul className="pillar-feature-list">
-              <li>Recherche par matière, titre ou mot-clé</li>
-              <li>Filtres par faculté, niveau, semestre et année</li>
-              <li>Fiches détaillées et documents liés au programme</li>
-            </ul>
-            <Link href="/dashboard/epreuves" className="btn btn-primary">
-              Ouvrir la bibliothèque
-            </Link>
-          </article>
+            <FragLibrary className="feat__frag" />
+          </div>
+        </article>
 
-          <ol className="pillar-rows" data-anim="rows">
-            {PILLARS.map((pillar) => (
-              <li className="pillar-row" key={pillar.index}>
-                <span className="pillar-row-index" aria-hidden="true">
-                  {pillar.index}
+        {/* 03 — Campusly AI (renvoi vers la section signature) */}
+        <article className="feat feat--ai" data-anim="feat">
+          <div className="feat__ai-copy">
+            <p className="feat__tag feat__tag--dark">
+              <span aria-hidden="true">03</span> Campusly AI
+            </p>
+            <h3 className="feat__title feat__title--dark">Vos cours deviennent des questions.</h3>
+            <p className="feat__lede feat__lede--dark">
+              Un support entre, des exercices sortent — que vous relisez avant de vous entraîner.
+              L&apos;analyse de document n&apos;est pas encore ouverte ; les modes d&apos;entraînement,
+              eux, fonctionnent déjà.
+            </p>
+          </div>
+
+          <ol className="feat__flow" aria-label="Parcours Campusly AI">
+            {["Support", "Notions", "Questions"].map((label, index) => (
+              <li key={label}>
+                <span className="feat__flow-num" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
-                <div>
-                  <h3>{pillar.title}</h3>
-                  <p>{pillar.description}</p>
-                  <Link href={pillar.href} className="pillar-row-link">
-                    {pillar.cta} <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
+                {label}
               </li>
             ))}
           </ol>
-        </div>
-      </section>
 
-      {/* ────────────────────── CAMPUSLY AI ──────────────────── */}
-      <section className="section landing-section" id="campusly-ai">
-        <div className="ai-grid">
-          <div data-reveal>
-            <span className="section-tag">Moteur pédagogique</span>
-            <h2 className="section-title" style={{ marginTop: 12 }}>
-              Vos cours deviennent <span>des questions.</span>
-            </h2>
-            <p className="section-desc" style={{ margin: "0 auto 4px" }}>
-              Un support de cours entre, des exercices sortent. Rien d&apos;automatique dans ce que
-              vous révisez : vous validez chaque question.
-            </p>
+          <a href="#campusly-ai" className="feat__link feat__link--dark">
+            Voir la séquence complète <span aria-hidden="true">→</span>
+          </a>
+        </article>
 
-            <ol className="ai-steps" data-anim="steps">
-              {AI_STEPS.map((step) => (
-                <li className="ai-step" key={step.num}>
-                  <span className="ai-step-num" aria-hidden="true">
-                    {step.num}
-                  </span>
+        {/* 04 — Suivi pédagogique */}
+        <article className="feat feat--track" data-anim="feat">
+          <div className="feat__media feat__media--track">
+            <FragDashboard className="feat__frag" />
+            <ol className="feat__rules">
+              {[
+                ["Repères par entraînement", "Ce qui a été travaillé, ce qui reste fragile."],
+                ["Notions à consolider", "Le regroupement se fait par notion, pas par question."],
+                ["Historique local", "Les traces restent sur votre appareil en préfiguration."],
+              ].map(([title, text], index) => (
+                <li key={title}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                   <div>
-                    <strong>{step.title}</strong>
-                    <span>{step.text}</span>
+                    <strong>{title}</strong>
+                    <span>{text}</span>
                   </div>
                 </li>
               ))}
             </ol>
-
-            <p className="ai-status">
-              Ouverture progressive : l&apos;analyse de document n&apos;est pas encore disponible. En attendant,
-              la banque d&apos;exercices permet déjà de s&apos;entraîner, avec une correction locale non officielle.
-            </p>
-
-            <p className="ai-assurance">
-              <strong>Vos documents restent privés.</strong> Ils ne sont ni publiés ni partagés sans
-              votre accord, et ne servent qu&apos;à produire vos entraînements.
-            </p>
           </div>
 
-          <div className="ai-visual" data-reveal data-parallax data-parallax-depth="10">
-            <figure className="media-frame" data-anim="frame">
-              <Image
-                src="/images/notes-desk.jpg"
-                alt="Notes de cours manuscrites, annales imprimées et crayon sur un bureau"
-                width={1200}
-                height={900}
-                sizes="(max-width: 1024px) 92vw, 44vw"
-                className="media-photo"
-              />
-            </figure>
-            <StudyFlow />
+          <div className="feat__text">
+            <p className="feat__tag">
+              <span aria-hidden="true">04</span> Suivi pédagogique
+            </p>
+            <h3 className="feat__title">Savoir où porter l&apos;effort.</h3>
+            <p className="feat__lede">
+              Chaque entraînement laisse des repères : notions travaillées, notions encore fragiles,
+              dernière session. Aucun chiffre n&apos;est affiché avant votre premier entraînement —
+              et aucune moyenne n&apos;est inventée pour remplir un écran.
+            </p>
+            <Link href="/dashboard" className="feat__link">
+              Ouvrir le tableau de bord <span aria-hidden="true">→</span>
+            </Link>
           </div>
-        </div>
+        </article>
       </section>
 
-      {/* ─────────────────────── PROGRESSION ─────────────────── */}
-      <section className="section landing-section" id="progression">
-        <div className="section-center landing-head" data-reveal>
-          <span className="section-tag">Révision ciblée</span>
-          <h2 className="section-title">
-            Ne révisez pas tout. Révisez ce qui <span>bloque encore.</span>
-          </h2>
-          <p className="section-desc">
-            Plutôt que de relire un polycopié du début à la fin, vous retravaillez les notions qui
-            vous ont fait perdre des points.
-          </p>
-        </div>
+      {/* ═══════════════════ CAMPUSLY AI ════════════════════ */}
+      <section className="section ai-section" id="campusly-ai">
+        <SectionHead
+          index="03"
+          label="Campusly AI"
+          title={
+            <>
+              D&apos;un support de cours à <em>une séance d&apos;entraînement.</em>
+            </>
+          }
+          note="Aperçu du parcours"
+        >
+          Le parcours ci-dessous décrit ce que fait Campusly AI — et, en bas de section, ce qu&apos;il
+          ne fait pas encore.
+        </SectionHead>
 
-        <div className="progression-grid" data-anim="numerals">
-          {PROGRESSION.map((step) => (
-            <article className="progression-step" key={step.index}>
-              <span className="progression-index">{step.index}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </article>
+        <AiSequence />
+      </section>
+
+      {/* ═══════════════════ PROGRESSION ════════════════════ */}
+      <section className="section track-section" id="parcours">
+        <SectionHead
+          index="04"
+          label="Progression"
+          title={
+            <>
+              Révisez ce qui bloque, <em>pas tout ce qui existe.</em>
+            </>
+          }
+          note="Trois temps"
+        >
+          Relire un polycopié du début à la fin coûte du temps. Retravailler les notions qui ont
+          coûté des points en coûte moins.
+        </SectionHead>
+
+        <ol className="track" data-anim="track">
+          {PROGRESSION.map((item) => (
+            <li className="track__step" key={item.step}>
+              <span className="track__node" aria-hidden="true" />
+              <span className="track__step-label">{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
           ))}
-        </div>
+        </ol>
 
-        <p className="progression-note" data-reveal>
-          Vos statistiques personnelles apparaîtront dans votre espace après votre premier
-          entraînement. Aucun chiffre n&apos;est affiché ici tant que vous n&apos;avez pas révisé.
+        <p className="section__note" data-reveal>
+          Vos repères personnels apparaissent dans votre espace après un premier entraînement. Aucun
+          chiffre n&apos;est affiché ici avant que vous ayez révisé.
         </p>
       </section>
 
-      {/* ─────────────────────── ENSEIGNANTS ─────────────────── */}
-      <section className="section landing-section" id="professeurs">
-        <div className="teachers-grid">
-          <div data-reveal>
-            <span className="section-tag">Espace enseignants</span>
-            <h2 className="section-title" style={{ marginTop: 12 }}>
-              Un centre de pilotage <span>pour vos amphis.</span>
-            </h2>
-            <p className="section-desc" style={{ margin: "0 auto 4px" }}>
-              Créez votre classe, déposez vos supports, suivez les rendus. Campusly ne remplace pas
-              votre pédagogie : il vous évite la dispersion entre messagerie, fichiers et tableurs.
-            </p>
+      {/* ═══════════════════ ENSEIGNANTS ════════════════════ */}
+      <section className="section teachers" id="enseignants">
+        <span id="professeurs" className="anchor-alias" aria-hidden="true" />
+        <SectionHead
+          index="05"
+          label="Enseignants"
+          title={
+            <>
+              Un centre de pilotage <em>pour vos amphis.</em>
+            </>
+          }
+          note="Classe · code · rendus"
+        >
+          Campusly ne remplace pas votre pédagogie : il évite la dispersion entre messagerie,
+          fichiers et tableurs.
+        </SectionHead>
 
-            <ul className="teachers-list" data-anim="rows">
-              {TEACHER_FEATURES.map((item) => (
-                <li key={item.num}>
-                  <span aria-hidden="true">{item.num}</span>
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-
-            <Link href="/dashboard/classrooms" className="btn btn-primary">
-              Découvrir les Classrooms
-            </Link>
-          </div>
-
-          <div className="teachers-visual" data-reveal data-parallax data-parallax-depth="8">
-            <figure className="media-frame" data-anim="frame">
-              <Image
-                src="/images/amphi.jpg"
-                alt="Enseignant expliquant un cours magistral dans un amphithéâtre de l'UAC"
-                width={1264}
-                height={847}
-                sizes="(max-width: 1024px) 92vw, 42vw"
-                className="media-photo"
-              />
-            </figure>
-
-            <div className="stage-panel">
-              <span className="stage-panel-label">Déroulé d&apos;une classe</span>
-              {STAGE_ROWS.map((row) => (
-                <div className="stage-row" key={row.title}>
-                  <span className="stage-dot" aria-hidden="true" />
-                  <div>
-                    <strong>{row.title}</strong>
-                    <span>{row.text}</span>
-                  </div>
+        <div className="teachers__grid">
+          <ol className="teachers__rows" data-anim="rows">
+            {TEACHER_ROWS.map((row) => (
+              <li key={row.num}>
+                <span className="teachers__num" aria-hidden="true">
+                  {row.num}
+                </span>
+                <div>
+                  <h3>{row.title}</h3>
+                  <p>{row.text}</p>
                 </div>
-              ))}
-            </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="teachers__panel" data-anim="frame">
+            <p className="teachers__panel-label">Espace de travail · aperçu</p>
+            <FragTeacher className="teachers__frag" />
+            <p className="teachers__panel-note">
+              La vérification du statut enseignant reste faite par le secrétariat académique avant
+              l&apos;ouverture des classes.
+            </p>
+            <Link href="/enseignant" className="feat__link">
+              Voir l&apos;espace enseignant <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ─────────────────────── COMPOSITIONS ────────────────── */}
-      <section className="section landing-section" id="compositions">
-        <div className="section-center landing-head" data-reveal>
-          <span className="section-tag">Évaluations</span>
-          <h2 className="section-title">
-            Évaluer à distance, <span>sans perdre le contrôle.</span>
-          </h2>
-          <p className="section-desc">
-            Des compositions d&apos;amphi et des examens blancs, corrigés puis validés par
-            l&apos;enseignant.
-          </p>
-        </div>
+      {/* ══════════════════ COMPOSITIONS ════════════════════ */}
+      <section className="section compositions" id="compositions">
+        <SectionHead
+          index="06"
+          label="Compositions"
+          title={
+            <>
+              Évaluer à distance, <em>sans perdre la main.</em>
+            </>
+          }
+          note="Chronomètre · journal local · validation"
+        >
+          Des compositions d&apos;amphi et des examens blancs, corrigés puis validés par
+          l&apos;enseignant.
+        </SectionHead>
 
-        <figure className="media-band" data-anim="mask">
+        <figure className="compo-band" data-anim="mask">
           <Image
             src="/images/exam-hall.jpg"
             alt="Étudiants composant dans une salle d'examen de l'université"
             width={1264}
             height={847}
             sizes="100vw"
-            className="media-photo"
+            className="compo-band__img"
           />
-          <figcaption className="media-band-caption">
-            <span className="media-band-eyebrow">Salle d&apos;examen</span>
-            Chronomètre, plein écran, journal d&apos;intégrité local.
+          <figcaption className="compo-band__caption">
+            <span className="compo-band__label">Salle d&apos;examen</span>
+            <span>
+              Un espace plein écran, un chronomètre et un journal d&apos;intégrité qui reste sur
+              l&apos;appareil : aucune sanction n&apos;est automatique.
+            </span>
+            <span className="compo-band__note">Visuel d&apos;illustration</span>
           </figcaption>
+          <FragComposition className="compo-band__frag" />
         </figure>
 
         <ul className="compo-list" data-anim="editorial">
           {COMPOSITIONS.map((item) => (
             <li className="compo-item" key={item.index}>
-              <span className="compo-index" aria-hidden="true">
+              <span className="compo-item__num" aria-hidden="true">
                 {item.index}
               </span>
               <div>
@@ -402,78 +499,103 @@ export default function HomePage() {
           ))}
         </ul>
 
-        <div className="compo-actions">
+        <div className="section__actions">
           <Link href="/dashboard/compositions" className="btn btn-primary">
             Accéder aux compositions
           </Link>
         </div>
       </section>
 
-      {/* ────────────────────── ÉTABLISSEMENTS ───────────────── */}
-      <section className="section landing-section" id="etablissements">
-        <div className="institutions" data-reveal>
-          <figure className="institutions-media" data-anim="frame">
+      {/* ════════════════ ÉTABLISSEMENTS ════════════════════ */}
+      <section className="section institutions" id="etablissements">
+        <SectionHead
+          index="07"
+          label="Établissements"
+          title={
+            <>
+              Une plateforme <em>pour vos promotions.</em>
+            </>
+          }
+          note="Facultés · écoles · instituts"
+        >
+          Facultés, écoles d&apos;ingénieurs et instituts peuvent déployer Campusly comme espace
+          commun de ressources, d&apos;évaluations et de suivi. Le déploiement se discute : il ne se
+          décrète pas.
+        </SectionHead>
+
+        <div className="institutions__body">
+          <div className="institutions__type">
+            <p className="institutions__lead">
+              Campusly est un projet indépendant. Rien sur cette page ne vaut approbation officielle
+              de l&apos;Université d&apos;Abomey-Calavi : les facultés ci-dessous sont celles dont
+              les maquettes servent de repère au classement des ressources.
+            </p>
+            <ul className="institutions__list" aria-label="Facultés et instituts de l'UAC">
+              {FACULTIES.map((faculty) => (
+                <li key={faculty.code}>
+                  <span className="institutions__code">{faculty.code}</span>
+                  <span className="institutions__name">{faculty.label.split("—")[1]?.trim()}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <figure className="institutions__figure" data-anim="frame">
             <Image
               src="/images/campus-building.jpg"
-              alt="Bâtiment d'une faculté de l'UAC en fin de journée"
+              alt="Bâtiment universitaire et palmiers en fin de journée"
               width={1536}
               height={864}
               sizes="(max-width: 1024px) 92vw, 44vw"
-              className="media-photo"
+              className="institutions__img"
             />
+            <figcaption className="institutions__caption">
+              Campus d&apos;Abomey-Calavi · <span>visuel d&apos;illustration</span>
+            </figcaption>
           </figure>
-          <div>
-            <span className="section-tag">Enseignement supérieur</span>
-            <h2>Une plateforme pour vos promotions.</h2>
-            <p>
-              Facultés, écoles d&apos;ingénieurs et instituts de l&apos;UAC peuvent déployer
-              Campusly comme espace commun de ressources, d&apos;évaluations et de suivi.
-            </p>
-            <Link href="/a-propos#contact" className="btn btn-primary">
-              Nous contacter
+        </div>
+
+        <div className="institutions__cta">
+          <p>
+            Vous représentez un établissement&nbsp;? La discussion commence par vos contraintes,
+            pas par une démonstration commerciale.
+          </p>
+          <div className="institutions__cta-actions">
+            <Link href="/a-propos#contact" className="btn btn-outline">
+              Demander une démonstration
             </Link>
-            <span className="stage-panel-label" style={{ paddingBottom: 12, marginTop: 22 }}>
-              Facultés et instituts concernés
-            </span>
-            <ul className="faculty-list" aria-label="Facultés et instituts de l'UAC">
-              {FACULTIES.map((faculty) => (
-                <li key={faculty.code}>{faculty.code}</li>
-              ))}
-            </ul>
+            <Link href="/a-propos#contact" className="btn btn-ghost">
+              Proposer un partenariat
+            </Link>
           </div>
         </div>
       </section>
 
       <FaqSection />
 
-      {/* ─────────────────── CRÉDITS & TARIFS ────────────────── */}
-      <section className="section landing-section" id="credits">
-        <div className="credits-band" data-reveal>
-          <p>
-            <strong>Crédits &amp; paiements.</strong> Les packs de crédits et les moyens de paiement
-            (Mobile Money, carte bancaire) ne sont pas encore ouverts. Les tarifs seront publiés
+      {/* ═══════════════════ CTA FINAL ══════════════════════ */}
+      <section className="cta-band" id="rejoindre">
+        <div className="cta-band__inner" data-reveal>
+          <p className="cta-band__eyebrow">Commencer maintenant</p>
+          <h2 className="cta-band__title">
+            Commencez par <em>vos propres cours.</em>
+          </h2>
+          <p className="cta-band__text">
+            Créez votre compte et commencez par les exercices d&apos;entraînement ou la bibliothèque
+            d&apos;épreuves. Les autres services ouvriront au fur et à mesure.
+          </p>
+          <div className="cta-band__actions">
+            <Link href="/auth?tab=register" className="btn btn-accent btn-lg">
+              Créer un compte
+            </Link>
+            <a href="#fonctionnalites" className="btn btn-cta-ghost btn-lg">
+              Revoir les fonctionnalités
+            </a>
+          </div>
+          <p className="cta-band__note" id="credits">
+            Crédits et paiements : les packs ne sont pas ouverts. Aucun tarif n&apos;est publié
             avant l&apos;activation des paiements.
           </p>
-          <Link href="/a-propos#contact" className="btn btn-outline btn-sm">
-            Être informé de l&apos;ouverture
-          </Link>
-        </div>
-      </section>
-
-      {/* ───────────────────────── CTA ───────────────────────── */}
-      <section className="cta-section">
-        <h2 className="cta-title">Commencez par vos propres cours.</h2>
-        <p className="cta-desc">
-          Créez votre compte et commencez par les exercices d&apos;entraînement ou la bibliothèque
-          d&apos;épreuves. Les autres services ouvriront au fur et à mesure.
-        </p>
-        <div className="cta-actions" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/auth?tab=register" className="btn btn-primary btn-lg">
-            Créer un compte
-          </Link>
-          <a href="#piliers" className="btn btn-outline btn-lg">
-            Découvrir Campusly
-          </a>
         </div>
       </section>
     </LandingMotion>

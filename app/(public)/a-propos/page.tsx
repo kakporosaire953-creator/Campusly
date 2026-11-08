@@ -69,7 +69,12 @@ export default function AboutPage() {
           <li>Les remises de copies et les décisions d&apos;administration restent dans le navigateur.</li>
         </ul>
 
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>Contact</h2>
+        <h2
+          id="contact"
+          style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12, scrollMarginTop: 96 }}
+        >
+          Contact
+        </h2>
         <p style={{ color: "var(--text-2)", lineHeight: 1.8 }}>
           Pour toute question ou suggestion, écrivez-nous via la page{" "}
           <Link href="/contribuer" style={{ color: "var(--brand-1)" }}>

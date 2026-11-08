@@ -26,6 +26,9 @@
 /* Couche d'adaptation Next.js (aucune nouvelle direction artistique) */
 @import "../styles/app/campusly-next.css";
 
+/* Châssis public : navigation et pied de page (global) */
+@import "../styles/app/site-chrome.css";
+
 /* Mise en scène de la landing page (composition, rythme, hero) */
 @import "../styles/app/landing.css";
 

@@ -41,8 +41,13 @@ npm run start      # serveur de production
 - Compositions : accès par code, salle d'examen (consignes, chronomètre, palette de
   questions, journal d'intégrité), remise et correction locales.
 - Forum : filtres, création de sujet, réponses, mentions « j'aime » (stockage local).
-- Thème clair / sombre (bascule dans la navbar et l'espace, préférence conservée) avec
-  surfaces « liquid glass » et fond animé bleu/orange dans les deux modes.
+- Thème clair / sombre (bascule dans la navigation et l'espace, préférence conservée)
+  avec surfaces « liquid glass » dans l'espace connecté.
+- Accueil immersif : hero éditorial en trois lignes, planche photo et extraits
+  d'interface, sections numérotées, séquence Campusly AI animée, frise de
+  progression, bandeau de conversion, pied de page institutionnel.
+- `/auth` minimaliste : colonne unique, inscription en deux étapes (identité puis
+  parcours), profil étudiant/enseignant en choix explicite.
 - Crédits et abonnement : pages d'attente expliquant l'ouverture prochaine (aucun tarif, aucun paiement).
 - Notifications, profil, paramètres, bascule de rôle, déconnexion.
 
