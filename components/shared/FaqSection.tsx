@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { SectionHead } from "@/components/landing/SectionHead";
+import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import { Icon } from "@/components/motion/Icon";
 
 const CATEGORIES = [
   { id: "all", label: "Toutes" },
@@ -69,21 +71,144 @@ const FAQ_ITEMS: Array<{ id: string; category: Exclude<CategoryId, "all">; quest
 
 /**
  * FAQ — chapitre 08 de l'accueil.
+ * ---------------------------------------------------------------------------
  * Le contenu est celui de l'ancienne page d'accueil ; seuls la mise en page et
  * les mentions d'état ont été reprises pour rester alignées sur ce qui est
  * réellement disponible (paiement fermé, analyse de document non ouverte).
  *
- * Accessibilité : accordéons natifs `<details>` (clavier et lecteurs d'écran
- * gratuits), filtre en `<button aria-pressed>`, questions numérotées pour
- * annoncer le nombre de réponses.
+ * Animation (reprise de l'accordéon du site Kraken) :
+ *  - la hauteur du panneau est animée par GSAP, ouverture en `back.out` ;
+ *  - la question qui traverse le centre de l'écran s'ouvre seule au défilement ;
+ *  - pendant 2,5 s après un clic, l'ouverture automatique est suspendue pour ne
+ *    pas reprendre la main sur un choix explicite ;
+ *  - `prefers-reduced-motion` : aucune animation, `<details>` se comporte
+ *    nativement (aucun JavaScript requis pour lire une réponse).
+ *
+ * Accessibilité : `<details>`/`<summary>` natifs (clavier, lecteurs d'écran),
+ * filtre en `<button aria-pressed>`, questions numérotées.
  */
 export function FaqSection() {
   const [category, setCategory] = useState<CategoryId>("all");
+  const listRef = useRef<HTMLDivElement>(null);
+  const rowRefs = useRef<Record<string, HTMLDetailsElement | null>>({});
+  const manualUntil = useRef(0);
 
   const items = useMemo(
     () => (category === "all" ? FAQ_ITEMS : FAQ_ITEMS.filter((item) => item.category === category)),
     [category],
   );
+
+  /** Ouvre ou ferme une ligne en animant la hauteur du panneau. */
+  const setRow = (id: string | null, animate = true) => {
+    const smooth = animate && !prefersReducedMotion();
+    Object.entries(rowRefs.current).forEach(([rowId, details]) => {
+      if (!details) return;
+      const panel = details.querySelector<HTMLElement>(".faq__panel");
+      const shouldOpen = rowId === id;
+      if (!panel) {
+        details.open = shouldOpen;
+        return;
+      }
+      gsap.killTweensOf(panel);
+      if (shouldOpen) {
+        details.open = true;
+        if (!smooth) {
+          gsap.set(panel, { height: "auto", autoAlpha: 1 });
+          return;
+        }
+        const height = panel.scrollHeight;
+        gsap.fromTo(
+          panel,
+          { height: 0, autoAlpha: 0 },
+          {
+            height,
+            autoAlpha: 1,
+            duration: 0.5,
+            ease: "back.out(1.4)",
+            onComplete: () => {
+              gsap.set(panel, { height: "auto" });
+              ScrollTrigger.refresh();
+            },
+          },
+        );
+      } else {
+        if (!details.open) return;
+        if (!smooth) {
+          details.open = false;
+          gsap.set(panel, { height: 0, autoAlpha: 0 });
+          return;
+        }
+        gsap.to(panel, {
+          height: 0,
+          autoAlpha: 0,
+          duration: 0.4,
+          ease: "power3.inOut",
+          onComplete: () => {
+            details.open = false;
+            gsap.set(panel, { height: 0 });
+            ScrollTrigger.refresh();
+          },
+        });
+      }
+    });
+  };
+
+  /* Première ligne ouverte à l'arrivée, puis cascade des lignes à chaque filtre. */
+  useGSAP(
+    () => {
+      setRow(items[0]?.id ?? null, false);
+      if (prefersReducedMotion()) return;
+      gsap.from(Object.values(rowRefs.current).filter(Boolean), {
+        y: 18,
+        autoAlpha: 0,
+        duration: 0.5,
+        stagger: 0.06,
+        ease: "power2.out",
+      });
+    },
+    { scope: listRef, dependencies: [items], revertOnUpdate: true },
+  );
+
+  /* Ouverture automatique de la question qui passe au centre de l'écran. */
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+      const triggers = items
+        .map((item) => {
+          const row = rowRefs.current[item.id];
+          if (!row) return null;
+          return ScrollTrigger.create({
+            trigger: row,
+            start: "top 62%",
+            end: "bottom 38%",
+            onToggle: (self) => {
+              if (!self.isActive || Date.now() < manualUntil.current) return;
+              setRow(item.id);
+            },
+          });
+        })
+        .filter((trigger): trigger is ScrollTrigger => trigger !== null);
+      return () => triggers.forEach((trigger) => trigger.kill());
+    },
+    { scope: listRef, dependencies: [items], revertOnUpdate: true },
+  );
+
+  useEffect(() => {
+    // Nettoyage des références quand le filtre retire des lignes.
+    const ids = new Set(items.map((item) => item.id));
+    Object.keys(rowRefs.current).forEach((id) => {
+      if (!ids.has(id)) delete rowRefs.current[id];
+    });
+  }, [items]);
+
+  const onToggle = (id: string, event: React.MouseEvent<HTMLElement>) => {
+    if (prefersReducedMotion()) return; // comportement natif, aucune animation
+    event.preventDefault();
+    const details = rowRefs.current[id];
+    const willOpen = !details?.open;
+    manualUntil.current = Date.now() + 2500;
+    setRow(willOpen ? id : null);
+  };
 
   return (
     <section className="section faq" id="faq">
@@ -115,20 +240,36 @@ export function FaqSection() {
         ))}
       </div>
 
-      <div className="faq__list">
+      <div className="faq__list" ref={listRef} data-hover-root>
         {items.map((item, index) => (
-          <details key={item.id} className="faq__item">
-            <summary>
+          <details
+            key={item.id}
+            className="faq__item"
+            data-faq-row
+            ref={(node) => {
+              rowRefs.current[item.id] = node;
+            }}
+          >
+            <summary onClick={(event) => onToggle(item.id, event)}>
               <span className="faq__num" aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="faq__question">{item.question}</span>
               <span className="faq__sign" aria-hidden="true" />
             </summary>
-            <p className="faq__answer">{item.answer}</p>
+            <div className="faq__panel">
+              <p className="faq__answer">{item.answer}</p>
+            </div>
           </details>
         ))}
       </div>
+
+      <p className="faq__more">
+        <a href="/a-propos#contact">
+          Une question qui n&apos;est pas ici ?
+          <Icon name="arrow-right" size={15} />
+        </a>
+      </p>
     </section>
   );
 }

@@ -6,6 +6,8 @@
  * - L'enregistrement des plugins se fait une seule fois, côté navigateur.
  * - `useGSAP` est réexporté pour que les composants n'importent qu'un module
  *   (et non deux librairies d'animation concurrentes).
+ * - `SplitText` (livré avec GSAP depuis la 3.13) découpe les titres en mots et
+ *   caractères pour l'animation d'entrée.
  * - `prefersReducedMotion()` centralise le respect de `prefers-reduced-motion` :
  *   quand il est actif, aucune animation n'est créée et le contenu reste
  *   immédiatement visible (le HTML est rendu visible par défaut, GSAP ne fait
@@ -14,13 +16,14 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
 let registered = false;
 
 export function registerGsap(): void {
   if (registered || typeof window === "undefined") return;
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
+  gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
   // Évite les recalculs parasites lors du redimensionnement lié au clavier mobile.
   ScrollTrigger.config({ ignoreMobileResize: true });
   registered = true;
@@ -37,4 +40,4 @@ export function isCompactViewport(): boolean {
   return window.matchMedia("(max-width: 768px)").matches;
 }
 
-export { gsap, ScrollTrigger, useGSAP };
+export { gsap, ScrollTrigger, SplitText, useGSAP };

@@ -46,10 +46,30 @@
   border-bottom: 1px solid transparent;
   transition:
     height 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms ease-out,
     background-color 260ms ease,
     border-color 260ms ease,
     box-shadow 260ms ease,
     backdrop-filter 260ms ease;
+}
+
+/* Barre escamotée quand on descend la page (elle revient dès qu'on remonte).
+   Jamais pendant que le menu est ouvert, ni quand le focus est dedans. */
+.site-nav.is-hidden {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav {
+    transition:
+      background-color 260ms ease,
+      border-color 260ms ease,
+      box-shadow 260ms ease;
+  }
+
+  .site-nav.is-hidden {
+    transform: none;
+  }
 }
 
 .site-nav.is-over {
@@ -317,6 +337,7 @@
 }
 
 .site-footer__institutional {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 64px);
@@ -358,6 +379,14 @@
   font-size: 0.95rem;
   line-height: 1.68;
   color: var(--text-2);
+}
+
+.site-footer__arrow {
+  position: absolute;
+  top: -34px;
+  left: -8px;
+  color: var(--accent);
+  opacity: 0.8;
 }
 
 .site-footer__institutional-actions {

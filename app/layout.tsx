@@ -49,6 +49,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         {/* Thème appliqué avant le premier rendu : aucun flash clair/sombre. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Marqueur « JavaScript disponible » : les éléments animés à
+            l'apparition ne sont masqués que si le script peut les révéler.
+            Sans JavaScript, la page reste entièrement lisible. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         {/* Polices et icônes : mêmes CDN que la version historique (identité
             conservée). Placées dans <head> pour ne pas retarder le rendu du
             body et pour rester valides au regard de la spécification HTML. */}

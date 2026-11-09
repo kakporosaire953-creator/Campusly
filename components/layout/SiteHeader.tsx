@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { publicNav } from "@/config/site";
 import { useSession } from "@/features/auth/SessionProvider";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { useScrollDirection } from "@/lib/useScrollDirection";
 
 /**
  * Barre de navigation publique.
@@ -20,6 +21,12 @@ import { ThemeToggle } from "@/components/shared/ThemeToggle";
  * Le menu mobile est un panneau plein écran sous la barre : une seule colonne,
  * cibles de 48 px, fermeture par Échap, par clic sur le fond ou après
  * navigation. Aucun `onclick` inline, `aria-expanded` / `aria-controls` réels.
+ *
+ * Deux gestes viennent du site Kraken :
+ *  - la barre s'effface quand on descend (au-delà de 160 px) et revient dès
+ *    qu'on remonte — jamais pendant que le menu est ouvert, ni quand le focus
+ *    clavier est à l'intérieur (sinon on perdrait l'utilisateur) ;
+ *  - le panneau mobile entre avec un léger rebond et ses liens en cascade.
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -27,9 +34,13 @@ export function SiteHeader() {
   const { status, user } = useSession();
   const pathname = usePathname();
   const firstRef = useRef<HTMLAnchorElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [focusWithin, setFocusWithin] = useState(false);
+  const { direction, y } = useScrollDirection();
 
   const isHome = pathname === "/";
   const overlay = isHome && !scrolled && !open;
+  const hidden = direction === "down" && y > 160 && !open && !focusWithin;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -61,17 +72,58 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  // Entrée du panneau mobile : rebond puis cascade des liens.
+  // Web Animations API plutôt que GSAP : la barre est présente sur toutes les
+  // pages publiques, et cette animation de 450 ms ne justifie pas d'y charger
+  // une bibliothèque. La courbe reproduit `back.out(2)`.
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el || !open) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const panel = el.animate(
+      [
+        { opacity: 0, transform: "translateY(-20px) scale(0.95) rotate(-2deg)" },
+        { opacity: 1, transform: "translateY(0) scale(1) rotate(0deg)" },
+      ],
+      { duration: 450, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "both" },
+    );
+
+    const links = Array.from(el.querySelectorAll("a")).map((link, index) =>
+      link.animate(
+        [
+          { opacity: 0, transform: "translateX(-20px)" },
+          { opacity: 1, transform: "translateX(0)" },
+        ],
+        { duration: 350, delay: 100 + index * 50, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "both" },
+      ),
+    );
+
+    return () => {
+      panel.cancel();
+      links.forEach((animation) => animation.cancel());
+    };
+  }, [open]);
+
   const navClass = [
     "site-nav",
     overlay ? "is-over" : "",
     scrolled ? "is-scrolled" : "",
     open ? "is-open" : "",
+    hidden ? "is-hidden" : "",
   ]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <header className={navClass} data-nav>
+    <header
+      className={navClass}
+      data-nav
+      onFocusCapture={() => setFocusWithin(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocusWithin(false);
+      }}
+    >
       <div className="site-nav__inner">
         <Link href="/" className="site-nav__logo" aria-label="Campusly — accueil">
           <span className="logo-text">
@@ -131,7 +183,14 @@ export function SiteHeader() {
             tabIndex={-1}
             onClick={() => setOpen(false)}
           />
-          <div className="site-nav__panel" id="menu-mobile" role="dialog" aria-modal="true" aria-label="Menu">
+          <div
+            ref={panelRef}
+            className="site-nav__panel"
+            id="menu-mobile"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+          >
             <nav className="site-nav__panel-links" aria-label="Sections de l'accueil">
               {publicNav.map((item, index) => (
                 <Link

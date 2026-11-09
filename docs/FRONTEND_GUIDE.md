@@ -243,11 +243,68 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - La mention de démonstration reste visible sous la carte (authentification
   simulée, jetons d'essai).
 
-**Animations** (`components/landing/LandingMotion.tsx`) : `data-hero-*`,
-`data-reveal`, `data-anim="daily|feat|frame|mask|rail|track|editorial|rows"`,
-repère actif de la séquence IA, parallaxe desktop. Toutes en `gsap.from`,
-`once: true`, aucune création si `prefers-reduced-motion`. `/auth` n'utilise que
-des transitions CSS courtes.
+**Animations** : voir §5 quater (le vocabulaire vient du site Kraken).
+`/auth` n'utilise que des transitions CSS courtes et un fondu d'entrée.
+
+## 5 quater. Mouvement — le vocabulaire du site Kraken
+
+Le système d'animation reprend **exactement** celui du site Kraken de Hustler
+Labs ([HermannRichy/kraken](https://github.com/HermannRichy/kraken),
+`src/components/motion/*`), appliqué aux classes de Campusly. Aucune dépendance
+ajoutée : `gsap`, `@gsap/react` et `ScrollTrigger` étaient déjà là, et
+`SplitText` est livré avec GSAP depuis la 3.13.
+
+### 5 quater.1 Les effets, et où ils servent
+
+| Effet Kraken | Attribut | Où |
+| --- | --- | --- |
+| Révélation en lot, rejouée en remontant | `data-reveal` | sur-titre et texte du hero, titres de blocs, listes, pied de page, panneaux IA, en-têtes de section |
+| Carte qui « pop » | `data-pop` | extraits d'interface, frise de progression, compositions, CTA final, panneau enseignants |
+| Titre découpé en caractères qui tombent | `data-split` | deux premières lignes du titre d'accueil (SplitText) |
+| Bloc mis en avant qui s'écrase | `data-slam` (+ `data-slam-scale`, `data-slam-rotation`) | ligne accentuée du hero |
+| Étiquette tamponnée | `data-stamp` | pastilles de la frise de progression |
+| Barre qui se remplit | `data-fill` | filet de la frise de progression |
+| Dessin en boucle | `data-float` (`burst` · `star` · `squiggle` · `arrow`) | `components/landing/Doodles.tsx` : hero, bandeau final, pied de page |
+| Carte soulevée au centre de l'écran | `data-lift` | parcours Campusly AI, visuel « établissements » |
+| Bandeau défilant infini | `<Marquee />` | bande de veille sous le hero |
+| Barre escamotée au défilement descendant | classe `.is-hidden` | navigation publique |
+| Panneau mobile en rebond + cascade | Web Animations API | menu mobile |
+| Soulèvement au survol / écrasement au clic | `.btn`, `[data-hover-lift]`, `[data-press]` | tout le site public |
+| Icône animée au survol du parent | `data-icon` + `<Icon />` | boutons d'action, liens FAQ, bouton « revenir en haut » |
+| Bouton « revenir en haut » | `<BackToTop />` | pages publiques |
+| Accordéon à hauteur animée + ouverture au centre de l'écran | `<details>` + GSAP | FAQ |
+| Chiffre qui bascule | `<FlipNumber />` (Web Animations API) | minuteur de la salle d'examen |
+
+Deux effets Campusly restent, parce qu'ils racontent la page : la parallaxe
+légère de la photo du hero (`data-parallax`, desktop uniquement) et le repère
+actif du parcours Campusly AI (`data-rail`, `data-rail-item`, `data-rail-panel`).
+
+### 5 quater.2 Règles tenues
+
+- **Aucun masquage sans JavaScript** : les états d'attente sont scopés
+  `.js .motion […]` ; la classe `js` est posée dans `<head>`. Sans script, la
+  page reste entièrement lisible. Un filet de sécurité (2,6 s) rend visibles les
+  éléments déjà à l'écran si un déclencheur n'a pas pu se créer.
+- **`prefers-reduced-motion`** : `gsap.matchMedia` ne crée aucune animation,
+  tout est rendu visible, la frise et les bandeaux restent statiques. Les gestes
+  de survol et le minuteur sont coupés aussi.
+- **Nettoyage** : un seul `useGSAP` par zone (`components/motion/MotionScope.tsx`) ;
+  `mm.revert()` révoque animations et ScrollTriggers, les instances `SplitText`
+  sont rendues à leur texte d'origine.
+- **Recalculs** : `ScrollTrigger.refresh()` après chargement des polices, après
+  `load`, et 400 ms après le montage.
+- **Budget JS** : GSAP n'est chargé que par les pages publiques. `/auth` et
+  l'espace connecté n'embarquent aucune bibliothèque d'animation (119 kB de
+  premier chargement contre 163 kB sur l'accueil) ; la barre de navigation et le
+  minuteur d'examen utilisent la Web Animations API pour les deux animations
+  qui les concernent.
+
+### 5 quater.3 Accessibilité
+
+Les animations ne portent jamais d'information : les traits décoratifs sont
+`aria-hidden`, le bandeau défilant duplique sa rangée avec `aria-hidden`, les
+questions de la FAQ restent des `<details>` natifs (clavier et lecteurs
+d'écran) et le focus clavier déclenche les mêmes gestes que le survol.
 
 ## 6. Tests
 
