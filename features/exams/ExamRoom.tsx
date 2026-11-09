@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { LogoCap } from "@/components/layout/SiteHeader";
 import { Loader, ErrorState } from "@/components/ui/States";
+import { FlipNumber } from "@/components/motion/FlipNumber";
 
 type Phase = "loading" | "error" | "waiting" | "exam" | "done";
 
@@ -325,7 +326,9 @@ export function ExamRoom({ code }: { code: string }) {
               <div className={`timer-box ${urgent ? "urgent" : ""}`} role="timer" aria-live={urgent ? "polite" : "off"}>
                 <i className="fa-solid fa-clock" aria-hidden="true" />
                 <span className="cd-number">
-                  {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+                  <FlipNumber value={String(minutes).padStart(2, "0")} />
+                  <span aria-hidden="true">:</span>
+                  <FlipNumber value={String(seconds).padStart(2, "0")} />
                 </span>
               </div>
               <Button variant="primary" size="sm" onClick={() => setFinishOpen(true)} icon="fa-solid fa-file-export">

@@ -32,6 +32,9 @@
 /* Mise en scène de la landing page (composition, rythme, hero) */
 @import "../styles/app/landing.css";
 
+/* Mouvement : vocabulaire d'animation (Kraken), survols, bandeau défilant */
+@import "../styles/app/motion.css";
+
 /* Thèmes clair / sombre + surfaces « liquid glass » (importé en dernier) */
 @import "../styles/legacy/theme-dark.css";
 @import "../styles/app/theme.css";

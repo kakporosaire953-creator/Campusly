@@ -50,9 +50,9 @@ const FORMATS = [
 export function AiSequence() {
   return (
     <div className="ai-seq">
-      <ol className="ai-rail" data-anim="rail">
+      <ol className="ai-rail" data-rail data-reveal>
         {STEPS.map((step) => (
-          <li className="ai-rail__item" key={step.num} data-ai-step>
+          <li className="ai-rail__item" key={step.num} data-rail-item>
             <span className="ai-rail__num" aria-hidden="true">
               {step.num}
             </span>
@@ -63,7 +63,7 @@ export function AiSequence() {
       </ol>
 
       <div className="ai-panels">
-        <article className="ai-panel" data-ai-panel>
+        <article className="ai-panel" data-rail-panel data-reveal>
           <div className="ai-panel__head">
             <span className="ai-panel__num" aria-hidden="true">
               01
@@ -80,7 +80,7 @@ export function AiSequence() {
               <span className="ai-sheet__line" />
               <span className="ai-sheet__line is-shorter" />
             </div>
-            <figure className="ai-photo" data-anim="frame">
+            <figure className="ai-photo" data-pop>
               <Image
                 src="/images/notes-desk.jpg"
                 alt="Notes de cours manuscrites et polycopiés posés sur un bureau"
@@ -94,7 +94,7 @@ export function AiSequence() {
           <p className="ai-panel__caption">Aperçu d&apos;interface — les valeurs restent à renseigner.</p>
         </article>
 
-        <article className="ai-panel" data-ai-panel>
+        <article className="ai-panel" data-rail-panel data-reveal>
           <div className="ai-panel__head">
             <span className="ai-panel__num" aria-hidden="true">
               02
@@ -112,7 +112,7 @@ export function AiSequence() {
           </ul>
         </article>
 
-        <article className="ai-panel" data-ai-panel>
+        <article className="ai-panel" data-rail-panel data-reveal>
           <div className="ai-panel__head">
             <span className="ai-panel__num" aria-hidden="true">
               03
@@ -130,7 +130,7 @@ export function AiSequence() {
           </ul>
         </article>
 
-        <article className="ai-panel ai-panel--quiz" data-ai-panel>
+        <article className="ai-panel ai-panel--quiz" data-rail-panel data-reveal>
           <div className="ai-panel__head">
             <span className="ai-panel__num" aria-hidden="true">
               04
@@ -138,7 +138,7 @@ export function AiSequence() {
             <h3>{STEPS[3].title}</h3>
           </div>
           <p className="ai-panel__text">{STEPS[3].text}</p>
-          <FragQuiz className="ai-panel__frag" />
+          <FragQuiz className="ai-panel__frag" data-pop />
         </article>
       </div>
 

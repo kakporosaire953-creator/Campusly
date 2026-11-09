@@ -12,19 +12,28 @@ import type { ReactNode } from "react";
  * la légende visible, elle, reste lisible et dit ce qu'elles sont.
  */
 
+/** Attributs d'animation acceptés par tous les fragments (cf. MotionScope). */
+type FragProps = {
+  className?: string;
+  "data-pop"?: boolean;
+  "data-reveal"?: boolean;
+  "data-lift"?: boolean;
+  "data-stamp"?: boolean;
+};
+
 function Fragment({
   label,
   tag = "Aperçu d'interface",
   children,
   className = "",
+  ...motion
 }: {
   label: string;
   tag?: string;
   children: ReactNode;
-  className?: string;
-}) {
+} & FragProps) {
   return (
-    <div className={`frag ${className}`.trim()} aria-hidden="true">
+    <div className={`frag ${className}`.trim()} aria-hidden="true" {...motion}>
       <div className="frag__bar">
         <span className="frag__label">{label}</span>
         <span className="frag__tag">{tag}</span>
@@ -39,9 +48,9 @@ function Placeholder({ width = "64%" }: { width?: string }) {
   return <span className="frag__ph" style={{ width }} />;
 }
 
-export function FragLibrary({ className }: { className?: string }) {
+export function FragLibrary({ className, ...rest }: FragProps) {
   return (
-    <Fragment label="Épreuves et annales" className={className}>
+    <Fragment label="Épreuves et annales" className={className} {...rest}>
       <p className="frag__search">Rechercher une matière, un mot-clé…</p>
       <ul className="frag__chips">
         {["FAST", "L2", "S1", "2025 — 2026"].map((chip) => (
@@ -62,9 +71,9 @@ export function FragLibrary({ className }: { className?: string }) {
   );
 }
 
-export function FragClassroom({ className }: { className?: string }) {
+export function FragClassroom({ className, ...rest }: FragProps) {
   return (
-    <Fragment label="Classe · Amphi" className={className}>
+    <Fragment label="Classe · Amphi" className={className} {...rest}>
       <div className="frag__meta">
         <span>Code d&apos;amphi</span>
         <span className="frag__code">· · · · · ·</span>
@@ -81,9 +90,9 @@ export function FragClassroom({ className }: { className?: string }) {
   );
 }
 
-export function FragQuiz({ className }: { className?: string }) {
+export function FragQuiz({ className, ...rest }: FragProps) {
   return (
-    <Fragment label="Entraînement · QCM" className={className}>
+    <Fragment label="Entraînement · QCM" className={className} {...rest}>
       <p className="frag__question">
         <Placeholder width="86%" />
         <Placeholder width="54%" />
@@ -101,9 +110,9 @@ export function FragQuiz({ className }: { className?: string }) {
   );
 }
 
-export function FragDashboard({ className }: { className?: string }) {
+export function FragDashboard({ className, ...rest }: FragProps) {
   return (
-    <Fragment label="Suivi" className={className}>
+    <Fragment label="Suivi" className={className} {...rest}>
       <div className="frag__stats">
         {["Cette semaine", "Notions suivies", "Dernière session"].map((label) => (
           <div key={label}>
@@ -125,9 +134,9 @@ export function FragDashboard({ className }: { className?: string }) {
   );
 }
 
-export function FragComposition({ className }: { className?: string }) {
+export function FragComposition({ className, ...rest }: FragProps) {
   return (
-    <Fragment label="Composition" className={className}>
+    <Fragment label="Composition" className={className} {...rest}>
       <div className="frag__meta">
         <span>Durée</span>
         <span className="frag__code">fixée par l&apos;enseignant</span>
@@ -146,9 +155,9 @@ export function FragComposition({ className }: { className?: string }) {
   );
 }
 
-export function FragTeacher({ className }: { className?: string }) {
+export function FragTeacher({ className, ...rest }: FragProps) {
   return (
-    <Fragment label="Espace enseignant" className={className}>
+    <Fragment label="Espace enseignant" className={className} {...rest}>
       <ol className="frag__steps">
         {["Créer une classe", "Déposer un support", "Suivre les rendus"].map((step, index) => (
           <li key={step}>

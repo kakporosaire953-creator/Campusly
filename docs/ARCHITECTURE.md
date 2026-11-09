@@ -193,7 +193,8 @@ locaux.
 3. **CSS historique réutilisé** : `modern.css`, `theme-light.css`, `enhancements.css`,
    `responsive-scale.css`, `mobile.css`, `interactive-buttons.css` + CSS de page
    extraits. Aucune refonte visuelle : mêmes couleurs, mêmes composants, mêmes espacements.
-4. **Police et icônes** : Plus Jakarta Sans + Inter + JetBrains Mono et Font Awesome 6
+4. **Police et icônes** : Manrope (famille unique, comme le site Kraken de
+   Hustler Labs) + JetBrains Mono pour les données techniques, Font Awesome 6
    restent chargés via CDN, comme dans la version de référence.
 
 ---

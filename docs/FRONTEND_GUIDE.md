@@ -104,8 +104,8 @@ app → features → services → types
 | `design-system.css`, `style.css`, `components.css`, `sections-premium.css`, `hero-futuriste.css`, `skeleton-loaders.css`, `revision.css`, `theme-dark.css` | **non importés** | code mort / contradictions (cf. `PROJECT_AUDIT.md` §4) |
 
 Palette (inchangée) : `--brand-1 #1565C0`, `--brand-2 #42A5F5`, `--accent #F57C00`,
-`--accent-2 #FF9800`. Typographie : Plus Jakarta Sans (titres) + Inter (texte) +
-JetBrains Mono (données techniques). Icônes : Font Awesome 6 (CDN).
+`--accent-2 #FF9800`. Typographie : **Manrope** (une seule famille, voir §5 bis)
++ JetBrains Mono (données techniques). Icônes : Font Awesome 6 (CDN).
 
 ### 3.1 Ce qui peut être corrigé
 
@@ -197,10 +197,19 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
   **visuels d'illustration** (et non des photographies documentaires du campus) :
   les légendes de l'accueil le disent explicitement.
   `images.unoptimized` reste activé (contrainte Cloudflare Workers).
-- Trois voix typographiques : `--font-editorial` (Instrument Serif) pour les
-  titres, `--font-label` (Space Grotesk) pour les étiquettes et annotations,
-  `--font-sans` (Plus Jakarta Sans) pour le texte. `--font-num` reste un alias du
-  serif éditorial pour la numération.
+- **Une seule famille : Manrope** (chargée depuis Google Fonts dans
+  `app/layout.tsx`), la même que le site Kraken de Hustler Labs
+  (`HermannRichy/kraken`, `src/fonts/Manrope-variable.ttf`, graisses 200–800).
+  Les trois rôles restent distincts par le token, pas par la fonte :
+  `--font-editorial` (titres, 700/800, interlettrage −0,03 em), `--font-label`
+  (étiquettes capitales espacées, 600/700), `--font-sans` (texte courant).
+  `--font-num` et `--font-mono` restent des alias pour la numération et les
+  données techniques.
+- Manrope n'a pas d'italique : les accents éditoriaux qui étaient en italique
+  serif (ligne accentuée du hero, `em` des titres, titre du bandeau final)
+  passent par la graisse et la couleur, plus `font-style: normal`.
+- Chiffres et index portent `font-variant-numeric: tabular-nums` (bloc
+  « 14 bis » de `landing.css`) pour que les colonnes de numéros s'alignent.
 - Verre : réservé à la navigation au défilement et aux surfaces de l'espace
   connecté. `/auth` n'utilise plus de verre du tout.
 
@@ -234,11 +243,68 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - La mention de démonstration reste visible sous la carte (authentification
   simulée, jetons d'essai).
 
-**Animations** (`components/landing/LandingMotion.tsx`) : `data-hero-*`,
-`data-reveal`, `data-anim="daily|feat|frame|mask|rail|track|editorial|rows"`,
-repère actif de la séquence IA, parallaxe desktop. Toutes en `gsap.from`,
-`once: true`, aucune création si `prefers-reduced-motion`. `/auth` n'utilise que
-des transitions CSS courtes.
+**Animations** : voir §5 quater (le vocabulaire vient du site Kraken).
+`/auth` n'utilise que des transitions CSS courtes et un fondu d'entrée.
+
+## 5 quater. Mouvement — le vocabulaire du site Kraken
+
+Le système d'animation reprend **exactement** celui du site Kraken de Hustler
+Labs ([HermannRichy/kraken](https://github.com/HermannRichy/kraken),
+`src/components/motion/*`), appliqué aux classes de Campusly. Aucune dépendance
+ajoutée : `gsap`, `@gsap/react` et `ScrollTrigger` étaient déjà là, et
+`SplitText` est livré avec GSAP depuis la 3.13.
+
+### 5 quater.1 Les effets, et où ils servent
+
+| Effet Kraken | Attribut | Où |
+| --- | --- | --- |
+| Révélation en lot, rejouée en remontant | `data-reveal` | sur-titre et texte du hero, titres de blocs, listes, pied de page, panneaux IA, en-têtes de section |
+| Carte qui « pop » | `data-pop` | extraits d'interface, frise de progression, compositions, CTA final, panneau enseignants |
+| Titre découpé en caractères qui tombent | `data-split` | deux premières lignes du titre d'accueil (SplitText) |
+| Bloc mis en avant qui s'écrase | `data-slam` (+ `data-slam-scale`, `data-slam-rotation`) | ligne accentuée du hero |
+| Étiquette tamponnée | `data-stamp` | pastilles de la frise de progression |
+| Barre qui se remplit | `data-fill` | filet de la frise de progression |
+| Dessin en boucle | `data-float` (`burst` · `star` · `squiggle` · `arrow`) | `components/landing/Doodles.tsx` : hero, bandeau final, pied de page |
+| Carte soulevée au centre de l'écran | `data-lift` | parcours Campusly AI, visuel « établissements » |
+| Bandeau défilant infini | `<Marquee />` | bande de veille sous le hero |
+| Barre escamotée au défilement descendant | classe `.is-hidden` | navigation publique |
+| Panneau mobile en rebond + cascade | Web Animations API | menu mobile |
+| Soulèvement au survol / écrasement au clic | `.btn`, `[data-hover-lift]`, `[data-press]` | tout le site public |
+| Icône animée au survol du parent | `data-icon` + `<Icon />` | boutons d'action, liens FAQ, bouton « revenir en haut » |
+| Bouton « revenir en haut » | `<BackToTop />` | pages publiques |
+| Accordéon à hauteur animée + ouverture au centre de l'écran | `<details>` + GSAP | FAQ |
+| Chiffre qui bascule | `<FlipNumber />` (Web Animations API) | minuteur de la salle d'examen |
+
+Deux effets Campusly restent, parce qu'ils racontent la page : la parallaxe
+légère de la photo du hero (`data-parallax`, desktop uniquement) et le repère
+actif du parcours Campusly AI (`data-rail`, `data-rail-item`, `data-rail-panel`).
+
+### 5 quater.2 Règles tenues
+
+- **Aucun masquage sans JavaScript** : les états d'attente sont scopés
+  `.js .motion […]` ; la classe `js` est posée dans `<head>`. Sans script, la
+  page reste entièrement lisible. Un filet de sécurité (2,6 s) rend visibles les
+  éléments déjà à l'écran si un déclencheur n'a pas pu se créer.
+- **`prefers-reduced-motion`** : `gsap.matchMedia` ne crée aucune animation,
+  tout est rendu visible, la frise et les bandeaux restent statiques. Les gestes
+  de survol et le minuteur sont coupés aussi.
+- **Nettoyage** : un seul `useGSAP` par zone (`components/motion/MotionScope.tsx`) ;
+  `mm.revert()` révoque animations et ScrollTriggers, les instances `SplitText`
+  sont rendues à leur texte d'origine.
+- **Recalculs** : `ScrollTrigger.refresh()` après chargement des polices, après
+  `load`, et 400 ms après le montage.
+- **Budget JS** : GSAP n'est chargé que par les pages publiques. `/auth` et
+  l'espace connecté n'embarquent aucune bibliothèque d'animation (119 kB de
+  premier chargement contre 163 kB sur l'accueil) ; la barre de navigation et le
+  minuteur d'examen utilisent la Web Animations API pour les deux animations
+  qui les concernent.
+
+### 5 quater.3 Accessibilité
+
+Les animations ne portent jamais d'information : les traits décoratifs sont
+`aria-hidden`, le bandeau défilant duplique sa rangée avec `aria-hidden`, les
+questions de la FAQ restent des `<details>` natifs (clavier et lecteurs
+d'écran) et le focus clavier déclenche les mêmes gestes que le survol.
 
 ## 6. Tests
 

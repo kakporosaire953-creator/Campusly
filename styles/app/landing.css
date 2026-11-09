@@ -2,8 +2,9 @@
    CAMPUSLY — ACCUEIL : direction artistique « campus éditorial »
    ------------------------------------------------------------
    Recomposition complète de la page d'accueil. L'identité ne
-   bouge pas : #1565C0 / #F57C00, logo au chapeau, Plus Jakarta
-   Sans, et Instrument Serif déjà chargée pour la numération.
+   bouge pas : #1565C0 / #F57C00, logo au chapeau, Manrope comme
+   unique famille (voir site-chrome.css) — titres en 700/800 très
+   resserrés, index en chiffres tabulaires.
    Ce qui change : la grille (asymétrie assumée), le rythme
    vertical, les compositions (planches photo, extraits
    d'interface, frises) et une mise en scène GSAP section par
@@ -114,19 +115,20 @@
 }
 
 .sec-head__title {
-  max-width: 20ch;
+  max-width: 22ch;
   margin: 0;
   font-family: var(--editorial);
-  font-weight: 400;
-  font-size: clamp(1.9rem, 4vw, 3.05rem);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: var(--text-1);
   text-wrap: balance;
 }
 
 .sec-head__title em {
-  font-style: italic;
+  font-style: normal;
+  font-weight: 800;
   color: var(--brand-1);
 }
 
@@ -214,18 +216,19 @@
 
 .hero__title {
   margin: 0;
-  max-width: 15ch;
+  max-width: 14ch;
   font-family: var(--editorial);
-  font-weight: 400;
-  font-size: clamp(2.55rem, 5.4vw, 4.15rem);
-  line-height: 0.98;
-  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-size: clamp(2.15rem, 4.4vw, 3.35rem);
+  line-height: 1.02;
+  letter-spacing: -0.038em;
   color: var(--text-1);
 }
 
 .hero__line {
   display: block;
-  overflow: hidden;
+  /* Plus de rognage : les caractères du titre tombent depuis le haut
+     (SplitText) et doivent rester visibles pendant la chute. */
   padding-bottom: 0.06em;
 }
 
@@ -234,18 +237,42 @@
 }
 
 .hero__line--accent {
+  display: inline-block;
+  transform-origin: left center;
   margin-top: 0.34em;
   padding-bottom: 0.2em;
-  font-size: 0.52em;
-  font-style: italic;
+  font-size: 0.54em;
+  font-weight: 500;
   line-height: 1.24;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.012em;
   color: var(--brand-1);
 }
 
 [data-theme="dark"] .hero__line--accent,
 [data-theme="dark"] .hero__line--accent > span {
   color: #8FC2FF;
+}
+
+.hero__star {
+  position: absolute;
+  top: -10px;
+  right: clamp(4px, 6%, 60px);
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.hero__squiggle {
+  display: block;
+  margin: 6px 0 0 2px;
+  color: var(--brand-1);
+  opacity: 0.55;
+}
+
+.cta-band__burst {
+  position: absolute;
+  top: clamp(-26px, -2vw, -14px);
+  right: clamp(16px, 4vw, 48px);
+  color: #FFC078;
 }
 
 .hero__lede {
@@ -770,10 +797,10 @@
 .feat__title {
   margin: 0;
   font-family: var(--editorial);
-  font-weight: 400;
-  font-size: clamp(1.6rem, 2.9vw, 2.3rem);
-  line-height: 1.06;
-  letter-spacing: -0.018em;
+  font-weight: 700;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   color: var(--text-1);
 }
 
@@ -1123,9 +1150,9 @@
 .ai-panel h3 {
   margin: 0;
   font-family: var(--editorial);
-  font-weight: 400;
-  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+  letter-spacing: -0.025em;
   color: var(--text-1);
 }
 
@@ -1299,6 +1326,29 @@
   gap: clamp(20px, 3vw, 44px);
   margin: 0;
   padding: clamp(26px, 3vw, 40px) 0 0;
+}
+
+.track-block {
+  position: relative;
+}
+
+/* Barre qui se remplit (data-fill) posée sur le filet de la frise. */
+.track__fill {
+  position: absolute;
+  top: 31px;
+  left: 4px;
+  right: 4px;
+  height: 2px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--brand-1), var(--accent));
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  /* Frise verticale sur téléphone : le filet horizontal n'a plus de sens. */
+  .track__fill {
+    display: none;
+  }
 }
 
 .track::before {
@@ -1767,6 +1817,32 @@
   color: var(--text-2);
 }
 
+.faq__more {
+  margin: clamp(20px, 2.6vw, 30px) 0 0;
+}
+
+.faq__more a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--label);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-2);
+  padding-bottom: 3px;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.faq__more a:hover,
+.faq__more a:focus-visible {
+  color: var(--brand-1);
+  border-color: var(--brand-1);
+}
+
 /* ── 14. Bandeau de conversion ────────────────────────────── */
 
 .cta-band {
@@ -1800,15 +1876,16 @@
   max-width: 18ch;
   margin: 0;
   font-family: var(--editorial);
-  font-weight: 400;
-  font-size: clamp(2rem, 4.4vw, 3.3rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.8vw, 2.85rem);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
   color: #FFFFFF;
 }
 
 .cta-band__title em {
-  font-style: italic;
+  font-style: normal;
+  font-weight: 800;
   color: #FFC078;
 }
 
@@ -1847,6 +1924,53 @@
   font-size: 0.76rem;
   line-height: 1.6;
   color: rgba(232, 240, 252, 0.6);
+}
+
+/* ── 14 bis. Graisses de substitution ───────────────────────
+   L'ancien serif n'existait qu'en 400 très fin. Manrope est une
+   linéale : sans graisse dédiée, chiffres et index paraîtraient
+   hésitants. On passe donc ces éléments en 700, avec des chiffres
+   tabulaires pour que les colonnes s'alignent (même logique que
+   les données techniques de Kraken).
+   ──────────────────────────────────────────────────────────── */
+
+.sec-head__index,
+.frag__index,
+.frag__stat-value,
+.daily__num,
+.feat__tag span,
+.feat__steps li span,
+.feat__flow-num,
+.feat__rules li > span,
+.ai-rail__num,
+.ai-panel__num,
+.teachers__num,
+.compo-item__num,
+.institutions__code,
+.faq__num {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sec-head__index,
+.daily__num,
+.ai-panel__num,
+.teachers__num,
+.compo-item__num {
+  letter-spacing: -0.02em;
+}
+
+/* Les micro-étiquettes ne sont plus tracées par une grotesque : on
+   remonte d'un cran celles qui n'avaient pas de graisse propre. */
+.hero__caption-note,
+.frag__pill,
+.frag__stat-label,
+.ai-panel__caption,
+.ai-concepts li span,
+.compo-band__note,
+.institutions__caption {
+  font-weight: 600;
 }
 
 /* ── 15. Adaptations ──────────────────────────────────────── */
@@ -2031,7 +2155,8 @@
   }
 
   .hero__title {
-    font-size: clamp(2.05rem, 9.4vw, 2.8rem);
+    font-size: clamp(1.85rem, 8.4vw, 2.45rem);
+    max-width: 16ch;
   }
 
   .hero__line--accent {

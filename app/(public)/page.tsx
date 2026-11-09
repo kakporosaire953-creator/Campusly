@@ -3,10 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { FACULTIES } from "@/types";
 import { FaqSection } from "@/components/shared/FaqSection";
-import { LandingMotion } from "@/components/landing/LandingMotion";
 import { SectionHead } from "@/components/landing/SectionHead";
 import { HeroComposition } from "@/components/landing/HeroComposition";
 import { AiSequence } from "@/components/landing/AiSequence";
+import { Marquee } from "@/components/motion/Marquee";
+import { Burst, Squiggle, Star } from "@/components/landing/Doodles";
+import { Icon } from "@/components/motion/Icon";
 import {
   FragClassroom,
   FragComposition,
@@ -106,44 +108,53 @@ const COMPOSITIONS = [
 
 export default function HomePage() {
   return (
-    <LandingMotion>
+    <>
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="campus-hero" id="hero">
         <div className="hero__grid">
           <div className="hero__text">
-            <p className="hero__eyebrow" data-hero-eyebrow>
+            <p className="hero__eyebrow" data-reveal>
               <span className="hero__eyebrow-dot" aria-hidden="true" />
               Université d&apos;Abomey-Calavi · Bénin
+              <Star className="hero__star" color="var(--accent)" size={16} />
             </p>
 
             <h1 className="hero__title">
               <span className="hero__line">
-                <span data-hero-line>L&apos;université demande </span>
+                <span data-split>L&apos;université demande</span>
               </span>
               <span className="hero__line">
-                <span data-hero-line>assez d&apos;efforts. </span>
+                <span data-split>assez d&apos;efforts.</span>
               </span>
               <span className="hero__line hero__line--accent">
-                <span data-hero-line>Pas besoin de multiplier les outils.</span>
+                {/* L'écrasement est moins ample que sur Kraken : la ligne
+                    accentuée est une phrase entière, pas un mot. */}
+                <span data-slam data-slam-scale="1.5" data-slam-rotation="-6">
+                  Pas besoin de multiplier les outils.
+                </span>
               </span>
             </h1>
 
-            <p className="hero__lede" data-hero-body>
+            <Squiggle className="hero__squiggle" color="var(--brand-1)" width={86} />
+
+            <p className="hero__lede" data-reveal>
               Campusly réunit les ressources académiques, les espaces de cours et les outils de
               révision dans un environnement pensé pour les étudiants et les enseignants de
               l&apos;UAC.
             </p>
 
-            <div className="hero__actions" data-hero-body>
+            <div className="hero__actions" data-reveal>
               <a href="#fonctionnalites" className="btn btn-primary btn-lg">
                 Découvrir Campusly
+                <Icon name="arrow-up-right" size={17} />
               </a>
               <Link href="/auth?tab=register" className="btn btn-outline btn-lg">
                 Créer un compte
+                <Icon name="arrow-right" size={17} />
               </Link>
             </div>
 
-            <ul className="hero__facts" data-hero-body>
+            <ul className="hero__facts" data-reveal>
               <li>Ressources classées par maquette</li>
               <li>Entraînements corrigés localement</li>
               <li>Projet indépendant, ouvert à l&apos;UAC</li>
@@ -153,6 +164,23 @@ export default function HomePage() {
           <HeroComposition />
         </div>
       </section>
+
+      {/* ══════════════ BANDE DE VEILLE ═══════════════════
+          Bandeau défilant repris du site Kraken. Les repères sont des faits
+          vérifiables sur cette version — aucun chiffre, aucune promesse. */}
+      <div className="site-ticker">
+        <Marquee
+          speed={34}
+          items={[
+            "Projet indépendant, ouvert à l'UAC",
+            "Ressources classées par maquette",
+            "Entraînements corrigés localement",
+            "Analyse de document : à venir",
+            "Paiement non ouvert",
+            "Données conservées sur votre appareil",
+          ]}
+        />
+      </div>
 
       {/* ══════════════════ LE QUOTIDIEN ════════════════════ */}
       <section className="section daily" id="quotidien">
@@ -171,9 +199,9 @@ export default function HomePage() {
           les supprime pas, il les range.
         </SectionHead>
 
-        <ol className="daily__list" data-anim="daily">
+        <ol className="daily__list">
           {DAILY.map((item) => (
-            <li className="daily__item" key={item.index}>
+            <li className="daily__item" key={item.index} data-reveal>
               <span className="daily__num" aria-hidden="true">
                 {item.index}
               </span>
@@ -204,18 +232,20 @@ export default function HomePage() {
         </SectionHead>
 
         {/* 01 — Espaces de cours */}
-        <article className="feat feat--class" data-anim="feat">
+        <article className="feat feat--class">
           <div className="feat__text">
-            <p className="feat__tag">
+            <p className="feat__tag" data-reveal>
               <span aria-hidden="true">01</span> Espaces de cours
             </p>
-            <h3 className="feat__title">Cours, ressources et activités au même endroit.</h3>
-            <p className="feat__lede">
+            <h3 className="feat__title" data-reveal>
+              Cours, ressources et activités au même endroit.
+            </h3>
+            <p className="feat__lede" data-reveal>
               Un enseignant crée sa classe, transmet un code d&apos;amphi, dépose supports et
               annonces. Les étudiants rejoignent la classe et retrouvent ce qui a été partagé, sans
               groupe de messagerie parallèle.
             </p>
-            <ul className="feat__list">
+            <ul className="feat__list" data-reveal>
               <li>Code d&apos;amphi à transmettre en cours</li>
               <li>Supports de cours et annonces</li>
               <li>Devoirs et rendus suivis</li>
@@ -226,7 +256,7 @@ export default function HomePage() {
           </div>
 
           <div className="feat__media">
-            <figure className="feat__photo" data-anim="frame">
+            <figure className="feat__photo" data-reveal>
               <Image
                 src="/images/amphi.jpg"
                 alt="Cours magistral dans un amphithéâtre, étudiants prenant des notes"
@@ -236,23 +266,26 @@ export default function HomePage() {
                 className="feat__photo-img"
               />
             </figure>
-            <FragClassroom className="feat__frag" />
+            <FragClassroom className="feat__frag" data-pop />
+
           </div>
         </article>
 
         {/* 02 — Épreuves et ressources */}
-        <article className="feat feat--library" data-anim="feat">
+        <article className="feat feat--library">
           <div className="feat__text">
-            <p className="feat__tag">
+            <p className="feat__tag" data-reveal>
               <span aria-hidden="true">02</span> Épreuves et ressources
             </p>
-            <h3 className="feat__title">Les documents au centre, pas les vignettes.</h3>
-            <p className="feat__lede">
+            <h3 className="feat__title" data-reveal>
+              Les documents au centre, pas les vignettes.
+            </h3>
+            <p className="feat__lede" data-reveal>
               Recherche par matière ou mot-clé, puis filtres par faculté, département, niveau,
               semestre et année : la même logique que vos maquettes. Le catalogue est encore vide et
               la bibliothèque le dit clairement, au lieu d&apos;afficher des entrées de remplissage.
             </p>
-            <ol className="feat__steps">
+            <ol className="feat__steps" data-reveal>
               <li>
                 <span aria-hidden="true">a</span> Rechercher une matière
               </li>
@@ -269,7 +302,7 @@ export default function HomePage() {
           </div>
 
           <div className="feat__media feat__media--library">
-            <figure className="feat__photo feat__photo--small" data-anim="frame">
+            <figure className="feat__photo feat__photo--small" data-reveal>
               <Image
                 src="/images/library-study.jpg"
                 alt="Étudiante travaillant ses cours à la bibliothèque universitaire"
@@ -279,25 +312,27 @@ export default function HomePage() {
                 className="feat__photo-img"
               />
             </figure>
-            <FragLibrary className="feat__frag" />
+            <FragLibrary className="feat__frag" data-pop />
           </div>
         </article>
 
         {/* 03 — Campusly AI (renvoi vers la section signature) */}
-        <article className="feat feat--ai" data-anim="feat">
+        <article className="feat feat--ai">
           <div className="feat__ai-copy">
-            <p className="feat__tag feat__tag--dark">
+            <p className="feat__tag feat__tag--dark" data-reveal>
               <span aria-hidden="true">03</span> Campusly AI
             </p>
-            <h3 className="feat__title feat__title--dark">Vos cours deviennent des questions.</h3>
-            <p className="feat__lede feat__lede--dark">
+            <h3 className="feat__title feat__title--dark" data-reveal>
+              Vos cours deviennent des questions.
+            </h3>
+            <p className="feat__lede feat__lede--dark" data-reveal>
               Un support entre, des exercices sortent — que vous relisez avant de vous entraîner.
               L&apos;analyse de document n&apos;est pas encore ouverte ; les modes d&apos;entraînement,
               eux, fonctionnent déjà.
             </p>
           </div>
 
-          <ol className="feat__flow" aria-label="Parcours Campusly AI">
+          <ol className="feat__flow" aria-label="Parcours Campusly AI" data-lift>
             {["Support", "Notions", "Questions"].map((label, index) => (
               <li key={label}>
                 <span className="feat__flow-num" aria-hidden="true">
@@ -314,10 +349,10 @@ export default function HomePage() {
         </article>
 
         {/* 04 — Suivi pédagogique */}
-        <article className="feat feat--track" data-anim="feat">
+        <article className="feat feat--track">
           <div className="feat__media feat__media--track">
-            <FragDashboard className="feat__frag" />
-            <ol className="feat__rules">
+            <FragDashboard className="feat__frag" data-pop />
+            <ol className="feat__rules" data-reveal>
               {[
                 ["Repères par entraînement", "Ce qui a été travaillé, ce qui reste fragile."],
                 ["Notions à consolider", "Le regroupement se fait par notion, pas par question."],
@@ -335,11 +370,13 @@ export default function HomePage() {
           </div>
 
           <div className="feat__text">
-            <p className="feat__tag">
+            <p className="feat__tag" data-reveal>
               <span aria-hidden="true">04</span> Suivi pédagogique
             </p>
-            <h3 className="feat__title">Savoir où porter l&apos;effort.</h3>
-            <p className="feat__lede">
+            <h3 className="feat__title" data-reveal>
+              Savoir où porter l&apos;effort.
+            </h3>
+            <p className="feat__lede" data-reveal>
               Chaque entraînement laisse des repères : notions travaillées, notions encore fragiles,
               dernière session. Aucun chiffre n&apos;est affiché avant votre premier entraînement —
               et aucune moyenne n&apos;est inventée pour remplir un écran.
@@ -386,16 +423,19 @@ export default function HomePage() {
           coûté des points en coûte moins.
         </SectionHead>
 
-        <ol className="track" data-anim="track">
-          {PROGRESSION.map((item) => (
-            <li className="track__step" key={item.step}>
-              <span className="track__node" aria-hidden="true" />
-              <span className="track__step-label">{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))}
-        </ol>
+        <div className="track-block">
+          <span className="track__fill" aria-hidden="true" data-fill />
+          <ol className="track">
+            {PROGRESSION.map((item) => (
+              <li className="track__step" key={item.step} data-pop>
+                <span className="track__node" aria-hidden="true" data-stamp />
+                <span className="track__step-label">{item.step}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
 
         <p className="section__note" data-reveal>
           Vos repères personnels apparaissent dans votre espace après un premier entraînement. Aucun
@@ -421,9 +461,9 @@ export default function HomePage() {
         </SectionHead>
 
         <div className="teachers__grid">
-          <ol className="teachers__rows" data-anim="rows">
+          <ol className="teachers__rows">
             {TEACHER_ROWS.map((row) => (
-              <li key={row.num}>
+              <li key={row.num} data-reveal>
                 <span className="teachers__num" aria-hidden="true">
                   {row.num}
                 </span>
@@ -435,7 +475,7 @@ export default function HomePage() {
             ))}
           </ol>
 
-          <div className="teachers__panel" data-anim="frame">
+          <div className="teachers__panel" data-pop>
             <p className="teachers__panel-label">Espace de travail · aperçu</p>
             <FragTeacher className="teachers__frag" />
             <p className="teachers__panel-note">
@@ -465,7 +505,7 @@ export default function HomePage() {
           l&apos;enseignant.
         </SectionHead>
 
-        <figure className="compo-band" data-anim="mask">
+        <figure className="compo-band" data-reveal>
           <Image
             src="/images/exam-hall.jpg"
             alt="Étudiants composant dans une salle d'examen de l'université"
@@ -485,9 +525,9 @@ export default function HomePage() {
           <FragComposition className="compo-band__frag" />
         </figure>
 
-        <ul className="compo-list" data-anim="editorial">
+        <ul className="compo-list">
           {COMPOSITIONS.map((item) => (
-            <li className="compo-item" key={item.index}>
+            <li className="compo-item" key={item.index} data-pop>
               <span className="compo-item__num" aria-hidden="true">
                 {item.index}
               </span>
@@ -502,6 +542,7 @@ export default function HomePage() {
         <div className="section__actions">
           <Link href="/dashboard/compositions" className="btn btn-primary">
             Accéder aux compositions
+            <Icon name="arrow-right" size={16} />
           </Link>
         </div>
       </section>
@@ -524,7 +565,7 @@ export default function HomePage() {
         </SectionHead>
 
         <div className="institutions__body">
-          <div className="institutions__type">
+          <div className="institutions__type" data-reveal>
             <p className="institutions__lead">
               Campusly est un projet indépendant. Rien sur cette page ne vaut approbation officielle
               de l&apos;Université d&apos;Abomey-Calavi : les facultés ci-dessous sont celles dont
@@ -540,7 +581,7 @@ export default function HomePage() {
             </ul>
           </div>
 
-          <figure className="institutions__figure" data-anim="frame">
+          <figure className="institutions__figure" data-lift>
             <Image
               src="/images/campus-building.jpg"
               alt="Bâtiment universitaire et palmiers en fin de journée"
@@ -575,7 +616,8 @@ export default function HomePage() {
 
       {/* ═══════════════════ CTA FINAL ══════════════════════ */}
       <section className="cta-band" id="rejoindre">
-        <div className="cta-band__inner" data-reveal>
+        <div className="cta-band__inner" data-pop>
+          <Burst className="cta-band__burst" color="#FFC078" size={38} flip />
           <p className="cta-band__eyebrow">Commencer maintenant</p>
           <h2 className="cta-band__title">
             Commencez par <em>vos propres cours.</em>
@@ -587,6 +629,7 @@ export default function HomePage() {
           <div className="cta-band__actions">
             <Link href="/auth?tab=register" className="btn btn-accent btn-lg">
               Créer un compte
+              <Icon name="arrow-right" size={17} />
             </Link>
             <a href="#fonctionnalites" className="btn btn-cta-ghost btn-lg">
               Revoir les fonctionnalités
@@ -598,6 +641,6 @@ export default function HomePage() {
           </p>
         </div>
       </section>
-    </LandingMotion>
+    </>
   );
 }

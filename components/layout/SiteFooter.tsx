@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { footerNav, siteConfig } from "@/config/site";
 import { LogoCap } from "@/components/layout/SiteHeader";
+import { CurlyArrow } from "@/components/landing/Doodles";
 
 /**
  * Pied de page — produit et institutions.
@@ -13,7 +14,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer__institutional">
-        <div className="site-footer__institutional-text">
+        <div className="site-footer__institutional-text" data-reveal>
           <p className="site-footer__eyebrow">Établissements et partenaires</p>
           <h2 className="site-footer__title">
             Et si nous faisions évoluer l&apos;expérience universitaire ensemble&nbsp;?
@@ -23,7 +24,8 @@ export function SiteFooter() {
             structure pédagogique&nbsp;? Découvrons comment Campusly pourrait répondre à vos besoins.
           </p>
         </div>
-        <div className="site-footer__institutional-actions">
+        <div className="site-footer__institutional-actions" data-reveal>
+          <CurlyArrow className="site-footer__arrow" color="var(--accent)" size={40} />
           <Link href="/a-propos#contact" className="btn btn-primary btn-lg">
             Demander une démonstration
           </Link>
@@ -34,7 +36,7 @@ export function SiteFooter() {
       </div>
 
       <div className="site-footer__main">
-        <div className="site-footer__brand">
+        <div className="site-footer__brand" data-reveal>
           <Link href="/" className="site-nav__logo" aria-label="Campusly — accueil">
             <span className="logo-text">
               <span className="logo-cap" aria-hidden="true">
@@ -58,7 +60,7 @@ export function SiteFooter() {
         </div>
 
         {footerNav.map((group) => (
-          <nav className="site-footer__col" key={group.title} aria-label={group.title}>
+          <nav className="site-footer__col" key={group.title} aria-label={group.title} data-reveal>
             <h3>{group.title}</h3>
             {group.links.map((link) => (
               <Link key={`${group.title}-${link.label}`} href={link.href}>

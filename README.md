@@ -48,6 +48,10 @@ npm run start      # serveur de production
   progression, bandeau de conversion, pied de page institutionnel.
 - `/auth` minimaliste : colonne unique, inscription en deux étapes (identité puis
   parcours), profil étudiant/enseignant en choix explicite.
+- Mouvement : le vocabulaire d'animation du site Kraken (titres découpés,
+  cartes qui « pop », étiquettes tamponnées, bandeau défilant, barre escamotée
+  au défilement, survols élastiques, accordéon FAQ animé) — désactivé sous
+  `prefers-reduced-motion` et absent des pages qui n'en ont pas besoin.
 - Crédits et abonnement : pages d'attente expliquant l'ouverture prochaine (aucun tarif, aucun paiement).
 - Notifications, profil, paramètres, bascule de rôle, déconnexion.
 
