@@ -104,8 +104,8 @@ app → features → services → types
 | `design-system.css`, `style.css`, `components.css`, `sections-premium.css`, `hero-futuriste.css`, `skeleton-loaders.css`, `revision.css`, `theme-dark.css` | **non importés** | code mort / contradictions (cf. `PROJECT_AUDIT.md` §4) |
 
 Palette (inchangée) : `--brand-1 #1565C0`, `--brand-2 #42A5F5`, `--accent #F57C00`,
-`--accent-2 #FF9800`. Typographie : Plus Jakarta Sans (titres) + Inter (texte) +
-JetBrains Mono (données techniques). Icônes : Font Awesome 6 (CDN).
+`--accent-2 #FF9800`. Typographie : **Manrope** (une seule famille, voir §5 bis)
++ JetBrains Mono (données techniques). Icônes : Font Awesome 6 (CDN).
 
 ### 3.1 Ce qui peut être corrigé
 
@@ -197,10 +197,19 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
   **visuels d'illustration** (et non des photographies documentaires du campus) :
   les légendes de l'accueil le disent explicitement.
   `images.unoptimized` reste activé (contrainte Cloudflare Workers).
-- Trois voix typographiques : `--font-editorial` (Instrument Serif) pour les
-  titres, `--font-label` (Space Grotesk) pour les étiquettes et annotations,
-  `--font-sans` (Plus Jakarta Sans) pour le texte. `--font-num` reste un alias du
-  serif éditorial pour la numération.
+- **Une seule famille : Manrope** (chargée depuis Google Fonts dans
+  `app/layout.tsx`), la même que le site Kraken de Hustler Labs
+  (`HermannRichy/kraken`, `src/fonts/Manrope-variable.ttf`, graisses 200–800).
+  Les trois rôles restent distincts par le token, pas par la fonte :
+  `--font-editorial` (titres, 700/800, interlettrage −0,03 em), `--font-label`
+  (étiquettes capitales espacées, 600/700), `--font-sans` (texte courant).
+  `--font-num` et `--font-mono` restent des alias pour la numération et les
+  données techniques.
+- Manrope n'a pas d'italique : les accents éditoriaux qui étaient en italique
+  serif (ligne accentuée du hero, `em` des titres, titre du bandeau final)
+  passent par la graisse et la couleur, plus `font-style: normal`.
+- Chiffres et index portent `font-variant-numeric: tabular-nums` (bloc
+  « 14 bis » de `landing.css`) pour que les colonnes de numéros s'alignent.
 - Verre : réservé à la navigation au défilement et aux surfaces de l'espace
   connecté. `/auth` n'utilise plus de verre du tout.
 

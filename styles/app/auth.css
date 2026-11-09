@@ -5,7 +5,7 @@
    - colonne unique, largeur maîtrisée, beaucoup de blanc ;
    - aucun panneau photographique, aucune liste de fonctions ;
    - mêmes tokens que le reste de la plateforme (#1565C0 / #F57C00,
-     Plus Jakarta Sans, Instrument Serif pour le titre) ;
+     Manrope pour tout, graisses hautes sur le titre) ;
    - deux étapes d'inscription, transitions courtes, reduced-motion
      respecté.
 
@@ -125,10 +125,10 @@ body:has(.auth) .bg-orb {
 .auth__title {
   margin: 0;
   font-family: var(--font-editorial);
-  font-weight: 400;
-  font-size: clamp(1.85rem, 4vw, 2.35rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.6vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: var(--text-1);
 }
 
@@ -431,8 +431,9 @@ body:has(.auth) .bg-orb {
 .auth__steps li span {
   font-family: var(--font-editorial);
   font-size: 0.95rem;
-  font-weight: 400;
-  letter-spacing: 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
 }
 
 .auth__steps li.is-current {

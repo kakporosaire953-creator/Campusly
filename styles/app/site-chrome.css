@@ -4,15 +4,24 @@
    Remplace l'ancienne `.navbar` (héritée du HTML historique) par
    une barre unique, plus fine, qui s'efface sur le hero de
    l'accueil et se resserre au défilement.
-   Palette, logo et typographies inchangés : #1565C0, #F57C00,
-   Plus Jakarta Sans ; Instrument Serif pour l'éditorial.
+   Palette et logo inchangés : #1565C0, #F57C00.
+   Typographie : Manrope (fichier de référence externe, voir
+   docs/FRONTEND_GUIDE.md §5 bis), la même famille que le site
+   Kraken de Hustler Labs ; les trois rôles éditoriaux
+   (`--font-editorial`, `--font-label`, `--font-sans`) pointent
+   tous vers elle et se distinguent par la graisse et
+   l'interlettrage.
    Ce fichier est global : il s'applique à toutes les pages qui
    utilisent le gabarit public.
    ============================================================ */
 
 :root {
-  --font-editorial: "Instrument Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --font-label: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
+  /* Manrope : une seule famille pour tout le site, comme sur Kraken.
+     `--font-sans` (déclaré dans legacy/modern.css) est repris ici pour
+     que le corps de texte suive la même famille. */
+  --font-sans: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-editorial: "Manrope", "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-label: "Manrope", "Plus Jakarta Sans", system-ui, sans-serif;
   --nav-h: 76px;
   --nav-h-compact: 60px;
   --chrome-max: 1320px;
@@ -336,10 +345,10 @@
   margin: 0;
   max-width: 22ch;
   font-family: var(--font-editorial);
-  font-weight: 400;
-  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: var(--text-1);
 }
 
