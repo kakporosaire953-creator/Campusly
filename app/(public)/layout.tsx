@@ -20,7 +20,7 @@ import { BackToTop } from "@/components/motion/BackToTop";
  */
 export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
-    <>
+    <div className="public-shell">
       <MotionGlobal />
       <SiteHeader />
       <MotionScope>
@@ -28,6 +28,6 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
         <SiteFooter />
         <BackToTop />
       </MotionScope>
-    </>
+    </div>
   );
 }

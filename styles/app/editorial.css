@@ -1,0 +1,616 @@
+/* ============================================================
+   CAMPUSLY — DIRECTION ÉDITORIALE (accueil public)
+   ------------------------------------------------------------
+   Registre : magazine imprimé + interface produit.
+
+   Règles tenues :
+   1. Le papier et l'encre portent la page ; les aplats sont rares
+      et voulus (deux écrans de couleur sur toute la page).
+   2. Le bleu profond #326DE6 est un SIGNAL, pas un décor : liens,
+      index, filets, focus. Jamais en aplat plein écran.
+   3. Les surfaces sont planes : pas de verre, pas de flou, pas
+      d'ombre portée. Une bordure d'1 px suffit à séparer.
+   4. Rayons quasi nuls (0 à 2 px) : c'est la page, pas des cartes.
+   5. La typographie fait la hiérarchie : serif éditoriale pour les
+      titres, sans pour le texte, capitales espacées pour les
+      annotations.
+
+   Deux contextes de couleur seulement :
+   - `--paper` (ivoire) / encre : le corps du journal ;
+   - `.ink-field` (bleu profond) : les deux ruptures — Campusly AI
+     et le colophon final.
+   ============================================================ */
+
+:root {
+  /* Palette éditoriale */
+  --paper: #f4f1e9;
+  --paper-2: #eae4d7;
+  --paper-3: #e0d8c7;
+  --ink: #122d45;
+  --ink-deep: #0b1e30;
+  --signal: #326de6;
+  --signal-ink: #2a5cc4;
+  --signal-soft: rgba(50, 109, 230, 0.1);
+  --ember: #e77d43;
+  --ember-soft: rgba(231, 125, 67, 0.14);
+  --rule: rgba(18, 45, 69, 0.16);
+  --rule-strong: rgba(18, 45, 69, 0.4);
+  --muted: rgba(18, 45, 69, 0.66);
+
+  /* Encre claire (sur fond bleu profond) */
+  --on-ink: #f4f1e9;
+  --on-ink-muted: rgba(244, 241, 233, 0.7);
+  --on-ink-rule: rgba(244, 241, 233, 0.22);
+
+  /* Familles éditoriales */
+  --serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Eyebrow : capitales espacées, jamais en gras. */
+  --eyebrow-size: 0.68rem;
+  --eyebrow-track: 0.2em;
+}
+
+/* ── 0. Base : papier ivoire, encre bleu profond ──
+   Le papier est posé sur le GABARIT PUBLIC uniquement (`.public-shell`,
+   app/(public)/layout.tsx). L'espace connecté et l'authentification gardent
+   leur fond historique : aucune régression hors de l'accueil. */
+
+.public-shell {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Le grain bruité historique est retiré sous le gabarit public : le papier
+   n'a pas besoin d'un voile par-dessus. */
+body:has(.public-shell)::before {
+  content: none;
+}
+
+/* Le fond « liquide » (quatre nappes floutées) n'appartient pas au papier :
+   il est neutralisé sur le gabarit public, et reste actif dans l'application. */
+body:has(.public-shell) .liquid-bg {
+  display: none;
+}
+
+/* Le verre des surfaces historiques ne s'applique pas aux blocs éditoriaux :
+   `theme.css` est chargé après `site-chrome.css`, il faut donc lui rendre la
+   main sur `.site-footer` (qui reste une bande d'encre pleine). */
+body:has(.public-shell) .site-footer {
+  background: var(--ink) !important;
+  border: 0;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ── 1. Base de la page éditoriale ────────────────────────── */
+
+.ed {
+  position: relative;
+  z-index: 1;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  overflow-x: clip;
+}
+
+.ed ::selection {
+  background: rgba(50, 109, 230, 0.2);
+  color: var(--ink);
+}
+
+/* Les rails éditoriaux : même gouttière partout, 1240 px de large. */
+.ed-rail {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(18px, 4.4vw, 46px);
+}
+
+/* `.ed-rail` est aussi posé directement sur des sections : `padding-inline`
+   ne doit pas doubler. */
+section.ed-rail {
+  padding-inline: clamp(18px, 4.4vw, 46px);
+}
+
+/* Filet plein cadre, à la manière d'un cahier. */
+.ed-rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* ── 2. Typographie éditoriale ────────────────────────────── */
+
+.ed-eyebrow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.55em;
+  font-family: var(--sans);
+  font-size: var(--eyebrow-size);
+  font-weight: 600;
+  letter-spacing: var(--eyebrow-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ed-eyebrow strong,
+.ed-num {
+  color: var(--signal);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ed-display {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+  letter-spacing: -0.026em;
+  line-height: 0.94;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+/* Ligne accentuée : italique de la serif, comme un chapeau de magazine. */
+.ed-display em,
+.ed-accent {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--signal);
+}
+
+.ed-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.ed-lede {
+  font-family: var(--sans);
+  font-size: clamp(1rem, 0.55vw + 0.9rem, 1.15rem);
+  line-height: 1.62;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.ed-body {
+  font-family: var(--sans);
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--muted);
+}
+
+/* Note de bas de page, légende, mention d'état. */
+.ed-note {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+  color: var(--muted);
+}
+
+.ed-label {
+  font-family: var(--sans);
+  font-size: var(--eyebrow-size);
+  font-weight: 600;
+  letter-spacing: var(--eyebrow-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── 3. En-tête de chapitre (les 9 séquences) ─────────────── */
+
+.ed-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 30px);
+  padding-block: clamp(46px, 6vw, 86px) clamp(26px, 3vw, 44px);
+}
+
+.ed-chapter__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+
+.ed-chapter__index {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+}
+
+.ed-chapter__title {
+  font-size: clamp(2.1rem, 5.4vw, 4.4rem);
+  max-width: 22ch;
+}
+
+.ed-chapter__aside {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  max-width: 46ch;
+}
+
+/* Titre + chapeau côte à côte, décalés : la colonne de texte ne
+   commence jamais au même axe que le titre. */
+@media (min-width: 900px) {
+  .ed-chapter {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+    align-items: end;
+  }
+
+  .ed-chapter__top {
+    grid-column: 1 / -1;
+  }
+
+  .ed-chapter__aside {
+    padding-bottom: 8px;
+    border-left: 1px solid var(--rule);
+    padding-left: clamp(16px, 2vw, 28px);
+  }
+}
+
+/* ── 4. Ruptures en encre pleine ──────────────────────────── */
+
+.ink-field {
+  position: relative;
+  background: var(--ink);
+  color: var(--on-ink);
+  overflow: clip;
+}
+
+.ink-field .ed-display,
+.ink-field .ed-title {
+  color: var(--on-ink);
+}
+
+.ink-field .ed-display em,
+.ink-field .ed-accent {
+  color: #9dbcf7;
+}
+
+.ink-field .ed-eyebrow,
+.ink-field .ed-label,
+.ink-field .ed-lede,
+.ink-field .ed-body,
+.ink-field .ed-note {
+  color: var(--on-ink-muted);
+}
+
+.ink-field .ed-eyebrow strong,
+.ink-field .ed-num,
+.ink-field .ed-chapter__index {
+  color: var(--ember);
+}
+
+.ink-field .ed-chapter__top {
+  border-bottom-color: var(--on-ink-rule);
+}
+
+.ink-field .ed-rule {
+  border-top-color: var(--on-ink-rule);
+}
+
+/* Trame de points très discrète : donne de la matière au bleu sans
+   dégradé ni verre. */
+.ink-field--grided::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: 26px 26px;
+  color: rgba(244, 241, 233, 0.14);
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+.ink-field > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 5. Boutons éditoriaux ────────────────────────────────── */
+
+/* Remplace le bouton « SaaS » : angles nets, filet, encre pleine. */
+.ed-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.86em 1.35em;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.ed-btn:hover {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: #fff;
+}
+
+.ed-btn:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.ed-btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.ed-btn--ghost:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.ed-btn--ink {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+}
+
+.ed-btn--ink:hover {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: var(--ink-deep);
+}
+
+.ed-btn--ghost-ink {
+  background: transparent;
+  border-color: var(--on-ink-rule);
+  color: var(--on-ink);
+}
+
+.ed-btn--ghost-ink:hover {
+  background: var(--on-ink);
+  border-color: var(--on-ink);
+  color: var(--ink-deep);
+}
+
+/* Lien de section : souligné animé au survol (le trait se dessine). */
+.ed-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.86rem;
+  text-decoration: none;
+  padding-bottom: 2px;
+  background-image: linear-gradient(var(--signal), var(--signal));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 260ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms ease;
+}
+
+.ed-link:hover,
+.ed-link:focus-visible {
+  color: var(--signal-ink);
+  background-size: 100% 1px;
+}
+
+.ink-field .ed-link {
+  color: var(--on-ink);
+  background-image: linear-gradient(var(--ember), var(--ember));
+}
+
+.ink-field .ed-link:hover,
+.ink-field .ed-link:focus-visible {
+  color: var(--on-ink);
+}
+
+/* ── 6. Micro-détails éditoriaux ──────────────────────────── */
+
+/* Numéro de section en marge, à la verticale. */
+.ed-marginal {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Petite croix de repère, comme sur une maquette imprimée. */
+.ed-cross {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  color: var(--signal);
+}
+
+.ed-cross::before,
+.ed-cross::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+
+.ed-cross::before {
+  inset: 50% 0 auto;
+  height: 1px;
+}
+
+.ed-cross::after {
+  inset: 0 50% auto;
+  width: 1px;
+  height: 100%;
+}
+
+/* État d'une fonctionnalité : disponible / en préparation.
+   Un point et un mot — jamais une couleur seule. */
+.ed-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.ed-state::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+.ed-state--live::before {
+  background: #1f9d63;
+}
+
+.ed-state--soon::before {
+  background: transparent;
+  border: 1px solid var(--ember);
+}
+
+.ink-field .ed-state {
+  color: var(--on-ink-muted);
+}
+
+.ink-field .ed-state--live::before {
+  background: #6fd6a2;
+}
+
+/* ── 7. Mise en scène des fragments d'interface ───────────── */
+
+/* Le fragment est posé sur le papier comme une capture collée :
+   un filet, une légende, pas d'ombre. */
+.ed-frag {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--rule);
+  font-family: var(--sans);
+  color: var(--ink);
+}
+
+.ed-frag__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ed-frag__label {
+  color: var(--ink);
+}
+
+.ed-frag__tag {
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.ed-frag__body {
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+  font-size: 0.72rem;
+}
+
+/* Valeur en attente : un pointillé, jamais un faux chiffre. */
+.ed-ph {
+  display: block;
+  height: 6px;
+  border-bottom: 1px dotted rgba(18, 45, 69, 0.35);
+}
+
+.ed-frag__foot {
+  font-size: 0.66rem;
+  line-height: 1.5;
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
+  padding-top: 8px;
+}
+
+/* Légende de la capture : ce qu'elle montre, et ce qu'elle ne montre pas. */
+.ed-caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: baseline;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.ed-caption b {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ── 8. Accessibilité & préférences ───────────────────────── */
+
+.ed :focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.ink-field .ed :focus-visible,
+.ink-field :focus-visible {
+  outline-color: var(--ember);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed *,
+  .ed *::before,
+  .ed *::after {
+    transition-duration: 0.001ms !important;
+  }
+
+  .ed-link {
+    transition: none;
+  }
+}
+
+/* Encre claire forcée pour l'impression : pas d'aplat bleu. */
+@media print {
+  .ink-field {
+    background: #fff;
+    color: #000;
+  }
+}

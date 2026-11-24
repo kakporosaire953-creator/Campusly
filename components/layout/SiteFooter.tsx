@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { footerNav, siteConfig } from "@/config/site";
 import { LogoCap } from "@/components/layout/SiteHeader";
-import { CurlyArrow } from "@/components/landing/Doodles";
 
 /**
- * Pied de page — produit et institutions.
+ * Colophon — la dernière page du journal.
  * ---------------------------------------------------------------------------
- * Une bande institutionnelle (démonstration / partenariat), quatre familles de
- * liens, puis les mentions légales. Campusly y est présenté pour ce qu'il est :
- * un projet indépendant, sans adossement officiel à l'UAC.
+ * Trois blocs, pas quatre : la marque, les trois familles de liens utiles
+ * (« Campusly », « Plateforme », « Ressources et informations »), puis les
+ * mentions légales. L'appel aux établissements reste en tête du colophon.
+ *
+ * Aucune destination n'a été supprimée : « Fonctionnalités » et
+ * « Institutions » de l'ancien pied de page sont repliées dans les trois
+ * familles, et les conditions d'utilisation y figurent désormais en clair.
+ * Campusly y est présenté pour ce qu'il est : un projet indépendant, sans
+ * adossement officiel à l'UAC.
  */
 export function SiteFooter() {
   return (
@@ -25,11 +30,10 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="site-footer__institutional-actions" data-reveal>
-          <CurlyArrow className="site-footer__arrow" color="var(--accent)" size={40} />
-          <Link href="/a-propos#contact" className="btn btn-primary btn-lg">
+          <Link href="/a-propos#contact" className="btn">
             Demander une démonstration
           </Link>
-          <Link href="/a-propos#contact" className="btn btn-outline btn-lg">
+          <Link href="/a-propos#contact" className="btn btn-outline">
             Proposer un partenariat
           </Link>
         </div>

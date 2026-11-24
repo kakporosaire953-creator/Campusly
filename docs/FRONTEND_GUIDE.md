@@ -103,9 +103,20 @@ app → features → services → types
 | `styles/app/exam-room.css` | importé par la route d'examen | traduction des styles inline de `exam-room.html` |
 | `design-system.css`, `style.css`, `components.css`, `sections-premium.css`, `hero-futuriste.css`, `skeleton-loaders.css`, `revision.css`, `theme-dark.css` | **non importés** | code mort / contradictions (cf. `PROJECT_AUDIT.md` §4) |
 
-Palette (inchangée) : `--brand-1 #1565C0`, `--brand-2 #42A5F5`, `--accent #F57C00`,
-`--accent-2 #FF9800`. Typographie : **Manrope** (une seule famille, voir §5 bis)
-+ JetBrains Mono (données techniques). Icônes : Font Awesome 6 (CDN).
+**Deux palettes cohabitent, sur deux périmètres distincts.**
+
+| Périmètre | Palette | Source |
+| --- | --- | --- |
+| Accueil public (et pages légales du gabarit public) | `--paper #F4F1E9`, `--ink #122D45`, `--signal #326DE6`, `--ember #E77D43` | `styles/app/editorial.css` |
+| Application (`/dashboard`, `/auth`, `/examen`…) | `--brand-1 #1565C0`, `--brand-2 #42A5F5`, `--accent #F57C00`, `--accent-2 #FF9800` | `styles/legacy/modern.css` |
+
+Le bleu et l'orange historiques **restent** ceux de l'application : la refonte ne
+touche pas aux écrans de travail, seulement à la vitrine. Le logo (chapeau SVG
+bleu) est conservé tel quel.
+
+Typographie : **Fraunces** (serif éditoriale, titres de l'accueil) +
+**Manrope** (texte et interface, §5 bis) + JetBrains Mono (numéros, données
+techniques). Icônes : Font Awesome 6 (CDN).
 
 ### 3.1 Ce qui peut être corrigé
 
@@ -117,22 +128,32 @@ Palette (inchangée) : `--brand-1 #1565C0`, `--brand-2 #42A5F5`, `--accent #F57C
 
 ### 3.2 Ce qui ne doit pas changer
 
-Palette (`#1565C0` / `#F57C00`), logo au chapeau, nom des fonctions, ton des
-textes, conventions de navigation. La mise en page de l'accueil et de `/auth`
-est, elle, pilotée par les couches `styles/app/` (voir §5 bis et §5 ter).
+Logo au chapeau, nom des fonctions, ton des textes, conventions de navigation,
+palette de l'application (`#1565C0` / `#F57C00`). La mise en page de l'accueil
+est, elle, pilotée par les couches `editorial-*.css` (§5 quinquies) ; `/auth` et
+l'espace connecté gardent leur mise en page et leurs tokens.
 
 ### 3.3 Couches de composition (ajoutées par-dessus le legacy)
 
 | Fichier | Portée | Rôle |
 | --- | --- | --- |
-| `styles/app/site-chrome.css` | toutes les pages publiques | navigation `.site-nav` (transparente sur le hero, resserrée au défilement) et pied de page `.site-footer` |
-| `styles/app/landing.css` | accueil | direction artistique de l'accueil (hero éditorial, fragments, sections) |
+| `styles/app/site-chrome.css` | toutes les pages publiques | masthead `.site-nav` (voile de papier sur le hero, resserrée au défilement) et colophon `.site-footer` |
+| `styles/app/editorial.css` | accueil public | **fondations** : jetons papier/encre/signal, typographie éditoriale, boutons, micro-détails, chapitres |
+| `styles/app/editorial-home.css` | accueil public | **composition** des neuf séquences (ouverture, manifeste, dossiers, frise, colophon) |
+| `styles/app/editorial-modules.css` | accueil public | **modules simulés** : fragments d'interface, séquence Campusly AI, FAQ animée |
 | `styles/app/auth.css` | `/auth` + `/onboarding` | fiche d'authentification minimaliste |
-| `styles/app/theme.css` | global | thème clair/sombre et verre des surfaces applicatives |
 
-Les anciennes classes de la landing (`.pillar-*`, `.ai-step`, `.compo-item`,
-`.media-band`, `.hero-frame`, `.landing-section`…) ne sont **plus produites** par
-le markup ; leurs règles ont été retirées de `landing.css`.
+Depuis la refonte éditoriale (KRAFTER-11), `styles/app/landing.css` est
+**retirée** : remplacée par `editorial-*.css`.
+
+`styles/app/theme.css` (verre, fond liquide) et `styles/legacy/theme-dark.css`
+restent importés : **l'espace applicatif et `/auth` n'ont pas changé d'aspect**.
+Sous le gabarit public, la couche éditoriale les neutralise — papier ivoire,
+`.liquid-bg` masqué, colophon en encre pleine (voir `editorial.css` §0).
+
+Les composants du registre précédent (`SectionHead`, `HeroComposition`,
+`AiSequence`, `AppFragments`, `Doodles`, `LiquidBackground`) sont supprimés ; les
+remplaçants vivent dans `components/editorial/`.
 
 ---
 
@@ -190,46 +211,55 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - `components/shared/ThemeProvider.tsx` : préférence `campusly.theme`, attribut
   `data-theme` sur `<html>`, classe historique `theme-light` maintenue. Un script
   inline dans `app/layout.tsx` applique le thème avant le premier rendu (pas de flash).
-- `styles/app/theme.css` : tokens de verre (`--glass-*`), fond liquide
-  (`--liquid-*`, `.liquid-bg`), habillage des surfaces existantes et contrastes du
-  mode sombre. Le fond animé orange/bleu est actif dans les deux modes.
+- **Le verre et le fond liquide sont neutralisés sur le gabarit public**
+  (`.liquid-bg { display: none }`, colophon en encre pleine, surfaces planes :
+  un filet d'1 px, pas de flou ni d'ombre portée). Ils **restent actifs dans
+  l'application** : `theme.css` est toujours importé et `LiquidBackground` est
+  toujours monté à la racine.
 - Images : `public/images/*.jpg`, affichées via `next/image`. Ce sont des
   **visuels d'illustration** (et non des photographies documentaires du campus) :
   les légendes de l'accueil le disent explicitement.
   `images.unoptimized` reste activé (contrainte Cloudflare Workers).
-- **Une seule famille : Manrope** (chargée depuis Google Fonts dans
-  `app/layout.tsx`), la même que le site Kraken de Hustler Labs
-  (`HermannRichy/kraken`, `src/fonts/Manrope-variable.ttf`, graisses 200–800).
-  Les trois rôles restent distincts par le token, pas par la fonte :
-  `--font-editorial` (titres, 700/800, interlettrage −0,03 em), `--font-label`
-  (étiquettes capitales espacées, 600/700), `--font-sans` (texte courant).
-  `--font-num` et `--font-mono` restent des alias pour la numération et les
-  données techniques.
-- Manrope n'a pas d'italique : les accents éditoriaux qui étaient en italique
-  serif (ligne accentuée du hero, `em` des titres, titre du bandeau final)
-  passent par la graisse et la couleur, plus `font-style: normal`.
-- Chiffres et index portent `font-variant-numeric: tabular-nums` (bloc
-  « 14 bis » de `landing.css`) pour que les colonnes de numéros s'alignent.
-- Verre : réservé à la navigation au défilement et aux surfaces de l'espace
-  connecté. `/auth` n'utilise plus de verre du tout.
+- **Deux familles, deux rôles** (Google Fonts, `app/layout.tsx`) :
+  - **Fraunces** (`opsz 9..144`, `wght 300..700`, italique compris) : titres de
+    l'accueil, citations, noms de dossiers. C'est la voix éditoriale, nouvelle ;
+  - **Manrope** (`400..800`) : texte courant, interface, étiquettes. C'est la
+    police du site Kraken de Hustler Labs, conservée pour la lisibilité et pour
+    l'identité déjà installée. Les trois rôles historiques pointent toujours
+    dessus (`--font-editorial`, `--font-label`, `--font-sans`) : les pages qui ne
+    sont pas l'accueil ne changent pas d'un pixel.
+- Fraunces est une police variable à axe optique : `font-optical-sizing: auto`
+  et `font-variation-settings: "SOFT" 0, "WONK" 1` donnent le rendu « presse »
+  sans emballer de fichier local (OFL, servie par Google Fonts).
+- Les capitales espacées (`.ed-eyebrow`, `.ed-label`) remplacent les anciennes
+  étiquettes en pastille : ce sont elles qui portent la numérotation éditoriale.
+- Chiffres, index et folios portent `font-variant-numeric: tabular-nums` et
+  JetBrains Mono respectivement, pour que les colonnes s'alignent au pixel.
+- `/auth` n'utilise ni verre ni Fraunces : `app/(auth)/layout.tsx` reste sur la
+  pile historique.
 
-## 5 ter. Accueil immersif et `/auth` minimaliste
+## 5 ter. Accueil éditorial et `/auth` minimaliste
 
-**Accueil** (`app/(public)/page.tsx`)
+**Accueil** (`app/(public)/page.tsx`) — neuf séquences, une par chapitre.
 
-- Hero : titre éditorial en trois lignes (masque par ligne), description,
-  deux CTA, puis une planche photo qui déborde à droite avec deux extraits
-  d'interface (`components/landing/AppFragments.tsx`).
-- Sections numérotées `01` → `08` via `components/landing/SectionHead.tsx`
-  (numéro + libellé à gauche, titre sur 7 colonnes, annotation à droite).
-- Quatre blocs de fonctionnalités, chacun avec sa composition : classe + photo,
-  index documentaire, bande sombre Campusly AI, suivi + règles.
-- `components/landing/AiSequence.tsx` : rail d'étapes + quatre panneaux, avec
-  mention explicite que l'analyse de document n'est pas encore ouverte.
-- Frise de progression, espace enseignants, bandeau compositions, section
-  établissements (typographique), FAQ, bandeau de conversion.
-- `components/layout/SiteFooter.tsx` : bande institutionnelle (démonstration /
-  partenariat), quatre familles de liens, mention « projet indépendant ».
+| # | Séquence | Composition | Ce qu'elle doit produire |
+| --- | --- | --- | --- |
+| 01 | Ouverture | titre monumental (2 lignes découpées + 1 ligne écrasée), photo en découpe inclinée, fragment d'interface en débord, folio `01 / 09`, repère Bénin et coordonnées | première impression ; l'asymétrie remplace la colonne texte/image |
+| — | Sommaire + état | liste des séquences avec leur état réel (disponible / en préparation / fermé) | le lecteur sait où il met les pieds |
+| 02 | Manifeste | citation en serif, puis quatre piliers à **quatre échelles différentes**, décalés verticalement | la hiérarchie par la taille, jamais quatre cartes égales |
+| 03 | L'expérience | deux dossiers inversés : fragment + photo + colonne de texte | deux usages, deux rythmes, un seul système |
+| 04 | Campusly AI | **rupture en encre pleine** (`#122D45`), trame de points, démonstrateur à quatre onglets | signature visuelle ; la seule zone bleu profond de la page avec le colophon |
+| 05 | Espaces pédagogiques | dyptique dissymétrique 1,35 / 0,65, filet vertical | étudiant et enseignant ne pèsent pas pareil |
+| 06 | Épreuves et compositions | bande photographique pleine largeur + cartouche, quatre faits numérotés `a–d`, fragment de chronomètre | section la plus « document » |
+| 07 | Progression | frise horizontale (filet + trois stations), textes sous les stations | lire un parcours en une ligne |
+| 08 | Établissements | index des dix facultés en colonnes, photo large, bloc d'appel qui chevauche l'image | sérieux institutionnel, sans logo partenaire |
+| 09 | Questions fréquentes | liste compacte, filtres en capitales, `<details>` natifs | densité, pas de cartes |
+| — | Colophon d'appel | bande d'encre, deux CTA, mention crédits/paiement | clore sans crier |
+
+**Ce qui a été retiré de l'accueil :** bandeau défilant permanent, doodles
+« dessinés à la main », verre dépoli, ombres portées, pastilles arrondies,
+cartes répétées à icône + titre + paragraphe. Les destinations, elles, sont
+toutes conservées (voir §5 quinquies.4).
 
 **/auth** (`features/auth/AuthForms.tsx`)
 
@@ -243,8 +273,72 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - La mention de démonstration reste visible sous la carte (authentification
   simulée, jetons d'essai).
 
-**Animations** : voir §5 quater (le vocabulaire vient du site Kraken).
-`/auth` n'utilise que des transitions CSS courtes et un fondu d'entrée.
+## 5 quinquies. Direction éditoriale de l'accueil
+
+### 5 quinquies.1 Le système, en une page
+
+- **Registre** : magazine imprimé + interface produit. Pas de « landing SaaS ».
+- **Couleurs** : papier `#F4F1E9`, encre `#122D45`, signal `#326DE6`, braise
+  `#E77D43`. Le bleu est un **signal** (liens, index, filets, focus), jamais un
+  décor : deux bandes d'encre seulement (Campusly AI, colophon).
+- **Typographie** : Fraunces pour la voix éditoriale, Manrope pour le texte,
+  capitales espacées pour les annotations, JetBrains Mono pour les numéros.
+- **Formes** : rayons 0 à 2 px, bordures d'1 px, aucune ombre, aucun flou.
+- **Grille** : un seul rail de 1240 px (`--chrome-max`), gouttière
+  `clamp(18px, 4.4vw, 46px)`. Les compositions sont asymétriques **à
+  l'intérieur** de ce rail : c'est la grille qui est stable, pas les blocs.
+- **Rythme** : chaque chapitre ouvre sur un filet, un numéro, un libellé et un
+  repère en capitales. Les respirations changent d'un chapitre à l'autre.
+
+### 5 quinquies.2 Les jetons (à réutiliser, pas à redéfinir)
+
+`styles/app/editorial.css` expose `--paper`, `--paper-2`, `--ink`, `--ink-deep`,
+`--signal`, `--ember`, `--rule`, `--rule-strong`, `--muted`, `--on-ink*`,
+`--serif`, `--sans`, `--mono`. Toute nouvelle section de l'accueil doit consommer
+ces jetons : aucune couleur en dur, aucune nouvelle famille.
+
+### 5 quinquies.3 Composants du kit
+
+| Composant | Fichier | Rôle |
+| --- | --- | --- |
+| `Chapter` / `Marker` | `components/editorial/Chapter.tsx` | en-tête de chapitre (index, libellé, filet, note) et intertitre de colonne |
+| `Asterisk`, `Ruler`, `Cross`, `LongArrow` | `components/editorial/Marks.tsx` | quatre marques géométriques ; remplacent les doodles |
+| `FragLibrary`, `FragClassroom`, `FragQuiz`, `FragProgress`, `FragComposition`, `FragTeacher`, `AiTrail` | `components/editorial/PaperFragments.tsx` | aperçus d'interface et démonstrateur AI |
+| `HeroEditorial` | `components/editorial/Hero.tsx` | séquence 01 |
+
+**Règle des fragments** : un fragment reproduit la *structure* d'un écran réel
+(recherche, filtres, ligne de document, question, chronomètre) et laisse les
+valeurs en pointillés (`.ed-ph`). Il ne porte jamais un faux chiffre, un faux
+titre d'épreuve, un faux nom d'étudiant ou une fausse note. Sa barre de titre dit
+« Aperçu d'interface ».
+
+### 5 quinquies.4 Destinations conservées
+
+Toutes les ancres et routes de l'ancienne page existent encore :
+`#hero`, `#manifeste` (nouveau), `#experience`, `#campusly-ai`, `#espaces`,
+`#epreuves`, `#progression`, `#etablissements`, `#faq`, `#rejoindre`,
+`#credits` ; routes `/auth`, `/auth?tab=register`, `/dashboard`,
+`/dashboard/epreuves`, `/dashboard/classrooms`, `/dashboard/revision`,
+`/dashboard/compositions`, `/enseignant`, `/a-propos#contact`,
+`/conditions`, `/politique-de-confidentialite`, `/offline`.
+
+`publicNav` et `footerNav` (`config/site.ts`) ont été réorganisés en trois
+familles — « Campusly », « Plateforme », « Ressources et informations » — sans
+perdre une seule destination. L'ancienne ancre `#fonctionnalites` est remplacée
+par `#experience` : le contenu est le même, le nom colle au sommaire.
+
+### 5 quinquies.5 Vérité éditoriale (à ne pas casser)
+
+Les neuf séquences affichent l'état réel des fonctions. Une seule source de
+vérité, répétée volontairement :
+
+- **Disponible** : bibliothèque, espaces de cours, entraînements, compositions,
+  suivi ;
+- **En préparation** : analyse de document par Campusly AI (mention dans la
+  séquence 04 et dans la FAQ) ;
+- **Fermé** : crédits et paiements — aucun tarif, aucun pack ;
+- **Toujours** : projet indépendant, jamais présenté comme adopté par l'UAC ;
+  aucune statistique, aucune moyenne, aucun témoignage inventé.
 
 ## 5 quater. Mouvement — le vocabulaire du site Kraken
 
@@ -258,26 +352,27 @@ ajoutée : `gsap`, `@gsap/react` et `ScrollTrigger` étaient déjà là, et
 
 | Effet Kraken | Attribut | Où |
 | --- | --- | --- |
-| Révélation en lot, rejouée en remontant | `data-reveal` | sur-titre et texte du hero, titres de blocs, listes, pied de page, panneaux IA, en-têtes de section |
-| Carte qui « pop » | `data-pop` | extraits d'interface, frise de progression, compositions, CTA final, panneau enseignants |
-| Titre découpé en caractères qui tombent | `data-split` | deux premières lignes du titre d'accueil (SplitText) |
-| Bloc mis en avant qui s'écrase | `data-slam` (+ `data-slam-scale`, `data-slam-rotation`) | ligne accentuée du hero |
-| Étiquette tamponnée | `data-stamp` | pastilles de la frise de progression |
+| Révélation en lot, rejouée en remontant | `data-reveal` | sur-titres, titres de chapitre, piliers, dossiers, frise, colophon |
+| Carte qui « pop » | `data-pop` | aperçus d'interface, panneau de suivi, fragments des séquences 03/05/06/07 |
+| Titre découpé en caractères qui tombent | `data-split` | deux premières lignes du titre d'ouverture (SplitText) |
+| Bloc mis en avant qui s'écrase | `data-slam` (+ `data-slam-scale`, `data-slam-rotation`) | ligne accentuée du titre d'ouverture |
+| Étiquette tamponnée | `data-stamp` | stations de la frise de progression |
 | Barre qui se remplit | `data-fill` | filet de la frise de progression |
-| Dessin en boucle | `data-float` (`burst` · `star` · `squiggle` · `arrow`) | `components/landing/Doodles.tsx` : hero, bandeau final, pied de page |
+| Dessin en boucle | `data-float` (`star`) | astérisque de renvoi (`components/editorial/Marks.tsx`) |
 | Carte soulevée au centre de l'écran | `data-lift` | parcours Campusly AI, visuel « établissements » |
-| Bandeau défilant infini | `<Marquee />` | bande de veille sous le hero |
+| Bandeau défilant infini | `<Marquee />` | conservé dans le kit, **retiré de l'accueil** (le rythme vient des filets) |
 | Barre escamotée au défilement descendant | classe `.is-hidden` | navigation publique |
 | Panneau mobile en rebond + cascade | Web Animations API | menu mobile |
-| Soulèvement au survol / écrasement au clic | `.btn`, `[data-hover-lift]`, `[data-press]` | tout le site public |
-| Icône animée au survol du parent | `data-icon` + `<Icon />` | boutons d'action, liens FAQ, bouton « revenir en haut » |
-| Bouton « revenir en haut » | `<BackToTop />` | pages publiques |
-| Accordéon à hauteur animée + ouverture au centre de l'écran | `<details>` + GSAP | FAQ |
+| Soulèvement au survol / écrasement au clic | `[data-hover-lift]`, `[data-press]` | cartes et fragments explicitement marqués |
+| Icône animée au survol du parent | `data-icon` + `<Icon />` | liens de renvoi, FAQ, « revenir en haut » |
+| Bouton « revenir en haut » | `<BackToTop />` | pages publiques (carré, filet, encre) |
+| Accordéon à hauteur animée + ouverture au centre de l'écran | `<details>` + GSAP | FAQ (`.faq-ed__*`) |
 | Chiffre qui bascule | `<FlipNumber />` (Web Animations API) | minuteur de la salle d'examen |
 
-Deux effets Campusly restent, parce qu'ils racontent la page : la parallaxe
-légère de la photo du hero (`data-parallax`, desktop uniquement) et le repère
-actif du parcours Campusly AI (`data-rail`, `data-rail-item`, `data-rail-panel`).
+Deux effets Campusly restent dans le kit : la parallaxe légère
+(`data-parallax`, desktop uniquement) et le repère actif d'une séquence
+(`data-rail`). L'accueil éditorial n'utilise ni l'un ni l'autre : il préfère le
+masque d'image (§5 quater.4) et les filets.
 
 ### 5 quater.2 Règles tenues
 
@@ -295,9 +390,11 @@ actif du parcours Campusly AI (`data-rail`, `data-rail-item`, `data-rail-panel`)
   `load`, et 400 ms après le montage.
 - **Budget JS** : GSAP n'est chargé que par les pages publiques. `/auth` et
   l'espace connecté n'embarquent aucune bibliothèque d'animation (119 kB de
-  premier chargement contre 163 kB sur l'accueil) ; la barre de navigation et le
-  minuteur d'examen utilisent la Web Animations API pour les deux animations
-  qui les concernent.
+  premier chargement, inchangé) ; la barre de navigation et le minuteur d'examen
+  utilisent la Web Animations API. La refonte éditoriale a fait **baisser** le
+  premier chargement de l'accueil de 163 kB à **116 kB** : les composants
+  supprimés (`AppFragments`, `Doodles`, `HeroComposition`, `AiSequence`,
+  `SectionHead`) étaient plus lourds que leurs remplaçants.
 
 ### 5 quater.3 Accessibilité
 
@@ -305,6 +402,19 @@ Les animations ne portent jamais d'information : les traits décoratifs sont
 `aria-hidden`, le bandeau défilant duplique sa rangée avec `aria-hidden`, les
 questions de la FAQ restent des `<details>` natifs (clavier et lecteurs
 d'écran) et le focus clavier déclenche les mêmes gestes que le survol.
+
+### 5 quater.4 Ajouts de la refonte éditoriale
+
+Le vocabulaire reste celui du site Kraken ; trois choses s'y ajoutent :
+
+- `data-mask` : la photo se découvre par un masque qui s'ouvre
+  (`clipPath: inset(0 0 100% 0)` → `inset(0 0 0 0)`, `power3.inOut` 1 s) et
+  l'image revient de 1,18 à 1 (`power3.out` 1,25 s). Aucun déplacement de mise en
+  page : le cadre garde sa hauteur.
+- masques et révélations sont créés dans le contexte GSAP unique de
+  `MotionScope` et révoqués au démontage (`kill()` + `clearProps`).
+- le CTA éditorial (`.ed-btn`) change de couleur, jamais de position : la levée
+  au survol n'est conservée que sur les `[data-hover-lift]` explicites.
 
 ## 6. Tests
 

@@ -1,23 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { SectionHead } from "@/components/landing/SectionHead";
-import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import { useMemo, useState } from "react";
 import { Icon } from "@/components/motion/Icon";
+import { Marker } from "@/components/editorial/Chapter";
 
 const CATEGORIES = [
   { id: "all", label: "Toutes" },
   { id: "ai", label: "Campusly AI" },
   { id: "learning", label: "Apprentissage" },
-  { id: "teachers", label: "Professeurs & Classrooms" },
+  { id: "teachers", label: "Professeurs" },
   { id: "compositions", label: "Compositions" },
-  { id: "credits", label: "Crédits & Paiement" },
+  { id: "credits", label: "Crédits" },
   { id: "privacy", label: "Confidentialité" },
 ] as const;
 
 type CategoryId = (typeof CATEGORIES)[number]["id"];
 
-const FAQ_ITEMS: Array<{ id: string; category: Exclude<CategoryId, "all">; question: string; answer: string }> = [
+const FAQ_ITEMS: Array<{
+  id: string;
+  category: Exclude<CategoryId, "all">;
+  question: string;
+  answer: string;
+}> = [
   {
     id: "q1",
     category: "ai",
@@ -70,206 +74,84 @@ const FAQ_ITEMS: Array<{ id: string; category: Exclude<CategoryId, "all">; quest
 ];
 
 /**
- * FAQ — chapitre 08 de l'accueil.
+ * Questions fréquentes — chapitre 09.
  * ---------------------------------------------------------------------------
- * Le contenu est celui de l'ancienne page d'accueil ; seuls la mise en page et
- * les mentions d'état ont été reprises pour rester alignées sur ce qui est
- * réellement disponible (paiement fermé, analyse de document non ouverte).
+ * Présentation compacte et éditoriale : une liste numérotée, un filtre en
+ * capitales, et `<details>` natifs. Rien n'est caché derrière du JavaScript :
+ * sans script, chaque réponse s'ouvre normalement.
  *
- * Animation (reprise de l'accordéon du site Kraken) :
- *  - la hauteur du panneau est animée par GSAP, ouverture en `back.out` ;
- *  - la question qui traverse le centre de l'écran s'ouvre seule au défilement ;
- *  - pendant 2,5 s après un clic, l'ouverture automatique est suspendue pour ne
- *    pas reprendre la main sur un choix explicite ;
- *  - `prefers-reduced-motion` : aucune animation, `<details>` se comporte
- *    nativement (aucun JavaScript requis pour lire une réponse).
+ * Le contenu est celui de la version précédente, à la formulation près ; il
+ * continue de signaler les fonctions encore fermées (analyse de document,
+ * paiement).
  *
- * Accessibilité : `<details>`/`<summary>` natifs (clavier, lecteurs d'écran),
- * filtre en `<button aria-pressed>`, questions numérotées.
+ * L'animation de hauteur (reprise du vocabulaire Kraken) est conservée dans
+ * `MotionScope` via `data-faq-row` : le panneau glisse, la question qui
+ * traverse le centre de l'écran s'ouvre d'elle-même.
  */
 export function FaqSection() {
   const [category, setCategory] = useState<CategoryId>("all");
-  const listRef = useRef<HTMLDivElement>(null);
-  const rowRefs = useRef<Record<string, HTMLDetailsElement | null>>({});
-  const manualUntil = useRef(0);
 
   const items = useMemo(
     () => (category === "all" ? FAQ_ITEMS : FAQ_ITEMS.filter((item) => item.category === category)),
     [category],
   );
 
-  /** Ouvre ou ferme une ligne en animant la hauteur du panneau. */
-  const setRow = (id: string | null, animate = true) => {
-    const smooth = animate && !prefersReducedMotion();
-    Object.entries(rowRefs.current).forEach(([rowId, details]) => {
-      if (!details) return;
-      const panel = details.querySelector<HTMLElement>(".faq__panel");
-      const shouldOpen = rowId === id;
-      if (!panel) {
-        details.open = shouldOpen;
-        return;
-      }
-      gsap.killTweensOf(panel);
-      if (shouldOpen) {
-        details.open = true;
-        if (!smooth) {
-          gsap.set(panel, { height: "auto", autoAlpha: 1 });
-          return;
-        }
-        const height = panel.scrollHeight;
-        gsap.fromTo(
-          panel,
-          { height: 0, autoAlpha: 0 },
-          {
-            height,
-            autoAlpha: 1,
-            duration: 0.5,
-            ease: "back.out(1.4)",
-            onComplete: () => {
-              gsap.set(panel, { height: "auto" });
-              ScrollTrigger.refresh();
-            },
-          },
-        );
-      } else {
-        if (!details.open) return;
-        if (!smooth) {
-          details.open = false;
-          gsap.set(panel, { height: 0, autoAlpha: 0 });
-          return;
-        }
-        gsap.to(panel, {
-          height: 0,
-          autoAlpha: 0,
-          duration: 0.4,
-          ease: "power3.inOut",
-          onComplete: () => {
-            details.open = false;
-            gsap.set(panel, { height: 0 });
-            ScrollTrigger.refresh();
-          },
-        });
-      }
-    });
-  };
-
-  /* Première ligne ouverte à l'arrivée, puis cascade des lignes à chaque filtre. */
-  useGSAP(
-    () => {
-      setRow(items[0]?.id ?? null, false);
-      if (prefersReducedMotion()) return;
-      gsap.from(Object.values(rowRefs.current).filter(Boolean), {
-        y: 18,
-        autoAlpha: 0,
-        duration: 0.5,
-        stagger: 0.06,
-        ease: "power2.out",
-      });
-    },
-    { scope: listRef, dependencies: [items], revertOnUpdate: true },
-  );
-
-  /* Ouverture automatique de la question qui passe au centre de l'écran. */
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      const triggers = items
-        .map((item) => {
-          const row = rowRefs.current[item.id];
-          if (!row) return null;
-          return ScrollTrigger.create({
-            trigger: row,
-            start: "top 62%",
-            end: "bottom 38%",
-            onToggle: (self) => {
-              if (!self.isActive || Date.now() < manualUntil.current) return;
-              setRow(item.id);
-            },
-          });
-        })
-        .filter((trigger): trigger is ScrollTrigger => trigger !== null);
-      return () => triggers.forEach((trigger) => trigger.kill());
-    },
-    { scope: listRef, dependencies: [items], revertOnUpdate: true },
-  );
-
-  useEffect(() => {
-    // Nettoyage des références quand le filtre retire des lignes.
-    const ids = new Set(items.map((item) => item.id));
-    Object.keys(rowRefs.current).forEach((id) => {
-      if (!ids.has(id)) delete rowRefs.current[id];
-    });
-  }, [items]);
-
-  const onToggle = (id: string, event: React.MouseEvent<HTMLElement>) => {
-    if (prefersReducedMotion()) return; // comportement natif, aucune animation
-    event.preventDefault();
-    const details = rowRefs.current[id];
-    const willOpen = !details?.open;
-    manualUntil.current = Date.now() + 2500;
-    setRow(willOpen ? id : null);
-  };
-
   return (
-    <section className="section faq" id="faq">
-      <SectionHead
-        index="08"
-        label="Questions fréquentes"
-        title={
-          <>
-            Ce qu&apos;on nous demande <em>le plus souvent.</em>
-          </>
-        }
-        note={`${FAQ_ITEMS.length} questions · ${CATEGORIES.length - 1} thèmes`}
-      >
-        Réponses décrivant les fonctions de la plateforme. Les fonctions encore fermées sont
-        signalées comme telles, ici comme sur le reste de la page.
-      </SectionHead>
+    <section className="ed-rail faq-ed" id="faq" aria-labelledby="faq-title">
+      <header className="faq-ed__head">
+        <p className="ed-eyebrow">
+          <span className="ed-num">09</span>
+          <span>Questions fréquentes</span>
+        </p>
+        <h2 className="ed-display faq-ed__title" id="faq-title" data-reveal>
+          Ce qu&apos;on nous demande <em>le plus souvent.</em>
+        </h2>
+        <p className="ed-note faq-ed__note">
+          {FAQ_ITEMS.length} questions · {CATEGORIES.length - 1} thèmes. Les fonctions encore
+          fermées sont signalées comme telles, ici comme sur le reste de la page.
+        </p>
+      </header>
 
-      <div className="faq__filters" role="group" aria-label="Filtrer les questions par thème">
-        {CATEGORIES.map((entry) => (
-          <button
-            key={entry.id}
-            type="button"
-            className={`faq__chip ${category === entry.id ? "is-active" : ""}`}
-            aria-pressed={category === entry.id}
-            onClick={() => setCategory(entry.id)}
-          >
-            {entry.label}
-          </button>
-        ))}
+      <div className="faq-ed__body">
+        <div className="faq-ed__filters" role="group" aria-label="Filtrer les questions par thème">
+          {CATEGORIES.map((entry) => (
+            <button
+              key={entry.id}
+              type="button"
+              className={`faq-ed__chip ${category === entry.id ? "is-active" : ""}`}
+              aria-pressed={category === entry.id}
+              onClick={() => setCategory(entry.id)}
+            >
+              {entry.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="faq-ed__list" data-hover-root>
+          {items.map((item, index) => (
+            <details key={item.id} className="faq-ed__row" data-faq-row>
+              <summary>
+                <span className="faq-ed__num" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="faq-ed__question">{item.question}</span>
+                <span className="faq-ed__sign" aria-hidden="true" />
+              </summary>
+              <div className="faq-ed__panel">
+                <p className="faq-ed__answer">{item.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
       </div>
 
-      <div className="faq__list" ref={listRef} data-hover-root>
-        {items.map((item, index) => (
-          <details
-            key={item.id}
-            className="faq__item"
-            data-faq-row
-            ref={(node) => {
-              rowRefs.current[item.id] = node;
-            }}
-          >
-            <summary onClick={(event) => onToggle(item.id, event)}>
-              <span className="faq__num" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="faq__question">{item.question}</span>
-              <span className="faq__sign" aria-hidden="true" />
-            </summary>
-            <div className="faq__panel">
-              <p className="faq__answer">{item.answer}</p>
-            </div>
-          </details>
-        ))}
-      </div>
-
-      <p className="faq__more">
-        <a href="/a-propos#contact">
-          Une question qui n&apos;est pas ici ?
+      <div className="faq-ed__more">
+        <Marker num="↳">Une question qui n&apos;est pas ici&nbsp;?</Marker>
+        <a href="/a-propos#contact" className="ed-link">
+          Écrire à l&apos;équipe
           <Icon name="arrow-right" size={15} />
         </a>
-      </p>
+      </div>
     </section>
   );
 }
