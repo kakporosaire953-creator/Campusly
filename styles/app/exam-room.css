@@ -13,13 +13,7 @@
 .exam-room-page .logo-text {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  font-size: 1rem;
-  font-weight: 900;
-}
-
-.exam-room-page .logo-text svg {
-  margin-right: 6px;
+  gap: 8px;
 }
 
 .exam-room-page .exam-tag {

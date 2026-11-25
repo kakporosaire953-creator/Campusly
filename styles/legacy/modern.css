@@ -106,10 +106,7 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
 .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 40px; height:68px; background:var(--bg); border-bottom:1px solid var(--border); transition:box-shadow var(--t-base) var(--ease); box-shadow:0 2px 12px rgba(79,70,229,0.05); }
 .navbar.scrolled { box-shadow:0 4px 24px rgba(79,70,229,0.1); }
 .nav-logo { text-decoration:none; display:flex; align-items:center; }
-.logo-text { display:inline-flex; align-items:center; gap:0; font-size:1.45rem; font-weight:800; letter-spacing:-0.02em; line-height:1; }
-.logo-campus { color:var(--brand-1); }
-.logo-ly     { color:var(--accent); }
-.logo-cap    { display:inline-flex; align-items:center; flex-shrink:0; margin-right:6px; }
+.logo-text { display:inline-flex; align-items:center; line-height:1; }
 .nav-links { display:flex; align-items:center; gap:2px; list-style:none; }
 .nav-links a { color:var(--text-2); text-decoration:none; font-size:0.875rem; font-weight:500; padding:7px 13px; border-radius:var(--r-md); transition:all var(--t-fast) var(--ease); }
 .nav-links a:hover { color:var(--brand-1); background:rgba(79,70,229,0.07); }
@@ -226,8 +223,7 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
 .footer-col a { display:block; color:var(--text-2); text-decoration:none; font-size:0.875rem; padding:var(--space-1) 0; transition:color var(--t-fast) var(--ease); }
 .footer-col a:hover { color:var(--brand-3); }
 .footer-bottom { text-align:center; color:var(--text-3); padding-top:var(--space-8); border-top:1px solid var(--border); max-width:1200px; margin:0 auto; }
-.footer .logo-campus { color:var(--brand-1); }
-.footer .logo-ly     { color:var(--accent); }
+.footer .campusly-logo { color:var(--paper, #F4F1E9); }
 
 /* ── Auth ─────────────────────────────────────────────────── */
 .auth-page { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }

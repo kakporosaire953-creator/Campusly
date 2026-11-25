@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Logo } from "@/components/shared/CampuslyLogo";
 import "@/styles/legacy/pages/offline.css";
 
 export const metadata: Metadata = {
@@ -17,8 +18,7 @@ export default function OfflinePage() {
     <div className="offline-page" id="contenu">
       <div className="offline-container">
         <div className="logo-brand">
-          <i className="fa-solid fa-graduation-cap" aria-hidden="true" style={{ color: "#1565C0" }} /> Campus
-          <span>ly</span>
+          <Logo size={30} />
         </div>
         <div className="offline-icon" aria-hidden="true">
           <i className="fa-solid fa-wifi" />

@@ -52,8 +52,8 @@ body:has(.auth) .bg-orb {
   text-decoration: none;
 }
 
-.auth__brand .logo-text {
-  font-size: 1.28rem;
+.auth__brand .campusly-logo {
+  color: var(--ink, #122d45);
 }
 
 .auth__bar-actions {
