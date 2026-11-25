@@ -36,6 +36,15 @@ export function LearnerOverview() {
   const hasActivity =
     data.level.xp > 0 || data.streakDays > 0 || data.credits > 0 || data.recentActivities.length > 0;
 
+  /* Contenu réellement présent de chaque côté : sert à ne pas ouvrir une
+     colonne vide. */
+  const hasLeftContent =
+    Boolean(data.lastActivity) ||
+    data.weakTopics.length > 0 ||
+    data.strongTopics.length > 0 ||
+    data.upcomingCompositions.length > 0;
+  const hasSideContent = data.recentActivities.length > 0 || data.recommendedExams.length > 0;
+
   return (
     <div className="stack" style={{ gap: 24 }}>
       <PageHeader
@@ -101,7 +110,57 @@ export function LearnerOverview() {
         </Card>
       )}
 
-      <div className="grid-2">
+      {/* Les classes : une seule carte pleine largeur, une fois. Elle était
+          dupliquée à droite et répétait l'invitation déjà présente dans le
+          bandeau du haut. */}
+      <Card>
+        <CardHeader
+          title="Mes classrooms"
+          icon="fa-solid fa-chalkboard-user"
+          action={
+            <Link href="/dashboard/classrooms" className="link-primary" style={{ fontSize: "0.8rem" }}>
+              Tout voir
+            </Link>
+          }
+        />
+        {data.classrooms.length === 0 ? (
+          <p style={{ fontSize: "0.86rem", color: "var(--text-2)", lineHeight: 1.6, maxWidth: "62ch" }}>
+            Aucune classe pour l&apos;instant. Le code d&apos;amphi fourni par votre enseignant
+            suffit pour rejoindre la première.
+          </p>
+        ) : (
+          <ul className="grid-3" style={{ listStyle: "none", gap: 12 }}>
+            {data.classrooms.slice(0, 3).map((classroom) => (
+              <li key={classroom.id}>
+                <Link
+                  href={`/dashboard/classrooms/${classroom.id}`}
+                  style={{
+                    display: "block",
+                    padding: 14,
+                    border: "1px solid var(--border)",
+                    borderRadius: 2,
+                    background: "var(--surface)",
+                    textDecoration: "none",
+                  }}
+                >
+                  <div className="row-between">
+                    <span style={{ fontSize: "0.86rem", fontWeight: 700, color: "var(--text-1)" }}>{classroom.name}</span>
+                    <Badge tone="neutral">{classroom.studentsCount} inscrits</Badge>
+                  </div>
+                  <div style={{ fontSize: "0.74rem", color: "var(--text-2)", marginTop: 2 }}>
+                    {classroom.subject} · {classroom.teacherName}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+
+      {/* Deux colonnes seulement quand les deux ont du contenu. Un compte neuf
+          n'en a qu'une : la grille repasse alors en pleine largeur. */}
+      <div className={hasSideContent ? "grid-2" : undefined}>
+        {hasSideContent || hasLeftContent ? (
         <div className="stack" style={{ gap: 20 }}>
           {data.lastActivity ? (
             <Card>
@@ -118,25 +177,16 @@ export function LearnerOverview() {
             </Card>
           ) : null}
 
-          <Card>
+          {/* Pas de diagnostic tant qu'aucun entraînement n'a eu lieu : une
+              carte vide de plus n'apprenait rien. Elle apparaît avec les
+              premières notions travaillées. */}
+          {data.weakTopics.length > 0 || data.strongTopics.length > 0 ? (
+            <Card>
             <CardHeader
               title="Diagnostic par matière"
               subtitle="Points faibles et points forts identifiés"
               icon="fa-solid fa-chart-line"
-             
             />
-            {data.weakTopics.length === 0 && data.strongTopics.length === 0 ? (
-              <EmptyState
-                icon="fa-solid fa-chart-simple"
-                title="Pas encore de diagnostic"
-                description="Les notions à travailler apparaîtront après votre premier entraînement."
-                action={
-                  <Link href="/dashboard/revision" className="btn btn-primary btn-sm">
-                    Lancer un entraînement
-                  </Link>
-                }
-              />
-            ) : null}
             <div className="stack" style={{ gap: 14 }}>
               {data.weakTopics.map((topic) => (
                 <div key={topic.subject}>
@@ -158,8 +208,13 @@ export function LearnerOverview() {
               ))}
             </div>
           </Card>
+          ) : null}
 
-          <Card>
+          {/* Une carte ne s'affiche que si elle a quelque chose à montrer :
+              trois encadrés vides empilés donnaient l'impression d'un produit
+              en panne alors que le compte est simplement neuf. */}
+          {data.upcomingCompositions.length > 0 ? (
+            <Card>
             <CardHeader
               title="Compositions à venir"
               icon="fa-solid fa-stopwatch"
@@ -169,13 +224,6 @@ export function LearnerOverview() {
                 </Link>
               }
             />
-            {data.upcomingCompositions.length === 0 ? (
-              <EmptyState
-                icon="fa-regular fa-calendar"
-                title="Aucune composition programmée"
-                description="Les évaluations de vos classrooms apparaîtront ici."
-              />
-            ) : (
               <ul className="stack" style={{ gap: 12, listStyle: "none" }}>
                 {data.upcomingCompositions.map((composition) => (
                   <li
@@ -208,20 +256,17 @@ export function LearnerOverview() {
                   </li>
                 ))}
               </ul>
-            )}
           </Card>
+          ) : null}
         </div>
+        ) : null}
 
+        {hasSideContent ? (
         <div className="stack" style={{ gap: 20 }}>
-          <Card>
+          {/* L'historique n'apparaît qu'une fois qu'il y a un historique. */}
+          {data.recentActivities.length > 0 ? (
+            <Card>
             <CardHeader title="Activité récente" icon="fa-solid fa-clock-rotate-left" />
-            {data.recentActivities.length === 0 ? (
-              <EmptyState
-                icon="fa-regular fa-clock"
-                title="Aucune activité"
-                description="Vos quiz, téléchargements et remises de copies s'afficheront ici."
-              />
-            ) : null}
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
               {data.recentActivities.map((activity) => (
                 <li key={activity.id} className="history-row">
@@ -257,53 +302,15 @@ export function LearnerOverview() {
               ))}
             </ul>
           </Card>
-
-          <Card>
-            <CardHeader title="Mes classrooms" icon="fa-solid fa-chalkboard-user" action={<Link href="/dashboard/classrooms" className="link-primary" style={{ fontSize: "0.8rem" }}>Tout voir</Link>} />
-            {data.classrooms.length === 0 ? (
-              <EmptyState icon="fa-solid fa-chalkboard" title="Aucune classroom" description="Rejoignez un amphi avec le code fourni par votre enseignant." action={<Link href="/dashboard/classrooms" className="btn btn-primary btn-sm">Rejoindre un amphi</Link>} />
-            ) : (
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
-                {data.classrooms.slice(0, 3).map((classroom) => (
-                  <li key={classroom.id}>
-                    <Link
-                      href={`/dashboard/classrooms/${classroom.id}`}
-                      style={{
-                        display: "block",
-                        padding: 12,
-                        border: "1px solid var(--border)",
-                        borderRadius: "var(--r-md)",
-                        background: "var(--surface)",
-                        textDecoration: "none",
-                      }}
-                    >
-                      <div className="row-between">
-                        <span style={{ fontSize: "0.86rem", fontWeight: 700, color: "var(--text-1)" }}>{classroom.name}</span>
-                        <Badge tone="neutral">{classroom.studentsCount} inscrits</Badge>
-                      </div>
-                      <div style={{ fontSize: "0.74rem", color: "var(--text-2)", marginTop: 2 }}>
-                        {classroom.subject} · {classroom.teacherName}
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Card>
+          ) : null}
 
           <Card>
             <CardHeader title="Épreuves recommandées" icon="fa-solid fa-file-lines" action={<Link href="/dashboard/epreuves" className="link-primary" style={{ fontSize: "0.8rem" }}>Bibliothèque</Link>} />
             {data.recommendedExams.length === 0 ? (
-              <EmptyState
-                icon="fa-solid fa-folder-open"
-                title="Bibliothèque en préparation"
-                description="Les épreuves de votre faculté apparaîtront ici dès leur publication."
-                action={
-                  <Link href="/dashboard/epreuves" className="btn btn-ghost btn-sm">
-                    Ouvrir la bibliothèque
-                  </Link>
-                }
-              />
+              <p style={{ fontSize: "0.86rem", color: "var(--text-2)", lineHeight: 1.6 }}>
+                Le catalogue de votre faculté ouvrira avec ses premiers fichiers. Vous pouvez
+                dès maintenant proposer une épreuve.
+              </p>
             ) : null}
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
               {data.recommendedExams.map((exam) => (
@@ -325,6 +332,7 @@ export function LearnerOverview() {
             </ul>
           </Card>
         </div>
+        ) : null}
       </div>
     </div>
   );

@@ -8,51 +8,64 @@ export const metadata: Metadata = {
 
 const SECTIONS = [
   {
-    title: "1. Acceptation des conditions",
-    body: "En utilisant Campusly, vous acceptez les présentes conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser la plateforme.",
+    title: "Acceptation des conditions",
+    body: "En utilisant Campusly, vous acceptez les présentes conditions. Si vous ne les acceptez pas, n'utilisez pas la plateforme.",
   },
   {
-    title: "2. Utilisation du service",
-    body: "Campusly est destiné aux étudiants de l'Université d'Abomey-Calavi. Vous vous engagez à utiliser la plateforme uniquement à des fins académiques légitimes et à ne pas partager votre compte.",
+    title: "Utilisation du service",
+    body: "Campusly est destiné aux étudiants de l'Université d'Abomey-Calavi. La plateforme s'utilise à des fins académiques légitimes ; le compte est personnel.",
   },
   {
-    title: "3. Contenu et contributions",
-    body: "Les épreuves soumises doivent être des documents académiques légitimes. Tout contenu inapproprié, protégé par des droits d'auteur sans autorisation ou trompeur sera supprimé. Campusly se réserve le droit de modérer tout contenu soumis.",
+    title: "Contenu et contributions",
+    body: "Les épreuves soumises doivent être des documents académiques légitimes. Tout contenu inapproprié, protégé sans autorisation ou trompeur est retiré. La modération reste humaine.",
   },
   {
-    title: "4. Données personnelles",
-    body: "Nous collectons uniquement les données nécessaires au fonctionnement du service (matricule, faculté, historique d'utilisation). Ces données ne sont pas partagées avec des tiers. Vous pouvez demander la suppression de votre compte à tout moment.",
+    title: "Données personnelles",
+    body: "Seules les données nécessaires au fonctionnement sont collectées (matricule, faculté, historique d'utilisation). Vous pouvez demander la suppression de votre compte à tout moment.",
   },
   {
-    title: "5. Abonnement Premium",
-    body: "Les abonnements sont non remboursables une fois activés. En cas de problème technique, contactez le support.",
+    title: "Abonnement Premium",
+    body: "Les packs de crédits ne sont pas ouverts : aucun paiement n'est accepté dans cette version, et aucun tarif n'est publié.",
   },
   {
-    title: "6. Limitation de responsabilité",
-    body: "Campusly fournit les ressources « en l'état ». Nous ne garantissons pas l'exactitude ou l'exhaustivité des épreuves disponibles. L'utilisation de la plateforme est à vos propres risques.",
+    title: "Limitation de responsabilité",
+    body: "Campusly fournit les ressources « en l'état ». L'exactitude et l'exhaustivité des épreuves ne sont pas garanties.",
   },
-];
+] as const;
 
 export default function TermsPage() {
   return (
-    <div className="secondary-page" style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 800, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="card" style={{ padding: 40, marginBottom: 24 }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>Conditions d&apos;utilisation</h1>
-        <p style={{ color: "var(--text-3)", marginBottom: 32 }}>Dernière mise à jour : novembre 2026</p>
-        {SECTIONS.map((section) => (
-          <div key={section.title}>
-            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>{section.title}</h2>
-            <p style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 24 }}>{section.body}</p>
-          </div>
-        ))}
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>7. Contact</h2>
-        <p style={{ color: "var(--text-2)", lineHeight: 1.8 }}>
-          Pour toute question, utilisez la page{" "}
-          <Link href="/contribuer" style={{ color: "var(--brand-1)" }}>
-            Contribuer
-          </Link>
-          .
-        </p>
+    <div className="doc">
+      <div className="ed-rail">
+        <header className="doc__head">
+          <p className="ed-eyebrow">Conditions</p>
+          <h1 className="ed-display doc__title">
+            Conditions <em>d&apos;utilisation.</em>
+          </h1>
+          <p className="ed-note doc__date">Dernière mise à jour : novembre 2026</p>
+        </header>
+
+        <div className="doc__body">
+          {SECTIONS.map((section, index) => (
+            <section key={section.title}>
+              <h2>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                {section.title}
+              </h2>
+              <p>{section.body}</p>
+            </section>
+          ))}
+
+          <section>
+            <h2>
+              <span aria-hidden="true">07</span>
+              Contact
+            </h2>
+            <p>
+              Pour toute question, utilisez la page <Link href="/contribuer">Contribuer</Link>.
+            </p>
+          </section>
+        </div>
       </div>
     </div>
   );

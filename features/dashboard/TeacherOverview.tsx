@@ -100,7 +100,7 @@ export function TeacherOverview() {
                       border: "1px solid var(--border)",
                       background:
                         alert.tone === "warning"
-                          ? "rgba(245,124,0,0.08)"
+                          ? "rgba(254,132,21,0.08)"
                           : alert.tone === "danger"
                             ? "rgba(239,68,68,0.08)"
                             : "var(--surface)",
@@ -116,6 +116,14 @@ export function TeacherOverview() {
 
           <Card>
             <CardHeader title="Mes classes" icon="fa-solid fa-chalkboard" action={<Link href="/dashboard/classrooms" className="link-primary" style={{ fontSize: "0.8rem" }}>Gérer</Link>} />
+            {/* Aucune classe créée : afficher un tableau à en-têtes vides
+                laissait une grille fantôme sous « Aucune classe pour l'instant ». */}
+            {data.classes.length === 0 ? (
+              <EmptyState
+                title="Pas encore de classe"
+                description="Vos amphis apparaîtront ici avec leur effectif, leur moyenne et les rendus en attente."
+              />
+            ) : (
             <div className="table-wrap">
               <table className="data-table">
                 <caption className="sr-only" style={{ position: "absolute", left: -9999 }}>
@@ -146,6 +154,7 @@ export function TeacherOverview() {
                 </tbody>
               </table>
             </div>
+            )}
           </Card>
         </div>
 

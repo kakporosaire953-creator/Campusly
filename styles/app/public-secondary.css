@@ -59,7 +59,7 @@
   --border: rgba(18, 45, 69, 0.12);
   --border-2: rgba(18, 45, 69, 0.2);
 
-  /* Signal : le bleu `#1565C0` du gabarit applicatif reste utilisé pour les
+  /* Signal : le bleu `#0058BC` du gabarit applicatif reste utilisé pour les
      liens de contenu, mais pas pour les contours de formulaire. */
   --brand-1: #2a5cc4;
   --brand-2: #326de6;
@@ -77,4 +77,116 @@
   background: #ffffff !important;
   border-color: rgba(18, 45, 69, 0.22) !important;
   color: #122d45 !important;
+}
+
+/* ============================================================
+   PAGES DOCUMENTAIRES (KRAFTER-13)
+   ------------------------------------------------------------
+   « À propos » et « Conditions » abandonnent la carte blanche
+   posée sur le papier : une seule colonne de texte, un filet,
+   aucune icône décorative. Le rythme vient de l'espacement.
+
+   Portée : `.doc`, portée par ces deux pages uniquement.
+   ============================================================ */
+
+.doc {
+  padding-top: calc(var(--nav-h, 72px) + clamp(40px, 6vw, 84px));
+  padding-bottom: clamp(56px, 7vw, 104px);
+  color: var(--ink);
+}
+
+.doc__head {
+  padding-bottom: clamp(24px, 3vw, 40px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.doc__title {
+  margin-top: 14px;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  max-width: 24ch;
+}
+
+.doc__lede {
+  margin-top: 16px;
+  max-width: 56ch;
+}
+
+.doc__date {
+  margin-top: 14px;
+}
+
+.doc__body {
+  max-width: 68ch;
+  margin-top: clamp(28px, 3.6vw, 48px);
+}
+
+.doc__body section + section {
+  margin-top: clamp(28px, 3.4vw, 44px);
+}
+
+.doc__body h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  margin-bottom: 10px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.doc__body h2 span {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--signal);
+}
+
+.doc__body p {
+  font-family: var(--sans);
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.doc__body ul {
+  margin: 0;
+  padding-left: 1.1em;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+.doc__body li + li {
+  margin-top: 6px;
+}
+
+.doc__body a {
+  color: var(--signal-ink, #2a5cc4);
+  text-underline-offset: 2px;
+}
+
+.doc__faculties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-family: var(--mono) !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.08em;
+  color: var(--ink) !important;
+}
+
+/* Le formulaire de contribution garde sa structure : il prend seulement la
+   largeur de lecture et perd la carte blanche. */
+.doc__body--form {
+  max-width: 720px;
+}
+
+.doc__body--form .card {
+  border-radius: 2px;
+  box-shadow: none;
 }

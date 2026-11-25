@@ -3,10 +3,10 @@
 
 :root {
   --primary: #1E88E5;
-  --primary-dark: #1565C0;
+  --primary-dark: #0058BC;
   --primary-light: #E3F2FD;
-  --accent: #FF9800;
-  --accent-dark: #F57C00;
+  --accent: #FFA04D;
+  --accent-dark: #FE8415;
   --accent-light: #FFF3E0;
   --dark: #0D1B2A;
   --gray-900: #1a1a2e;
@@ -143,7 +143,7 @@ img { max-width: 100%; }
 .logo-icon {
   width: 34px;
   height: 34px;
-  background: #1565C0;
+  background: #0058BC;
   border-radius: 9px;
   display: flex;
   align-items: center;
@@ -464,7 +464,7 @@ img { max-width: 100%; }
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: #1565C0;
+  background: #0058BC;
   transform: scaleX(0);
   transition: var(--transition);
 }
@@ -614,7 +614,7 @@ img { max-width: 100%; }
 
 .step-number {
   width: 56px; height: 56px;
-  background: #1565C0;
+  background: #0058BC;
   color: var(--white);
   border-radius: 50%;
   display: flex;
@@ -623,7 +623,7 @@ img { max-width: 100%; }
   font-size: 1.3rem;
   font-weight: 800;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 16px rgba(21,101,192,0.3);
+  box-shadow: 0 4px 16px rgba(0,88,188,0.3);
 }
 
 .step-title {
@@ -640,7 +640,7 @@ img { max-width: 100%; }
 
 /* ===== CTA SECTION ===== */
 .cta-section {
-  background: #1565C0;
+  background: #0058BC;
   padding: 80px 5%;
   text-align: center;
   position: relative;

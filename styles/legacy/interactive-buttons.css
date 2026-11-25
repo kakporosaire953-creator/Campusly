@@ -41,19 +41,19 @@
 
 /* ── Bouton Primary avec couleur solide ── */
 .btn-primary {
-  background: #1565C0;
+  background: #0058BC;
   background-size: 200% 200%;
 }
 
 .btn-primary:hover {
   background: #0D47A1;
-  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 88, 188, 0.4);
 }
 
 /* ── Bouton Accent avec couleur solide ── */
 .btn-accent {
-  background: #F57C00;
-  box-shadow: 0 4px 16px rgba(245, 124, 0, 0.3);
+  background: #FE8415;
+  box-shadow: 0 4px 16px rgba(254, 132, 21, 0.3);
   position: relative;
 }
 
@@ -61,7 +61,7 @@
   content: '';
   position: absolute;
   inset: -2px;
-  background: #F57C00;
+  background: #FE8415;
   border-radius: inherit;
   opacity: 0;
   filter: blur(10px);
@@ -75,7 +75,7 @@
 
 .btn-accent:hover {
   background: #E65100;
-  box-shadow: 0 8px 32px rgba(245, 124, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(254, 132, 21, 0.5);
 }
 
 /* ── Bouton Ghost avec effet border ── */
@@ -91,7 +91,7 @@
   inset: 0;
   border-radius: inherit;
   padding: 2px;
-  background: #1565C0;
+  background: #0058BC;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -106,7 +106,7 @@
 
 .btn-ghost:hover {
   border-color: transparent;
-  color: #1565C0;
+  color: #0058BC;
 }
 
 /* ── Effet de chargement ── */
@@ -213,7 +213,7 @@
 
 /* ── Effet Shimmer (brillance) ── */
 .btn-shimmer {
-  background: #1565C0;
+  background: #0058BC;
 }
 
 /* ── Bouton avec badge ── */

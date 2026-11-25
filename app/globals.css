@@ -42,10 +42,14 @@
    Importée APRÈS les feuilles de thème : sur le gabarit public, le papier
    gagne ; sur les pages applicatives, ces règles ne s'appliquent pas. */
 @import "../styles/app/editorial.css";
-@import "../styles/app/editorial-home.css";
-@import "../styles/app/editorial-modules.css";
 /* Pages secondaires : ajustement minimal du gabarit public */
 @import "../styles/app/public-secondary.css";
 
 /* Mouvement : vocabulaire d'animation (Kraken), survols, bandeau défilant */
 @import "../styles/app/motion.css";
+
+/* Icônes servies par le site (Font Awesome 6.5.2, sous-ensemble) */
+@import "../styles/app/icons.css";
+
+/* Lecture : respiration de l'espace connecté et de la connexion */
+@import "../styles/app/reading.css";

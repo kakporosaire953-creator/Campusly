@@ -45,6 +45,19 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
   );
   const fullName = user ? `${user.prenom} ${user.nom}` : "Session locale";
 
+  /**
+   * Fil d'Ariane : il reprend le libellé de la page courante dans la
+   * navigation. Avant, il affichait « Tableau de bord » sur TOUTES les pages
+   * de l'espace — on ne savait pas où l'on se trouvait.
+   */
+  // On cherche dans TOUTE la navigation, y compris les entrées masquées pour
+  // le rôle courant : sans cela, `/enseignant` vu en rôle étudiant retombait
+  // sur « Vue d'ensemble », qui est faux.
+  const currentNav = appNav
+    .filter((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
+    .sort((a, b) => b.href.length - a.href.length)[0];
+  const pageLabel = currentNav?.label ?? breadcrumb ?? "Vue d'ensemble";
+
   const handleLogout = async () => {
     await logout();
     router.push("/auth");
@@ -172,7 +185,7 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
             <div className="header-breadcrumb">
               <i className="fa-solid fa-house" aria-hidden="true" style={{ fontSize: "0.75rem", color: "var(--text-3)" }} />
               <span style={{ color: "var(--text-3)" }}>/</span>
-              <span style={{ color: "var(--text-1)", fontWeight: 800 }}>{breadcrumb ?? "Tableau de bord"}</span>
+              <span style={{ color: "var(--text-1)", fontWeight: 700 }}>{pageLabel}</span>
             </div>
           </div>
 
@@ -180,7 +193,14 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
             <ThemeToggle compact />
             <CreditsPill />
             <NotificationBell />
-            <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Déconnexion" icon="fa-solid fa-arrow-right-from-bracket" />
+            <Button
+              variant="ghost"
+              size="sm"
+              iconOnly
+              label="Se déconnecter"
+              onClick={handleLogout}
+              icon="fa-solid fa-arrow-right-from-bracket"
+            />
           </div>
         </header>
 

@@ -5,8 +5,8 @@ import type { UserRole } from "@/types";
 type Tone = "brand" | "accent" | "success" | "danger" | "neutral";
 
 const TONES: Record<Tone, { background: string; color: string; border: string }> = {
-  brand: { background: "rgba(21,101,192,0.1)", color: "var(--brand-1)", border: "rgba(21,101,192,0.25)" },
-  accent: { background: "rgba(245,124,0,0.12)", color: "var(--accent)", border: "rgba(245,124,0,0.3)" },
+  brand: { background: "rgba(0,88,188,0.1)", color: "var(--brand-1)", border: "rgba(0,88,188,0.25)" },
+  accent: { background: "rgba(254,132,21,0.12)", color: "var(--accent)", border: "rgba(254,132,21,0.3)" },
   success: { background: "rgba(16,185,129,0.12)", color: "var(--success)", border: "rgba(16,185,129,0.3)" },
   danger: { background: "rgba(239,68,68,0.12)", color: "var(--danger)", border: "rgba(239,68,68,0.3)" },
   neutral: { background: "var(--surface-2)", color: "var(--text-2)", border: "var(--border)" },

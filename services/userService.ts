@@ -107,6 +107,8 @@ class UserService {
       ) ?? 0,
     }));
 
+    const pendingReviews = copies.filter((copy) => copy.validation === "pending_review").length;
+
     return {
       user: session.user,
       classes,
@@ -114,22 +116,40 @@ class UserService {
         students: classrooms.reduce((sum, classroom) => sum + classroom.studentsCount, 0),
         activeClassrooms: classrooms.length,
         compositionsLive: compositions.filter((item) => item.status === "live").length,
-        pendingReviews: copies.filter((copy) => copy.validation === "pending_review").length,
+        pendingReviews,
       },
-      alerts: [
-        {
-          id: "alert-1",
-          title: "Devoir #2 — Algorithmes gloutons",
-          message: "41 rendus sur 68 attendus, échéance le 8 novembre.",
-          tone: "warning",
-        },
-        {
-          id: "alert-2",
-          title: "Copies à valider",
-          message: "Des copies corrigées automatiquement attendent votre validation.",
-          tone: "info",
-        },
-      ],
+      // Les alertes sont DÉRIVÉES de l'état réel de l'espace : une classe
+      // annoncée « aucune » ne peut pas afficher en même temps un devoir
+      // nominatif avec 41 rendus sur 68. Sans classe ni copie, il n'y a rien
+      // à signaler — et on le dit.
+      alerts:
+        classrooms.length === 0
+          ? []
+          : [
+              ...(pendingReviews > 0
+                ? [
+                    {
+                      id: "alert-copies",
+                      title: "Copies à valider",
+                      message: `${pendingReviews} copie${pendingReviews > 1 ? "s" : ""} corrigée${
+                        pendingReviews > 1 ? "s" : ""
+                      } automatiquement attend${pendingReviews > 1 ? "ent" : ""} votre validation.`,
+                      tone: "info" as const,
+                    },
+                  ]
+                : []),
+              ...classes
+                .filter((entry) => entry.pendingSubmissions > 0)
+                .slice(0, 2)
+                .map((entry) => ({
+                  id: `alert-${entry.classroom.id}`,
+                  title: entry.classroom.name,
+                  message: `${entry.pendingSubmissions} rendu${
+                    entry.pendingSubmissions > 1 ? "s" : ""
+                  } en attente de correction.`,
+                  tone: "warning" as const,
+                })),
+            ],
       recentCopies: copies.slice(0, 4).map((copy) => ({
         id: copy.id,
         studentName: copy.studentName,

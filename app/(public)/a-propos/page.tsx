@@ -8,80 +8,77 @@ export const metadata: Metadata = {
   description: "La mission de Campusly : centraliser les ressources académiques de l'UAC.",
 };
 
+/** Les fonctions réellement disponibles, sans les annonces en préparation. */
+const OFFERS = [
+  "Les annales classées par faculté, département, niveau et année.",
+  "Un espace de cours par matière, ouvert par un code d'amphi.",
+  "Des entraînements corrigés localement, avec les notions à revoir.",
+];
+
 export default function AboutPage() {
   return (
-    <div className="secondary-page" style={{ paddingTop: 88, minHeight: "100vh", maxWidth: 800, margin: "0 auto", paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="card" style={{ padding: 40, marginBottom: 24 }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "var(--text-1)", marginBottom: 8 }}>À propos de Campusly</h1>
-        <p style={{ color: "var(--text-3)", marginBottom: 32 }}>La plateforme académique des étudiants de l&apos;UAC</p>
+    <div className="doc">
+      <div className="ed-rail">
+        <header className="doc__head">
+          <p className="ed-eyebrow">Le projet</p>
+          <h1 className="ed-display doc__title">
+            À propos <em>de Campusly.</em>
+          </h1>
+          <p className="ed-lede doc__lede">
+            Centraliser les ressources académiques de l&apos;UAC, et les rendre utilisables
+            depuis un seul endroit.
+          </p>
+        </header>
 
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>Notre mission</h2>
-        <p style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 16 }}>
-          Campusly est née d&apos;un constat simple : les étudiants de l&apos;Université d&apos;Abomey-Calavi (UAC)
-          au Bénin manquent d&apos;accès facile aux ressources académiques. Anciennes épreuves, supports de cours,
-          outils de révision — tout est dispersé et difficile à trouver.
-        </p>
-        <p style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 24 }}>
-          Notre mission est de centraliser ces ressources et de les rendre accessibles à tous les étudiants de
-          l&apos;UAC, quelle que soit leur faculté.
-        </p>
+        <div className="doc__body">
+          <section>
+            <h2>Pourquoi</h2>
+            <p>
+              Les épreuves, les supports de cours et les corrections existent déjà : ils circulent
+              dans des groupes de messagerie, sur des clés USB et dans des dossiers partagés qui
+              finissent par se perdre. Campusly les range selon la logique des maquettes de
+              l&apos;université, pour qu&apos;un étudiant de première année trouve la même chose
+              qu&apos;un étudiant de cinquième.
+            </p>
+          </section>
 
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>Ce que nous offrons</h2>
-        <ul style={{ color: "var(--text-2)", lineHeight: 2, marginBottom: 24, paddingLeft: 20 }}>
-          <li>
-            <i className="fa-solid fa-book" aria-hidden="true" /> Bibliothèque d&apos;anciennes épreuves classées
-            par faculté, département et année
-          </li>
-          <li>
-            <i className="fa-solid fa-robot" aria-hidden="true" /> Révision assistée par IA avec quiz personnalisés
-          </li>
-          <li>
-            <i className="fa-solid fa-chart-bar" aria-hidden="true" /> Suivi de progression et statistiques personnelles
-          </li>
-          <li>
-            <i className="fa-solid fa-handshake" aria-hidden="true" /> Plateforme de contribution communautaire
-          </li>
-          <li>
-            <i className="fa-solid fa-mobile-screen" aria-hidden="true" /> Interface mobile installable (PWA)
-          </li>
-        </ul>
+          <section>
+            <h2>Ce que la plateforme fait aujourd&apos;hui</h2>
+            <ul>
+              {OFFERS.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
 
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12 }}>Facultés couvertes</h2>
-        <p style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 24 }}>
-          {FACULTIES.map((faculty) => faculty.code).join(" · ")}
-        </p>
+          <section>
+            <h2>Facultés couvertes</h2>
+            <p className="doc__faculties">
+              {FACULTIES.map((faculty) => (
+                <span key={faculty.code}>{faculty.code}</span>
+              ))}
+            </p>
+          </section>
 
-        <h2
-          id="demonstration"
-          style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12, scrollMarginTop: 96 }}
-        >
-          État actuel : version de préfiguration
-        </h2>
-        <p style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 12 }}>
-          Cette version présente l&apos;interface complète de Campusly avec des{" "}
-          <strong>données fictives</strong>. Les épreuves, classrooms, compositions, crédits et
-          notifications servent à parcourir les écrans ; rien n&apos;est enregistré sur un serveur.
-        </p>
-        <ul style={{ color: "var(--text-2)", lineHeight: 1.8, marginBottom: 24, paddingLeft: 20 }}>
-          <li>Aucun téléchargement de PDF n&apos;est proposé : la bibliothèque s&apos;ouvrira avec ses fichiers.</li>
-          <li>Aucun paiement n&apos;est accepté : ni Mobile Money, ni carte, ni page FedaPay.</li>
-          <li>Les réponses de l&apos;assistant IA proviennent d&apos;une banque locale.</li>
-          <li>Les remises de copies et les décisions d&apos;administration restent dans le navigateur.</li>
-        </ul>
+          <section id="demonstration">
+            <h2>État actuel : préfiguration</h2>
+            <p>
+              Cette version présente l&apos;interface complète avec des données fictives. Rien
+              n&apos;est enregistré sur un serveur. La génération de questions n&apos;est pas
+              ouverte, aucun paiement n&apos;est accepté, et la bibliothèque ouvrira avec ses
+              premiers fichiers.
+            </p>
+          </section>
 
-        <h2
-          id="contact"
-          style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 12, scrollMarginTop: 96 }}
-        >
-          Contact
-        </h2>
-        <p style={{ color: "var(--text-2)", lineHeight: 1.8 }}>
-          Pour toute question ou suggestion, écrivez-nous via la page{" "}
-          <Link href="/contribuer" style={{ color: "var(--brand-1)" }}>
-            Contribuer
-          </Link>{" "}
-          ou à <a href={`mailto:${siteConfig.supportEmail}`} style={{ color: "var(--brand-1)" }}>{siteConfig.supportEmail}</a>.
-        </p>
+          <section id="contact">
+            <h2>Contact</h2>
+            <p>
+              Une question, une suggestion, un partenariat d&apos;établissement&nbsp;: écrivez à{" "}
+              <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a> ou passez
+              par la page <Link href="/contribuer">Contribuer</Link>.
+            </p>
+          </section>
+        </div>
       </div>
     </div>
   );

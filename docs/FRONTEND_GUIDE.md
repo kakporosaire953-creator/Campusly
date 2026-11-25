@@ -32,7 +32,7 @@ fonctionne **sans backend**, entièrement à partir de données de démonstratio
 │   ├── ui/                 # Button, Card, Badge, Progress, States, Modal, Field, PageHeader, Toast
 │   ├── layout/             # SiteHeader, SiteFooter, AppShell
 │   ├── navigation/         # RoleSwitcher, CreditsPill, NotificationBell
-│   └── shared/             # AppProviders, HeroPreview, FaqSection, LegacyHashRedirect
+│   └── shared/             # AppProviders, HeroPreview, ThemeToggle, CampuslyLogo
 ├── features/               # logique d'interface par domaine
 ├── services/               # accès aux données (seul point d'entrée : services/index.ts)
 ├── types/                  # contrats TypeScript (source de vérité)
@@ -108,15 +108,20 @@ app → features → services → types
 | Périmètre | Palette | Source |
 | --- | --- | --- |
 | Accueil public (et pages légales du gabarit public) | `--paper #F4F1E9`, `--ink #122D45`, `--signal #326DE6`, `--ember #E77D43` | `styles/app/editorial.css` |
-| Application (`/dashboard`, `/auth`, `/examen`…) | `--brand-1 #1565C0`, `--brand-2 #42A5F5`, `--accent #F57C00`, `--accent-2 #FF9800` | `styles/legacy/modern.css` |
+| Application (`/dashboard`, `/auth`, `/examen`, `/onboarding`…) | `--brand-1 #0058BC`, `--brand-2 #3D84DD`, `--accent #FE8415`, `--accent-2 #FFA04D` | `styles/legacy/modern.css` + `styles/app/reading.css` |
 
-Le bleu et l'orange historiques **restent** ceux de l'application : la refonte ne
-touche pas aux écrans de travail, seulement à la vitrine. Le logo (chapeau SVG
-bleu) est conservé tel quel.
+Depuis KRAFTER-14, **une seule palette** pour tout le site : `#0058BC` et
+`#FE8415`, ceux du logo. Les anciennes teintes `#1565C0` / `#F57C00` ont été
+remplacées dans toutes les feuilles (y compris `legacy/`), et leurs `rgba()`
+équivalents réécrits. L'espace connecté, `/auth` et `/onboarding` ont reçu la
+même tenue que le public : filets d'un pixel, rayons de 2-3 px, aucun fond
+dégradé, aucune nappe floutée.
 
-Typographie : **Fraunces** (serif éditoriale, titres de l'accueil) +
-**Manrope** (texte et interface, §5 bis) + JetBrains Mono (numéros, données
-techniques). Icônes : Font Awesome 6 (CDN).
+Typographie : **Fraunces** (serif éditoriale, titres de l'accueil et des cartes)
++ **Manrope** (texte et interface, §5 bis) + JetBrains Mono (numéros, données
+techniques). Icônes : **Font Awesome 6.5.2, servi par le site** (`public/fonts/fa/`
++ `styles/app/icons.css`, 120 Ko). Le `<link>` CDN a été retiré : sans lui, toutes
+les icônes de l'application disparaissaient silencieusement.
 
 ### 3.1 Ce qui peut être corrigé
 
@@ -128,10 +133,10 @@ techniques). Icônes : Font Awesome 6 (CDN).
 
 ### 3.2 Ce qui ne doit pas changer
 
-Logo au chapeau, nom des fonctions, ton des textes, conventions de navigation,
-palette de l'application (`#1565C0` / `#F57C00`). La mise en page de l'accueil
-est, elle, pilotée par les couches `editorial-*.css` (§5 quinquies) ; `/auth` et
-l'espace connecté gardent leur mise en page et leurs tokens.
+Logo au chapeau, nom des fonctions, ton des textes, conventions de navigation.
+La palette est unique (`#0058BC` / `#FE8415`) et ne se discute plus : c'est celle
+du logo. La mise en page de l'accueil est pilotée par `editorial.css` (§5
+quinquies) ; l'espace connecté par `reading.css`.
 
 ### 3.3 Couches de composition (ajoutées par-dessus le legacy)
 
@@ -139,17 +144,20 @@ l'espace connecté gardent leur mise en page et leurs tokens.
 | --- | --- | --- |
 | `styles/app/site-chrome.css` | toutes les pages publiques | masthead `.site-nav` (voile de papier sur le hero, resserrée au défilement) et colophon `.site-footer` |
 | `styles/app/editorial.css` | accueil public | **fondations** : jetons papier/encre/signal, typographie éditoriale, boutons, micro-détails, chapitres |
-| `styles/app/editorial-home.css` | accueil public | **composition** des neuf séquences (ouverture, manifeste, dossiers, frise, colophon) |
-| `styles/app/editorial-modules.css` | accueil public | **modules simulés** : fragments d'interface, séquence Campusly AI, FAQ animée |
+| `styles/app/reading.css` | espace connecté (`/dashboard`, `/enseignant`, `/admin`) et `/auth` | **tenue** : rythme, surfaces, barre latérale, bandeau, boutons icône, tableaux, onglets |
+| `styles/app/exam-room.css` | `/examen/[code]` | **tenue** de la salle d'examen (barre, minuteur, panneaux, consignes) |
+| `styles/app/icons.css` | tout le site | Font Awesome 6.5.2 (solid + regular) servi localement, glyphes limités |
 | `styles/app/auth.css` | `/auth` + `/onboarding` | fiche d'authentification minimaliste |
 
-Depuis la refonte éditoriale (KRAFTER-11), `styles/app/landing.css` est
-**retirée** : remplacée par `editorial-*.css`.
+Depuis KRAFTER-13, `styles/app/landing.css`, `editorial-home.css` et
+`editorial-modules.css` sont **retirées** : l'accueil tient dans
+`editorial.css`.
 
-`styles/app/theme.css` (verre, fond liquide) et `styles/legacy/theme-dark.css`
-restent importés : **l'espace applicatif et `/auth` n'ont pas changé d'aspect**.
-Sous le gabarit public, la couche éditoriale les neutralise — papier ivoire,
-`.liquid-bg` masqué, colophon en encre pleine (voir `editorial.css` §0).
+`styles/app/theme.css` ne porte plus que les tokens clair / sombre et
+l'habillage des modales et menus : le fond « liquide » (quatre nappes floues
+animées) et son composant `LiquidBackground` ont été **supprimés** en KRAFTER-14.
+Sous le gabarit public, la couche éditoriale fige le papier — colophon en encre
+pleine (voir `editorial.css` §0).
 
 Les composants du registre précédent (`SectionHead`, `HeroComposition`,
 `AiSequence`, `AppFragments`, `Doodles`, `LiquidBackground`) sont supprimés ; les
@@ -198,11 +206,13 @@ remplaçants vivent dans `components/editorial/`.
 | Étudiant | Rosaire Kakpo · matricule `23180001` · FAST · compteurs à zéro |
 | Enseignant | Komlan Agboton · profil local |
 | Admin | Aline Sossou |
-| Codes de composition | aucun : les compositions ne sont pas encore ouvertes |
+| Composition de démonstration | code **`DEMO26`** → `/examen/DEMO26` (5 questions d'algorithmique L2, titre explicitement marqué « Démonstration ») |
 | Codes classroom | aucun : les classes sont celles que vous créez |
 
 Aucune donnée d'activité n'est pré-remplie. Une page sans contenu réel affiche un état
-vide qui explique ce qui la remplira — jamais un chiffre décoratif.
+vide qui explique ce qui la remplira — jamais un chiffre décoratif. Les alertes de
+l'espace enseignant sont **dérivées** de l'état réel (aucune classe = aucune alerte) :
+voir `services/userService.ts`, `getTeacherDashboard`.
 
 ---
 
@@ -211,11 +221,10 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
 - `components/shared/ThemeProvider.tsx` : préférence `campusly.theme`, attribut
   `data-theme` sur `<html>`, classe historique `theme-light` maintenue. Un script
   inline dans `app/layout.tsx` applique le thème avant le premier rendu (pas de flash).
-- **Le verre et le fond liquide sont neutralisés sur le gabarit public**
-  (`.liquid-bg { display: none }`, colophon en encre pleine, surfaces planes :
-  un filet d'1 px, pas de flou ni d'ombre portée). Ils **restent actifs dans
-  l'application** : `theme.css` est toujours importé et `LiquidBackground` est
-  toujours monté à la racine.
+- **Le fond liquide n'existe plus** (KRAFTER-14) : ni composant, ni CSS. Tout le
+  site, public comme connecté, est en surfaces planes — un filet d'1 px, pas de
+  flou ni d'ombre portée. `theme.css` ne décrit plus que les deux thèmes et
+  l'habillage des modales et menus.
 - Images : `public/images/*.jpg`, affichées via `next/image`. Ce sont des
   **visuels d'illustration** (et non des photographies documentaires du campus) :
   les légendes de l'accueil le disent explicitement.
@@ -226,8 +235,9 @@ vide qui explique ce qui la remplira — jamais un chiffre décoratif.
   - **Manrope** (`400..800`) : texte courant, interface, étiquettes. C'est la
     police du site Kraken de Hustler Labs, conservée pour la lisibilité et pour
     l'identité déjà installée. Les trois rôles historiques pointent toujours
-    dessus (`--font-editorial`, `--font-label`, `--font-sans`) : les pages qui ne
-    sont pas l'accueil ne changent pas d'un pixel.
+    dessus (`--font-editorial`, `--font-label`, `--font-sans`) : tout le site
+    parle la même langue typographique. Fraunces porte aussi les titres de
+    l'espace connecté (titres de page et de carte), Manrope le reste.
 - Fraunces est une police variable à axe optique : `font-optical-sizing: auto`
   et `font-variation-settings: "SOFT" 0, "WONK" 1` donnent le rendu « presse »
   sans emballer de fichier local (OFL, servie par Google Fonts).
@@ -301,16 +311,15 @@ ces jetons : aucune couleur en dur, aucune nouvelle famille.
 
 | Composant | Fichier | Rôle |
 | --- | --- | --- |
-| `Chapter` / `Marker` | `components/editorial/Chapter.tsx` | en-tête de chapitre (index, libellé, filet, note) et intertitre de colonne |
 | `Asterisk`, `Ruler`, `Cross`, `LongArrow` | `components/editorial/Marks.tsx` | quatre marques géométriques ; remplacent les doodles |
-| `FragLibrary`, `FragClassroom`, `FragQuiz`, `FragProgress`, `FragComposition`, `FragTeacher`, `AiTrail` | `components/editorial/PaperFragments.tsx` | aperçus d'interface et démonstrateur AI |
-| `HeroEditorial` | `components/editorial/Hero.tsx` | séquence 01 |
+| `HeroEditorial` | `components/editorial/Hero.tsx` | ouverture de l'accueil |
 
-**Règle des fragments** : un fragment reproduit la *structure* d'un écran réel
-(recherche, filtres, ligne de document, question, chronomètre) et laisse les
-valeurs en pointillés (`.ed-ph`). Il ne porte jamais un faux chiffre, un faux
-titre d'épreuve, un faux nom d'étudiant ou une fausse note. Sa barre de titre dit
-« Aperçu d'interface ».
+Depuis la refonte resserrée (KRAFTER-13), l'accueil tient en quatre séquences :
+ouverture, fonctions disponibles, Campusly AI, compositions, questions. Les
+composants de mise en scène — `Chapter` / `Marker`, `PaperFragments` (aperçus
+d'interface), `LegacyAnchors`, l'ancienne `FaqSection` à filtres — ont été
+supprimés avec les séquences qu'ils servaient : ils n'avaient plus d'usage et
+représentaient 3 700 lignes de styles.
 
 ### 5 quinquies.4 Destinations conservées
 
@@ -454,14 +463,16 @@ manuellement et listé dans la section 8.
 | Démarrage | `npm run dev` / `npm run start` | OK |
 | Build de production | `npm run build` | 26 routes générées |
 | Types | `npx tsc --noEmit` | 0 erreur |
-| Tests | `npm run test` | 33/33 |
+| Tests | `npm run test` | 43/43 |
 | Accessibilité des routes | `curl` sur les 23 routes principales | 200, 404 sur route inconnue |
+| Débordements (KRAFTER-14) | Playwright : 23 routes × 1440 / 1024 / 390 px, mesure de `scrollWidth > clientWidth` sur **chaque** élément | 0 débordement, 0 erreur JS |
+| Salle d'examen (KRAFTER-14) | Playwright : parcours complet `/examen/DEMO26` (4 étapes puis salle live) en 1440 et 390 px | OK, aucune erreur JS |
 | Redirections historiques | `curl /index.html`, `/dashboard.html`, `/epreuves.html`, `/exam-room.html`, `/offline.html` | 308 vers les nouvelles routes |
 | Absence de Supabase | `grep -ri supabase app components features services types` | aucune référence dans le code du frontend |
 | Absence de secret | inspection de la racine du dépôt | aucune clé, aucun `.env` |
 
-Les tests ne couvrent pas le rendu visuel pixel à pixel : aucune capture automatisée
-n'est réalisée dans cet environnement.
+Les tests ne couvrent pas le rendu visuel pixel à pixel. Les mesures ci-dessus
+sont faites au navigateur (Chromium + Playwright), pas au jugé.
 
 ---
 

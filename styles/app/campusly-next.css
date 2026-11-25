@@ -9,7 +9,7 @@
 
 /* ── Accessibilité : focus visible et lien d'évitement ─────── */
 :focus-visible {
-  outline: 3px solid rgba(21, 101, 192, 0.55);
+  outline: 3px solid rgba(0, 88, 188, 0.55);
   outline-offset: 2px;
   border-radius: var(--r-sm);
 }
@@ -49,8 +49,8 @@
   gap: 10px;
   flex-wrap: wrap;
   padding: 8px 16px;
-  background: rgba(245, 124, 0, 0.1);
-  border-bottom: 1px solid rgba(245, 124, 0, 0.28);
+  background: rgba(254, 132, 21, 0.1);
+  border-bottom: 1px solid rgba(254, 132, 21, 0.28);
   color: var(--text-2);
   font-size: 0.78rem;
   font-weight: 600;
@@ -77,8 +77,8 @@
   gap: 4px;
   padding: 2px 8px;
   border-radius: var(--r-full);
-  background: rgba(245, 124, 0, 0.12);
-  border: 1px solid rgba(245, 124, 0, 0.3);
+  background: rgba(254, 132, 21, 0.12);
+  border: 1px solid rgba(254, 132, 21, 0.3);
   color: var(--accent);
   font-size: 0.68rem;
   font-weight: 800;
@@ -140,7 +140,7 @@
   justify-content: center;
   font-size: 1.9rem;
   margin: 0 auto 18px;
-  background: rgba(21, 101, 192, 0.1);
+  background: rgba(0, 88, 188, 0.1);
   color: var(--brand-1);
 }
 .state-card h3 {
@@ -430,7 +430,7 @@
 .chip.active {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(245, 124, 0, 0.1);
+  background: rgba(254, 132, 21, 0.1);
 }
 
 /* Encart d'avertissement « démonstration » dans les cartes */
@@ -447,8 +447,8 @@
   align-items: flex-start;
   padding: 10px 12px;
   border-radius: var(--r-md);
-  border: 1px dashed rgba(245, 124, 0, 0.4);
-  background: rgba(245, 124, 0, 0.07);
+  border: 1px dashed rgba(254, 132, 21, 0.4);
+  background: rgba(254, 132, 21, 0.07);
   font-size: 0.76rem;
   color: var(--text-2);
   line-height: 1.5;
@@ -584,7 +584,7 @@
   margin-top: 12px;
   padding: 10px 14px;
   border-left: 3px solid var(--accent);
-  background: rgba(245, 124, 0, 0.08);
+  background: rgba(254, 132, 21, 0.08);
   border-radius: 0 var(--r-md) var(--r-md) 0;
   font-size: 0.79rem;
   line-height: 1.55;
@@ -595,8 +595,8 @@
 .contribution-notice {
   margin-bottom: 16px;
   padding: 12px 14px;
-  border: 1px solid rgba(245, 124, 0, 0.32);
-  background: rgba(245, 124, 0, 0.08);
+  border: 1px solid rgba(254, 132, 21, 0.32);
+  background: rgba(254, 132, 21, 0.08);
   border-radius: var(--r-md);
   font-size: 0.79rem;
   line-height: 1.55;
@@ -667,7 +667,7 @@
 .learning-step.current {
   color: var(--text-1);
   border-color: var(--brand-1);
-  background: rgba(21, 101, 192, 0.08);
+  background: rgba(0, 88, 188, 0.08);
 }
 
 .revision-step-title {

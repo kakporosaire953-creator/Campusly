@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "@/styles/legacy/pages/politique.css";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -9,10 +8,16 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="policy-main">
-      <h1 className="policy-title">Politique de confidentialité</h1>
-      <div className="policy-content">
-        <p>Dernière mise à jour : novembre 2026</p>
+    <div className="doc">
+      <div className="ed-rail">
+        <header className="doc__head">
+          <p className="ed-eyebrow">Données personnelles</p>
+          <h1 className="ed-display doc__title">
+            Politique <em>de confidentialité.</em>
+          </h1>
+          <p className="ed-note doc__date">Dernière mise à jour : novembre 2026</p>
+        </header>
+        <div className="doc__body">
 
         <h2>1. Données collectées</h2>
         <p>Campusly collecte les informations suivantes lors de votre inscription et de l&apos;utilisation du service :</p>
@@ -53,11 +58,12 @@ export default function PrivacyPage() {
         <h2>5. Nous contacter</h2>
         <p>
           Pour toute question concernant vos données, écrivez à{" "}
-          <a href={`mailto:${siteConfig.supportEmail}`} style={{ color: "var(--brand-1)" }}>
+          <a href={`mailto:${siteConfig.supportEmail}`}>
             {siteConfig.supportEmail}
           </a>{" "}
           ou via WhatsApp au {siteConfig.whatsapp}.
         </p>
+        </div>
       </div>
     </div>
   );

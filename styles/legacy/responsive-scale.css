@@ -574,7 +574,7 @@ p, .hero-desc, .section-desc, .feature-desc, .pillar-desc {
 }
 
 .dash-bento-card:hover {
-  border-color: rgba(21, 101, 192, 0.3);
+  border-color: rgba(0, 88, 188, 0.3);
   box-shadow: var(--shadow-md);
 }
 
