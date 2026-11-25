@@ -220,5 +220,247 @@
     "terms": "Terms of use",
     "support": "Support",
     "base": "© 2026 Campusly — Benin"
+  },
+  "app": {
+    "navOverview": "Overview",
+    "navRevision": "Campusly AI & Quizzes",
+    "navClassrooms": "Lecture-hall classrooms",
+    "navCompositions": "Timed tests",
+    "navExams": "Past papers & archives",
+    "navForum": "Forum & peer help",
+    "navCredits": "Campusly Credits",
+    "navTeacher": "Teaching area",
+    "navAdmin": "Admin panel",
+    "navNotifications": "Notifications",
+    "navSubscription": "Subscription",
+    "navProfile": "My profile",
+    "navSettings": "Settings",
+    "navHome": "Public home",
+    "myAccount": "My account",
+    "roleLearner": "UAC student",
+    "roleTeacher": "Lecturer",
+    "roleAdmin": "Administrator",
+    "roleGuest": "Guest",
+    "sidebarLabel": "Workspace navigation",
+    "mainMenuLabel": "Main menu",
+    "openNav": "Open navigation",
+    "closeMenu": "Close menu",
+    "logout": "Sign out",
+    "logoutShort": "Sign out",
+    "homeLabel": "Campusly — home",
+    "sessionLocal": "Local session",
+    "genericError": "Something went wrong. Please try again.",
+    "languageChanged": "Interface language: {language}. Your choice is stored on this device and does not change your course content.",
+    "appearanceChanged": "Appearance: {appearance}. Your choice is stored on this device."
+  },
+  "pages": {
+    "notice": "The French version of this document is authoritative. Other languages are provided for comprehension.",
+    "aboutEyebrow": "The project",
+    "aboutTitle": "About Campusly.",
+    "aboutTitleAccent": "Campusly.",
+    "aboutLede": "Bringing UAC's academic resources together and making them usable from a single place.",
+    "aboutWhyTitle": "Why",
+    "aboutWhyBody": "Past papers, lecture handouts and model answers already exist: they circulate in messaging groups, on USB sticks and in shared folders that eventually get lost. Campusly files them the way the university's own programme structure does, so a first-year student finds the same thing as a fifth-year student.",
+    "aboutOffersTitle": "What the platform does today",
+    "aboutOffer1": "Past papers sorted by faculty, department, level and year.",
+    "aboutOffer2": "One course space per subject, opened with a lecture-hall code.",
+    "aboutOffer3": "Practice sets marked on your own device, with the topics to revise.",
+    "aboutFacultiesTitle": "Faculties covered",
+    "aboutStateTitle": "Current status: preview",
+    "aboutStateBody": "This version shows the complete interface with sample data. Nothing is stored on a server. Question generation is not open, no payment is accepted, and the library will open with its first files.",
+    "aboutContactTitle": "Contact",
+    "aboutContactBody": "A question, a suggestion, an institutional partnership: write to us or use the Contribute page.",
+    "contributeEyebrow": "Library",
+    "contributeTitle": "Contribute to Campusly.",
+    "contributeTitleAccent": "to Campusly.",
+    "contributeLede": "Missing a past paper, a tutorial sheet or a model answer? Submit it: every document is reviewed before publication, then filed under its faculty, level and year. You can be credited by name.",
+    "legal": {
+      "updated": "Last updated: November 2026",
+      "termsEyebrow": "Terms",
+      "termsTitle": "Terms of use.",
+      "termsTitleAccent": "of use.",
+      "terms": [
+        {
+          "title": "Acceptance of these terms",
+          "body": "By using Campusly you accept these terms. If you do not accept them, do not use the platform."
+        },
+        {
+          "title": "Use of the service",
+          "body": "Campusly is intended for students of the University of Abomey-Calavi. The platform is to be used for legitimate academic purposes; accounts are personal."
+        },
+        {
+          "title": "Content and contributions",
+          "body": "Submitted past papers must be legitimate academic documents. Any inappropriate, unauthorised or misleading content is removed. Moderation remains human."
+        },
+        {
+          "title": "Personal data",
+          "body": "Only the data needed to operate the platform is collected (student number, faculty, usage history). You may request deletion of your account at any time."
+        },
+        {
+          "title": "Premium subscription",
+          "body": "Credit packs are not open: no payment is accepted in this version and no price is published."
+        },
+        {
+          "title": "Limitation of liability",
+          "body": "Campusly provides resources as they are. The accuracy and completeness of past papers are not guaranteed."
+        }
+      ],
+      "termsContactTitle": "Contact",
+      "termsContactBody": "For any question, use the page",
+      "privacyEyebrow": "Personal data",
+      "privacyTitle": "Privacy policy.",
+      "privacyTitleAccent": "policy.",
+      "privacy": [
+        {
+          "title": "1. Data collected",
+          "intro": "Campusly collects the following information when you register and use the service:",
+          "items": [
+            {
+              "lead": "Identity information:",
+              "text": " surname, first name, email address."
+            },
+            {
+              "lead": "Academic information:",
+              "text": " UAC student number, faculty and department."
+            },
+            {
+              "lead": "Usage data:",
+              "text": " quiz history, progress, papers viewed and forum messages."
+            }
+          ]
+        },
+        {
+          "title": "2. How your data is used",
+          "intro": "Your data is used exclusively to:",
+          "items": [
+            {
+              "text": "Personalise your experience (past-paper suggestions from your faculty)."
+            },
+            {
+              "text": "Track your academic progress in the dashboard."
+            },
+            {
+              "text": "Manage your subscription and payments through our partner FedaPay."
+            }
+          ]
+        },
+        {
+          "title": "3. Protection and security",
+          "items": [
+            {
+              "text": "Passwords are hashed server-side. No personal data is resold. In this current version, no data leaves your browser: what you enter stays in local storage and can be erased at any time from the settings."
+            }
+          ]
+        },
+        {
+          "title": "4. Your rights",
+          "items": [
+            {
+              "text": "You have the right to access, correct and delete your data. Account deletion will be available from the dashboard settings."
+            }
+          ]
+        },
+        {
+          "title": "5. Contacting us",
+          "items": [
+            {
+              "text": "For any question about your data, email us or reach us on WhatsApp."
+            }
+          ]
+        }
+      ]
+    },
+    "system": {
+      "notFoundTitle": "Page not found",
+      "notFoundBody": "This page does not exist or has been moved. Go back to the home page to continue revising.",
+      "backHome": "Back to home",
+      "browseExams": "Browse past papers",
+      "offlineTitle": "You are offline",
+      "offlineBody": "Campusly cannot be reached. Check your internet connection to keep revising.",
+      "retry": "Try again",
+      "offlineTips": "Tips",
+      "offlineTip1": "Check your Wi-Fi or mobile data connection",
+      "offlineTip2": "Turn off airplane mode if it is on",
+      "offlineTip3": "Your local data stays in the browser",
+      "authTitle": "Sign in & register",
+      "authLoading": "Loading the sign-in form…"
+    }
+  },
+  "auth": {
+    "eyebrowLogin": "Personal space",
+    "eyebrowRegister1": "Create an account · step 1",
+    "eyebrowRegister2": "Create an account · step 2",
+    "titleLogin": "Sign in",
+    "titleIdentity": "Who you are",
+    "titleProgram": "Your programme",
+    "subLogin": "Find your resources, your practice sets and your timed tests.",
+    "subIdentity": "Four fields are enough to open an account.",
+    "subProgram": "Tell us how you work: the space adapts afterwards.",
+    "tablistLabel": "Sign in or register",
+    "tabLogin": "Sign in",
+    "tabRegister": "Register",
+    "noticeStrong": "Sign-in required",
+    "noticeText": "to open this space. In demo mode, any identifier and a password of at least 4 characters open the student space.",
+    "labelIdentifier": "Email or UAC student number",
+    "placeholderIdentifier": "first.last@uac.bj",
+    "labelPassword": "Password",
+    "placeholderPassword": "Your password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "submitLogin": "Sign in",
+    "submittingLogin": "Signing in…",
+    "noAccount": "No account yet?",
+    "createAccount": "Create an account",
+    "stepsLabel": "Registration steps",
+    "stepIdentity": "Identity",
+    "stepProgram": "Programme",
+    "stage1": "Step 1 of 2: identity.",
+    "stage2": "Step 2 of 2: academic programme.",
+    "labelFirstName": "First name",
+    "labelLastName": "Surname",
+    "labelEmail": "Email address",
+    "labelNewPassword": "Password",
+    "placeholderNewPassword": "At least 8 characters",
+    "labelConfirm": "Confirm password",
+    "submitContinue": "Continue",
+    "rolesLegend": "You are",
+    "roleLearnerHint": "Revision, quizzes and timed tests",
+    "roleTeacherHint": "Classes, handouts and marking",
+    "labelMatricule": "UAC student number (8 digits)",
+    "labelFaculty": "Faculty / institute",
+    "labelDepartment": "Department / field of study",
+    "hintDepartment": "Suggestions from the selected faculty.",
+    "labelTeacherDept": "Faculty / teaching department",
+    "placeholderTeacherDept": "FAST — Mathematics & Computer Science",
+    "labelSubjects": "Subjects taught",
+    "placeholderSubjects": "Algorithms, Data structures",
+    "hintSubjects": "Separate subjects with a comma.",
+    "labelTeacherFaculty": "Home faculty",
+    "back": "Back",
+    "submittingRegister": "Creating the account…",
+    "submitRegister": "Create my account",
+    "haveAccount": "Already have an account?",
+    "exploring": "Opening the demo…",
+    "explore": "Explore without an account",
+    "demoStrong": "Demo.",
+    "demoText": "No password is checked and no real account is created: institutional sign-in is not connected yet.",
+    "demoAccounts": "To visit all three spaces: 23180001 (student), prof.agboton (lecturer), admin.sossou (administration). Any password, 4 characters minimum.",
+    "footNote": "Independent project · preview · no data sent to a server",
+    "footNavLabel": "Legal information",
+    "footAbout": "About",
+    "footPrivacy": "Privacy",
+    "footTerms": "Terms",
+    "backToSite": "Back to the site",
+    "brandAria": "Campusly — back to the home page",
+    "errFirstName": "First name is required",
+    "errLastName": "Surname is required",
+    "errEmail": "Invalid email address",
+    "errPasswordLen": "At least 8 characters",
+    "errConfirm": "The passwords do not match.",
+    "errLogin": "Sign-in failed. Please try again.",
+    "errRegister": "Registration failed. Please try again.",
+    "toastLogin": "Simulated sign-in successful — welcome!",
+    "toastRegister": "Demo account created.",
+    "placeholderDepartment": "Computer Science"
   }
 }

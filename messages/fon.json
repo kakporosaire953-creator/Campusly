@@ -220,5 +220,247 @@
     "terms": "Nuzɔn tɛnmɛ",
     "support": "Alɔdó",
     "base": "© 2026 Campusly — Benɛ"
+  },
+  "app": {
+    "navOverview": "Nukúnkpé",
+    "navRevision": "Campusly AI kpó Kwiizɔn kpó",
+    "navClassrooms": "Klasu Amphi tɔn",
+    "navCompositions": "Wékwín yíyá",
+    "navExams": "Wéxóxó kpó Wemaxɔmɛ kpó",
+    "navForum": "Xóɖɔxɔsa kpó Nɔkpɔ́nkpɔ́n kpó",
+    "navCredits": "Campusly Kredi",
+    "navTeacher": "Mɛsínɔn tɛn",
+    "navAdmin": "Admíni tɛn",
+    "navNotifications": "Xó gblamɛ",
+    "navSubscription": "Sínsisɔn",
+    "navProfile": "Nǔ tɔ́n",
+    "navSettings": "Ðoɖwí",
+    "navHome": "Xwégbɛ̌ nukɔn tɔn",
+    "myAccount": "Kɔntú cé",
+    "roleLearner": "UAC wemaxɔmɛví",
+    "roleTeacher": "Mɛsínɔn",
+    "roleAdmin": "Admíni",
+    "roleGuest": "Mɛ gbɛ̀tɔ̀",
+    "sidebarLabel": "Tɛn e mɛ wɛ un ɖè lɛ é",
+    "mainMenuLabel": "Takwɛ̌ nukɔn tɔn",
+    "openNav": "Hùn takwɛ̌ ɔ",
+    "closeMenu": "Klɔ takwɛ̌ ɔ",
+    "logout": "Fó kɔntú ɔ",
+    "logoutShort": "Fó",
+    "homeLabel": "Campusly — xwégbɛ̌",
+    "sessionLocal": "Kɔntú e ɖò mɛmɛ ɔ",
+    "genericError": "Nǔ ɖé jɔ̀. Kún sɔ́ kpɔ́n ɖevo.",
+    "languageChanged": "Xóɖiɖɔ é ɖò nukún mɛ ɔ: {language}. Nǔ e a ɖè lɛ́ɛ ɔ, è nɔ́ ɖó nǔ ɖó é ɖò mɛmɛ ɔ mɛ, é nɔ́ ɖyɔ́ wemaxɔmɛ ɔ nú tɔn ǎ.",
+    "appearanceChanged": "Nǔ e ɖò nukún mɛ ɔ: {appearance}. È nɔ́ ɖó nǔ ɖó é ɖò mɛmɛ ɔ mɛ."
+  },
+  "pages": {
+    "notice": "Wemaxɔmɛ e ɖò flanségbè mɛ ɔ wɛ nyí nǔgbó. Xóɖiɖɔ ɖevo lɛ ɖò finɛ́ nú mɛ ná mɔ́n nǔ.",
+    "aboutEyebrow": "Wema ɔ",
+    "aboutTitle": "Xó Campusly tɔn.",
+    "aboutTitleAccent": "Campusly tɔn.",
+    "aboutLede": "Bo kún nǔ e wemaxɔmɛ UAC tɔn nɔ́ zán lɛ é ɖó tɛn ɖokpó, bo ná mɛ lɛ có ná zán yé.",
+    "aboutWhyTitle": "Etéwú",
+    "aboutWhyBody": "Wéxóxó, wema kplɔ́nkplɔ́n tɔn kpó wékwín ɖagbe tɔn kpó ko ɖò finɛ́: yé nɔ́ yì xóɖɔxɔsa tɛn lɛ, USB kpó wema tɛn e mɛ mɛ lɛ nɔ́ ɖó nǔ ɖó é kpó mɛ, bo nɔ́ bú. Campusly nɔ́ ɖó yé ɖó wemaxɔmɛ ɔ tɔn ɖoɖo wu, enɛ́wú wemaxɔmɛví nukɔn tɔn nɔ́ mɔ́ nǔ ɖokpó kpó wemaxɔmɛví atɔ́ɔ́n gɔ́ tɔn kpó.",
+    "aboutOffersTitle": "Nǔ e tɛn ɔ nɔ́ wà ɖò égbɛ́ ɔ",
+    "aboutOffer1": "Wéxóxó e è ɖó ɖó faculte, departema, kplɔ́nkplɔ́n xwè kpó xwè kpó wu é.",
+    "aboutOffer2": "Klasu tɛn ɖokpó nú nǔkplɔ́nmɛ ɖokpó, bo nɔ́ hùn kpó kódù amphi tɔn kpó.",
+    "aboutOffer3": "Nǔkplɔ́nmɛ e è nɔ́ kún ɖò mɛmɛ ɔ wu é, kpó nǔ e è ɖó ná kplɔ́n hlán é kpó.",
+    "aboutFacultiesTitle": "Faculte e è kún lɛ é",
+    "aboutStateTitle": "Tɛn e nǔ ɖi tɛ́ ɔ: nukúnɖéjí",
+    "aboutStateBody": "Xóɖiɖɔ e ɔ ɖí nukún tɛn ɔ blé ɖò nǔ e nyí kpɔ́n ɔ́ ǎ lɛ é wu. Nǔ ɖé nɔ́ yì serveur wu ǎ. Nǔ biɔ́biɔ́ ɔ hùn ǎ, è nɔ́ mɔ́ wú ǎ, bɔ wema tɛn ɔ ná hùn kpó wema nukɔn tɔn lɛ kpó.",
+    "aboutContactTitle": "Xóɖɔ",
+    "aboutContactBody": "Biɔ́biɔ́, xó ɖé, alɔdó kpó wemaxɔmɛ ɖevo kpó: wlán wɛ ma, alǒ zán xwlɛ́ tɛn « Ná alɔdó » ɔ.",
+    "contributeEyebrow": "Wema tɛn",
+    "contributeTitle": "Ná alɔdó Campusly.",
+    "contributeTitleAccent": "Campusly.",
+    "contributeLede": "Wéxóxó ɖé, nǔkplɔ́nmɛ wema ɖé alǒ wékwín ɖagbe ɖé bú à? Xwlɛ́: è nɔ́ kpɔ́n wema ɖokpó ɖokpó nukún dó é nukɔn bɔ è nɔ́ yì ɖó faculte, kplɔ́nkplɔ́n xwè kpó xwè kpó wu. È ná ká xó nyikɔ́ tɔn.",
+    "legal": {
+      "updated": "Nǔ e ɖyɔ́ gbɔ̀n ɔ: sun 11 2026",
+      "termsEyebrow": "Nǔ e ɖó ná gbɛ́n ɔ",
+      "termsTitle": "Nǔ e ɖó ná gbɛ́n ɔ.",
+      "termsTitleAccent": "ná gbɛ́n ɔ.",
+      "terms": [
+        {
+          "title": "Nǔ e ɖó ná gbɛ́n ɔ kpɔ́n",
+          "body": "Hwenu e a zán Campusly ɔ, a ɖó nǔ e ɖò finɛ́ ɔ lɛ́ɛ kpɔ́n. Enyí a kpɔ́n yé ǎ ɔ, má zán tɛn ɔ ǎ."
+        },
+        {
+          "title": "Tɛn ɔ zán",
+          "body": "Campusly nyí nú wemaxɔmɛví Wexɔmɛ́ Kpɔ́n Alavǐ tɔn lɛ tɔn. È nɔ́ zán tɛn ɔ nú nǔkplɔ́nmɛ tɔn kɛ́n; kɔntú ɔ nyí mɛ ɖokpó tɔn."
+        },
+        {
+          "title": "Wema kpó alɔdó kpó",
+          "body": "Wéxóxó e è nɔ́ xwlɛ́ ɔ ɖó ná nyí wema nǔkplɔ́nmɛ tɔn kɛ́n. Nǔ e ɖó à ǎ, nǔ e è kún mɛ ɖó ǎ alǒ nǔ e nɔ́ mɛ lɛ ɖagbe ǎ é, è nɔ́ ɖè e. Mɛ wɛ nɔ́ kpɔ́n nǔ lɛ́ɛ."
+        },
+        {
+          "title": "Mɛɖéɖó tɔn xó",
+          "body": "Nǔ e ɖó ná wà nǔ ɔ wɛ è nɔ́ bá (matríkuli, faculte, nǔ e a zán lɛ́ɛ). A sɔ́ có ná biɔ́ nú è ná sɔ́ kɔntú tɔn ɖó hwenu bǐ."
+        },
+        {
+          "title": "Sínsisɔn Premium",
+          "body": "Kredi sín ɔ hùn ǎ: è nɔ́ mɔ́ wú ǎ ɖò xóɖiɖɔ e ɔ mɛ, bɔ è nɔ́ ɖè gan tɔn ǎ."
+        },
+        {
+          "title": "Alɔkpa e nɔ́ wá ɔ",
+          "body": "Campusly nɔ́ ná nǔ lɛ́ɛ 'ɖò tɛn e ye ɖò é'. È nɔ́ xwè wema lɛ́ɛ kpó nǔ bǐ kpó ǎ."
+        }
+      ],
+      "termsContactTitle": "Xóɖɔ",
+      "termsContactBody": "Nú biɔ́biɔ́ bǐ ɔ, zán xwlɛ́ tɛn ɔ",
+      "privacyEyebrow": "Mɛɖéɖó tɔn xó",
+      "privacyTitle": "Wema mɛɖéɖó tɔn xó wu.",
+      "privacyTitleAccent": "mɛɖéɖó tɔn xó wu.",
+      "privacy": [
+        {
+          "title": "1. Nǔ e è nɔ́ bá ɔ",
+          "intro": "Campusly nɔ́ bá nǔ e ɖò xwè ɔ lɛ́ɛ hwenu e a nɔ́ wlán nyikɔ́ tɔn é kpó hwenu e a zán tɛn ɔ é:",
+          "items": [
+            {
+              "lead": "Nyikɔ́ tɔn xó:",
+              "text": " nyikɔ́, hàn, imɛ́lì."
+            },
+            {
+              "lead": "Nǔkplɔ́nmɛ tɔn xó:",
+              "text": " matríkuli UAC tɔn, faculte kpó departema kpó."
+            },
+            {
+              "lead": "Zánzan xó:",
+              "text": " kwiizɔn e a wà lɛ́ɛ, nukɔnyíyí, wema e a kpɔ́n lɛ́ɛ kpó xó e a ɖè ɖò xóɖɔxɔsa tɛn ɔ é kpó."
+            }
+          ]
+        },
+        {
+          "title": "2. Nǔ e è nɔ́ wà kpó xó tɔn kpó",
+          "intro": "È nɔ́ zán xó tɔn lɛ́ɛ nú:",
+          "items": [
+            {
+              "text": "Ná nǔ tɛn ɔ ná nyí tɔn (wema e ɖò faculte tɔn mɛ lɛ́ɛ)."
+            },
+            {
+              "text": "Ná kpɔ́n nukɔnyíyí tɔn ɖò nukúnkpé tɛn ɔ."
+            },
+            {
+              "text": "Ná ɖó nǔ ɖó sínsisɔn tɔn kpó wúwú kpó wu, kpó alɔdónɔ mítɔn FedaPay kpó."
+            }
+          ]
+        },
+        {
+          "title": "3. Kún kpó hwɛndó kpó",
+          "items": [
+            {
+              "text": "È nɔ́ kún xó e ɖò gbangba ɖó wema ɖagbe wɛ. È nɔ́ sá mɛɖéɖó tɔn xó ɖé ǎ. Ɖò xóɖiɖɔ e ɔ mɛ, xó ɖé nɔ́ já ɖò navegatɛ́ɔ tɔn mɛ ǎ: nǔ e a wlán lɛ́ɛ nɔ́ ɖò mɛmɛ ɔ mɛ, bɔ a sɔ́ có ná sɔ́ yé ɖó ɖò ɖoɖwí ɔ mɛ."
+            }
+          ]
+        },
+        {
+          "title": "4. Mɛ e a ɖó ɔ",
+          "items": [
+            {
+              "text": "A ɖó kpɔ́nkpɔ́n, ɖyɔ́ɖyɔ́ kpó sísɔ́ kpó xó tɔn lɛ́ɛ tɔn. Sísɔ́ kɔntú ɔ ná ɖò ɖoɖwí tɛn ɔ mɛ."
+            }
+          ]
+        },
+        {
+          "title": "5. Ná xóɖɔ kpó mǐ kpó",
+          "items": [
+            {
+              "text": "Nú biɔ́biɔ́ bǐ ɖó xó tɔn wu ɔ, wlán wɛ ma alǒ xóɖɔ kpó mǐ kpó ɖò WhatsApp."
+            }
+          ]
+        }
+      ]
+    },
+    "system": {
+      "notFoundTitle": "Xwlɛ́ ɔ mɔ̀ ǎ",
+      "notFoundBody": "Xwlɛ́ e ɔ ɖò ǎ, alǒ è sɔ́ ɖè tɛn ɖevo. Lɛ́kɔ́ xwégbɛ̌ ɔ nú a ná kɔ́n nǔkplɔ́nmɛ tɔn.",
+      "backHome": "Lɛ́kɔ́ xwégbɛ̌",
+      "browseExams": "Kpɔ́n wéxóxó lɛ́ɛ",
+      "offlineTitle": "A ɖò intɛnɛ́tì ɔ́ ǎ",
+      "offlineBody": "È nɔ́ mɔ́ Campusly ǎ. Kpɔ́n intɛnɛ́tì tɔn nú a ná kɔ́n nǔkplɔ́nmɛ tɔn.",
+      "retry": "Sɔ́ kpɔ́n ɖevo",
+      "offlineTips": "Alɔ́dó",
+      "offlineTip1": "Kpɔ́n Wi-Fi alǒ dátà telefɔ́n tɔn",
+      "offlineTip2": "Sɔ́ mɔ́dù aviyɔ́n tɔn ɖó à",
+      "offlineTip3": "Nǔ e ɖò mɛmɛ ɔ lɛ́ɛ ɖò navegatɛ́ɔ ɔ mɛ",
+      "authTitle": "Xwlɛ́ nyikɔ́ & kɔntú",
+      "authLoading": "Wema xwlɛ́ tɛn ɔ ɖò hinhɔn…"
+    }
+  },
+  "auth": {
+    "eyebrowLogin": "Mɛ tɔn tɛn",
+    "eyebrowRegister1": "Wlán kɔntú · afɔ 1",
+    "eyebrowRegister2": "Wlán kɔntú · afɔ 2",
+    "titleLogin": "Hùn kɔntú",
+    "titleIdentity": "Mɛ e a nyí",
+    "titleProgram": "Wemaxɔmɛ tɔn",
+    "subLogin": "Mɔ́ nǔ e a nɔ́ zán lɛ́ɛ, nǔkplɔ́nmɛ tɔn kpó wékwín tɔn kpó.",
+    "subIdentity": "Fífá ɛnɛ wɛ ɖó ná hùn kɔntú.",
+    "subProgram": "Xó nǔ e a nɔ́ wà é: tɛn ɔ ná ɖyɔ́ ɖó é wu.",
+    "tablistLabel": "Hùn kɔntú alǒ wlán",
+    "tabLogin": "Hùn",
+    "tabRegister": "Wlán",
+    "noticeStrong": "Kɔntú ɖó",
+    "noticeText": "nú a ná wá tɛn e ɔ mɛ. Ɖò nukúnɖéjí mɛ, nyikɔ́ ɖé bǐ kpó wéma xó 4 kpó nɔ́ hùn wemaxɔmɛví tɛn ɔ.",
+    "labelIdentifier": "Imɛ́lì alǒ matríkuli UAC",
+    "placeholderIdentifier": "nyikɔ.xwe@uac.bj",
+    "labelPassword": "Wéma xó",
+    "placeholderPassword": "Wéma xó tɔn",
+    "showPassword": "Hɛn wéma xó ɔ hàn",
+    "hidePassword": "Sɔ́ wéma xó ɔ",
+    "submitLogin": "Hùn",
+    "submittingLogin": "È ɖò hùn wɛ…",
+    "noAccount": "Kɔntú ɖé ɖò ǎ à?",
+    "createAccount": "Wlán kɔntú",
+    "stepsLabel": "Afɔ e è nɔ́ wà nú wlíwlán ɔ",
+    "stepIdentity": "Mɛ e a nyí",
+    "stepProgram": "Wemaxɔmɛ",
+    "stage1": "Afɔ 1 ɖò 2 mɛ: mɛ e a nyí.",
+    "stage2": "Afɔ 2 ɖò 2 mɛ: wemaxɔmɛ tɔn.",
+    "labelFirstName": "Nyikɔ",
+    "labelLastName": "Hàn",
+    "labelEmail": "Imɛ́lì",
+    "labelNewPassword": "Wéma xó",
+    "placeholderNewPassword": "Wéma xó 8 kúkú",
+    "labelConfirm": "Sɔ́ wéma xó ɔ ɖó",
+    "submitContinue": "Yi nukɔn",
+    "rolesLegend": "A nyí",
+    "roleLearnerHint": "Kplɔ́nkplɔ́n, kwiizɔn kpó wékwín kpó",
+    "roleTeacherHint": "Klasu, wema kplɔ́nkplɔ́n tɔn kpó kúnkún kpó",
+    "labelMatricule": "Matríkuli UAC (xó 8)",
+    "labelFaculty": "Faculte / tɛn",
+    "labelDepartment": "Departema / nǔkplɔ́nmɛ",
+    "hintDepartment": "Xó e wá sín faculte e a ɖè é mɛ.",
+    "labelTeacherDept": "Faculte / departema nǔkplɔ́nmɛ tɔn",
+    "placeholderTeacherDept": "FAST — Kánkpɔ́ & Kɔ́nputa",
+    "labelSubjects": "Nǔkplɔ́nmɛ e a nɔ́ kplɔ́n",
+    "placeholderSubjects": "Algɔritimu, Dátà ɖoɖo",
+    "hintSubjects": "Ðó vǐ ɖò nǔkplɔ́nmɛ lɛ́ɛ cɛ́.",
+    "labelTeacherFaculty": "Faculte tɔn",
+    "back": "Lɛ́kɔ́",
+    "submittingRegister": "È ɖò kɔntú wlán wɛ…",
+    "submitRegister": "Wlán kɔntú cé",
+    "haveAccount": "Kɔntú ɖé ɖò à?",
+    "exploring": "È ɖò nukúnɖéjí ɔ hùn wɛ…",
+    "explore": "Kpɔ́n nǔ lɛ́ɛ nú kɔntú",
+    "demoStrong": "Nukúnɖéjí.",
+    "demoText": "È nɔ́ kpɔ́n wéma xó ɖé ǎ, bɔ è nɔ́ wlán kɔntú kɛ́n ǎ: wemaxɔmɛ tɔn hùnhùn ɔ ko ɖò ǎ.",
+    "demoAccounts": "Nú a ná kpɔ́n tɛn atɔ́n ɔ: 23180001 (wemaxɔmɛví), prof.agboton (mɛsínɔn), admin.sossou (admíni). Wéma xó ɖé bǐ, xó 4 kúkú.",
+    "footNote": "Wema ɖokpó tɔn · nukúnɖéjí · nǔ ɖé nɔ́ yì serveur ǎ",
+    "footNavLabel": "Xó e ɖó ná gbɛ́n ɔ",
+    "footAbout": "Xó tɔn",
+    "footPrivacy": "Mɛɖéɖó tɔn xó",
+    "footTerms": "Nǔ e ɖó ná gbɛ́n ɔ",
+    "backToSite": "Lɛ́kɔ́ xwégbɛ̌ ɔ",
+    "brandAria": "Campusly — lɛ́kɔ́ xwégbɛ̌",
+    "errFirstName": "Nyikɔ ɖó",
+    "errLastName": "Hàn ɖó",
+    "errEmail": "Imɛ́lì ɔ ɖagbe ǎ",
+    "errPasswordLen": "Wéma xó 8 kúkú",
+    "errConfirm": "Wéma xó lɛ́ɛ ɖó ɖokpó ǎ.",
+    "errLogin": "È nɔ́ hùn ǎ. Sɔ́ kpɔ́n ɖevo.",
+    "errRegister": "È nɔ́ wlán ǎ. Sɔ́ kpɔ́n ɖevo.",
+    "toastLogin": "Hùnhùn ɔ wá nú yé — kú dónɔ̀!",
+    "toastRegister": "Kɔntú nukúnɖéjí tɔn ɔ wlán.",
+    "placeholderDepartment": "Kɔ́nputa"
   }
 }

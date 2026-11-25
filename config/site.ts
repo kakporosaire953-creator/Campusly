@@ -79,6 +79,8 @@ export const footerNav: ReadonlyArray<{
 /** Élément de navigation de l'espace applicatif. */
 export interface AppNavItem {
   href: string;
+  /** Clé de dictionnaire (`app.*`) — la coquille ne reçoit aucun libellé en dur. */
+  labelKey: string;
   label: string;
   icon: string;
   /** Rôles pour lesquels l'entrée est affichée (présentation uniquement). */
@@ -89,19 +91,19 @@ export interface AppNavItem {
 
 /** Navigation de l'espace applicatif, filtrée par rôle. */
 export const appNav: readonly AppNavItem[] = [
-  { href: "/dashboard", label: "Vue d'ensemble", icon: "fa-solid fa-chart-pie", roles: ["learner", "teacher", "admin"] },
-  { href: "/dashboard/revision", label: "Campusly AI & Quiz", icon: "fa-solid fa-brain", roles: ["learner", "teacher"] },
-  { href: "/dashboard/classrooms", label: "Classrooms Amphi", icon: "fa-solid fa-chalkboard-user", roles: ["learner", "teacher", "admin"] },
-  { href: "/dashboard/compositions", label: "Compositions", icon: "fa-solid fa-stopwatch", roles: ["learner", "teacher"] },
-  { href: "/dashboard/epreuves", label: "Épreuves & Annales", icon: "fa-solid fa-folder-open", roles: ["learner", "teacher", "admin"] },
-  { href: "/dashboard/forum", label: "Forum & Entraide", icon: "fa-solid fa-comments", roles: ["learner", "teacher", "admin"] },
-  { href: "/dashboard/credits", label: "Campusly Credits", icon: "fa-solid fa-bolt", roles: ["learner", "teacher"] },
-  { href: "/enseignant", label: "Espace enseignant", icon: "fa-solid fa-person-chalkboard", roles: ["teacher"] },
-  { href: "/admin", label: "Panel admin", icon: "fa-solid fa-shield-halved", roles: ["admin"] },
-  { href: "/dashboard/notifications", label: "Notifications", icon: "fa-regular fa-bell", roles: ["learner", "teacher", "admin"], group: "account" },
-  { href: "/dashboard/abonnement", label: "Abonnement", icon: "fa-solid fa-crown", roles: ["learner", "teacher", "admin"], group: "account" },
-  { href: "/dashboard/profil", label: "Mon profil", icon: "fa-regular fa-user", roles: ["learner", "teacher", "admin"], group: "account" },
-  { href: "/dashboard/parametres", label: "Paramètres", icon: "fa-solid fa-gear", roles: ["learner", "teacher", "admin"], group: "account" },
+  { href: "/dashboard", labelKey: "app.navOverview", label: "Vue d'ensemble", icon: "fa-solid fa-chart-pie", roles: ["learner", "teacher", "admin"] },
+  { href: "/dashboard/revision", labelKey: "app.navRevision", label: "Campusly AI & Quiz", icon: "fa-solid fa-brain", roles: ["learner", "teacher"] },
+  { href: "/dashboard/classrooms", labelKey: "app.navClassrooms", label: "Classrooms Amphi", icon: "fa-solid fa-chalkboard-user", roles: ["learner", "teacher", "admin"] },
+  { href: "/dashboard/compositions", labelKey: "app.navCompositions", label: "Compositions", icon: "fa-solid fa-stopwatch", roles: ["learner", "teacher"] },
+  { href: "/dashboard/epreuves", labelKey: "app.navExams", label: "Épreuves & Annales", icon: "fa-solid fa-folder-open", roles: ["learner", "teacher", "admin"] },
+  { href: "/dashboard/forum", labelKey: "app.navForum", label: "Forum & Entraide", icon: "fa-solid fa-comments", roles: ["learner", "teacher", "admin"] },
+  { href: "/dashboard/credits", labelKey: "app.navCredits", label: "Campusly Credits", icon: "fa-solid fa-bolt", roles: ["learner", "teacher"] },
+  { href: "/enseignant", labelKey: "app.navTeacher", label: "Espace enseignant", icon: "fa-solid fa-person-chalkboard", roles: ["teacher"] },
+  { href: "/admin", labelKey: "app.navAdmin", label: "Panel admin", icon: "fa-solid fa-shield-halved", roles: ["admin"] },
+  { href: "/dashboard/notifications", labelKey: "app.navNotifications", label: "Notifications", icon: "fa-regular fa-bell", roles: ["learner", "teacher", "admin"], group: "account" },
+  { href: "/dashboard/abonnement", labelKey: "app.navSubscription", label: "Abonnement", icon: "fa-solid fa-crown", roles: ["learner", "teacher", "admin"], group: "account" },
+  { href: "/dashboard/profil", labelKey: "app.navProfile", label: "Mon profil", icon: "fa-regular fa-user", roles: ["learner", "teacher", "admin"], group: "account" },
+  { href: "/dashboard/parametres", labelKey: "app.navSettings", label: "Paramètres", icon: "fa-solid fa-gear", roles: ["learner", "teacher", "admin"], group: "account" },
 ] as const;
 
 export const roleLabels = {
@@ -109,3 +111,10 @@ export const roleLabels = {
   teacher: "Enseignant",
   admin: "Administrateur",
 } as const;
+
+/** Clés de dictionnaire correspondantes, pour les écrans traduits. */
+export const roleLabelKeys: Record<UserRole, string> = {
+  learner: "app.roleLearner",
+  teacher: "app.roleTeacher",
+  admin: "app.roleAdmin",
+};

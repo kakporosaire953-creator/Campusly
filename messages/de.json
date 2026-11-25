@@ -220,5 +220,247 @@
     "terms": "Nutzungsbedingungen",
     "support": "Support",
     "base": "© 2026 Campusly — Benin"
+  },
+  "app": {
+    "navOverview": "Übersicht",
+    "navRevision": "Campusly AI & Quiz",
+    "navClassrooms": "Hörsaal-Kurse",
+    "navCompositions": "Klausuren",
+    "navExams": "Altklausuren & Archiv",
+    "navForum": "Forum & Peer-Hilfe",
+    "navCredits": "Campusly Credits",
+    "navTeacher": "Lehrbereich",
+    "navAdmin": "Verwaltung",
+    "navNotifications": "Benachrichtigungen",
+    "navSubscription": "Abonnement",
+    "navProfile": "Mein Profil",
+    "navSettings": "Einstellungen",
+    "navHome": "Öffentliche Startseite",
+    "myAccount": "Mein Konto",
+    "roleLearner": "UAC-Studierende",
+    "roleTeacher": "Lehrende",
+    "roleAdmin": "Administrator",
+    "roleGuest": "Gast",
+    "sidebarLabel": "Navigation des Arbeitsbereichs",
+    "mainMenuLabel": "Hauptmenü",
+    "openNav": "Navigation öffnen",
+    "closeMenu": "Menü schließen",
+    "logout": "Abmelden",
+    "logoutShort": "Abmelden",
+    "homeLabel": "Campusly — Startseite",
+    "sessionLocal": "Lokale Sitzung",
+    "genericError": "Es ist ein Fehler aufgetreten. Bitte erneut versuchen.",
+    "languageChanged": "Sprache der Oberfläche: {language}. Deine Wahl wird auf diesem Gerät gespeichert und ändert die Inhalte deiner Kurse nicht.",
+    "appearanceChanged": "Darstellung: {appearance}. Deine Wahl wird auf diesem Gerät gespeichert."
+  },
+  "pages": {
+    "notice": "Maßgeblich ist die französische Fassung dieses Dokuments. Die übrigen Sprachen dienen dem Verständnis.",
+    "aboutEyebrow": "Das Projekt",
+    "aboutTitle": "Über Campusly.",
+    "aboutTitleAccent": "Campusly.",
+    "aboutLede": "Die akademischen Ressourcen der UAC an einem Ort bündeln und nutzbar machen.",
+    "aboutWhyTitle": "Warum",
+    "aboutWhyBody": "Altklausuren, Skripte und Lösungen gibt es längst: Sie kursieren in Messengergruppen, auf USB-Sticks und in geteilten Ordnern, die irgendwann verloren gehen. Campusly ordnet sie nach der Logik der Studienpläne der Universität, sodass Erstsemester dasselbe finden wie Fünftsemester.",
+    "aboutOffersTitle": "Was die Plattform heute leistet",
+    "aboutOffer1": "Altklausuren, sortiert nach Fakultät, Fachbereich, Semester und Jahr.",
+    "aboutOffer2": "Ein Kursraum pro Fach, geöffnet mit einem Hörsaal-Code.",
+    "aboutOffer3": "Übungen, die auf dem eigenen Gerät ausgewertet werden, samt Themen zum Wiederholen.",
+    "aboutFacultiesTitle": "Abgedeckte Fakultäten",
+    "aboutStateTitle": "Aktueller Stand: Vorstufe",
+    "aboutStateBody": "Diese Fassung zeigt die vollständige Oberfläche mit Beispieldaten. Nichts wird auf einem Server gespeichert. Die Fragenerzeugung ist nicht freigeschaltet, es werden keine Zahlungen angenommen, und die Bibliothek startet mit ihren ersten Dateien.",
+    "aboutContactTitle": "Kontakt",
+    "aboutContactBody": "Eine Frage, ein Vorschlag, eine institutionelle Partnerschaft: Schreib uns oder nutze die Seite „Beitragen“.",
+    "contributeEyebrow": "Bibliothek",
+    "contributeTitle": "Zu Campusly beitragen.",
+    "contributeTitleAccent": "beitragen.",
+    "contributeLede": "Fehlt eine Altklausur, ein Übungsblatt oder eine Lösung? Reiche sie ein: Jedes Dokument wird vor der Veröffentlichung geprüft und dann nach Fakultät, Semester und Jahr eingeordnet. Du kannst namentlich genannt werden.",
+    "legal": {
+      "updated": "Zuletzt aktualisiert: November 2026",
+      "termsEyebrow": "Bedingungen",
+      "termsTitle": "Nutzungsbedingungen.",
+      "termsTitleAccent": "bedingungen.",
+      "terms": [
+        {
+          "title": "Annahme der Bedingungen",
+          "body": "Mit der Nutzung von Campusly akzeptierst du diese Bedingungen. Wenn du sie nicht akzeptierst, nutze die Plattform nicht."
+        },
+        {
+          "title": "Nutzung des Dienstes",
+          "body": "Campusly richtet sich an Studierende der Universität Abomey-Calavi. Die Plattform ist für legitime akademische Zwecke zu nutzen; das Konto ist persönlich."
+        },
+        {
+          "title": "Inhalte und Beiträge",
+          "body": "Eingereichte Altklausuren müssen legitime akademische Dokumente sein. Unangemessene, unerlaubt geschützte oder irreführende Inhalte werden entfernt. Die Moderation bleibt menschlich."
+        },
+        {
+          "title": "Personenbezogene Daten",
+          "body": "Es werden nur die für den Betrieb nötigen Daten erhoben (Matrikelnummer, Fakultät, Nutzungsverlauf). Du kannst jederzeit die Löschung deines Kontos verlangen."
+        },
+        {
+          "title": "Premium-Abonnement",
+          "body": "Kreditpakete sind nicht freigeschaltet: In dieser Fassung werden keine Zahlungen angenommen und keine Preise veröffentlicht."
+        },
+        {
+          "title": "Haftungsbeschränkung",
+          "body": "Campusly stellt die Ressourcen „wie besehen“ bereit. Vollständigkeit und Richtigkeit der Altklausuren sind nicht garantiert."
+        }
+      ],
+      "termsContactTitle": "Kontakt",
+      "termsContactBody": "Bei Fragen nutze die Seite",
+      "privacyEyebrow": "Personenbezogene Daten",
+      "privacyTitle": "Datenschutzerklärung.",
+      "privacyTitleAccent": "erklärung.",
+      "privacy": [
+        {
+          "title": "1. Erhobene Daten",
+          "intro": "Campusly erhebt bei der Registrierung und Nutzung folgende Informationen:",
+          "items": [
+            {
+              "lead": "Identitätsdaten:",
+              "text": " Nachname, Vorname, E-Mail-Adresse."
+            },
+            {
+              "lead": "Akademische Daten:",
+              "text": " UAC-Matrikelnummer, Fakultät und Fachbereich."
+            },
+            {
+              "lead": "Nutzungsdaten:",
+              "text": " Quizverlauf, Fortschritt, aufgerufene Klausuren und Forumsbeiträge."
+            }
+          ]
+        },
+        {
+          "title": "2. Verwendung deiner Daten",
+          "intro": "Deine Daten werden ausschließlich verwendet, um:",
+          "items": [
+            {
+              "text": "dein Erlebnis zu personalisieren (Vorschläge aus deiner Fakultät)."
+            },
+            {
+              "text": "deinen Studienfortschritt im Dashboard zu verfolgen."
+            },
+            {
+              "text": "dein Abonnement und Zahlungen über unseren Partner FedaPay zu verwalten."
+            }
+          ]
+        },
+        {
+          "title": "3. Schutz und Sicherheit",
+          "items": [
+            {
+              "text": "Passwörter werden serverseitig gehasht. Keine personenbezogenen Daten werden weiterverkauft. In dieser Fassung verlässt keine Angabe deinen Browser: Eingaben bleiben im lokalen Speicher und können jederzeit in den Einstellungen gelöscht werden."
+            }
+          ]
+        },
+        {
+          "title": "4. Deine Rechte",
+          "items": [
+            {
+              "text": "Du hast das Recht auf Auskunft, Berichtigung und Löschung deiner Daten. Die Kontolöschung wird in den Einstellungen des Dashboards verfügbar sein."
+            }
+          ]
+        },
+        {
+          "title": "5. Kontakt",
+          "items": [
+            {
+              "text": "Bei Fragen zu deinen Daten schreib uns oder kontaktiere uns über WhatsApp."
+            }
+          ]
+        }
+      ]
+    },
+    "system": {
+      "notFoundTitle": "Seite nicht gefunden",
+      "notFoundBody": "Diese Seite existiert nicht oder wurde verschoben. Zurück zur Startseite, um weiterzulernen.",
+      "backHome": "Zurück zur Startseite",
+      "browseExams": "Altklausuren ansehen",
+      "offlineTitle": "Du bist offline",
+      "offlineBody": "Campusly ist nicht erreichbar. Prüfe deine Internetverbindung, um weiterzulernen.",
+      "retry": "Erneut versuchen",
+      "offlineTips": "Hinweise",
+      "offlineTip1": "Prüfe die WLAN- oder Mobilfunkverbindung",
+      "offlineTip2": "Schalte den Flugmodus aus, falls er aktiv ist",
+      "offlineTip3": "Deine lokalen Daten bleiben im Browser",
+      "authTitle": "Anmelden & registrieren",
+      "authLoading": "Anmeldeformular wird geladen…"
+    }
+  },
+  "auth": {
+    "eyebrowLogin": "Persönlicher Bereich",
+    "eyebrowRegister1": "Konto erstellen · Schritt 1",
+    "eyebrowRegister2": "Konto erstellen · Schritt 2",
+    "titleLogin": "Anmelden",
+    "titleIdentity": "Deine Identität",
+    "titleProgram": "Dein Studiengang",
+    "subLogin": "Finde deine Materialien, deine Übungen und deine Klausuren wieder.",
+    "subIdentity": "Vier Felder genügen für ein Konto.",
+    "subProgram": "Sag uns, wie du arbeitest: Der Bereich passt sich danach an.",
+    "tablistLabel": "Anmelden oder registrieren",
+    "tabLogin": "Anmelden",
+    "tabRegister": "Registrieren",
+    "noticeStrong": "Anmeldung erforderlich",
+    "noticeText": "für diesen Bereich. In der Demo öffnen eine beliebige Kennung und ein Passwort mit mindestens 4 Zeichen den Studierendenbereich.",
+    "labelIdentifier": "E-Mail oder UAC-Matrikelnummer",
+    "placeholderIdentifier": "vorname.nachname@uac.bj",
+    "labelPassword": "Passwort",
+    "placeholderPassword": "Dein Passwort",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "submitLogin": "Anmelden",
+    "submittingLogin": "Anmeldung läuft…",
+    "noAccount": "Noch kein Konto?",
+    "createAccount": "Konto erstellen",
+    "stepsLabel": "Schritte der Registrierung",
+    "stepIdentity": "Identität",
+    "stepProgram": "Studiengang",
+    "stage1": "Schritt 1 von 2: Identität.",
+    "stage2": "Schritt 2 von 2: akademischer Werdegang.",
+    "labelFirstName": "Vorname",
+    "labelLastName": "Nachname",
+    "labelEmail": "E-Mail-Adresse",
+    "labelNewPassword": "Passwort",
+    "placeholderNewPassword": "Mindestens 8 Zeichen",
+    "labelConfirm": "Passwort bestätigen",
+    "submitContinue": "Weiter",
+    "rolesLegend": "Du bist",
+    "roleLearnerHint": "Wiederholen, Quiz und Klausuren",
+    "roleTeacherHint": "Kurse, Skripte und Korrekturen",
+    "labelMatricule": "UAC-Matrikelnummer (8 Ziffern)",
+    "labelFaculty": "Fakultät / Institut",
+    "labelDepartment": "Fachbereich / Studiengang",
+    "hintDepartment": "Vorschläge aus der gewählten Fakultät.",
+    "labelTeacherDept": "Fakultät / Lehrbereich",
+    "placeholderTeacherDept": "FAST — Mathematik & Informatik",
+    "labelSubjects": "Unterrichtete Fächer",
+    "placeholderSubjects": "Algorithmik, Datenstrukturen",
+    "hintSubjects": "Fächer mit Komma trennen.",
+    "labelTeacherFaculty": "Heimatfakultät",
+    "back": "Zurück",
+    "submittingRegister": "Konto wird erstellt…",
+    "submitRegister": "Mein Konto erstellen",
+    "haveAccount": "Schon ein Konto?",
+    "exploring": "Demo wird geöffnet…",
+    "explore": "Ohne Konto erkunden",
+    "demoStrong": "Demo.",
+    "demoText": "Es wird kein Passwort geprüft und kein echtes Konto erstellt: Die institutionelle Anmeldung ist noch nicht angebunden.",
+    "demoAccounts": "Für alle drei Bereiche: 23180001 (Studierende), prof.agboton (Lehrende), admin.sossou (Verwaltung). Passwort frei wählbar, mindestens 4 Zeichen.",
+    "footNote": "Unabhängiges Projekt · Vorstufe · keine Daten an einen Server gesendet",
+    "footNavLabel": "Rechtliche Hinweise",
+    "footAbout": "Über das Projekt",
+    "footPrivacy": "Datenschutz",
+    "footTerms": "Bedingungen",
+    "backToSite": "Zurück zur Website",
+    "brandAria": "Campusly — zurück zur Startseite",
+    "errFirstName": "Der Vorname ist erforderlich",
+    "errLastName": "Der Nachname ist erforderlich",
+    "errEmail": "Ungültige E-Mail-Adresse",
+    "errPasswordLen": "Mindestens 8 Zeichen",
+    "errConfirm": "Die Passwörter stimmen nicht überein.",
+    "errLogin": "Anmeldung nicht möglich. Bitte erneut versuchen.",
+    "errRegister": "Registrierung nicht möglich. Bitte erneut versuchen.",
+    "toastLogin": "Simulierte Anmeldung erfolgreich — willkommen!",
+    "toastRegister": "Demo-Konto erstellt.",
+    "placeholderDepartment": "Informatik"
   }
 }

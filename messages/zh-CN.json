@@ -220,5 +220,247 @@
     "terms": "使用条款",
     "support": "技术支持",
     "base": "© 2026 Campusly — 贝宁"
+  },
+  "app": {
+    "navOverview": "概览",
+    "navRevision": "Campusly AI 与测验",
+    "navClassrooms": "阶梯教室课程",
+    "navCompositions": "限时考试",
+    "navExams": "历年真题与资料",
+    "navForum": "论坛与互助",
+    "navCredits": "Campusly 学分",
+    "navTeacher": "教师空间",
+    "navAdmin": "管理面板",
+    "navNotifications": "通知",
+    "navSubscription": "订阅",
+    "navProfile": "我的资料",
+    "navSettings": "设置",
+    "navHome": "公开首页",
+    "myAccount": "我的账户",
+    "roleLearner": "UAC 学生",
+    "roleTeacher": "教师",
+    "roleAdmin": "管理员",
+    "roleGuest": "访客",
+    "sidebarLabel": "空间导航",
+    "mainMenuLabel": "主菜单",
+    "openNav": "打开导航",
+    "closeMenu": "关闭菜单",
+    "logout": "退出登录",
+    "logoutShort": "退出登录",
+    "homeLabel": "Campusly — 首页",
+    "sessionLocal": "本地会话",
+    "genericError": "出现错误，请重试。",
+    "languageChanged": "界面语言：{language}。你的选择保存在此设备上，不会改变课程内容。",
+    "appearanceChanged": "外观：{appearance}。你的选择保存在此设备上。"
+  },
+  "pages": {
+    "notice": "本文档以法文版为准，其他语言版本仅为便于理解。",
+    "aboutEyebrow": "项目",
+    "aboutTitle": "关于 Campusly。",
+    "aboutTitleAccent": "Campusly。",
+    "aboutLede": "把 UAC 的学术资源集中起来，并让它们在一个地方就能使用。",
+    "aboutWhyTitle": "为什么",
+    "aboutWhyBody": "历年试题、课堂讲义和答案本来就有：它们散落在聊天群、U 盘和共享文件夹里，最后常常找不到。Campusly 按学校培养方案的逻辑分类，让一年级学生和五年级学生都能找到同样的东西。",
+    "aboutOffersTitle": "平台目前能做什么",
+    "aboutOffer1": "按学院、系、年级和年份分类的历年试题。",
+    "aboutOffer2": "每门课一个课程空间，用阶梯教室代码进入。",
+    "aboutOffer3": "在本机批改的练习，并列出需要复习的知识点。",
+    "aboutFacultiesTitle": "覆盖的学院",
+    "aboutStateTitle": "当前状态：预览版",
+    "aboutStateBody": "本版本展示完整界面，数据为示例数据。任何内容都不会保存到服务器。题目生成尚未开放，不接受任何付款，题库将随首批文件上线。",
+    "aboutContactTitle": "联系",
+    "aboutContactBody": "有疑问、建议或院校合作意向：请写信给我们，或使用“投稿”页面。",
+    "contributeEyebrow": "题库",
+    "contributeTitle": "向 Campusly 投稿。",
+    "contributeTitleAccent": "投稿。",
+    "contributeLede": "缺少某份试题、习题或答案？欢迎提交：每份文件发布前都会经过审核，然后归入相应的学院、年级和年份。可以署上你的名字。",
+    "legal": {
+      "updated": "最后更新：2026 年 11 月",
+      "termsEyebrow": "条款",
+      "termsTitle": "使用条款。",
+      "termsTitleAccent": "条款。",
+      "terms": [
+        {
+          "title": "接受条款",
+          "body": "使用 Campusly 即表示你接受本条款。如不接受，请勿使用本平台。"
+        },
+        {
+          "title": "服务使用",
+          "body": "Campusly 面向阿波美-卡拉维大学的学生。平台用于正当的学术目的；账户仅限本人使用。"
+        },
+        {
+          "title": "内容与投稿",
+          "body": "提交的试题必须是正当的学术文件。任何不当、未经授权受保护或具有误导性的内容都会被删除。审核仍由人工进行。"
+        },
+        {
+          "title": "个人数据",
+          "body": "只收集运行所需的数据（学号、学院、使用记录）。你可以随时请求删除账户。"
+        },
+        {
+          "title": "高级订阅",
+          "body": "学分套餐尚未开放：本版本不接受任何付款，也不公布任何价格。"
+        },
+        {
+          "title": "责任限制",
+          "body": "Campusly 按“现状”提供资源。不保证试题的准确性与完整性。"
+        }
+      ],
+      "termsContactTitle": "联系",
+      "termsContactBody": "如有疑问，请使用页面",
+      "privacyEyebrow": "个人数据",
+      "privacyTitle": "隐私政策。",
+      "privacyTitleAccent": "政策。",
+      "privacy": [
+        {
+          "title": "1. 收集的数据",
+          "intro": "Campusly 在你注册和使用服务时收集以下信息：",
+          "items": [
+            {
+              "lead": "身份信息：",
+              "text": " 姓、名、电子邮箱地址。"
+            },
+            {
+              "lead": "学业信息：",
+              "text": " UAC 学号、学院与系。"
+            },
+            {
+              "lead": "使用数据：",
+              "text": " 测验记录、学习进度、浏览过的试题和论坛消息。"
+            }
+          ]
+        },
+        {
+          "title": "2. 数据的使用",
+          "intro": "你的数据仅用于：",
+          "items": [
+            {
+              "text": "个性化体验（推荐你所在学院的试题）。"
+            },
+            {
+              "text": "在仪表盘中跟踪学业进度。"
+            },
+            {
+              "text": "通过我们的合作伙伴 FedaPay 管理订阅与付款。"
+            }
+          ]
+        },
+        {
+          "title": "3. 保护与安全",
+          "items": [
+            {
+              "text": "密码在服务器端进行哈希处理。不会出售任何个人数据。在当前版本中，数据不会离开你的浏览器：所填内容保存在本地存储中，可随时在设置中清除。"
+            }
+          ]
+        },
+        {
+          "title": "4. 你的权利",
+          "items": [
+            {
+              "text": "你有权访问、更正和删除自己的数据。账户删除将在仪表盘设置中提供。"
+            }
+          ]
+        },
+        {
+          "title": "5. 联系我们",
+          "items": [
+            {
+              "text": "如对数据有任何疑问，请写信给我们可以或通过 WhatsApp 联系。"
+            }
+          ]
+        }
+      ]
+    },
+    "system": {
+      "notFoundTitle": "页面不存在",
+      "notFoundBody": "该页面不存在或已被移动。返回首页继续复习。",
+      "backHome": "返回首页",
+      "browseExams": "查看历年试题",
+      "offlineTitle": "你处于离线状态",
+      "offlineBody": "无法连接 Campusly。请检查网络连接后继续复习。",
+      "retry": "重试",
+      "offlineTips": "提示",
+      "offlineTip1": "检查 Wi-Fi 或移动数据连接",
+      "offlineTip2": "关闭飞行模式",
+      "offlineTip3": "本地数据仍保存在浏览器中",
+      "authTitle": "登录与注册",
+      "authLoading": "正在加载登录表单…"
+    }
+  },
+  "auth": {
+    "eyebrowLogin": "个人空间",
+    "eyebrowRegister1": "创建账户 · 第 1 步",
+    "eyebrowRegister2": "创建账户 · 第 2 步",
+    "titleLogin": "登录",
+    "titleIdentity": "你的身份",
+    "titleProgram": "你的学业",
+    "subLogin": "找回你的资料、练习和考试。",
+    "subIdentity": "四个字段即可开通账户。",
+    "subProgram": "告诉我们你的学习方式，空间随后会自动调整。",
+    "tablistLabel": "登录或注册",
+    "tabLogin": "登录",
+    "tabRegister": "注册",
+    "noticeStrong": "需要登录",
+    "noticeText": "才能进入此空间。在演示模式下，任意账号和至少 4 位密码即可进入学生空间。",
+    "labelIdentifier": "邮箱或 UAC 学号",
+    "placeholderIdentifier": "ming.zi@uac.bj",
+    "labelPassword": "密码",
+    "placeholderPassword": "你的密码",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码",
+    "submitLogin": "登录",
+    "submittingLogin": "正在登录…",
+    "noAccount": "还没有账户？",
+    "createAccount": "创建账户",
+    "stepsLabel": "注册步骤",
+    "stepIdentity": "身份",
+    "stepProgram": "学业",
+    "stage1": "第 1 步，共 2 步：身份。",
+    "stage2": "第 2 步，共 2 步：学业信息。",
+    "labelFirstName": "名",
+    "labelLastName": "姓",
+    "labelEmail": "电子邮箱",
+    "labelNewPassword": "密码",
+    "placeholderNewPassword": "至少 8 个字符",
+    "labelConfirm": "确认密码",
+    "submitContinue": "继续",
+    "rolesLegend": "你的身份",
+    "roleLearnerHint": "复习、测验与考试",
+    "roleTeacherHint": "课程、讲义与批改",
+    "labelMatricule": "UAC 学号（8 位数字）",
+    "labelFaculty": "学院 / 研究所",
+    "labelDepartment": "系 / 专业",
+    "hintDepartment": "根据所选学院给出的建议。",
+    "labelTeacherDept": "任教院系",
+    "placeholderTeacherDept": "FAST — 数学与信息学",
+    "labelSubjects": "所授课程",
+    "placeholderSubjects": "算法、数据结构",
+    "hintSubjects": "课程之间用逗号分隔。",
+    "labelTeacherFaculty": "所属学院",
+    "back": "返回",
+    "submittingRegister": "正在创建账户…",
+    "submitRegister": "创建我的账户",
+    "haveAccount": "已有账户？",
+    "exploring": "正在打开演示…",
+    "explore": "不注册即可浏览",
+    "demoStrong": "演示。",
+    "demoText": "系统不校验密码，也不会创建真实账户：机构登录尚未接入。",
+    "demoAccounts": "浏览三个空间：23180001（学生）、prof.agboton（教师）、admin.sossou（管理）。密码任意，至少 4 个字符。",
+    "footNote": "独立项目 · 预览版 · 不会向服务器发送任何数据",
+    "footNavLabel": "法律信息",
+    "footAbout": "关于",
+    "footPrivacy": "隐私",
+    "footTerms": "条款",
+    "backToSite": "返回网站",
+    "brandAria": "Campusly — 返回首页",
+    "errFirstName": "名字为必填项",
+    "errLastName": "姓为必填项",
+    "errEmail": "邮箱地址无效",
+    "errPasswordLen": "至少 8 个字符",
+    "errConfirm": "两次输入的密码不一致。",
+    "errLogin": "无法登录，请重试。",
+    "errRegister": "无法注册，请重试。",
+    "toastLogin": "模拟登录成功，欢迎！",
+    "toastRegister": "演示账户已创建。",
+    "placeholderDepartment": "信息学"
   }
 }

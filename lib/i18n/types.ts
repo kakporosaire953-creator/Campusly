@@ -27,7 +27,12 @@ export type Messages = typeof fr;
 type Leaves<T, Prefix extends string = ""> = {
   [K in keyof T & string]: T[K] extends string
     ? `${Prefix}${K}`
-    : Leaves<T[K], `${Prefix}${K}.`>;
+    /* Les blocs de contenu éditorial (sections légales, listes de fonctions)
+       sont des TABLEAUX : leurs chaînes sont parcourues en JSX et ne portent
+       pas de clé pointée. Ils ne participent donc pas au type des clés. */
+    : T[K] extends readonly unknown[]
+      ? never
+      : Leaves<T[K], `${Prefix}${K}.`>;
 }[keyof T & string];
 
 export type MessageKey = Leaves<Messages>;

@@ -118,6 +118,19 @@
   margin-top: 14px;
 }
 
+/* Mention de langue sur les textes juridiques : la version française fait foi.
+   Affichée comme une note de marge, pas comme un avertissement alarmant. */
+.doc__notice {
+  max-width: 62ch;
+  margin-top: clamp(20px, 2.6vw, 30px);
+  padding: 12px 16px;
+  border-left: 2px solid var(--brand-orange);
+  background: var(--surface);
+  border-radius: 0 var(--brand-radius-sm) var(--brand-radius-sm) 0;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
 .doc__body {
   max-width: 68ch;
   margin-top: clamp(28px, 3.6vw, 48px);

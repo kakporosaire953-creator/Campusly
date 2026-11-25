@@ -220,5 +220,247 @@
     "terms": "Àwọn òfin ìlò",
     "support": "Ìrànwọ́",
     "base": "© 2026 Campusly — Bẹ̀nẹ́"
+  },
+  "app": {
+    "navOverview": "Àkópọ̀",
+    "navRevision": "Campusly AI àti Ìdánwò",
+    "navClassrooms": "Kíláàsì Amphi",
+    "navCompositions": "Ìdánwò àkókò",
+    "navExams": "Ìwé ìdánwò àná àti Ìwé ìpamọ́",
+    "navForum": "Ọ̀rọ̀ àti Ìrànwọ́",
+    "navCredits": "Campusly Kírẹ́dìtì",
+    "navTeacher": "Àgbègbè olùkọ́",
+    "navAdmin": "Pánẹ́ẹ̀lì aláṣẹ",
+    "navNotifications": "Ìfitọ́nilétí",
+    "navSubscription": "Ìforúkọsílẹ̀",
+    "navProfile": "Profáìlì mi",
+    "navSettings": "Ètò",
+    "navHome": "Ilé ojú gbangba",
+    "myAccount": "Àkọsílẹ̀ mi",
+    "roleLearner": "Akẹ́kọ̀ọ́ UAC",
+    "roleTeacher": "Olùkọ́",
+    "roleAdmin": "Aláṣẹ",
+    "roleGuest": "Àlejò",
+    "sidebarLabel": "Ìtọ́nà àgbègbè iṣẹ́",
+    "mainMenuLabel": "Àkójọ àkọ́kọ́",
+    "openNav": "Ṣí ìtọ́nà",
+    "closeMenu": "Pa àkójọ mọ́",
+    "logout": "Jáde",
+    "logoutShort": "Jáde",
+    "homeLabel": "Campusly — ilé",
+    "sessionLocal": "Ìpàdé àdúgbò",
+    "genericError": "Àṣìṣe kan ṣẹlẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i.",
+    "languageChanged": "Èdè ojú-ìwé: {language}. Àṣàyàn rẹ wà ní ẹ̀rọ yìí, kò sì yí àkóónú ẹ̀kọ́ rẹ padà.",
+    "appearanceChanged": "Ìrísí: {appearance}. Àṣàyàn rẹ wà ní ẹ̀rọ yìí."
+  },
+  "pages": {
+    "notice": "Ẹ̀dà Fàránsì ti ìwé yìí ni ó wúlò. Àwọn èdè mìíràn wà kí ẹ̀yin lè yé e.",
+    "aboutEyebrow": "Iṣẹ́ náà",
+    "aboutTitle": "Nípa Campusly.",
+    "aboutTitleAccent": "Campusly.",
+    "aboutLede": "Kó àwọn ohun èlò ẹ̀kọ́ UAC jọ, kí wọ́n sì wà ní ibi kan ṣoṣo.",
+    "aboutWhyTitle": "Ìdí",
+    "aboutWhyBody": "Ìwé ìdánwò àná, ìwé ẹ̀kọ́ àti àwọn ojútùú ti wà tẹ́lẹ̀: wọ́n ń kọ́kọ́ káàkiri nínú àwọn ẹgbẹ́ ìròyìn, orí USB àti nínú àpò tí a pín, tí wọ́n ń sọnù nígbẹ̀yìn. Campusly ń tò wọ́n gẹ́gẹ́ bí ètò ẹ̀kọ́ yunifásítì, kí akẹ́kọ̀ọ́ ọdún kìíní lè rí ohun kan náà bí akẹ́kọ̀ọ́ ọdún kàrún.",
+    "aboutOffersTitle": "Ohun tí ojú-ìwé ń ṣe lónìí",
+    "aboutOffer1": "Ìwé ìdánwò àná tí a tò gẹ́gẹ́ bí ẹ̀ka, ẹ̀ka-ìkẹ́kọ̀ọ́, ìpele àti ọdún.",
+    "aboutOffer2": "Ààyè ẹ̀kọ́ kan fún kókó-ẹ̀kọ́ kọ̀ọ̀kan, tí a ń ṣí pẹ̀lú kóòdù gbọ̀ngàn.",
+    "aboutOffer3": "Àwọn ìdánrawò tí a ń tọ́jú lórí ẹ̀rọ rẹ, pẹ̀lú àwọn kókó tí o gbọ́dọ̀ tún kọ́.",
+    "aboutFacultiesTitle": "Àwọn ẹ̀ka tí a bo",
+    "aboutStateTitle": "Ipò báyìí: àfihàn",
+    "aboutStateBody": "Ẹ̀dà yìí ń fi gbogbo ojú-ìwé hàn pẹ̀lú dátà àpẹẹrẹ. Kò sí ohun tí a ń fi pamọ́ sórí sáfà. Ṣíṣe àwọn ìbéèrè kò tíì ṣí, a kò gba owó kankan, ilé-ìkàwé yóò sì ṣí pẹ̀lú àwọn fáìlì àkọ́kọ́ rẹ̀.",
+    "aboutContactTitle": "Ìbáṣepọ̀",
+    "aboutContactBody": "Ìbéèrè, àbá, àjọṣepọ̀ pẹ̀lú ilé-ẹ̀kọ́: kọ̀wé sí wa tàbí lo ojú-ìwé Ìkópa.",
+    "contributeEyebrow": "Ilé-ìkàwé",
+    "contributeTitle": "Kópa sí Campusly.",
+    "contributeTitleAccent": "sí Campusly.",
+    "contributeLede": "Ṣé ìwé ìdánwò, ìwé àṣetúmọ̀ tàbí ojútùú kan ṣàìsí? Fi ránṣẹ́: a ń yẹ gbogbo ìwé wò kí a tó tẹ̀ ẹ́, lẹ́yìn náà a ń tò ó gẹ́gẹ́ bí ẹ̀ka, ìpele àti ọdún. Orúkọ rẹ lè wà lórí rẹ̀.",
+    "legal": {
+      "updated": "Ìmúdójú ìwé: oṣù kọkànlá 2026",
+      "termsEyebrow": "Àwọn òfin",
+      "termsTitle": "Àwọn òfin ìlò.",
+      "termsTitleAccent": "ìlò.",
+      "terms": [
+        {
+          "title": "Gbígba àwọn òfin",
+          "body": "Pẹ̀lú lílo Campusly, o gba àwọn òfin wọ̀nyí. Tí o kò bá gbà wọ́n, má lo ojú-ìwé náà."
+        },
+        {
+          "title": "Lílo iṣẹ́ náà",
+          "body": "Campusly wà fún àwọn akẹ́kọ̀ọ́ Yunifásítì Abomey-Calavi. A ń lo ojú-ìwé náà fún àwọn èrò ẹ̀kọ́ tó tọ́; àkọsílẹ̀ náà jẹ́ ti ẹnìkan."
+        },
+        {
+          "title": "Àkóónú àti ìkópa",
+          "body": "Àwọn ìwé ìdánwò tí a fi ránṣẹ́ gbọ́dọ̀ jẹ́ ìwé ẹ̀kọ́ tó tọ́. A ń yọ àkóónú tí kò yẹ, tí a dáàbò bò láìsí àṣẹ tàbí tí ó ń tannijẹ. Ènìyàn ṣì ń ṣàyẹ̀wò."
+        },
+        {
+          "title": "Dátà ti ara ẹni",
+          "body": "Dátà tí ó pọndandan fún ṣíṣe iṣẹ́ nìkan ni a ń gbà (nọ́mbà akẹ́kọ̀ọ́, ẹ̀ka, ìtàn lílò). O lè béèrè pípa àkọsílẹ̀ rẹ kúrò nígbàkigbà."
+        },
+        {
+          "title": "Ìforúkọsílẹ̀ Premium",
+          "body": "Àwọn àpò kírẹ́dìtì kò tíì ṣí: a kò gba owó kankan nínú ẹ̀dà yìí, a kò sì tẹ owó èyíkéyìí jáde."
+        },
+        {
+          "title": "Ààlà ojúṣe",
+          "body": "Campusly ń pèsè àwọn ohun èlò bí wọ́n ṣe rí. A kò dá wa lójú nípa pípé àti ìtọ́ àwọn ìwé ìdánwò."
+        }
+      ],
+      "termsContactTitle": "Ìbáṣepọ̀",
+      "termsContactBody": "Fún ìbéèrè èyíkéyìí, lo ojú-ìwé",
+      "privacyEyebrow": "Dátà ti ara ẹni",
+      "privacyTitle": "Ìlànà àṣírí.",
+      "privacyTitleAccent": "àṣírí.",
+      "privacy": [
+        {
+          "title": "1. Dátà tí a ń gbà",
+          "intro": "Campusly ń gba ìsọfúnni wọ̀nyí nígbà tí o bá forúkọ sílẹ̀ tí o sì ń lo iṣẹ́ náà:",
+          "items": [
+            {
+              "lead": "Ìsọfúnni ìdánimọ̀:",
+              "text": " orúkọ ìdílé, orúkọ, àdírẹ́sì ímeèlì."
+            },
+            {
+              "lead": "Ìsọfúnni ẹ̀kọ́:",
+              "text": " nọ́mbà akẹ́kọ̀ọ́ UAC, ẹ̀ka àti ẹ̀ka-ìkẹ́kọ̀ọ́."
+            },
+            {
+              "lead": "Dátà lílò:",
+              "text": " ìtàn ìdánwò, ìtẹ̀síwájú, àwọn ìwé tí a wò àti àwọn ìfiránṣẹ́ ìpàdé."
+            }
+          ]
+        },
+        {
+          "title": "2. Bí a ṣe ń lo dátà rẹ",
+          "intro": "A ń lo dátà rẹ nìkan fún:",
+          "items": [
+            {
+              "text": "Ṣíṣe ìrírí rẹ ní ti ara ẹni (àbá àwọn ìwé láti ẹ̀ka rẹ)."
+            },
+            {
+              "text": "Títọ́ ìtẹ̀síwájú ẹ̀kọ́ rẹ nínú pánẹ́ẹ̀lì."
+            },
+            {
+              "text": "Mímójútó ìforúkọsílẹ̀ àti owó pẹ̀lú alábàṣepọ̀ wa FedaPay."
+            }
+          ]
+        },
+        {
+          "title": "3. Ààbò àti àìléwu",
+          "items": [
+            {
+              "text": "A ń fi ìkọ̀kọ̀ ṣe àṣírí ọ̀rọ̀ ìpamọ́ ní ẹ̀yìn sáfà. A kò ń ta dátà ti ara ẹni. Nínú ẹ̀dà yìí, kò sí dátà tí ó ń jáde kúrò nínú aṣàwákiri rẹ: ohun tí o kọ ń gbé nínú ìpamọ́ àdúgbò, o sì lè pa á rẹ́ nígbàkigbà láti ètò."
+            }
+          ]
+        },
+        {
+          "title": "4. Àwọn ẹ̀tọ́ rẹ",
+          "items": [
+            {
+              "text": "O ní ẹ̀tọ́ láti wò, láti tún àti láti pa dátà rẹ rẹ́. Pípa àkọsílẹ̀ rẹ yóò wà nínú ètò pánẹ́ẹ̀lì."
+            }
+          ]
+        },
+        {
+          "title": "5. Pípè wá",
+          "items": [
+            {
+              "text": "Fún ìbéèrè èyíkéyìí nípa dátà rẹ, kọ̀wé sí wa tàbí kàn wá lórí WhatsApp."
+            }
+          ]
+        }
+      ]
+    },
+    "system": {
+      "notFoundTitle": "Ojú-ìwé kò sí",
+      "notFoundBody": "Ojú-ìwé yìí kò sí tàbí a ti gbé e lọ sí ibòmíràn. Padà sí ilé kí o tẹ̀síwájú nínú ìkẹ́kọ̀ọ́.",
+      "backHome": "Padà sí ilé",
+      "browseExams": "Wo àwọn ìwé ìdánwò",
+      "offlineTitle": "O kò sí lórí íńtánẹ́ẹ̀tì",
+      "offlineBody": "A kò lè dé Campusly. Ṣàyẹ̀wò ìsopọ̀ íńtánẹ́ẹ̀tì rẹ kí o tẹ̀síwájú.",
+      "retry": "Gbidanwo lẹ́ẹ̀kan sí i",
+      "offlineTips": "Àwọn ìmọ̀ràn",
+      "offlineTip1": "Ṣàyẹ̀wò ìsopọ̀ Wi-Fi tàbí dátà fọ́nù",
+      "offlineTip2": "Pa mọ́dù ọkọ̀ òfuurufú tí ó bá wà",
+      "offlineTip3": "Dátà àdúgbò rẹ wà nínú aṣàwákiri",
+      "authTitle": "Wọlé àti ìforúkọsílẹ̀",
+      "authLoading": "A ń gbé fọ́ọ̀mù ìwọlé wọlé…"
+    }
+  },
+  "auth": {
+    "eyebrowLogin": "Ààyè ẹnìkan",
+    "eyebrowRegister1": "Ṣí àkọsílẹ̀ · ìgbésẹ̀ 1",
+    "eyebrowRegister2": "Ṣí àkọsílẹ̀ · ìgbésẹ̀ 2",
+    "titleLogin": "Wọlé",
+    "titleIdentity": "Ẹni tí o jẹ́",
+    "titleProgram": "Ẹ̀kọ́ rẹ",
+    "subLogin": "Rí àwọn ohun èlò rẹ, àwọn ìdánrawò rẹ àti àwọn ìdánwò rẹ.",
+    "subIdentity": "Àwọn pápá mẹ́rin tó láti ṣí àkọsílẹ̀.",
+    "subProgram": "Sọ bí o ṣe ń ṣiṣẹ́: ààyè náà yóò yí padà lẹ́yìn náà.",
+    "tablistLabel": "Wọlé tàbí forúkọ sílẹ̀",
+    "tabLogin": "Wọlé",
+    "tabRegister": "Ìforúkọsílẹ̀",
+    "noticeStrong": "Ìwọlé pọndandan",
+    "noticeText": "láti wọ ààyè yìí. Nínú àfihàn, ìdánimọ̀ èyíkéyìí àti ọ̀rọ̀ ìpamọ́ tí ó ní ìlẹ́tà mẹ́rin ń ṣí ààyè akẹ́kọ̀ọ́.",
+    "labelIdentifier": "Ímeèlì tàbí nọ́mbà akẹ́kọ̀ọ́ UAC",
+    "placeholderIdentifier": "orukọ.orukọ@uac.bj",
+    "labelPassword": "Ọ̀rọ̀ ìpamọ́",
+    "placeholderPassword": "Ọ̀rọ̀ ìpamọ́ rẹ",
+    "showPassword": "Fi ọ̀rọ̀ ìpamọ́ hàn",
+    "hidePassword": "Fi ọ̀rọ̀ ìpamọ́ pamọ́",
+    "submitLogin": "Wọlé",
+    "submittingLogin": "Ń wọlé…",
+    "noAccount": "Kò tíì sí àkọsílẹ̀?",
+    "createAccount": "Ṣí àkọsílẹ̀",
+    "stepsLabel": "Àwọn ìgbésẹ̀ ìforúkọsílẹ̀",
+    "stepIdentity": "Ìdánimọ̀",
+    "stepProgram": "Ẹ̀kọ́",
+    "stage1": "Ìgbésẹ̀ 1 nínú 2: ìdánimọ̀.",
+    "stage2": "Ìgbésẹ̀ 2 nínú 2: ẹ̀kọ́.",
+    "labelFirstName": "Orúkọ",
+    "labelLastName": "Orúkọ ìdílé",
+    "labelEmail": "Àdírẹ́sì ímeèlì",
+    "labelNewPassword": "Ọ̀rọ̀ ìpamọ́",
+    "placeholderNewPassword": "Ìlẹ́tà mẹ́jọ, kéré jù",
+    "labelConfirm": "Jẹ́rìí ọ̀rọ̀ ìpamọ́",
+    "submitContinue": "Tẹ̀síwájú",
+    "rolesLegend": "Ìwọ jẹ́",
+    "roleLearnerHint": "Ìkẹ́kọ̀ọ́, ìdánwò àti ìdánrawò",
+    "roleTeacherHint": "Kíláàsì, ìwé àti àyẹ̀wò",
+    "labelMatricule": "Nọ́mbà akẹ́kọ̀ọ́ UAC (8)",
+    "labelFaculty": "Ẹ̀ka / ilé-ẹ̀kọ́",
+    "labelDepartment": "Ẹ̀ka-ìkẹ́kọ̀ọ́ / ẹ̀kọ́",
+    "hintDepartment": "Àwọn àbá láti ẹ̀ka tí o yàn.",
+    "labelTeacherDept": "Ẹ̀ka ìkọ́ni",
+    "placeholderTeacherDept": "FAST — Ìṣirò & Kọ̀mpútà",
+    "labelSubjects": "Àwọn kókó tí o ń kọ́",
+    "placeholderSubjects": "Àlúgórídímù, Ìtò dátà",
+    "hintSubjects": "Ya àwọn kókó pẹ̀lú àmì ìdá dúró.",
+    "labelTeacherFaculty": "Ẹ̀ka tí o ti wá",
+    "back": "Padà",
+    "submittingRegister": "Ń ṣí àkọsílẹ̀…",
+    "submitRegister": "Ṣí àkọsílẹ̀ mi",
+    "haveAccount": "Ṣé o ti ní àkọsílẹ̀?",
+    "exploring": "Ń ṣí àfihàn…",
+    "explore": "Wo àwọn ohun náà láìsí àkọsílẹ̀",
+    "demoStrong": "Àfihàn.",
+    "demoText": "A kò ṣàyẹ̀wò ọ̀rọ̀ ìpamọ́ kankan, a kò sì ṣí àkọsílẹ̀ gidi: ìwọlé ilé-ẹ̀kọ́ kò tíì so mọ́.",
+    "demoAccounts": "Láti wo àwọn ààyè mẹ́ta: 23180001 (akẹ́kọ̀ọ́), prof.agboton (olùkọ́), admin.sossou (aláṣẹ). Ọ̀rọ̀ ìpamọ́ èyíkéyìí, ìlẹ́tà mẹ́rin kéré jù.",
+    "footNote": "Iṣẹ́ olómìnira · àfihàn · kò sí dátà tí a fi ránṣẹ́ sí sáfà",
+    "footNavLabel": "Ìsọfúnni òfin",
+    "footAbout": "Nípa",
+    "footPrivacy": "Àṣírí",
+    "footTerms": "Àwọn òfin",
+    "backToSite": "Padà sí ojú-ìwé",
+    "brandAria": "Campusly — padà sí ilé",
+    "errFirstName": "Orúkọ pọndandan",
+    "errLastName": "Orúkọ ìdílé pọndandan",
+    "errEmail": "Àdírẹ́sì ímeèlì kò tọ́",
+    "errPasswordLen": "Ìlẹ́tà mẹ́jọ kéré jù",
+    "errConfirm": "Àwọn ọ̀rọ̀ ìpamọ́ kò bára mu.",
+    "errLogin": "A kò lè wọlé. Gbìyànjú lẹ́ẹ̀kan sí i.",
+    "errRegister": "A kò lè forúkọ sílẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i.",
+    "toastLogin": "Ìwọlé àfihàn ṣàṣeyọrí — káàbọ̀!",
+    "toastRegister": "A ti ṣí àkọsílẹ̀ àfihàn.",
+    "placeholderDepartment": "Ẹ̀kọ́ kọ̀mpútà"
   }
 }

@@ -220,5 +220,247 @@
     "terms": "Conditions d'utilisation",
     "support": "Support",
     "base": "© 2026 Campusly — Bénin"
+  },
+  "app": {
+    "navOverview": "Vue d'ensemble",
+    "navRevision": "Campusly AI & Quiz",
+    "navClassrooms": "Classrooms Amphi",
+    "navCompositions": "Compositions",
+    "navExams": "Épreuves & Annales",
+    "navForum": "Forum & Entraide",
+    "navCredits": "Campusly Credits",
+    "navTeacher": "Espace enseignant",
+    "navAdmin": "Panel admin",
+    "navNotifications": "Notifications",
+    "navSubscription": "Abonnement",
+    "navProfile": "Mon profil",
+    "navSettings": "Paramètres",
+    "navHome": "Accueil public",
+    "myAccount": "Mon compte",
+    "roleLearner": "Étudiant UAC",
+    "roleTeacher": "Enseignant",
+    "roleAdmin": "Administrateur",
+    "roleGuest": "Invité",
+    "sidebarLabel": "Navigation de l'espace",
+    "mainMenuLabel": "Menu principal",
+    "openNav": "Ouvrir la navigation",
+    "closeMenu": "Fermer le menu",
+    "logout": "Se déconnecter",
+    "logoutShort": "Déconnexion",
+    "homeLabel": "Campusly — accueil",
+    "sessionLocal": "Session locale",
+    "genericError": "Une erreur est survenue. Réessayez.",
+    "languageChanged": "Langue de l'interface : {language}. Votre choix est enregistré sur cet appareil et ne modifie pas le contenu de vos cours.",
+    "appearanceChanged": "Apparence : {appearance}. Votre choix est enregistré sur cet appareil."
+  },
+  "pages": {
+    "notice": "La version française de ce document fait foi. Les autres langues sont fournies pour la compréhension.",
+    "aboutEyebrow": "Le projet",
+    "aboutTitle": "À propos de Campusly.",
+    "aboutTitleAccent": "de Campusly.",
+    "aboutLede": "Centraliser les ressources académiques de l'UAC, et les rendre utilisables depuis un seul endroit.",
+    "aboutWhyTitle": "Pourquoi",
+    "aboutWhyBody": "Les épreuves, les supports de cours et les corrections existent déjà : ils circulent dans des groupes de messagerie, sur des clés USB et dans des dossiers partagés qui finissent par se perdre. Campusly les range selon la logique des maquettes de l'université, pour qu'un étudiant de première année trouve la même chose qu'un étudiant de cinquième.",
+    "aboutOffersTitle": "Ce que la plateforme fait aujourd'hui",
+    "aboutOffer1": "Les annales classées par faculté, département, niveau et année.",
+    "aboutOffer2": "Un espace de cours par matière, ouvert par un code d'amphi.",
+    "aboutOffer3": "Des entraînements corrigés localement, avec les notions à revoir.",
+    "aboutFacultiesTitle": "Facultés couvertes",
+    "aboutStateTitle": "État actuel : préfiguration",
+    "aboutStateBody": "Cette version présente l'interface complète avec des données fictives. Rien n'est enregistré sur un serveur. La génération de questions n'est pas ouverte, aucun paiement n'est accepté, et la bibliothèque ouvrira avec ses premiers fichiers.",
+    "aboutContactTitle": "Contact",
+    "aboutContactBody": "Une question, une suggestion, un partenariat d'établissement : écrivez-nous ou passez par la page Contribuer.",
+    "contributeEyebrow": "Bibliothèque",
+    "contributeTitle": "Contribuer à Campusly.",
+    "contributeTitleAccent": "à Campusly.",
+    "contributeLede": "Une épreuve, un sujet de TD ou une correction manque ? Proposez-le : chaque document est relu avant publication, puis rattaché à sa faculté, son niveau et son année. Votre nom peut être crédité.",
+    "legal": {
+      "updated": "Dernière mise à jour : novembre 2026",
+      "termsEyebrow": "Conditions",
+      "termsTitle": "Conditions d'utilisation.",
+      "termsTitleAccent": "d'utilisation.",
+      "terms": [
+        {
+          "title": "Acceptation des conditions",
+          "body": "En utilisant Campusly, vous acceptez les présentes conditions. Si vous ne les acceptez pas, n'utilisez pas la plateforme."
+        },
+        {
+          "title": "Utilisation du service",
+          "body": "Campusly est destiné aux étudiants de l'Université d'Abomey-Calavi. La plateforme s'utilise à des fins académiques légitimes ; le compte est personnel."
+        },
+        {
+          "title": "Contenu et contributions",
+          "body": "Les épreuves soumises doivent être des documents académiques légitimes. Tout contenu inapproprié, protégé sans autorisation ou trompeur est retiré. La modération reste humaine."
+        },
+        {
+          "title": "Données personnelles",
+          "body": "Seules les données nécessaires au fonctionnement sont collectées (matricule, faculté, historique d'utilisation). Vous pouvez demander la suppression de votre compte à tout moment."
+        },
+        {
+          "title": "Abonnement Premium",
+          "body": "Les packs de crédits ne sont pas ouverts : aucun paiement n'est accepté dans cette version, et aucun tarif n'est publié."
+        },
+        {
+          "title": "Limitation de responsabilité",
+          "body": "Campusly fournit les ressources « en l'état ». L'exactitude et l'exhaustivité des épreuves ne sont pas garanties."
+        }
+      ],
+      "termsContactTitle": "Contact",
+      "termsContactBody": "Pour toute question, utilisez la page",
+      "privacyEyebrow": "Données personnelles",
+      "privacyTitle": "Politique de confidentialité.",
+      "privacyTitleAccent": "de confidentialité.",
+      "privacy": [
+        {
+          "title": "1. Données collectées",
+          "intro": "Campusly collecte les informations suivantes lors de votre inscription et de l'utilisation du service :",
+          "items": [
+            {
+              "lead": "Informations d'identité :",
+              "text": " nom, prénom, adresse e-mail."
+            },
+            {
+              "lead": "Informations académiques :",
+              "text": " matricule UAC, faculté et département d'appartenance."
+            },
+            {
+              "lead": "Données d'utilisation :",
+              "text": " historique de quiz, progression, épreuves consultées et messages du forum."
+            }
+          ]
+        },
+        {
+          "title": "2. Utilisation de vos données",
+          "intro": "Vos données sont exclusivement utilisées pour :",
+          "items": [
+            {
+              "text": "Personnaliser votre expérience (suggestions d'épreuves de votre faculté)."
+            },
+            {
+              "text": "Suivre votre progression académique dans le tableau de bord."
+            },
+            {
+              "text": "Gérer votre abonnement et les paiements via notre partenaire FedaPay."
+            }
+          ]
+        },
+        {
+          "title": "3. Protection et sécurité",
+          "items": [
+            {
+              "text": "Les mots de passe sont hachés côté serveur. Aucune donnée personnelle n'est revendue. Dans cette version actuelle, aucune donnée ne quitte votre navigateur : les informations saisies restent dans le stockage local et peuvent être effacées à tout moment depuis les paramètres."
+            }
+          ]
+        },
+        {
+          "title": "4. Vos droits",
+          "items": [
+            {
+              "text": "Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. La suppression du compte sera disponible depuis les paramètres du tableau de bord."
+            }
+          ]
+        },
+        {
+          "title": "5. Nous contacter",
+          "items": [
+            {
+              "text": "Pour toute question concernant vos données, écrivez-nous ou contactez-nous sur WhatsApp."
+            }
+          ]
+        }
+      ]
+    },
+    "system": {
+      "notFoundTitle": "Page introuvable",
+      "notFoundBody": "Oups ! Cette page n'existe pas ou a été déplacée. Revenez à l'accueil pour continuer votre révision.",
+      "backHome": "Retour à l'accueil",
+      "browseExams": "Voir les épreuves",
+      "offlineTitle": "Vous êtes hors ligne",
+      "offlineBody": "Impossible de joindre Campusly. Vérifiez votre connexion internet pour continuer à réviser.",
+      "retry": "Réessayer",
+      "offlineTips": "Conseils",
+      "offlineTip1": "Vérifiez votre connexion Wi-Fi ou données mobiles",
+      "offlineTip2": "Désactivez le mode avion si activé",
+      "offlineTip3": "Vos données locales restent dans le navigateur",
+      "authTitle": "Connexion & inscription",
+      "authLoading": "Chargement du formulaire de connexion…"
+    }
+  },
+  "auth": {
+    "eyebrowLogin": "Espace personnel",
+    "eyebrowRegister1": "Créer un compte · étape 1",
+    "eyebrowRegister2": "Créer un compte · étape 2",
+    "titleLogin": "Se connecter",
+    "titleIdentity": "Votre identité",
+    "titleProgram": "Votre parcours",
+    "subLogin": "Retrouvez vos ressources, vos entraînements et vos compositions.",
+    "subIdentity": "Quatre champs suffisent pour ouvrir un compte.",
+    "subProgram": "Dites-nous comment vous travaillez : l'espace s'adapte ensuite.",
+    "tablistLabel": "Connexion ou inscription",
+    "tabLogin": "Connexion",
+    "tabRegister": "Inscription",
+    "noticeStrong": "Connexion requise",
+    "noticeText": "pour accéder à cet espace. En démonstration, un identifiant quelconque et un mot de passe d'au moins 4 caractères ouvrent l'espace étudiant.",
+    "labelIdentifier": "E-mail ou matricule UAC",
+    "placeholderIdentifier": "prenom.nom@uac.bj",
+    "labelPassword": "Mot de passe",
+    "placeholderPassword": "Votre mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "submitLogin": "Se connecter",
+    "submittingLogin": "Connexion en cours…",
+    "noAccount": "Pas encore de compte ?",
+    "createAccount": "Créer un compte",
+    "stepsLabel": "Étapes de l'inscription",
+    "stepIdentity": "Identité",
+    "stepProgram": "Parcours",
+    "stage1": "Étape 1 sur 2 : identité.",
+    "stage2": "Étape 2 sur 2 : parcours académique.",
+    "labelFirstName": "Prénom",
+    "labelLastName": "Nom",
+    "labelEmail": "Adresse e-mail",
+    "labelNewPassword": "Mot de passe",
+    "placeholderNewPassword": "8 caractères minimum",
+    "labelConfirm": "Confirmer le mot de passe",
+    "submitContinue": "Continuer",
+    "rolesLegend": "Vous êtes",
+    "roleLearnerHint": "Révisions, quiz et compositions",
+    "roleTeacherHint": "Classes, supports et rendus",
+    "labelMatricule": "Matricule UAC (8 chiffres)",
+    "labelFaculty": "Faculté / institut",
+    "labelDepartment": "Département / filière",
+    "hintDepartment": "Suggestions issues de la faculté sélectionnée.",
+    "labelTeacherDept": "Faculté / département d'enseignement",
+    "placeholderTeacherDept": "FAST — Mathématiques & Informatique",
+    "labelSubjects": "Matières enseignées",
+    "placeholderSubjects": "Algorithmique, Structures de données",
+    "hintSubjects": "Séparez les matières par une virgule.",
+    "labelTeacherFaculty": "Faculté de rattachement",
+    "back": "Retour",
+    "submittingRegister": "Création du compte…",
+    "submitRegister": "Créer mon compte",
+    "haveAccount": "Déjà un compte ?",
+    "exploring": "Ouverture de la démonstration…",
+    "explore": "Explorer sans compte",
+    "demoStrong": "Démonstration.",
+    "demoText": "Aucun mot de passe n'est vérifié et aucun compte réel n'est créé : l'authentification institutionnelle n'est pas encore branchée.",
+    "demoAccounts": "Pour parcourir les trois espaces : 23180001 (étudiant), prof.agboton (enseignant), admin.sossou (administration). Mot de passe au choix, 4 caractères minimum.",
+    "footNote": "Projet indépendant · préfiguration · aucune donnée envoyée à un serveur",
+    "footNavLabel": "Informations légales",
+    "footAbout": "À propos",
+    "footPrivacy": "Confidentialité",
+    "footTerms": "Conditions",
+    "backToSite": "Retour au site",
+    "brandAria": "Campusly — retour à l'accueil",
+    "errFirstName": "Le prénom est obligatoire",
+    "errLastName": "Le nom est obligatoire",
+    "errEmail": "Adresse e-mail invalide",
+    "errPasswordLen": "8 caractères minimum",
+    "errConfirm": "Les mots de passe ne correspondent pas.",
+    "errLogin": "Connexion impossible. Réessayez.",
+    "errRegister": "Inscription impossible. Réessayez.",
+    "toastLogin": "Connexion simulée réussie — bienvenue !",
+    "toastRegister": "Compte de démonstration créé.",
+    "placeholderDepartment": "Informatique"
   }
 }
