@@ -38,6 +38,15 @@
   --glass-tint: rgba(255, 255, 255, 0.62);
   --glass-tint-strong: rgba(255, 255, 255, 0.82);
   --glass-tint-soft: rgba(255, 255, 255, 0.38);
+  /* Panneaux PORTEURS DE TEXTE (préférences, menu mobile).
+     Le verre translucide convient à une barre ou à une carte : pas à une
+     surface où l'on lit une liste. À 0,96 d'opacité, le texte de la page
+     restait visible sous les libellés du panneau — deux textes superposés,
+     vérifié sur capture (sommaire « 今日开放 » sous les langues, titre du hero
+     sous le menu mobile). Ces deux panneaux sont donc opaques : la matière
+     vitrée y est portée par la bordure, le liseré supérieur et l'ombre, pas
+     par la transparence. */
+  --glass-tint-panel: #fbfaf6;
   --glass-border: rgba(19, 45, 70, 0.1);
   --glass-border-strong: rgba(19, 45, 70, 0.18);
   --glass-highlight: rgba(255, 255, 255, 0.9);
@@ -61,6 +70,7 @@
   --glass-tint: rgba(255, 255, 255, 0.055);
   --glass-tint-strong: rgba(255, 255, 255, 0.085);
   --glass-tint-soft: rgba(255, 255, 255, 0.03);
+  --glass-tint-panel: #0b1824;
   --glass-border: rgba(255, 255, 255, 0.14);
   --glass-border-strong: rgba(255, 255, 255, 0.22);
   --glass-highlight: rgba(255, 255, 255, 0.12);

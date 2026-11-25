@@ -256,10 +256,16 @@
   max-height: calc(100dvh - var(--nav-h-compact));
   overflow-y: auto;
   padding: clamp(22px, 5vw, 40px) var(--chrome-pad) 34px;
-  background: var(--glass-tint-strong);
+  /* Le panneau mobile est un écran plein : il porte tout le menu, ses liens,
+     le sélecteur de langue et le sélecteur d'apparence. Un voile de verre à
+     0,085 (sombre) laissait lire la page derrière et deux textes se
+     superposaient — constaté sur capture en yoruba à 390 px. Deux raisons :
+     le voile clair du verre est trop mince pour un si grand panneau, et la
+     barre qui le contient porte déjà un `backdrop-filter`, donc le flou du
+     panneau ne peut rien échantillonner (backdrop root). On garde la
+     bordure et le flou, on densifie le fond. */
+  background: var(--glass-tint-panel);
   border-bottom: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: blur(24px) saturate(var(--glass-saturate));
-  backdrop-filter: blur(24px) saturate(var(--glass-saturate));
 }
 
 .site-nav__panel-links {

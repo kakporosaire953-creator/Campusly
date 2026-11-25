@@ -66,17 +66,30 @@
 
 /* ── 2. Le panneau ────────────────────────────────────────── */
 
+/* `position: fixed` plutôt qu'`absolute` : le panneau est posé dans la barre,
+   qui est elle-même `position: fixed` avec un `overflow` de navigation. En
+   `absolute`, le bas du panneau était coupé par la fenêtre (vérifié : les
+   deux dernières options d'apparence sortaient de l'écran et le panneau se
+   prolongeait sous le pied de page). En `fixed`, il est dimensionné sur la
+   fenêtre, jamais sur la barre. */
 .prefs__panel {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  z-index: 1200;
+  position: fixed;
+  top: calc(var(--nav-h, 72px) + 8px);
+  right: max(16px, calc((100vw - var(--chrome-max, 1240px)) / 2 + 16px));
+  z-index: 1300;
   width: min(340px, calc(100vw - 32px));
-  max-height: min(70vh, 540px);
+  max-height: calc(100dvh - var(--nav-h, 72px) - 24px);
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 18px;
   color: var(--brand-on-surface);
   text-align: left;
+  /* Panneau opaque : voir le commentaire de `--glass-tint-panel`. Le flou de
+     `glass--floating` n'a plus rien à flouter — on le retire, c'est une
+     couche de composition en moins sur un élément où l'on lit. */
+  background: var(--glass-tint-panel);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 /* Ouverture : très courte, jamais de rebond. */
@@ -169,8 +182,11 @@
   overflow-wrap: anywhere;
 }
 
+/* Deux glyphes de la capsule (`中文`) n'existent dans aucune fonte latine :
+   sans cette pile, le code de langue s'affichait en deux rectangles (tofu)
+   dans le choix « 中文 » du panneau — vérifié sur capture. */
 .prefs__option-meta {
-  font-family: var(--brand-mono);
+  font-family: var(--brand-mono), "Campusly CJK", "Campusly Fallback", system-ui, sans-serif;
   font-size: 0.66rem;
   letter-spacing: 0.08em;
   color: var(--brand-ink-3);
@@ -225,6 +241,8 @@
    surfaces vitrées, ce qui coûte cher et se lit mal. */
 .prefs--menu .prefs__panel {
   position: static;
+  right: auto;
+  top: auto;
   width: 100%;
   max-height: none;
   margin-top: 8px;

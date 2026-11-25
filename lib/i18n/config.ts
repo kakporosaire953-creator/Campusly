@@ -45,9 +45,14 @@ export interface LocaleConfig {
   /** Devise affichée dans l'interface (le montant n'est jamais converti). */
   currency: string;
   /**
-   * Police de secours spécifique. `Baloo 2` et `Manrope` ne portent que le
-   * latin : le chinois doit recevoir une pile CJK explicite, le fon et le
-   * yoruba des diacritiques que ces fontes ne garantissent pas.
+   * Pile système ajoutée APRÈS les fontes de secours auto-hébergées.
+   * `Baloo 2` et `Manrope` ne portent que le latin de base : le chinois, le
+   * fon et le yoruba ont besoin de glyphes qu'ils n'ont pas. Ces glyphes sont
+   * fournis par les sous-ensembles `Campusly CJK` et `Campusly Fallback`
+   * (voir `styles/app/brand.css`), auto-hébergés et testés. Ce champ ne sert
+   * donc qu'à préférer la fonte système de la machine quand elle existe
+   * (PingFang sur macOS, Segoe UI sur Windows), pour un rendu plus proche de
+   * l'OS — jamais à combler un manque.
    */
   fontFallback?: string;
   /** Vrai si les traductions n'ont pas pu être validées par un locuteur. */
@@ -108,10 +113,9 @@ export const LOCALE_CONFIG: Record<Locale, LocaleConfig> = {
     short: "中文",
     dateLocale: "zh-CN",
     currency: "XOF",
-    /* Aucune fonte CJK n'est auto-hébergée : on s'appuie sur la pile système,
-       qui en contient toujours une (PingFang, Microsoft YaHei, Noto CJK…).
-       Ajouter une fonte CJK complète coûterait plusieurs mégaoctets pour un
-       rendu identique sur les systèmes à jour. */
+    /* Les sinogrammes de l'interface sont couverts par le sous-ensemble
+       auto-hébergé `Campusly CJK` (393 caractères, 63 Ko). La pile système
+       passe ensuite, pour préférer la fonte native de la machine. */
     fontFallback: '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif',
     /* Traductions rédigées et relues dans cette passe, sans validation par un
        locuteur natif externe : signalé dans le rapport final. */
