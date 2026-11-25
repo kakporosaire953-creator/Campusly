@@ -1,12 +1,61 @@
-.notfound-page { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px; }
-    .not-found { text-align:center; max-width:480px; }
-    .not-found-code {
-      font-size:8rem; font-weight:900; line-height:1;
-      background: linear-gradient(135deg, #0058BC, #FE8415);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-      margin-bottom:16px;
-    }
-    .not-found-title { font-size:1.5rem; font-weight:700; color:var(--text-1); margin-bottom:12px; }
-    .not-found-desc  { color:var(--text-2); font-size:0.95rem; line-height:1.7; margin-bottom:32px; }
-    .not-found-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .logo-text, .logo-text.logo-campusly { display:inline-flex; align-items:center; text-decoration:none; margin-bottom:32px; color:var(--text-1); }
+/* Page 404 — typographie et couleurs de marque.
+   1. Le code « 404 » n'est plus un dégradé navy→orange (qui virait au brun
+      boueux au centre) : il est posé en navy plein, Baloo 2 800, comme un
+      chiffre d'enseigne.
+   2. Titre en Baloo 2, description en Manrope : même contrat que le reste
+      de la plateforme. */
+.notfound-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.not-found {
+  text-align: center;
+  max-width: 480px;
+}
+
+.not-found-code {
+  margin-bottom: 8px;
+  font-family: var(--brand-display);
+  font-size: clamp(5rem, 14vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--brand-navy);
+}
+
+.not-found-title {
+  margin-bottom: 12px;
+  font-family: var(--brand-display);
+  font-size: clamp(1.35rem, 3vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-1);
+}
+
+.not-found-desc {
+  margin-bottom: 32px;
+  font-family: var(--brand-text);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.logo-text,
+.logo-text.logo-campusly {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 32px;
+  color: var(--text-1);
+  text-decoration: none;
+}

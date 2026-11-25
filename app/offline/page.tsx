@@ -32,7 +32,7 @@ export default function OfflinePage() {
         </Link>
         <div className="tips">
           <h3>
-            <i className="fa-solid fa-lightbulb" aria-hidden="true" style={{ color: "#FE8415" }} /> Conseils
+            <i className="fa-solid fa-lightbulb" aria-hidden="true" style={{ color: "#FD8517" }} /> Conseils
           </h3>
           <ul>
             <li>

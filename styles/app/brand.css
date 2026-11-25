@@ -1,0 +1,1114 @@
+/* ============================================================
+   CAMPUSLY — IDENTITÉ DE MARQUE (KRAFTER-15)
+   ------------------------------------------------------------
+   Cette feuille est le SOCLE. Elle est importée en premier, avant
+   les feuilles historiques, pour que tout le reste s'appuie sur
+   elle plutôt que de redéfinir des tokens.
+
+   Elle porte quatre choses, et rien de plus :
+     1. les polices, servies par le site (aucun CDN) ;
+     2. les jetons de couleur et de typographie, dérivés du logo ;
+     3. l'échelle typographique globale (H1 → micro-texte) ;
+     4. les primitives de composant qui en découlent : boutons,
+        champs, cartes, tableaux, onglets, badges, modales, toasts,
+        états vides, pagination.
+
+   Palette relevée sur le logo :
+     bleu marine  #132D46  (structure : titres, navigation, actions)
+     orange       #FD8517  (distinction : accents, états actifs)
+     ivoire       #F4F1E8  (surface chaude, éditoriale)
+     blanc        #FFFFFF  (respiration, surfaces de travail)
+
+   Cette palette remplace progressivement `#132D46` / `#FD8517`, qui
+   étaient une approximation : le logo n'est ni bleu vif ni orange clair.
+   Les états succès / erreur / avertissement restent distincts et
+   contrastés (voir §8).
+   ============================================================ */
+
+/* ── 1. Polices ──────────────────────────────────────────────
+   Baloo 2 : la signature (titres, navigation, boutons, marque).
+   Manrope : la précision (paragraphes, formulaires, tableaux, données).
+
+   Servies depuis `public/fonts/brand/` : pas de requête tierce, donc
+   pas de saut de rendu ni de police manquante en environnement fermé.
+   `unicode-range` limité au latin : les recommandations sont en français. */
+
+@font-face {
+  font-family: "Baloo 2";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/brand/baloo-2-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/brand/baloo-2-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/brand/baloo-2-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/brand/baloo-2-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Baloo 2";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/brand/baloo-2-latin-800-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/brand/manrope-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/brand/manrope-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/brand/manrope-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/brand/manrope-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/brand/manrope-latin-800-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+
+/* ── 2. Jetons ───────────────────────────────────────────────
+   Les noms de marque sont explicites (`--brand-*`) ; les noms
+   historiques (`--brand-1`, `--accent`, `--text-*`…) pointent dessus.
+   Une seule source de vérité : ce bloc. Les feuilles historiques
+   gardent leurs noms de variables, elles n'ont pas besoin d'être
+   réécrites pour suivre la marque. */
+
+:root {
+  /* Couleurs de marque */
+  --brand-navy: #132d46;
+  --brand-navy-deep: #0b1e30;
+  --brand-navy-soft: #1f4260;
+  --brand-orange: #fd8517;
+  /* Variante de l'orange pour le TEXTE sur papier : 4,80:1 sur ivoire et
+     5,42:1 sur blanc, donc conforme AA en petit corps. L'orange de marque
+     #FD8517 reste intact pour les aplats, filets et indicateurs. */
+  --brand-orange-deep: #a85208;
+  --brand-paper: #f4f1e8;
+  --brand-paper-2: #ece7da;
+  --brand-paper-3: #e0d8c7;
+  --brand-white: #ffffff;
+
+  /* Surfaces */
+  --brand-surface: #ffffff;
+  --brand-surface-2: #f6f4ee;
+  --brand-surface-3: #efebe1;
+
+  /* Encres */
+  --brand-ink: #132d46;
+  --brand-ink-2: #3a5268;
+  /* Encres secondaires : assombries pour rester lisibles sur le papier
+     ivoire (l'ancien #6b7f92 tombait à 3,66:1). #5b6f80 = 4,61:1 sur
+     ivoire, 5,21:1 sur blanc. `--brand-ink-4` reste la teinte des
+     placeholders et des mentions purement décoratives. */
+  --brand-ink-3: #5b6f80;
+  --brand-ink-4: #8a99a6;
+
+  /* Filets */
+  --brand-line: rgba(19, 45, 70, 0.12);
+  --brand-line-2: rgba(19, 45, 70, 0.22);
+  --brand-line-3: rgba(19, 45, 70, 0.38);
+  /* Encre d'accent : la teinte qui se pose sur une SURFACE (liens, libellés
+     d'onglet, contours actifs). Navy sur papier, ivoire sur marine. */
+  --brand-on-surface: var(--brand-navy);
+
+  /* États — distincts du bleu et de l'orange de marque, et contrastés */
+  --brand-success: #0f7b52;
+  --brand-success-soft: rgba(15, 123, 82, 0.1);
+  --brand-danger: #b3261e;
+  --brand-danger-soft: rgba(179, 38, 30, 0.09);
+  --brand-warning: #8a5300;
+  --brand-warning-soft: rgba(253, 133, 23, 0.13);
+  --brand-info: #132d46;
+  --brand-info-soft: rgba(19, 45, 70, 0.07);
+
+  /* Typographie */
+  --brand-display: "Baloo 2", "Manrope", system-ui, sans-serif;
+  --brand-text: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --brand-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, monospace;
+
+  /* Échelle typographique : une seule échelle, exprimée en rem.
+     Les tailles « display » sont fluides (clamp) pour ne jamais déborder
+     ni devenir illisibles sur un téléphone. */
+  --fs-display: clamp(2.6rem, 5.6vw, 4.4rem);
+  --fs-h1: clamp(2rem, 3.6vw, 2.75rem);
+  --fs-h2: clamp(1.6rem, 2.6vw, 2.05rem);
+  --fs-h3: clamp(1.24rem, 1.7vw, 1.45rem);
+  --fs-h4: 1.06rem;
+  --fs-h5: 0.94rem;
+  --fs-h6: 0.84rem;
+  --fs-body: 0.95rem;
+  --fs-body-lg: 1.04rem;
+  --fs-small: 0.84rem;
+  --fs-micro: 0.74rem;
+  --fs-nano: 0.66rem;
+
+  /* Rythme */
+  --brand-gutter: clamp(18px, 4.4vw, 46px);
+  --brand-rail: 1240px;
+  --brand-radius-xs: 4px;
+  --brand-radius-sm: 8px;
+  --brand-radius: 10px;
+  --brand-radius-lg: 14px;
+  --brand-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --brand-quick: 140ms;
+
+  /* Alias historiques : tout le reste du dépôt continue de fonctionner. */
+  --font-sans: var(--brand-text);
+  --font-editorial: var(--brand-display);
+  --font-label: var(--brand-display);
+  --font-mono: var(--brand-mono);
+  --sans: var(--brand-text);
+  --serif: var(--brand-display);
+  --mono: var(--brand-mono);
+
+  --brand-1: var(--brand-navy);
+  /* `--brand-2` sert de couleur d'ICÔNE et de micro-libellé sur surface :
+     navy-soft en clair, encre secondaire en sombre (voir le bloc dark). */
+  --brand-2: var(--brand-navy-soft);
+  /* `--brand-3` n'est pas un aplat décoratif : c'est la teinte appliquée au
+     TEXTE et aux CONTOURS posés sur une surface. Elle doit donc s'inverser
+     en mode sombre, sinon les libellés deviennent navy sur navy. */
+  --brand-3: var(--brand-on-surface);
+  --brand-soft: rgba(19, 45, 70, 0.07);
+  --accent: var(--brand-orange);
+  --accent-2: #ffa04d;
+  --accent-text: var(--brand-orange-deep);
+
+  --ink: var(--brand-navy);
+  --ink-deep: var(--brand-navy-deep);
+  --paper: var(--brand-paper);
+  --paper-2: var(--brand-paper-2);
+  --paper-3: var(--brand-paper-3);
+  --signal: var(--brand-navy);
+  --signal-ink: var(--brand-navy);
+  --signal-soft: rgba(19, 45, 70, 0.08);
+  --ember: var(--brand-orange);
+  --ember-soft: rgba(253, 133, 23, 0.14);
+  --rule: var(--brand-line);
+  --rule-strong: var(--brand-line-3);
+  --muted: var(--brand-ink-2);
+  --on-ink: var(--brand-paper);
+  --on-ink-muted: rgba(244, 241, 232, 0.72);
+  --on-ink-rule: rgba(244, 241, 232, 0.22);
+
+  --bg: var(--brand-white);
+  --bg-2: var(--brand-surface-2);
+  --bg-3: var(--brand-surface-3);
+  --surface: rgba(19, 45, 70, 0.03);
+  --surface-2: rgba(19, 45, 70, 0.06);
+  --surface-3: rgba(19, 45, 70, 0.1);
+  --border: var(--brand-line);
+  --border-2: var(--brand-line-2);
+  --text-1: var(--brand-ink);
+  --text-2: var(--brand-ink-2);
+  --text-3: var(--brand-ink-3);
+  --text-4: var(--brand-ink-4);
+  --grad-card: var(--brand-white);
+  --grad-brand: var(--brand-navy);
+  --grad-accent: var(--brand-orange);
+  --grad-hero: var(--brand-navy);
+
+  --success: var(--brand-success);
+  --danger: var(--brand-danger);
+  --warning: var(--brand-warning);
+  --info: var(--brand-info);
+
+  --r-sm: 6px;
+  --r-md: var(--brand-radius);
+  --r-lg: var(--brand-radius-lg);
+  --r-xl: 18px;
+  --r-2xl: 22px;
+  --r-full: 9999px;
+  --t-fast: 120ms;
+  --t-base: 200ms;
+  --t-slow: 320ms;
+  --ease: var(--brand-ease);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* Mode sombre : mêmes rôles, valeurs inversées. Le marine devient la
+   surface, l'ivoire l'encre, l'orange reste la distinction. */
+[data-theme="dark"] {
+  --brand-surface: #0e1a26;
+  --brand-surface-2: #132433;
+  --brand-surface-3: #1a2e3f;
+  --brand-ink: #f4f1e8;
+  --brand-ink-2: #d3dbe2;
+  --brand-ink-3: #9aa9b7;
+  --brand-ink-4: #74838f;
+  --brand-line: rgba(244, 241, 232, 0.12);
+  --brand-line-2: rgba(244, 241, 232, 0.22);
+  --brand-line-3: rgba(244, 241, 232, 0.38);
+  --brand-on-surface: var(--brand-ink);
+  /* Contrepartie de l'alias clair : sans cette ligne, `--brand-3` resterait
+     figé sur la valeur navy héritée de `:root`. */
+  --brand-3: var(--brand-on-surface);
+  --signal: var(--brand-ink);
+  --signal-ink: var(--brand-ink);
+  --brand-1: var(--brand-ink);
+  --brand-2: var(--brand-ink);
+  /* Les bandes d'encre du gabarit public restent navy DANS LES DEUX MODES
+     (voir editorial.css §0) : leurs encres ne doivent donc pas s'inverser. */
+  --on-ink: var(--brand-paper);
+  --on-ink-muted: rgba(244, 241, 232, 0.74);
+  --on-ink-rule: rgba(244, 241, 232, 0.22);
+  --ember: #ffb469;
+  /* En sombre, le texte d'accent est l'orange éclairci (5,7:1 sur le navy
+     de page). Le gabarit public, lui, reste sur papier : sa portée
+     (editorial.css §0) ramène `--accent-text` à l'orange profond. */
+  --accent-text: #ffb469;
+  --brand-success: #4ecb9a;
+  --brand-danger: #ff8a80;
+  --brand-warning: #ffc078;
+  --brand-info: #9dc3e0;
+
+  --bg: #0b1620;
+  --bg-2: #101f2c;
+  --bg-3: #162837;
+  --surface: rgba(244, 241, 232, 0.04);
+  --surface-2: rgba(244, 241, 232, 0.07);
+  --surface-3: rgba(244, 241, 232, 0.11);
+  --border: var(--brand-line);
+  --border-2: var(--brand-line-2);
+  --text-1: var(--brand-ink);
+  --text-2: var(--brand-ink-2);
+  --text-3: var(--brand-ink-3);
+  --text-4: var(--brand-ink-4);
+  --grad-card: #101f2c;
+  --success: var(--brand-success);
+  --danger: var(--brand-danger);
+  --warning: var(--brand-warning);
+  --info: var(--brand-info);
+  --muted: var(--brand-ink-2);
+  --ink: var(--brand-ink);
+  --paper: #0b1620;
+}
+
+/* ── 3. Base et échelle typographique ──────────────────────── */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--brand-text);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--text-1);
+  background: var(--bg);
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Les titres parlent Baloo 2 : la personnalité de la marque.
+   Graisses mesurées, interlignes serrés, pas de capitales forcées. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4 {
+  font-family: var(--brand-display);
+  color: var(--text-1);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+h1,
+.h1 {
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+}
+
+h2,
+.h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  letter-spacing: -0.016em;
+  line-height: 1.08;
+}
+
+h3,
+.h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+h4,
+.h4 {
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h5,
+.h5 {
+  font-size: var(--fs-h5);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h6,
+.h6 {
+  font-size: var(--fs-h6);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Micro-annotation : capitales espacées, réservées aux étiquettes
+   courtes (sur-titres, index, unités). Jamais pour du texte long. */
+.brand-eyebrow {
+  font-family: var(--brand-display);
+  font-size: var(--fs-nano);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+::selection {
+  background: rgba(253, 133, 23, 0.24);
+  color: var(--brand-navy-deep);
+}
+
+/* ── 4. Boutons ──────────────────────────────────────────────
+   Trois familles, une seule géométrie.
+     primary   : marine plein, texte ivoire.
+     accent    : orange plein, texte MARINE (contraste 6,6:1), usage rare.
+     secondary : fond ivoire/blanc, filet marine, texte marine.
+     ghost     : sans filet, texte marine.
+   Hauteurs : 32 / 40 / 48 px. Rayon 8 à 10 px. Aucune ombre portée,
+   aucun dégradé, aucune transformation qui déplace la cible au survol. */
+
+.btn {
+  --btn-h: 40px;
+  --btn-px: 18px;
+  --btn-fs: 0.875rem;
+  --btn-bg: var(--brand-navy);
+  --btn-fg: var(--brand-paper);
+  --btn-border: var(--brand-navy);
+  --btn-bg-hover: var(--brand-navy-soft);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: var(--btn-h);
+  padding: 0 var(--btn-px);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--brand-radius-sm);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--brand-display);
+  font-size: var(--btn-fs);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    background-color var(--brand-quick) ease,
+    border-color var(--brand-quick) ease,
+    color var(--brand-quick) ease,
+    box-shadow var(--brand-quick) ease;
+}
+
+.btn > i,
+.btn > svg {
+  font-size: 0.95em;
+  line-height: 1;
+  flex: none;
+}
+
+.btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-bg-hover);
+  color: var(--btn-fg);
+  transform: none;
+  box-shadow: none;
+}
+
+.btn:active {
+  transform: none;
+  background: var(--brand-navy-deep);
+  border-color: var(--brand-navy-deep);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 2px;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"],
+.btn.is-loading {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* État « en cours » : l'icône tourne, le texte reste lisible. */
+.btn.is-loading > i {
+  animation: brand-spin 900ms linear infinite;
+}
+
+@keyframes brand-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tailles */
+.btn-sm {
+  --btn-h: 32px;
+  --btn-px: 13px;
+  --btn-fs: 0.8rem;
+  border-radius: var(--brand-radius-xs);
+}
+
+.btn-lg {
+  --btn-h: 48px;
+  --btn-px: 22px;
+  --btn-fs: 0.95rem;
+  border-radius: var(--brand-radius);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Variantes */
+.btn-primary {
+  --btn-bg: var(--brand-navy);
+  --btn-fg: var(--brand-paper);
+  --btn-border: var(--brand-navy);
+  --btn-bg-hover: var(--brand-navy-soft);
+}
+
+.btn-accent {
+  --btn-bg: var(--brand-orange);
+  --btn-fg: var(--brand-navy-deep);
+  --btn-border: var(--brand-orange);
+  --btn-bg-hover: #ffa04d;
+}
+
+.btn-accent:active {
+  background: var(--brand-orange-deep);
+  border-color: var(--brand-orange-deep);
+}
+
+/* Secondaire : fond ivoire (jamais transparent sur une surface blanche —
+   le filet seul se perdait), bordure marine. */
+.btn-outline {
+  --btn-bg: var(--brand-surface-2);
+  --btn-fg: var(--brand-on-surface);
+  --btn-border: var(--brand-on-surface);
+  --btn-bg-hover: var(--brand-surface-3);
+}
+
+.btn-outline:hover {
+  color: var(--brand-on-surface);
+  border-color: var(--brand-on-surface);
+}
+
+.btn-ghost {
+  /* Bouton secondaire « fil » : présent dans une rangée d'actions, sans
+     rivaliser avec le Primary voisin. Il garde un filet navy visible, donc
+     un contour reconnaissable comme bouton, et un fond ivoire au survol. */
+  --btn-bg: transparent;
+  --btn-fg: var(--brand-on-surface);
+  --btn-border: var(--brand-line-2);
+  --btn-bg-hover: var(--brand-surface-2);
+}
+
+.btn-ghost:hover {
+  background: var(--brand-surface-2);
+  border-color: var(--brand-line-3);
+  color: var(--brand-on-surface);
+}
+
+.btn-ghost:active {
+  background: var(--brand-surface-3);
+  border-color: var(--brand-on-surface);
+}
+
+.btn-danger {
+  --btn-bg: transparent;
+  --btn-fg: var(--brand-danger);
+  --btn-border: rgba(179, 38, 30, 0.32);
+  --btn-bg-hover: var(--brand-danger-soft);
+}
+
+/* En mode sombre, Primary s'inverse : encre ivoire sur surface marine.
+   Secondary, Ghost et Accent n'ont pas besoin de déclinaison, ils lisent
+   les mêmes jetons (`--brand-on-surface` vaut l'ivoire en sombre). */
+[data-theme="dark"] .btn-primary {
+  --btn-bg: var(--brand-ink);
+  --btn-fg: var(--brand-navy-deep);
+  --btn-border: var(--brand-ink);
+  --btn-bg-hover: #ffffff;
+}
+
+.btn-icon-only {
+  --btn-px: 0;
+  width: var(--btn-h);
+  min-width: var(--btn-h);
+  padding: 0;
+}
+
+/* ── 5. Champs de formulaire ─────────────────────────────────
+   Un champ se reconnaît à sa surface, pas à son ombre. 44 px de
+   hauteur (cible tactile), rayon 8 px, focus net en marine. */
+
+.form-label,
+.auth__label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--brand-display);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-2);
+}
+
+.form-input,
+.form-select,
+.form-textarea,
+.auth__input,
+.auth__select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 13px;
+  border: 1px solid var(--brand-line-2);
+  border-radius: var(--brand-radius-sm);
+  background: var(--brand-white);
+  color: var(--text-1);
+  font-family: var(--brand-text);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  box-shadow: none;
+  transition: border-color var(--brand-quick) ease, box-shadow var(--brand-quick) ease, background-color var(--brand-quick) ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-textarea,
+[data-theme="dark"] .auth__input,
+[data-theme="dark"] .auth__select {
+  background: var(--brand-surface-2);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder,
+.auth__input::placeholder {
+  color: var(--text-4);
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover,
+.auth__input:hover {
+  border-color: var(--brand-line-3);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus,
+.auth__input:focus,
+.auth__select:focus {
+  outline: none;
+  border-color: var(--brand-navy);
+  box-shadow: 0 0 0 3px rgba(19, 45, 70, 0.12);
+  background: var(--brand-white);
+}
+
+[data-theme="dark"] .form-input:focus,
+[data-theme="dark"] .form-select:focus,
+[data-theme="dark"] .form-textarea:focus {
+  border-color: var(--brand-orange);
+  box-shadow: 0 0 0 3px rgba(253, 133, 23, 0.18);
+  background: var(--brand-surface-3);
+}
+
+.form-input[aria-invalid="true"],
+.form-select[aria-invalid="true"],
+.form-textarea[aria-invalid="true"],
+.auth__input[aria-invalid="true"] {
+  border-color: var(--brand-danger);
+}
+
+.form-input[aria-invalid="true"]:focus,
+.auth__input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--brand-danger-soft);
+}
+
+/* Chevron dessiné (aucune image, aucune police d'icône). */
+.form-select,
+.auth__select {
+  padding-right: 38px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%),
+    linear-gradient(135deg, var(--text-3) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% + 1px), calc(100% - 13px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.form-hint {
+  margin-top: 5px;
+  font-size: var(--fs-micro);
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+.form-error {
+  margin-top: 5px;
+  font-size: var(--fs-micro);
+  line-height: 1.45;
+  color: var(--brand-danger);
+}
+
+/* ── 6. Surfaces : cartes, filets, tableaux ────────────────── */
+
+.card {
+  border: 1px solid var(--brand-line);
+  border-radius: var(--brand-radius);
+  background: var(--brand-surface);
+  box-shadow: none;
+  padding: clamp(18px, 2vw, 26px);
+}
+
+.card:hover {
+  border-color: var(--brand-line);
+  transform: none;
+  box-shadow: none;
+}
+
+.card-title {
+  font-family: var(--brand-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--text-1);
+  margin-bottom: 0;
+}
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--brand-line);
+}
+
+.card-head__text {
+  min-width: 0;
+}
+
+.card-head__sub {
+  margin: 3px 0 0;
+  font-size: var(--fs-micro);
+  line-height: 1.5;
+  color: var(--text-3);
+}
+
+.card-head__action {
+  flex: none;
+}
+
+/* Tableaux : en-tête en petites capitales, lignes séparées par un filet,
+   chiffres alignés (tabular-nums). */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--brand-line);
+  border-radius: var(--brand-radius-sm);
+  -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--brand-text);
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--brand-line);
+}
+
+.data-table th {
+  font-family: var(--brand-display);
+  font-size: var(--fs-nano);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  background: var(--brand-surface-2);
+  white-space: nowrap;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(19, 45, 70, 0.03);
+}
+
+/* ── 7. Onglets, badges, étiquettes ────────────────────────── */
+
+[role="tablist"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  border-bottom: 1px solid var(--brand-line);
+}
+
+.learning-mode-tab {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 14px;
+  margin-bottom: -1px;
+  font-family: var(--brand-display);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--text-3);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color var(--brand-quick) ease, border-color var(--brand-quick) ease;
+}
+
+.learning-mode-tab:hover {
+  color: var(--text-1);
+}
+
+.learning-mode-tab.active {
+  color: var(--brand-on-surface);
+  border-bottom-color: var(--brand-orange);
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .learning-mode-tab.active {
+  color: var(--brand-ink);
+}
+
+.learning-mode-tab i {
+  font-size: 0.8em;
+  opacity: 0.75;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border: 1px solid var(--brand-line-2);
+  border-radius: var(--brand-radius-xs);
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--brand-display);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--brand-quick) ease, background-color var(--brand-quick) ease, color var(--brand-quick) ease;
+}
+
+.chip:hover {
+  border-color: var(--brand-on-surface);
+  color: var(--brand-on-surface);
+}
+
+.chip[aria-pressed="true"],
+.chip.is-active {
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
+  color: var(--brand-paper);
+}
+
+/* ── 8. Modales et toasts ──────────────────────────────────── */
+
+.modal-overlay {
+  background: rgba(11, 30, 48, 0.54);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  padding: 20px;
+}
+
+.modal,
+.toast {
+  border: 1px solid var(--brand-line);
+  border-radius: var(--brand-radius-lg);
+  background: var(--brand-surface);
+  color: var(--text-1);
+  box-shadow: 0 24px 60px -40px rgba(11, 30, 48, 0.7);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.modal {
+  padding: clamp(20px, 3vw, 30px);
+  animation: brand-modal-in 200ms var(--brand-ease);
+}
+
+@keyframes brand-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+}
+
+.modal-title {
+  padding-right: 34px;
+  font-family: var(--brand-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-1);
+}
+
+.modal-desc {
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.modal-close {
+  border: 1px solid transparent;
+  border-radius: var(--brand-radius-xs);
+  background: transparent;
+  color: var(--text-3);
+  width: 30px;
+  height: 30px;
+  transition: color var(--brand-quick) ease, border-color var(--brand-quick) ease;
+}
+
+.modal-close:hover {
+  color: var(--text-1);
+  border-color: var(--brand-line-2);
+  background: transparent;
+}
+
+.toast {
+  padding: 11px 18px;
+  border-radius: var(--brand-radius-sm);
+  font-family: var(--brand-text);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  white-space: normal;
+  border-left: 3px solid var(--brand-navy);
+}
+
+.toast.success {
+  border-left-color: var(--brand-success);
+  background: var(--brand-surface);
+  border-color: var(--brand-line);
+}
+
+.toast.info {
+  border-left-color: var(--brand-navy);
+}
+
+.toast.danger,
+.toast.error {
+  border-left-color: var(--brand-danger);
+}
+
+/* ── 9. États vides, chargement, pagination ────────────────── */
+
+.state-card {
+  border: 1px solid var(--brand-line);
+  border-radius: var(--brand-radius);
+  background: var(--brand-surface-2);
+  padding: clamp(18px, 2.4vw, 26px);
+  text-align: left;
+}
+
+.state-card-icon {
+  display: none;
+}
+
+.state-card h3 {
+  font-family: var(--brand-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.state-card p {
+  max-width: 60ch;
+  margin: 0 0 14px;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.progress-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--brand-line);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--brand-navy);
+  transition: width 320ms var(--brand-ease);
+}
+
+.progress-fill.is-accent {
+  background: var(--brand-orange);
+}
+
+.progress-fill.is-success {
+  background: var(--brand-success);
+}
+
+.progress-fill.is-danger {
+  background: var(--brand-danger);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pagination button,
+.pagination a {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 9px;
+  border: 1px solid var(--brand-line-2);
+  border-radius: var(--brand-radius-xs);
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--brand-display);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pagination button[aria-current="page"],
+.pagination a[aria-current="page"] {
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
+  color: var(--brand-paper);
+}
+
+/* ── 10. Focus et accessibilité ────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 2px;
+  border-radius: var(--brand-radius-xs);
+  /* Plusieurs feuilles historiques posent `transition: all` : l'anneau de
+     focus s'animait donc de 0 à 2 px, et restait invisible les 200 premières
+     millisecondes. Un repère de navigation au clavier ne s'anime pas. */
+  transition-duration: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -115,7 +115,7 @@ img, svg, video, iframe { max-width: 100%; }
     visibility: visible;
     box-shadow: 0 0 0 100vw rgba(0,0,0,0.4);
   }
-  .nav-links.open li { width: 100%; border-bottom: 1px solid rgba(0,88,188,0.06); }
+  .nav-links.open li { width: 100%; border-bottom: 1px solid rgba(19,45,70,0.06); }
   .nav-links.open li:last-child { border-bottom: none; }
   .nav-links.open a {
     display: block;

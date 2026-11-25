@@ -180,7 +180,7 @@ export function OnboardingFlow() {
                     style={{
                       padding: 16,
                       border: `2px solid ${selected ? "var(--brand-1)" : "var(--border)"}`,
-                      background: selected ? "rgba(0,88,188,0.06)" : "transparent",
+                      background: selected ? "rgba(19,45,70,0.06)" : "transparent",
                       borderRadius: "var(--r-lg)",
                       cursor: "pointer",
                       textAlign: "center",
@@ -220,7 +220,7 @@ export function OnboardingFlow() {
                     style={{
                       padding: 16,
                       border: `2px solid ${selected ? "var(--brand-1)" : "var(--border)"}`,
-                      background: selected ? "rgba(0,88,188,0.06)" : "transparent",
+                      background: selected ? "rgba(19,45,70,0.06)" : "transparent",
                       borderRadius: "var(--r-lg)",
                       cursor: "pointer",
                       display: "flex",

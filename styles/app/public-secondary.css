@@ -17,20 +17,23 @@
    de /auth et des autres routes applicatives ne changent pas.
    ============================================================ */
 
+/* Rayons alignés sur les primitives de `brand.css` (10 px) : les pages
+   secondaires ne sont plus une exception dans la plateforme. */
 .secondary-page .card {
-  border-radius: 2px;
+  border-radius: var(--brand-radius);
   box-shadow: none;
 }
 
 .secondary-page h1 {
-  font-family: var(--serif);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-family: var(--brand-display);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.04;
+  text-wrap: balance;
 }
 
 .secondary-page .card a {
-  color: var(--signal-ink, #2a5cc4);
+  color: var(--signal-ink, var(--brand-orange-deep));
 }
 
 /* Les pages secondaires posent leurs couleurs en style inline :
@@ -44,26 +47,26 @@
 .secondary-page {
   /* Texte : la hiérarchie d'origine est conservée (titre plein, corps 82 %,
      mention 62 %), seule la teinte change — encre au lieu de blanc. */
-  --text-1: #122d45;
-  --text-2: rgba(18, 45, 69, 0.82);
-  --text-3: rgba(18, 45, 69, 0.62);
-  --text-4: rgba(18, 45, 69, 0.48);
+  --text-1: var(--brand-navy);
+  --text-2: color-mix(in srgb, var(--brand-navy) 82%, transparent);
+  --text-3: color-mix(in srgb, var(--brand-navy) 62%, transparent);
+  --text-4: color-mix(in srgb, var(--brand-navy) 48%, transparent);
 
   /* Surfaces et filets : le dépôt de fichier, la notice et les champs sont
      dessinés avec ces jetons. En sombre ils valaient du blanc translucide,
      donc invisibles sur la carte ivoire (mesuré : bordure 12 % de blanc sur
      blanc). */
   --surface: #ffffff;
-  --surface-2: rgba(18, 45, 69, 0.04);
-  --surface-3: rgba(18, 45, 69, 0.08);
-  --border: rgba(18, 45, 69, 0.12);
-  --border-2: rgba(18, 45, 69, 0.2);
+  --surface-2: color-mix(in srgb, var(--brand-navy) 4%, transparent);
+  --surface-3: color-mix(in srgb, var(--brand-navy) 8%, transparent);
+  --border: var(--brand-line);
+  --border-2: var(--brand-line-2);
 
-  /* Signal : le bleu `#0058BC` du gabarit applicatif reste utilisé pour les
+  /* Signal : le bleu `#132D46` du gabarit applicatif reste utilisé pour les
      liens de contenu, mais pas pour les contours de formulaire. */
-  --brand-1: #2a5cc4;
-  --brand-2: #326de6;
-  --brand-3: #5b8cf0;
+  --brand-1: var(--brand-navy);
+  --brand-2: var(--brand-navy-soft);
+  --brand-3: var(--brand-navy-soft);
 }
 
 /* Les champs du formulaire de contribution reçoivent leur bordure d'une
@@ -75,8 +78,8 @@
 .secondary-page .form-select,
 .secondary-page .form-textarea {
   background: #ffffff !important;
-  border-color: rgba(18, 45, 69, 0.22) !important;
-  color: #122d45 !important;
+  border-color: var(--brand-line-2) !important;
+  color: var(--brand-navy) !important;
 }
 
 /* ============================================================
@@ -129,15 +132,15 @@
   align-items: baseline;
   gap: 0.7em;
   margin-bottom: 10px;
-  font-family: var(--sans);
-  font-size: 1rem;
+  font-family: var(--brand-display);
+  font-size: 1.12rem;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: -0.008em;
   color: var(--ink);
 }
 
 .doc__body h2 span {
-  font-family: var(--mono);
+  font-family: var(--brand-mono);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -145,7 +148,7 @@
 }
 
 .doc__body p {
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.97rem;
   line-height: 1.72;
   color: var(--muted);
@@ -156,7 +159,7 @@
   margin: 0;
   padding-left: 1.1em;
   color: var(--muted);
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.97rem;
   line-height: 1.7;
 }
@@ -166,7 +169,7 @@
 }
 
 .doc__body a {
-  color: var(--signal-ink, #2a5cc4);
+  color: var(--signal-ink, var(--brand-orange-deep));
   text-underline-offset: 2px;
 }
 
@@ -174,7 +177,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px 18px;
-  font-family: var(--mono) !important;
+  font-family: var(--brand-mono) !important;
   font-size: 0.82rem !important;
   letter-spacing: 0.08em;
   color: var(--ink) !important;
@@ -187,6 +190,6 @@
 }
 
 .doc__body--form .card {
-  border-radius: 2px;
+  border-radius: var(--brand-radius);
   box-shadow: none;
 }

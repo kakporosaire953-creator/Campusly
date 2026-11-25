@@ -62,12 +62,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Polices et icônes : mêmes CDN que la version historique (identité
             conservée). Placées dans <head> pour ne pas retarder le rendu du
             body et pour rester valides au regard de la spécification HTML. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
-        />
+        {/* Polices auto-hébergées : les polices locales sont préchargées
+            plutôt que d'ouvrir une connexion vers un CDN. */}
+        <link rel="preload" href="/fonts/brand/baloo-2-latin-700-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/brand/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        {/* Polices servies par le site (Baloo 2 + Manrope), déclarées dans
+            `styles/app/brand.css`. Plus aucune requête vers un CDN : en
+            environnement fermé, l'ancien <link> laissait la page en police
+            système, ce qui cassait la signature typographique. */}
       </head>
       <body>
         <LegacyServiceWorkerCleanup />

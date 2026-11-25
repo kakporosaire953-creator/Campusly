@@ -9,9 +9,21 @@
 
 /* ── Accessibilité : focus visible et lien d'évitement ─────── */
 :focus-visible {
-  outline: 3px solid rgba(0, 88, 188, 0.55);
+  outline: 3px solid rgba(19, 45, 70, 0.55);
   outline-offset: 2px;
   border-radius: var(--r-sm);
+}
+
+/* Lien d'évitement : visible seulement au clavier. Il est posé en orange de
+   marque avec un texte navy profond (6,6:1), donc lisible sur le papier
+   comme sur une bande d'encre, dans les deux modes. */
+/* `a.skip-link` et non `.skip-link` : la règle globale des liens en mode
+   sombre (`[data-theme="dark"] a:not(.btn)`) est plus spécifique et
+   repeignait le texte en ivoire sur l'aplat orange (2,18:1). */
+a.skip-link,
+a.skip-link:focus {
+  background: var(--brand-orange);
+  color: var(--brand-navy-deep) !important;
 }
 
 .skip-link {
@@ -19,16 +31,14 @@
   left: 12px;
   top: -60px;
   z-index: 3000;
-  background: var(--brand-1);
-  color: #fff;
   padding: 10px 18px;
-  border-radius: var(--r-md);
-  font-weight: 700;
+  border-radius: var(--brand-radius-sm);
+  font-family: var(--brand-display);
+  font-weight: 600;
   transition: top var(--t-fast) var(--ease);
 }
 .skip-link:focus {
   top: 12px;
-  color: #fff;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -49,8 +59,8 @@
   gap: 10px;
   flex-wrap: wrap;
   padding: 8px 16px;
-  background: rgba(254, 132, 21, 0.1);
-  border-bottom: 1px solid rgba(254, 132, 21, 0.28);
+  background: rgba(253, 133, 23, 0.1);
+  border-bottom: 1px solid rgba(253, 133, 23, 0.28);
   color: var(--text-2);
   font-size: 0.78rem;
   font-weight: 600;
@@ -77,8 +87,8 @@
   gap: 4px;
   padding: 2px 8px;
   border-radius: var(--r-full);
-  background: rgba(254, 132, 21, 0.12);
-  border: 1px solid rgba(254, 132, 21, 0.3);
+  background: rgba(253, 133, 23, 0.12);
+  border: 1px solid rgba(253, 133, 23, 0.3);
   color: var(--accent);
   font-size: 0.68rem;
   font-weight: 800;
@@ -123,6 +133,17 @@
   flex-wrap: wrap;
 }
 
+/* Un champ de formulaire posé dans une rangée compacte (compteur + tri)
+   garde sa largeur naturelle : `width: 100%` le faisait passer à la ligne
+   sous son propre libellé. */
+.row > .form-select,
+.row > .form-input,
+.row-between > .form-select,
+.row-between > .form-input {
+  width: auto;
+  min-width: 0;
+}
+
 /* ── Cartes d'état vides / erreurs (alignées sur .empty-state) ─ */
 .state-card {
   background: var(--bg-2);
@@ -140,7 +161,7 @@
   justify-content: center;
   font-size: 1.9rem;
   margin: 0 auto 18px;
-  background: rgba(0, 88, 188, 0.1);
+  background: rgba(19, 45, 70, 0.1);
   color: var(--brand-1);
 }
 .state-card h3 {
@@ -430,7 +451,7 @@
 .chip.active {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(254, 132, 21, 0.1);
+  background: rgba(253, 133, 23, 0.1);
 }
 
 /* Encart d'avertissement « démonstration » dans les cartes */
@@ -447,8 +468,8 @@
   align-items: flex-start;
   padding: 10px 12px;
   border-radius: var(--r-md);
-  border: 1px dashed rgba(254, 132, 21, 0.4);
-  background: rgba(254, 132, 21, 0.07);
+  border: 1px dashed rgba(253, 133, 23, 0.4);
+  background: rgba(253, 133, 23, 0.07);
   font-size: 0.76rem;
   color: var(--text-2);
   line-height: 1.5;
@@ -537,32 +558,36 @@
 /* ── Bibliothèque d'épreuves : état vide éditorial ──────────────────────────
    Aucun document fictif n'est affiché : tant que le catalogue est vide, on
    présente une mise en page soignée plutôt qu'une carte d'erreur. */
+/* État vide de la bibliothèque : même assise qu'un `.state-card` — filet
+   plein plutôt qu'un pointillé, rayon de 10 px, pas de pavé centré sur
+   trois lignes de large. */
 .exam-empty {
-  max-width: 560px;
+  max-width: 640px;
   margin: 12px auto 0;
-  padding: clamp(26px, 4vw, 40px);
-  text-align: center;
-  border: 1px dashed var(--border-2);
-  border-radius: var(--r-xl);
-  background: var(--surface);
+  padding: clamp(22px, 3.2vw, 32px);
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: var(--brand-radius);
+  background: var(--brand-surface-2);
 }
 
 .exam-empty-mark {
   display: block;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-family: var(--brand-display);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.22em;
-  color: var(--text-4);
-  margin-bottom: 14px;
+  letter-spacing: 0.16em;
+  color: var(--signal);
+  margin-bottom: 10px;
 }
 
 .exam-empty h2 {
-  font-size: 1.15rem;
-  font-weight: 900;
+  font-family: var(--brand-display);
+  font-size: 1.18rem;
+  font-weight: 700;
   color: var(--text-1);
-  letter-spacing: -0.01em;
-  margin-bottom: 10px;
+  letter-spacing: -0.012em;
+  margin-bottom: 8px;
 }
 
 .exam-empty p {
@@ -576,7 +601,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* Statut du document sur la fiche épreuve */
@@ -584,7 +609,7 @@
   margin-top: 12px;
   padding: 10px 14px;
   border-left: 3px solid var(--accent);
-  background: rgba(254, 132, 21, 0.08);
+  background: rgba(253, 133, 23, 0.08);
   border-radius: 0 var(--r-md) var(--r-md) 0;
   font-size: 0.79rem;
   line-height: 1.55;
@@ -595,8 +620,8 @@
 .contribution-notice {
   margin-bottom: 16px;
   padding: 12px 14px;
-  border: 1px solid rgba(254, 132, 21, 0.32);
-  background: rgba(254, 132, 21, 0.08);
+  border: 1px solid rgba(253, 133, 23, 0.32);
+  background: rgba(253, 133, 23, 0.08);
   border-radius: var(--r-md);
   font-size: 0.79rem;
   line-height: 1.55;
@@ -667,7 +692,7 @@
 .learning-step.current {
   color: var(--text-1);
   border-color: var(--brand-1);
-  background: rgba(0, 88, 188, 0.08);
+  background: rgba(19, 45, 70, 0.08);
 }
 
 .revision-step-title {
@@ -687,12 +712,19 @@
 /* Encart « service indisponible » (crédits, paiement, analyse IA) */
 .availability-note {
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--r-md);
-  background: var(--surface-2);
+  border-left: 3px solid var(--brand-orange);
+  border-radius: var(--brand-radius-sm);
+  background: var(--brand-surface-2);
   padding: 16px 18px;
   font-size: 0.86rem;
   line-height: 1.65;
+  /* `--brand-surface-2` est opaque : le texte doit lire l'encre de la
+     surface, pas celle héritée de la page. */
+  color: var(--text-2);
+}
+
+.availability-note li,
+.availability-note p {
   color: var(--text-2);
 }
 

@@ -101,12 +101,12 @@
     }
 
     .role-badge.learner {
-      background: rgba(0, 88, 188, 0.12);
+      background: rgba(19, 45, 70, 0.12);
       color: var(--brand-1);
     }
 
     .role-badge.teacher {
-      background: rgba(254, 132, 21, 0.12);
+      background: rgba(253, 133, 23, 0.12);
       color: var(--accent);
     }
 
@@ -124,7 +124,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: all 0.2s;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
     }
 
     .role-switch-btn:hover {
@@ -148,12 +148,12 @@
       align-items: center;
       gap: 12px;
       padding: 10px 14px;
-      border-radius: var(--r-md);
+      border-radius: var(--brand-radius-sm);
       font-size: 0.86rem;
       font-weight: 600;
       color: var(--text-2);
       text-decoration: none;
-      transition: all 0.2s;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
       border: 1px solid transparent;
       background: transparent;
       width: 100%;
@@ -180,9 +180,9 @@
     }
 
     .side-link.active {
-      background: rgba(0, 88, 188, 0.1);
+      background: rgba(19, 45, 70, 0.1);
       color: var(--brand-1);
-      border-color: rgba(0, 88, 188, 0.2);
+      border-color: rgba(19, 45, 70, 0.2);
       font-weight: 800;
     }
 
@@ -202,19 +202,19 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      border: 1px solid rgba(211, 47, 47, 0.3);
-      border-radius: var(--r-md);
-      background: rgba(211, 47, 47, 0.06);
-      color: var(--danger);
+      border: 1px solid var(--brand-danger-soft);
+      border-radius: var(--brand-radius-sm);
+      background: var(--brand-danger-soft);
+      color: var(--brand-danger);
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
     }
 
     .side-logout-btn:hover {
-      background: rgba(211, 47, 47, 0.15);
-      border-color: var(--danger);
+      background: var(--brand-danger-soft);
+      border-color: var(--brand-danger);
     }
 
     /* MAIN CONTENT */
@@ -317,7 +317,7 @@
     }
 
     .dash-metric-card:hover {
-      border-color: rgba(0,88,188,0.3);
+      border-color: rgba(19,45,70,0.3);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
     }

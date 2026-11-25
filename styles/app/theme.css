@@ -1,7 +1,7 @@
 /* ============================================================
    CAMPUSLY — THÈMES CLAIR / SOMBRE
    ------------------------------------------------------------
-   Palette du logo : bleu #0058BC et orange #FE8415.
+   Palette du logo : bleu #132D46 et orange #FD8517.
    Ce fichier porte :
      1. les tokens de couleur clair / sombre ;
      2. le fond uni de page (les nappes floues ont été retirées) ;
@@ -18,7 +18,7 @@
   --glass-bg-strong: rgba(255, 255, 255, 0.76);
   --glass-bg-soft: rgba(255, 255, 255, 0.42);
   --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-border-soft: rgba(0, 88, 188, 0.16);
+  --glass-border-soft: rgba(19, 45, 70, 0.16);
   --glass-highlight: rgba(255, 255, 255, 0.85);
   --glass-blur: 18px;
   --glass-saturate: 165%;
@@ -27,28 +27,15 @@
 }
 
 [data-theme="dark"] {
-  --bg: #070A12;
-  --bg-2: #0D1220;
-  --bg-3: #151B2B;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-2: rgba(255, 255, 255, 0.07);
-  --surface-3: rgba(255, 255, 255, 0.1);
-  --border: rgba(255, 255, 255, 0.09);
-  --border-2: rgba(255, 255, 255, 0.16);
-  --text-1: #F4F7FB;
-  --text-2: #C9D3E1;
-  --text-3: #94A1B5;
-  --text-4: #6B7A90;
-  --grad-card: rgba(255, 255, 255, 0.04);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
-
-
-  --glass-bg: rgba(16, 22, 36, 0.58);
-  --glass-bg-strong: rgba(18, 25, 40, 0.78);
-  --glass-bg-soft: rgba(255, 255, 255, 0.045);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-border-soft: rgba(255, 255, 255, 0.09);
-  --glass-highlight: rgba(255, 255, 255, 0.16);
+  /* Les couleurs du mode sombre (fond, textes, filets, états) sont
+     déclarées une seule fois dans `styles/app/brand.css`. Ici, uniquement
+     les surfaces translucides des menus, modales et toasts. */
+  --glass-bg: rgba(14, 26, 38, 0.62);
+  --glass-bg-strong: rgba(19, 36, 51, 0.82);
+  --glass-bg-soft: rgba(244, 241, 232, 0.045);
+  --glass-border: rgba(244, 241, 232, 0.12);
+  --glass-border-soft: rgba(244, 241, 232, 0.09);
+  --glass-highlight: rgba(244, 241, 232, 0.16);
   --glass-shadow: 0 22px 54px -26px rgba(0, 0, 0, 0.75);
   --glass-shadow-strong: 0 34px 80px -34px rgba(0, 0, 0, 0.85);
 }
@@ -163,7 +150,7 @@ body {
 .form-textarea:focus {
   background: var(--glass-bg) !important;
   border-color: var(--brand-1) !important;
-  box-shadow: 0 0 0 3px rgba(0, 88, 188, 0.18);
+  box-shadow: 0 0 0 3px rgba(19, 45, 70, 0.18);
 }
 
 /* En sombre, le footer historique reste lisible. */
@@ -178,9 +165,7 @@ body {
   color: var(--text-2);
 }
 
-[data-theme="dark"] .skip-link {
-  color: var(--text-1);
-}
+
 
 /* ── 4. Bascule de thème ─────────────────────────────────── */
 
@@ -221,7 +206,7 @@ body {
   height: 20px;
   padding: 0 3px;
   border-radius: var(--r-full);
-  background: linear-gradient(120deg, rgba(0, 88, 188, 0.22), rgba(254, 132, 21, 0.28));
+  background: linear-gradient(120deg, rgba(19, 45, 70, 0.22), rgba(253, 133, 23, 0.28));
   font-size: 0.6rem;
 }
 
@@ -304,8 +289,8 @@ body {
 [data-theme="dark"] .landing-section .section-tag,
 [data-theme="dark"] #faq .section-tag {
   color: #FFC078;
-  background: rgba(254, 132, 21, 0.16);
-  border-color: rgba(254, 132, 21, 0.42);
+  background: rgba(253, 133, 23, 0.16);
+  border-color: rgba(253, 133, 23, 0.42);
 }
 
 [data-theme="dark"] .pillar-row:nth-child(even) .pillar-row-index,
@@ -323,17 +308,10 @@ body {
   color: #FFA94D;
 }
 
-[data-theme="dark"] .btn-outline {
-  border-color: rgba(255, 255, 255, 0.22);
-  color: var(--text-1);
-}
-
-[data-theme="dark"] .hero-actions .btn-outline,
-[data-theme="dark"] .cta-actions .btn-outline,
-[data-theme="dark"] .credits-band .btn-outline {
-  border-color: rgba(254, 132, 21, 0.6);
-  color: #FFC078;
-}
+/* Les boutons n'ont plus de déclinaison propre ici : leurs quatre états
+   (normal, survol, actif, focus) sont définis une seule fois dans
+   `styles/app/brand.css`. Cette feuille ne gardait que des correctifs de
+   contraste qui écrasaient la marque (bordure orange sur fond papier). */
 
 [data-theme="dark"] .faq-item summary {
   color: var(--text-1);
