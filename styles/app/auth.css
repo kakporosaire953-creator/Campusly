@@ -4,7 +4,7 @@
    Principe : le formulaire est le point focal.
    - colonne unique, largeur maîtrisée, beaucoup de blanc ;
    - aucun panneau photographique, aucune liste de fonctions ;
-   - mêmes tokens que le reste de la plateforme (#1565C0 / #F57C00,
+   - mêmes tokens que le reste de la plateforme (#0058BC / #FE8415,
      Manrope pour tout, graisses hautes sur le titre) ;
    - deux étapes d'inscription, transitions courtes, reduced-motion
      respecté.
@@ -22,7 +22,7 @@
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(80% 60% at 50% -10%, rgba(21, 101, 192, 0.07) 0%, transparent 60%),
+    radial-gradient(80% 60% at 50% -10%, rgba(0, 88, 188, 0.07) 0%, transparent 60%),
     var(--bg);
   color: var(--text-1);
 }
@@ -192,9 +192,9 @@ body:has(.auth) .bg-orb {
 .auth__notice {
   margin: 0 0 18px;
   padding: 11px 14px;
-  border: 1px solid rgba(21, 101, 192, 0.24);
+  border: 1px solid rgba(0, 88, 188, 0.24);
   border-radius: 10px;
-  background: rgba(21, 101, 192, 0.06);
+  background: rgba(0, 88, 188, 0.06);
   font-size: 0.8rem;
   line-height: 1.55;
   color: var(--text-2);
@@ -280,7 +280,7 @@ body:has(.auth) .bg-orb {
 .auth__input:focus {
   outline: none;
   border-color: var(--brand-1);
-  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.16);
+  box-shadow: 0 0 0 3px rgba(0, 88, 188, 0.16);
 }
 
 .auth__input[aria-invalid="true"] {
@@ -366,12 +366,12 @@ body:has(.auth) .bg-orb {
   font-weight: 700;
   cursor: pointer;
   transition: background 160ms ease, transform 120ms ease, box-shadow 160ms ease;
-  box-shadow: 0 10px 24px -14px rgba(21, 101, 192, 0.9);
+  box-shadow: 0 10px 24px -14px rgba(0, 88, 188, 0.9);
 }
 
 .auth__submit:hover:not(:disabled) {
   background: #1155A6;
-  box-shadow: 0 14px 30px -14px rgba(21, 101, 192, 0.9);
+  box-shadow: 0 14px 30px -14px rgba(0, 88, 188, 0.9);
 }
 
 .auth__submit:active:not(:disabled) {
@@ -541,7 +541,7 @@ body:has(.auth) .bg-orb {
 
 .auth__role.is-active {
   border-color: var(--brand-1);
-  background: rgba(21, 101, 192, 0.06);
+  background: rgba(0, 88, 188, 0.06);
   box-shadow: 0 0 0 1px var(--brand-1) inset;
 }
 
@@ -594,9 +594,9 @@ body:has(.auth) .bg-orb {
   max-width: var(--auth-card);
   width: 100%;
   padding: 14px 16px;
-  border: 1px solid rgba(245, 124, 0, 0.28);
+  border: 1px solid rgba(254, 132, 21, 0.28);
   border-radius: 12px;
-  background: rgba(245, 124, 0, 0.06);
+  background: rgba(254, 132, 21, 0.06);
   font-size: 0.78rem;
   line-height: 1.6;
   color: var(--text-2);

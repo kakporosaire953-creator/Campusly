@@ -1,11 +1,11 @@
 /* ============================================================
-   CAMPUSLY — THÈMES CLAIR / SOMBRE + « LIQUID GLASS »
+   CAMPUSLY — THÈMES CLAIR / SOMBRE
    ------------------------------------------------------------
-   Palette inchangée : bleu #1565C0 et orange #F57C00.
-   Ce fichier n'ajoute que :
-     1. des tokens de verre (fond, bordure, reflet, ombre) ;
-     2. le fond liquide animé (orangé + bleu) commun aux deux modes ;
-     3. l'habillage « verre dépoli » des surfaces existantes ;
+   Palette du logo : bleu #0058BC et orange #FE8415.
+   Ce fichier porte :
+     1. les tokens de couleur clair / sombre ;
+     2. le fond uni de page (les nappes floues ont été retirées) ;
+     3. l'habillage des surfaces qui restent en verre (modales, menus, toasts) ;
      4. la bascule de thème.
    Importé en dernier : il surcharge proprement les feuilles legacy.
    ============================================================ */
@@ -14,18 +14,11 @@
 
 :root,
 [data-theme="light"] {
-  --liquid-blob-1: rgba(21, 101, 192, 0.34);
-  --liquid-blob-2: rgba(245, 124, 0, 0.30);
-  --liquid-blob-3: rgba(66, 165, 245, 0.30);
-  --liquid-blob-4: rgba(255, 152, 0, 0.22);
-  --liquid-sheen: rgba(255, 255, 255, 0.55);
-  --liquid-grain: 0.035;
-
   --glass-bg: rgba(255, 255, 255, 0.58);
   --glass-bg-strong: rgba(255, 255, 255, 0.76);
   --glass-bg-soft: rgba(255, 255, 255, 0.42);
   --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-border-soft: rgba(21, 101, 192, 0.16);
+  --glass-border-soft: rgba(0, 88, 188, 0.16);
   --glass-highlight: rgba(255, 255, 255, 0.85);
   --glass-blur: 18px;
   --glass-saturate: 165%;
@@ -49,12 +42,6 @@
   --grad-card: rgba(255, 255, 255, 0.04);
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
 
-  --liquid-blob-1: rgba(21, 101, 192, 0.55);
-  --liquid-blob-2: rgba(245, 124, 0, 0.42);
-  --liquid-blob-3: rgba(66, 165, 245, 0.34);
-  --liquid-blob-4: rgba(255, 152, 0, 0.3);
-  --liquid-sheen: rgba(255, 255, 255, 0.08);
-  --liquid-grain: 0.05;
 
   --glass-bg: rgba(16, 22, 36, 0.58);
   --glass-bg-strong: rgba(18, 25, 40, 0.78);
@@ -66,7 +53,9 @@
   --glass-shadow-strong: 0 34px 80px -34px rgba(0, 0, 0, 0.85);
 }
 
-/* ── 2. Fond liquide (identique dans les deux thèmes) ─────── */
+/* ── 2. Fond ─────────────────────────────────────────────────
+   Le fond « liquide » (nappes floues animées) a été retiré : aucun composant
+   ne le monte plus. Il ne reste que la couleur de page du thème. */
 
 html {
   background: var(--bg);
@@ -74,106 +63,13 @@ html {
 }
 
 body {
-  background: transparent !important;
+  background: var(--bg);
 }
 
 #contenu,
 .app-shell {
   position: relative;
   z-index: 1;
-}
-
-.liquid-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  background:
-    radial-gradient(120% 90% at 12% -10%, rgba(21, 101, 192, 0.1), transparent 60%),
-    radial-gradient(90% 80% at 92% 8%, rgba(245, 124, 0, 0.09), transparent 62%);
-}
-
-.liquid-blob {
-  position: absolute;
-  display: block;
-  border-radius: 50%;
-  filter: blur(90px);
-  will-change: transform;
-  animation: liquidDrift 26s ease-in-out infinite alternate;
-}
-
-.liquid-blob-1 {
-  width: 46vw;
-  height: 46vw;
-  min-width: 380px;
-  min-height: 380px;
-  top: -12vw;
-  left: -8vw;
-  background: var(--liquid-blob-1);
-}
-
-.liquid-blob-2 {
-  width: 38vw;
-  height: 38vw;
-  min-width: 320px;
-  min-height: 320px;
-  top: 18vh;
-  right: -10vw;
-  background: var(--liquid-blob-2);
-  animation-duration: 32s;
-  animation-delay: -6s;
-}
-
-.liquid-blob-3 {
-  width: 34vw;
-  height: 34vw;
-  min-width: 280px;
-  min-height: 280px;
-  bottom: -12vw;
-  left: 24vw;
-  background: var(--liquid-blob-3);
-  animation-duration: 38s;
-  animation-delay: -12s;
-}
-
-.liquid-blob-4 {
-  width: 26vw;
-  height: 26vw;
-  min-width: 220px;
-  min-height: 220px;
-  bottom: 12vh;
-  right: 12vw;
-  background: var(--liquid-blob-4);
-  animation-duration: 30s;
-  animation-delay: -18s;
-}
-
-/* Voile de verre : ce qui donne l'aspect « liquide » plutôt que « tache ». */
-.liquid-sheen {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, var(--liquid-sheen) 0%, transparent 46%, rgba(21, 101, 192, 0.06) 100%);
-  mix-blend-mode: soft-light;
-}
-
-.liquid-grain {
-  position: absolute;
-  inset: 0;
-  opacity: var(--liquid-grain);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-@keyframes liquidDrift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(3vw, 4vh, 0) scale(1.08);
-  }
-  to {
-    transform: translate3d(-2vw, -3vh, 0) scale(0.96);
-  }
 }
 
 /* ── 3. Verre dépoli sur les surfaces existantes ──────────── */
@@ -224,18 +120,21 @@ body {
 }
 
 /* Barre latérale et en-tête de l'espace applicatif. */
+/* La barre latérale et le bandeau ne sont plus des plaques de verre bleutées :
+   le contour d'un pixel sur le fond de page suffit, et le fond du site
+   n'apparaît plus à travers la navigation. */
 .app-sidebar {
-  background: var(--glass-bg) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(var(--glass-saturate));
-  backdrop-filter: blur(26px) saturate(var(--glass-saturate));
-  border-right: 1px solid var(--glass-border) !important;
+  background: var(--bg) !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-right: 1px solid var(--border) !important;
 }
 
 .app-header {
-  background: var(--glass-bg-soft) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  border-bottom: 1px solid var(--glass-border) !important;
+  background: var(--bg) !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-bottom: 1px solid var(--border) !important;
 }
 
 /* Modales, menus, toasts. */
@@ -264,7 +163,7 @@ body {
 .form-textarea:focus {
   background: var(--glass-bg) !important;
   border-color: var(--brand-1) !important;
-  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.18);
+  box-shadow: 0 0 0 3px rgba(0, 88, 188, 0.18);
 }
 
 /* En sombre, le footer historique reste lisible. */
@@ -322,7 +221,7 @@ body {
   height: 20px;
   padding: 0 3px;
   border-radius: var(--r-full);
-  background: linear-gradient(120deg, rgba(21, 101, 192, 0.22), rgba(245, 124, 0, 0.28));
+  background: linear-gradient(120deg, rgba(0, 88, 188, 0.22), rgba(254, 132, 21, 0.28));
   font-size: 0.6rem;
 }
 
@@ -373,12 +272,6 @@ body {
 
 /* ── 5. Confort ──────────────────────────────────────────── */
 
-@media (prefers-reduced-motion: reduce) {
-  .liquid-blob {
-    animation: none;
-  }
-}
-
 /* Safari a besoin du préfixe ; Firefox ancien retombe sur un fond opaque. */
 @supports not ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))) {
   .navbar,
@@ -411,8 +304,8 @@ body {
 [data-theme="dark"] .landing-section .section-tag,
 [data-theme="dark"] #faq .section-tag {
   color: #FFC078;
-  background: rgba(245, 124, 0, 0.16);
-  border-color: rgba(245, 124, 0, 0.42);
+  background: rgba(254, 132, 21, 0.16);
+  border-color: rgba(254, 132, 21, 0.42);
 }
 
 [data-theme="dark"] .pillar-row:nth-child(even) .pillar-row-index,
@@ -438,7 +331,7 @@ body {
 [data-theme="dark"] .hero-actions .btn-outline,
 [data-theme="dark"] .cta-actions .btn-outline,
 [data-theme="dark"] .credits-band .btn-outline {
-  border-color: rgba(245, 124, 0, 0.6);
+  border-color: rgba(254, 132, 21, 0.6);
   color: #FFC078;
 }
 

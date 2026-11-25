@@ -68,11 +68,7 @@ body:has(.public-shell)::before {
   content: none;
 }
 
-/* Le fond « liquide » (quatre nappes floutées) n'appartient pas au papier :
-   il est neutralisé sur le gabarit public, et reste actif dans l'application. */
-body:has(.public-shell) .liquid-bg {
-  display: none;
-}
+/* (Le fond « liquide » n'existe plus : voir styles/app/theme.css §2.) */
 
 /* Le verre des surfaces historiques ne s'applique pas aux blocs éditoriaux :
    `theme.css` est chargé après `site-chrome.css`, il faut donc lui rendre la
@@ -798,6 +794,21 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: end;
   gap: clamp(32px, 5vw, 76px);
+}
+
+/* Sur un téléphone, les deux sorties côte à côte se tassaient ; l'ouverture
+   n'a pas besoin d'être aussi haute qu'une page imprimée. */
+@media (max-width: 860px) {
+  .ed-open {
+    padding-top: calc(var(--nav-h, 64px) + clamp(28px, 7vw, 56px));
+    padding-bottom: clamp(40px, 9vw, 72px);
+  }
+
+  .ed-open__grid {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(24px, 5vw, 40px);
+  }
 }
 
 .ed-open__kicker {

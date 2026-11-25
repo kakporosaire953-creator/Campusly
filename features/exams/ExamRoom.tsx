@@ -197,12 +197,12 @@ export function ExamRoom({ code }: { code: string }) {
               </div>
               <h1 className="info-title">{composition.title}</h1>
               <p className="info-subject">{composition.subject}</p>
-              <div className="info-meta">
-                <InfoRow icon="fa-solid fa-user-tie" label="Professeur" value={composition.teacherName} />
-                <InfoRow icon="fa-solid fa-stopwatch" label="Durée stricte" value={`${composition.durationMinutes} min`} />
-                <InfoRow icon="fa-solid fa-list-ol" label="Questions" value={`${composition.questions.length} questions`} />
-                <InfoRow icon="fa-solid fa-rotate" label="Tentative" value={`${composition.attemptsAllowed} autorisée`} />
-              </div>
+              <dl className="info-meta">
+                <InfoRow label="Professeur" value={composition.teacherName} />
+                <InfoRow label="Durée stricte" value={`${composition.durationMinutes} min`} />
+                <InfoRow label="Questions" value={`${composition.questions.length} questions`} />
+                <InfoRow label="Tentative" value={`${composition.attemptsAllowed} autorisée`} />
+              </dl>
             </div>
 
             <div className="onboarding-panel">
@@ -213,9 +213,10 @@ export function ExamRoom({ code }: { code: string }) {
                     <span className="step-badge">1 / 4</span>
                   </div>
                   <p className="step-text">
-                    Vous êtes sur le point de commencer une composition. Vérifiez les informations à gauche
-                    et assurez-vous d&apos;avoir une connexion stable. Cette session est une{" "}
-                    <strong>cette version</strong> : aucune copie n&apos;est envoyée à un serveur.
+                    Vous êtes sur le point de commencer une composition. Vérifiez les informations à
+                    gauche et assurez-vous d&apos;avoir une connexion stable.{" "}
+                    <strong>Dans cette version</strong>, aucune copie n&apos;est envoyée à un serveur :
+                    tout reste sur cet appareil.
                   </p>
                   <Button size="sm" onClick={() => setStep(2)} iconAfter="fa-solid fa-arrow-right">
                     Suivant
@@ -529,7 +530,7 @@ export function ExamRoom({ code }: { code: string }) {
                 <p style={{ fontSize: "0.86rem", color: "var(--text-2)", marginBottom: 8 }}>
                   {answeredCount}/{palette.length} questions répondues · {flagged.length} marquée(s) à revoir.
                 </p>
-                <div className="payment-notice" style={{ background: "rgba(245,124,0,0.1)", marginBottom: 16 }}>
+                <div className="payment-notice" style={{ background: "rgba(254,132,21,0.1)", marginBottom: 16 }}>
                   La remise reste <strong>locale</strong> : aucune copie n&apos;est transmise et la note affichée
                   est calculée dans votre navigateur.
                 </div>
@@ -637,14 +638,16 @@ export function ExamRoom({ code }: { code: string }) {
   return null;
 }
 
-function InfoRow({ icon, label, value }: { icon: string; label: string; value: string }) {
+/**
+ * Une information de la salle d'attente : libellé en petites capitales,
+ * valeur en gras. Pas d'icône — la police Font Awesome n'est pas chargée dans
+ * cet écran plein, et une icône absente laissait un carré vide.
+ */
+function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="info-row">
-      <i className={icon} aria-hidden="true" />
-      <div>
-        <div className="info-label">{label}</div>
-        <div className="info-value">{value}</div>
-      </div>
+      <dt className="info-label">{label}</dt>
+      <dd className="info-value">{value}</dd>
     </div>
   );
 }

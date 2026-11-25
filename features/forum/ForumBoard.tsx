@@ -167,15 +167,23 @@ export function ForumBoard() {
               <option value="unanswered">Sans réponse</option>
             </select>
           </div>
-          <Button
-            variant={solvedOnly ? "primary" : "outline"}
-            size="sm"
-            icon="fa-solid fa-circle-check"
-            aria-pressed={solvedOnly}
-            onClick={() => setSolvedOnly((current) => !current)}
-          >
-            Résolus
-          </Button>
+          {/* Quatrième colonne : elle porte un libellé comme les trois autres.
+              Sans lui, le bouton flottait hors de la grille des filtres. */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <span className="form-label" id="forum-state-label">
+              État
+            </span>
+            <Button
+              variant={solvedOnly ? "primary" : "outline"}
+              icon="fa-solid fa-circle-check"
+              aria-pressed={solvedOnly}
+              aria-describedby="forum-state-label"
+              block
+              onClick={() => setSolvedOnly((current) => !current)}
+            >
+              {solvedOnly ? "Résolus seulement" : "Tous les sujets"}
+            </Button>
+          </div>
         </div>
       </Card>
 

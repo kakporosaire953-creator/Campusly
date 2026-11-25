@@ -55,14 +55,13 @@ export function OnboardingFlow() {
   };
 
   return (
-    <div style={{ maxWidth: 620, width: "100%", margin: "60px auto", padding: "0 20px" }}>
+    <div style={{ maxWidth: 620, width: "100%", margin: "clamp(28px, 6vh, 64px) auto", padding: "0 20px" }}>
       <div
         style={{
-          background: "var(--grad-card)",
+          background: "var(--bg)",
           border: "1px solid var(--border)",
-          borderRadius: "var(--r-xl)",
-          boxShadow: "var(--shadow-md)",
-          padding: 36,
+          borderRadius: 3,
+          padding: "clamp(24px, 3vw, 40px)",
         }}
       >
         <div className="progress-bar" style={{ display: "flex", gap: 8, marginBottom: 24 }} aria-hidden="true">
@@ -79,13 +78,13 @@ export function OnboardingFlow() {
             />
           ))}
         </div>
-        <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--text-2)", marginBottom: 8 }}>
+        <p style={{ fontFamily: "var(--mono, ui-monospace, monospace)", fontSize: "0.68rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-2)", marginBottom: 10 }}>
           Étape {step} sur {totalSteps} — {progress}%
         </p>
 
         {step === 1 ? (
           <div>
-            <h1 style={{ fontSize: "1.7rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 12 }}>
+            <h1 style={{ fontFamily: "var(--serif, Georgia, serif)", fontSize: "clamp(1.5rem, 2.4vw, 1.9rem)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--text-1)", marginBottom: 12 }}>
               Bienvenue {user?.prenom ?? ""} sur Campusly
             </h1>
             <p style={{ fontSize: "1rem", color: "var(--text-2)", lineHeight: 1.6, marginBottom: 24 }}>
@@ -97,7 +96,7 @@ export function OnboardingFlow() {
 
         {step === 2 ? (
           <div>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 8 }}>
+            <h1 style={{ fontFamily: "var(--serif, Georgia, serif)", fontSize: "clamp(1.3rem, 2.1vw, 1.6rem)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, color: "var(--text-1)", marginBottom: 8 }}>
               {isTeacher ? "Votre rattachement" : "Choisissez votre parcours"}
             </h1>
             <p style={{ fontSize: "0.95rem", color: "var(--text-2)", marginBottom: 20 }}>
@@ -163,7 +162,7 @@ export function OnboardingFlow() {
 
         {step === 3 ? (
           <div>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 8 }}>
+            <h1 style={{ fontFamily: "var(--serif, Georgia, serif)", fontSize: "clamp(1.3rem, 2.1vw, 1.6rem)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, color: "var(--text-1)", marginBottom: 8 }}>
               {isTeacher ? "Vos matières" : "Vos matières"}
             </h1>
             <p style={{ fontSize: "0.95rem", color: "var(--text-2)", marginBottom: 20 }}>
@@ -181,7 +180,7 @@ export function OnboardingFlow() {
                     style={{
                       padding: 16,
                       border: `2px solid ${selected ? "var(--brand-1)" : "var(--border)"}`,
-                      background: selected ? "rgba(21,101,192,0.06)" : "transparent",
+                      background: selected ? "rgba(0,88,188,0.06)" : "transparent",
                       borderRadius: "var(--r-lg)",
                       cursor: "pointer",
                       textAlign: "center",
@@ -202,7 +201,7 @@ export function OnboardingFlow() {
 
         {step === totalSteps ? (
           <div>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 900, color: "var(--text-1)", marginBottom: 8 }}>
+            <h1 style={{ fontFamily: "var(--serif, Georgia, serif)", fontSize: "clamp(1.3rem, 2.1vw, 1.6rem)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, color: "var(--text-1)", marginBottom: 8 }}>
               Votre objectif
             </h1>
             <p style={{ fontSize: "0.95rem", color: "var(--text-2)", marginBottom: 20 }}>
@@ -221,7 +220,7 @@ export function OnboardingFlow() {
                     style={{
                       padding: 16,
                       border: `2px solid ${selected ? "var(--brand-1)" : "var(--border)"}`,
-                      background: selected ? "rgba(21,101,192,0.06)" : "transparent",
+                      background: selected ? "rgba(0,88,188,0.06)" : "transparent",
                       borderRadius: "var(--r-lg)",
                       cursor: "pointer",
                       display: "flex",

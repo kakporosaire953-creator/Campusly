@@ -40,7 +40,7 @@
 .exam-room-page .info-icon {
   width: 64px;
   height: 64px;
-  background: rgba(21, 101, 192, 0.1);
+  background: rgba(0, 88, 188, 0.1);
   color: var(--brand-1);
   border-radius: 16px;
   display: flex;
@@ -230,9 +230,284 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background: rgba(245, 124, 0, 0.14);
+  background: rgba(254, 132, 21, 0.14);
   color: var(--accent);
   padding: 2px 6px;
   border-radius: var(--r-full);
   margin-left: 6px;
+}
+
+/* ============================================================
+   SALLE D'EXAMEN — FINITION (KRAFTER-13)
+   ------------------------------------------------------------
+   Mesuré à l'écran : la barre de l'épreuve était chaotique. Le
+   chronomètre pesait 6rem et débordait de 250 px de haut, le titre
+   de la composition s'affichait sur une seule ligne tronquée, et
+   l'icône de la colonne d'informations restait un carré bleu vide
+   (police d'icônes non chargée dans cet écran).
+
+   Aucune structure n'est changée : uniquement la tenue.
+   ============================================================ */
+
+/* ── Barre de l'épreuve ───────────────────────────────────── */
+.exam-room-page .exam-header {
+  gap: 14px;
+  min-height: 64px;
+}
+
+.exam-room-page .exam-header .row {
+  min-width: 0;
+}
+
+/* Le titre de l'épreuve se tronque proprement au lieu de pousser la barre. */
+.exam-room-page .exam-header .row > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Quitter une épreuve est une décision : le bouton reste discret mais lisible. */
+.exam-room-page .exam-header .btn {
+  white-space: nowrap;
+}
+
+/* ── Minuteur ─────────────────────────────────────────────── */
+.exam-room-page .timer-box {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.exam-room-page .timer-box i {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* ── Colonne d'informations (salle d'attente) ─────────────── */
+/* L'icône était un carré bleu vide : on la remplace par un filet et le
+   libellé de la matière, qui informe au lieu de décorer. */
+.exam-room-page .info-icon {
+  display: none;
+}
+
+.exam-room-page .info-panel {
+  padding: clamp(20px, 2.6vw, 34px);
+}
+
+.exam-room-page .info-title {
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.exam-room-page .info-subject {
+  margin-top: 6px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-1);
+}
+
+.exam-room-page .info-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 20px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+/* Chaque information est un bloc libellé → valeur, pas une ligne de tableau.
+   L'ancienne feuille posait `display: flex` sur `.info-row` : à 390 px, le
+   libellé était écrasé à 64 px et « Professeur » se coupait en « PROFESSE/UR ».
+   En bloc, chaque libellé tient sur une ligne et la valeur passe dessous. */
+.exam-room-page .info-meta .info-row {
+  display: block;
+  min-width: 0;
+}
+
+.exam-room-page .info-meta dt {
+  margin: 0;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.exam-room-page .info-meta dd {
+  margin: 3px 0 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-1);
+}
+
+/* ── Consignes : liste lisible ────────────────────────────── */
+.exam-room-page .waiting-container ul,
+.exam-room-page .info-list {
+  text-align: left;
+}
+
+.exam-room-page .waiting-container li {
+  line-height: 1.6;
+}
+
+/* ── Écran de composition ─────────────────────────────────── */
+.exam-room-page .exam-body {
+  background: var(--bg-2);
+}
+
+.exam-room-page .question-panel {
+  padding: clamp(18px, 2.4vw, 34px);
+}
+
+/* Les réponses s'alignent à gauche : le texte court ne flotte plus au centre. */
+.exam-room-page .option,
+.exam-room-page .option-row {
+  text-align: left;
+}
+
+/* ── Pied de la salle ─────────────────────────────────────── */
+.exam-room-page .exam-footer {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .exam-room-page .exam-header {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+  }
+
+  .exam-room-page .exam-header .row > span:last-child {
+    display: none; /* le titre complet revient dans le panneau de question */
+  }
+
+  .exam-room-page .info-meta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Liste des consignes : ni pastille décorative décalée, ni texte centré. */
+.exam-room-page .rules-box {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 16px 18px;
+  background: var(--surface);
+}
+
+.exam-room-page .rules-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.exam-room-page .rules-box li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.exam-room-page .rules-box li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 1px;
+  background: var(--brand-1);
+}
+
+/* ============================================================
+   SALLE D'ATTENTE — MÊME REGISTRE QUE LE SITE (KRAFTER-13)
+   ------------------------------------------------------------
+   Cette page gardait les grosses cartes arrondies de l'ancienne
+   maquette (40 px de rayon, ombre bleue, bordure de 2 px). Les deux
+   panneaux suffisent : un filet, un fond de page, aucun relief.
+   ============================================================ */
+
+.exam-room-page .waiting-container {
+  gap: clamp(20px, 2.6vw, 34px);
+  padding: clamp(24px, 3.4vw, 48px) 20px;
+  align-items: flex-start;
+}
+
+.exam-room-page .info-panel,
+.exam-room-page .step-card,
+.exam-room-page .step-card.active {
+  border-radius: 3px;
+  box-shadow: none;
+  background: var(--bg);
+}
+
+.exam-room-page .step-card.active {
+  border-color: var(--border-2);
+}
+
+/* Titre du panneau : serif du site, pas un gros gras d'application. */
+.exam-room-page .step-title {
+  font-family: var(--serif, Georgia, serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.exam-room-page .step-header {
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* L'étape est une annotation, pas une pastille. */
+.exam-room-page .step-badge {
+  background: transparent;
+  border: 1px solid var(--border-2);
+  border-radius: 2px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  padding: 2px 6px;
+}
+
+.exam-room-page .step-text {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  text-align: left;
+  color: var(--text-2);
+}
+
+/* Le bouton « Suivant » est centré par la maquette : dans un texte aligné à
+   gauche, il suit le texte. */
+.exam-room-page .step-card > .btn {
+  margin-top: 16px;
+}
+
+/* La pastille d'étape ne se coupe pas en deux lignes sur mobile. */
+.exam-room-page .step-badge {
+  white-space: nowrap;
+  flex: none;
+}
+
+/* Le titre d'étape et son numéro restent sur la même ligne, alignés à gauche
+   (la maquette d'origine centrait le titre, ce qui décalait tout le panneau). */
+.exam-room-page .step-header {
+  text-align: left;
+}
+
+.exam-room-page .step-header .step-title {
+  min-width: 0;
+  text-align: left;
 }

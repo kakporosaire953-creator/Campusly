@@ -2,7 +2,7 @@
     .not-found { text-align:center; max-width:480px; }
     .not-found-code {
       font-size:8rem; font-weight:900; line-height:1;
-      background: linear-gradient(135deg, #1565C0, #F57C00);
+      background: linear-gradient(135deg, #0058BC, #FE8415);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
       margin-bottom:16px;
     }

@@ -59,7 +59,7 @@
   --border: rgba(18, 45, 69, 0.12);
   --border-2: rgba(18, 45, 69, 0.2);
 
-  /* Signal : le bleu `#1565C0` du gabarit applicatif reste utilisé pour les
+  /* Signal : le bleu `#0058BC` du gabarit applicatif reste utilisé pour les
      liens de contenu, mais pas pour les contours de formulaire. */
   --brand-1: #2a5cc4;
   --brand-2: #326de6;

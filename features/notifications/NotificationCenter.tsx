@@ -94,7 +94,7 @@ export function NotificationCenter() {
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      background: notification.read ? "var(--surface-2)" : "rgba(21,101,192,0.1)",
+                      background: notification.read ? "var(--surface-2)" : "rgba(0,88,188,0.1)",
                       color: notification.read ? "var(--text-2)" : "var(--brand-1)",
                     }}
                   >

@@ -13,7 +13,7 @@ import { Asterisk, LongArrow } from "@/components/editorial/Marks";
  */
 export function HeroEditorial() {
   return (
-    <section className="ed-hero" id="hero" aria-labelledby="hero-title">
+    <section className="ed-hero ed-open" id="hero" aria-labelledby="hero-title">
       <div className="ed-rail ed-open__grid">
         <div className="ed-open__copy">
           <p className="ed-eyebrow ed-open__kicker">

@@ -13,10 +13,17 @@ export function Card({
   return <Tag className={`card ${className}`.trim()}>{children}</Tag>;
 }
 
+/**
+ * En-tête de carte : titre, précision, action éventuelle.
+ *
+ * L'icône optionnelle est conservée dans la signature pour ne pas modifier les
+ * appels existants, mais elle n'est plus affichée : la pastille bleue qui la
+ * portait restait un carré vide partout où la police d'icônes n'était pas
+ * chargée, et n'apportait aucune information que le titre ne donne déjà.
+ */
 export function CardHeader({
   title,
   subtitle,
-  icon,
   action,
 }: {
   title: string;
@@ -25,36 +32,12 @@ export function CardHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="row-between" style={{ marginBottom: 16 }}>
-      <div className="row" style={{ gap: 10, alignItems: "flex-start" }}>
-        {icon ? (
-          <span
-            aria-hidden="true"
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "rgba(21,101,192,0.1)",
-              color: "var(--brand-1)",
-              flexShrink: 0,
-            }}
-          >
-            <i className={icon} />
-          </span>
-        ) : null}
-        <div>
-          <h3 className="card-title" style={{ marginBottom: subtitle ? 2 : 0 }}>
-            {title}
-          </h3>
-          {subtitle ? (
-            <p style={{ fontSize: "0.8rem", color: "var(--text-3)", margin: 0 }}>{subtitle}</p>
-          ) : null}
-        </div>
+    <div className="card-head">
+      <div className="card-head__text">
+        <h3 className="card-title">{title}</h3>
+        {subtitle ? <p className="card-head__sub">{subtitle}</p> : null}
       </div>
-      {action}
+      {action ? <div className="card-head__action">{action}</div> : null}
     </div>
   );
 }

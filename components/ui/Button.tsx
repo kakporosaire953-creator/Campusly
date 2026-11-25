@@ -10,6 +10,12 @@ interface CommonProps {
   icon?: string;
   iconAfter?: string;
   block?: boolean;
+  /**
+   * Bouton réduit à son icône. `label` devient obligatoire pour l'accessibilité :
+   * sans nom accessible, un bouton icône n'est annoncé que comme « bouton ».
+   */
+  iconOnly?: boolean;
+  label?: string;
   children?: ReactNode;
   className?: string;
 }
@@ -30,12 +36,13 @@ type ButtonAsLink = CommonProps & {
  * (l'ancien code utilisait des `<div onclick>`).
  */
 export function Button(props: ButtonAsButton | ButtonAsLink) {
-  const { variant = "primary", size = "md", icon, iconAfter, block, children, className = "" } = props;
+  const { variant = "primary", size = "md", icon, iconAfter, block, iconOnly, children, className = "" } = props;
   const classes = [
     "btn",
     `btn-${variant}`,
     size !== "md" ? `btn-${size}` : "",
     block ? "btn-block" : "",
+    iconOnly ? "btn-icon-only" : "",
     className,
   ]
     .filter(Boolean)
@@ -50,20 +57,25 @@ export function Button(props: ButtonAsButton | ButtonAsLink) {
           href={href}
           className={classes}
           onClick={onClick}
-          aria-label={(props as ButtonAsLink)["aria-label"]}
+          aria-label={iconOnly ? props.label : (props as ButtonAsLink)["aria-label"]}
           rel="noopener noreferrer"
           {...rest}
         >
           {icon ? <i className={icon} aria-hidden="true" /> : null}
-          {children}
+          {iconOnly ? null : children}
           {iconAfter ? <i className={iconAfter} aria-hidden="true" /> : null}
         </a>
       );
     }
     return (
-      <Link href={href} className={classes} onClick={onClick} aria-label={(props as ButtonAsLink)["aria-label"]}>
+      <Link
+        href={href}
+        className={classes}
+        onClick={onClick}
+        aria-label={iconOnly ? props.label : (props as ButtonAsLink)["aria-label"]}
+      >
         {icon ? <i className={icon} aria-hidden="true" /> : null}
-        {children}
+        {iconOnly ? null : children}
         {iconAfter ? <i className={iconAfter} aria-hidden="true" /> : null}
       </Link>
     );
@@ -76,13 +88,15 @@ export function Button(props: ButtonAsButton | ButtonAsLink) {
     iconAfter: _iconAfter,
     block: _block,
     className: _className,
+    iconOnly: _iconOnly,
+    label: _label,
     ...buttonProps
   } = props as ButtonAsButton;
 
   return (
-    <button type="button" className={classes} {...buttonProps}>
+    <button type="button" className={classes} aria-label={iconOnly ? props.label : undefined} {...buttonProps}>
       {icon ? <i className={icon} aria-hidden="true" /> : null}
-      {children}
+      {iconOnly ? null : children}
       {iconAfter ? <i className={iconAfter} aria-hidden="true" /> : null}
     </button>
   );

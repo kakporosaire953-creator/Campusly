@@ -14,11 +14,9 @@ import type { ReactNode } from "react";
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="bg-orbs" aria-hidden="true">
-        <div className="bg-orb bg-orb-1" />
-        <div className="bg-orb bg-orb-2" />
-        <div className="bg-orb bg-orb-3" />
-      </div>
+      {/* Les trois disques flous (bleu / violet / orange) datent de l'ancienne
+          direction artistique : sur la connexion comme sur l'onboarding, ils
+          lavaient le fond et n'avaient aucun rôle. Le fond de page suffit. */}
       <main id="contenu">{children}</main>
     </>
   );

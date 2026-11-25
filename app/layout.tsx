@@ -5,7 +5,6 @@ import { AppProviders } from "@/components/shared/AppProviders";
 import { LegacyServiceWorkerCleanup } from "@/components/shared/LegacyServiceWorkerCleanup";
 import { siteConfig } from "@/config/site";
 import { ThemeProvider, themeInitScript } from "@/components/shared/ThemeProvider";
-import { LiquidBackground } from "@/components/shared/LiquidBackground";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://campusly-one.vercel.app"),
@@ -69,19 +68,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
         />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
       </head>
       <body>
         <LegacyServiceWorkerCleanup />
         <a className="skip-link" href="#contenu">
           Aller au contenu principal
         </a>
-        {/* Fond « liquide » de l'espace applicatif : neutralisé en CSS sous le
-            gabarit public (voir styles/app/editorial.css §0). */}
-        <LiquidBackground />
+        {/* Le fond « liquide » (quatre nappes floues animées) a été retiré :
+            il ne restait qu'un halo bleu et orange derrière l'application, en
+            contradiction avec les surfaces planes du reste du site.
+            `components/shared/LiquidBackground.tsx` est conservé pour mémoire
+            mais n'est plus monté. */}
         <ThemeProvider>
           <AppProviders>{children}</AppProviders>
         </ThemeProvider>

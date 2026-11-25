@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { Difficulty, FacultyCode, LearningMode, Quiz } from "@/types";
 import { FACULTIES } from "@/types";
@@ -106,7 +107,18 @@ export function RevisionHub() {
       <PageHeader
         title="Campusly AI & révision adaptative"
         subtitle="Entraînez-vous sur une banque d'exercices UAC, avec correction immédiate et suivi de vos tentatives."
-        actions={<Badge tone="brand" icon="fa-solid fa-brain">Moteur pédagogique</Badge>}
+        actions={
+          <>
+            {/* L'assistant avait une adresse (/assistant-ia) qu'aucun lien du
+                menu ne portait : le seul chemin était de connaître l'URL. */}
+            <Link href="/assistant-ia" className="btn btn-outline btn-sm">
+              <i className="fa-solid fa-comment-dots" aria-hidden="true" /> Assistant IA
+            </Link>
+            <Badge tone="brand" icon="fa-solid fa-brain">
+              Moteur pédagogique
+            </Badge>
+          </>
+        }
       />
 
       <div

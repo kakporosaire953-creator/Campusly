@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 /**
  * Manifeste PWA.
- * Reprend le manifeste historique (theme_color #1565C0) en corrigeant les
+ * Reprend le manifeste historique (theme_color #0058BC) en corrigeant les
  * chemins d'icônes, qui pointaient vers `/assets/logo.png` (inexistant).
  * Le service worker n'est volontairement PAS enregistré dans cette phase
  * (voir docs/FRONTEND_GUIDE.md §PWA) pour éviter tout cache obsolète.
@@ -18,7 +18,7 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     orientation: "portrait-primary",
     background_color: "#ffffff",
-    theme_color: "#1565C0",
+    theme_color: "#0058BC",
     categories: ["education", "productivity"],
     lang: "fr-BJ",
     dir: "ltr",
