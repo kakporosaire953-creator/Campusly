@@ -29,10 +29,10 @@ export const siteConfig = {
  * valides depuis les pages légales et « à propos ».
  */
 export const publicNav = [
-  { href: "/#experience", label: "Fonctions" },
-  { href: "/#campusly-ai", label: "Campusly AI" },
-  { href: "/#compositions", label: "Compositions" },
-  { href: "/a-propos", label: "Le projet" },
+  { href: "/#experience", labelKey: "nav.features", label: "Fonctions" },
+  { href: "/#campusly-ai", labelKey: "nav.ai", label: "Campusly AI" },
+  { href: "/#compositions", labelKey: "nav.compositions", label: "Compositions" },
+  { href: "/a-propos", labelKey: "nav.project", label: "Le projet" },
 ] as const;
 
 export interface FooterLink {
@@ -41,34 +41,37 @@ export interface FooterLink {
 }
 
 /** Pied de page : quatre familles de liens + un bloc institutionnel. */
-export const footerNav: ReadonlyArray<{ title: string; links: readonly FooterLink[] }> = [
+export const footerNav: ReadonlyArray<{
+  titleKey: string;
+  links: readonly (FooterLink & { labelKey: string })[];
+}> = [
   {
-    title: "Campusly",
+    titleKey: "footer.groupCampusly",
     links: [
-      { href: "/a-propos", label: "À propos" },
-      { href: "/contribuer", label: "Contribuer" },
-      { href: "/#campusly-ai", label: "Campusly AI" },
-      { href: "/#compositions", label: "Compositions" },
-      { href: "/a-propos#contact", label: "Contact" },
+      { href: "/a-propos", labelKey: "footer.linkAbout", label: "À propos" },
+      { href: "/contribuer", labelKey: "footer.linkContribute", label: "Contribuer" },
+      { href: "/#campusly-ai", labelKey: "footer.linkAi", label: "Campusly AI" },
+      { href: "/#compositions", labelKey: "footer.linkCompositions", label: "Compositions" },
+      { href: "/a-propos#contact", labelKey: "footer.linkContact", label: "Contact" },
     ],
   },
   {
-    title: "Plateforme",
+    titleKey: "footer.groupPlatform",
     links: [
-      { href: "/dashboard/epreuves", label: "Épreuves et annales" },
-      { href: "/dashboard/classrooms", label: "Espaces de cours" },
-      { href: "/dashboard/revision", label: "Révision et quiz" },
-      { href: "/dashboard/compositions", label: "Compositions" },
-      { href: "/dashboard", label: "Tableau de bord" },
+      { href: "/dashboard/epreuves", labelKey: "footer.linkExams", label: "Épreuves et annales" },
+      { href: "/dashboard/classrooms", labelKey: "footer.linkClassrooms", label: "Espaces de cours" },
+      { href: "/dashboard/revision", labelKey: "footer.linkRevision", label: "Révision et quiz" },
+      { href: "/dashboard/compositions", labelKey: "footer.linkCompositions", label: "Compositions" },
+      { href: "/dashboard", labelKey: "footer.linkDashboard", label: "Tableau de bord" },
     ],
   },
   {
-    title: "Ressources et informations",
+    titleKey: "footer.groupResources",
     links: [
-      { href: "/#experience", label: "Vue d'ensemble" },
-      { href: "/#faq", label: "Questions fréquentes" },
-      { href: "/offline", label: "Mode hors ligne" },
-      { href: "/conditions", label: "Conditions d'utilisation" },
+      { href: "/#experience", labelKey: "footer.linkOverview", label: "Vue d'ensemble" },
+      { href: "/#faq", labelKey: "footer.linkFaq", label: "Questions fréquentes" },
+      { href: "/offline", labelKey: "footer.linkOffline", label: "Mode hors ligne" },
+      { href: "/conditions", labelKey: "footer.linkTerms", label: "Conditions d'utilisation" },
     ],
   },
 ] as const;

@@ -1,0 +1,302 @@
+/* ============================================================
+   CAMPUSLY — LIQUID GLASS
+   ------------------------------------------------------------
+   Deux environnements, un seul système de matériaux :
+
+     LIGHT — « Editorial Glass »
+       papier ivoire, encre navy, orange de marque. Le verre y est
+       lumineux et discret : surfaces ivoire translucides, filets
+       clairs, reflets tenus. Il ne concurrence jamais le texte.
+
+     DARK  — « CAMPUSLY NOCTURNE / The Glass Learning Space »
+       un espace d'apprentissage qui flotte dans un environnement
+       numérique nocturne : architecture de verre sombre, lumière
+       contrôlée, profondeur par couches. Ni inversion du mode
+       clair, ni copie d'un produit existant : le navy et l'orange
+       de la marque tiennent l'identité, un signal électrique bleu
+       éclaire ce qui doit l'être.
+
+   Ce fichier porte QUATRE choses :
+     1. les matériaux (`--glass-*`) et les classes qui les appliquent ;
+     2. l'architecture de lumière ambiante du mode nocturne ;
+     3. les composants vitrés (navigation, panneaux, cartes) ;
+     4. les replis : `backdrop-filter` absent, mobile, mouvement ou
+        transparence réduits.
+
+   Importé APRÈS `brand.css` (voir app/globals.css) : les matériaux
+   peuvent donc consommer les jetons de marque sans les redéfinir.
+   ============================================================ */
+
+/* ── 1. Palettes d'environnement ─────────────────────────────
+   Les jetons de STRUCTURE (surfaces, encres, filets) viennent de
+   `brand.css`. Ici, uniquement ce qui distingue les deux
+   environnements : les matériaux, la lumière, la profondeur. */
+
+:root,
+[data-theme="light"] {
+  /* Matériaux — Editorial Glass */
+  --glass-tint: rgba(255, 255, 255, 0.62);
+  --glass-tint-strong: rgba(255, 255, 255, 0.82);
+  --glass-tint-soft: rgba(255, 255, 255, 0.38);
+  --glass-border: rgba(19, 45, 70, 0.1);
+  --glass-border-strong: rgba(19, 45, 70, 0.18);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --glass-blur: 16px;
+  --glass-saturate: 130%;
+  --glass-shadow: 0 16px 40px -28px rgba(19, 45, 70, 0.4);
+  --glass-shadow-floating: 0 26px 60px -30px rgba(19, 45, 70, 0.32);
+
+  /* Lumière ambiante : deux champs très doux, jamais des halos. */
+  --ambient-1: radial-gradient(60% 50% at 12% 0%, rgba(253, 133, 23, 0.07), transparent 70%);
+  --ambient-2: radial-gradient(50% 44% at 88% 8%, rgba(19, 45, 70, 0.06), transparent 72%);
+  --ambient-3: none;
+  --ambient-grid: rgba(19, 45, 70, 0.045);
+  --ambient-opacity: 1;
+}
+
+[data-theme="dark"] {
+  /* Matériaux — Nocturne. Le verre est plus présent, la bordure plus
+     lumineuse, la profondeur plus marquée que dans tout mode sombre
+     « inversé » : c'est le sujet du thème, pas un effet. */
+  --glass-tint: rgba(255, 255, 255, 0.055);
+  --glass-tint-strong: rgba(255, 255, 255, 0.085);
+  --glass-tint-soft: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.22);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
+  --glass-blur: 22px;
+  --glass-saturate: 150%;
+  --glass-shadow: 0 24px 60px -34px rgba(0, 0, 0, 0.85);
+  --glass-shadow-floating: 0 36px 90px -40px rgba(0, 0, 0, 0.92);
+
+  /* Lumière ambiante — « Ambient Light Architecture ».
+     Trois sources très basses : une chaleur orange (marque) en haut à
+     gauche, un signal bleu froid en haut à droite, une lueur rasante
+     au bas de page. Elles ne traversent jamais un texte. */
+  --ambient-1: radial-gradient(58% 46% at 8% -6%, rgba(253, 133, 23, 0.16), transparent 68%);
+  --ambient-2: radial-gradient(52% 42% at 92% -2%, rgba(105, 164, 255, 0.16), transparent 70%);
+  --ambient-3: radial-gradient(70% 40% at 50% 106%, rgba(105, 164, 255, 0.1), transparent 72%);
+  --ambient-grid: rgba(255, 255, 255, 0.05);
+  --ambient-opacity: 1;
+}
+
+/* ── 2. Lumière ambiante ─────────────────────────────────────
+   Un seul élément de fond, en `position: fixed`, peint par trois
+   dégradés et un motif de filets. Aucun `filter`, aucun `blur`
+   animé : c'est une image de fond statique, donc gratuite au
+   défilement. */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--ambient-opacity);
+  background-image: var(--ambient-1), var(--ambient-2), var(--ambient-3);
+  background-repeat: no-repeat;
+}
+
+/* Réseau de filets — « Signal Flow ».
+   Une grille de 64 px, très faible, qui donne une trame
+   architecturale à l'espace nocturne. Masquée en haut et en bas
+   pour ne pas créer de bord dur. */
+.ambient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--ambient-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ambient-grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 78%);
+  opacity: 0.55;
+}
+
+[data-theme="light"] .ambient::before {
+  opacity: 0.3;
+}
+
+/* ── 3. Matériaux ────────────────────────────────────────────
+   Cinq matériaux, cinq emplois. Une interface premium a besoin de
+   contrastes entre surfaces transparentes, surfaces opaques et
+   surfaces profondes : tout vitrer serait un effet, pas un langage. */
+
+/* Glass Primary — cartes et panneaux de contenu. */
+.glass {
+  background: var(--glass-tint);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--brand-radius);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+/* Reflet interne : une ligne claire en haut, jamais un halo. */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--glass-highlight) 22%, var(--glass-highlight) 78%, transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Le reflet suppose un positionnement : on ne l'impose pas à tous les
+   éléments vitrés (certains sont des `flex` positionnés autrement). */
+.glass,
+.glass--elevated,
+.glass--floating {
+  position: relative;
+}
+
+/* Glass Elevated — plus de profondeur, bordure plus lumineuse.
+   Réservé aux panneaux qui portent vraiment une hiérarchie. */
+.glass--elevated {
+  background: var(--glass-tint-strong);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--glass-shadow-floating);
+}
+
+/* Glass Floating — menus, popovers, sélecteurs. */
+.glass--floating {
+  background: var(--glass-tint-strong);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--brand-radius-lg);
+  box-shadow: var(--glass-shadow-floating);
+  -webkit-backdrop-filter: blur(28px) saturate(var(--glass-saturate));
+  backdrop-filter: blur(28px) saturate(var(--glass-saturate));
+}
+
+/* Glass Interactive — réponse au survol. La couleur bouge, la
+   position non : un élément qui se déplace sous le pointeur gêne
+   la lecture et casse la grille. */
+.glass--interactive {
+  transition:
+    background-color var(--brand-quick) ease,
+    border-color var(--brand-quick) ease;
+  cursor: pointer;
+}
+
+.glass--interactive:hover {
+  background: var(--glass-tint-strong);
+  border-color: var(--glass-border-strong);
+}
+
+.glass--interactive:focus-visible {
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 2px;
+}
+
+.glass--interactive[aria-current="page"],
+.glass--interactive[data-active="true"] {
+  background: var(--glass-tint-strong);
+  border-color: var(--brand-orange);
+}
+
+/* Glass Navigation — barre et panneaux de navigation. Matériau plus
+   profond : il porte des liens et doit rester lisible au-dessus de
+   n'importe quel contenu qui défile dessous. */
+.glass-nav {
+  background: var(--glass-tint-strong);
+  border-bottom: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+  backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+}
+
+/* ── 4. Replis ───────────────────────────────────────────────
+   Trois situations où le verre doit disparaître proprement. */
+
+/* Navigateur sans `backdrop-filter` (ou rendu forcé sans filtre) :
+   surface opaque, contraste garanti, aucune perte d'information. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass--elevated,
+  .glass--floating,
+  .glass-nav {
+    background: var(--brand-surface);
+    border-color: var(--brand-line-2);
+  }
+
+  [data-theme="dark"] .glass,
+  [data-theme="dark"] .glass--elevated,
+  [data-theme="dark"] .glass--floating,
+  [data-theme="dark"] .glass-nav {
+    background: #0f1f2e;
+    border-color: var(--brand-line-2);
+  }
+}
+
+/* Petits écrans : moins de couches de flou (coût GPU), moins de
+   transparence. Le verre reste perceptible, il n'est plus coûteux. */
+@media (max-width: 768px) {
+  :root,
+  [data-theme="light"] {
+    --glass-blur: 12px;
+  }
+
+  [data-theme="dark"] {
+    --glass-blur: 14px;
+  }
+
+  .glass--floating {
+    -webkit-backdrop-filter: blur(16px) saturate(var(--glass-saturate));
+    backdrop-filter: blur(16px) saturate(var(--glass-saturate));
+  }
+
+  /* La trame de fond est retirée : elle coûte un repaint complet au
+     défilement sur les appareils modestes, pour un gain nul. */
+  .ambient::before {
+    display: none;
+  }
+}
+
+/* Transparence réduite demandée par le système. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass--elevated,
+  .glass--floating,
+  .glass-nav {
+    background: var(--brand-surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  [data-theme="dark"] .glass,
+  [data-theme="dark"] .glass--elevated,
+  [data-theme="dark"] .glass--floating,
+  [data-theme="dark"] .glass-nav {
+    background: #0f1f2e;
+  }
+}
+
+/* Contraste renforcé demandé par le système : bordures plus franches. */
+@media (prefers-contrast: more) {
+  .glass,
+  .glass--elevated,
+  .glass--floating,
+  .glass-nav {
+    border-color: var(--brand-line-3);
+  }
+}
+
+/* ── 5. Transition d'apparence ───────────────────────────────
+   Le passage clair ↔ sombre doit être court et lisible. On ne
+   transitionne que les couleurs de surface, jamais le flou (qui
+   provoquerait un repaint continu pendant 300 ms). */
+
+html.is-theme-switching,
+html.is-theme-switching * {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-theme-switching,
+  html.is-theme-switching * {
+    transition: none !important;
+  }
+}

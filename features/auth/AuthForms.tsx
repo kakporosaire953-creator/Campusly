@@ -10,7 +10,7 @@ import { ApiError } from "@/services/api/client";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/shared/CampuslyLogo";
 import { roleLabels } from "@/config/site";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { PreferencesPanel } from "@/components/shared/PreferencesPanel";
 
 type Tab = "login" | "register";
 type RoleChoice = "learner" | "teacher";
@@ -203,7 +203,7 @@ export function AuthForms() {
           <Logo size={28} className="logo-campusly" />
         </Link>
         <div className="auth__bar-actions">
-          <ThemeToggle compact />
+          <PreferencesPanel />
           <Link href="/" className="auth__back">
             Retour au site
           </Link>

@@ -19,17 +19,21 @@
    aucun saut de mise en page quand l'élément arrive. */
 
 .js .motion [data-reveal],
-.js .motion [data-pop],
+.js .motion [data-reveal-soft],
+.js .motion [data-rise],
+.js .motion [data-words],
 .js .motion [data-split],
-.js .motion [data-slam] {
+.js .motion [data-stagger] > * {
   visibility: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .js .motion [data-reveal],
-  .js .motion [data-pop],
+  .js .motion [data-reveal-soft],
+  .js .motion [data-rise],
+  .js .motion [data-words],
   .js .motion [data-split],
-  .js .motion [data-slam] {
+  .js .motion [data-stagger] > * {
     visibility: visible;
   }
 }

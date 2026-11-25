@@ -11,7 +11,8 @@ import { NotificationBell } from "@/components/navigation/NotificationBell";
 import { RoleSwitcher } from "@/components/navigation/RoleSwitcher";
 import { Logo } from "@/components/shared/CampuslyLogo";
 import { Avatar } from "@/components/ui/PageHeader";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { PreferencesPanel } from "@/components/shared/PreferencesPanel";
+import { useT } from "@/lib/i18n/provider";
 
 /**
  * Coquille de l'espace applicatif.
@@ -21,6 +22,7 @@ import { ThemeToggle } from "@/components/shared/ThemeToggle";
  */
 export function AppShell({ children, breadcrumb }: { children: ReactNode; breadcrumb?: string }) {
   const { user, role, status, logout } = useSession();
+  const t = useT();
   const router = useRouter();
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -190,7 +192,7 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
           </div>
 
           <div className="app-header-right">
-            <ThemeToggle compact />
+            <PreferencesPanel />
             <CreditsPill />
             <NotificationBell />
             <Button
