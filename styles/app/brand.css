@@ -139,6 +139,11 @@
   /* Variante de l'orange pour le TEXTE sur papier : 4,80:1 sur ivoire et
      5,42:1 sur blanc, donc conforme AA en petit corps. L'orange de marque
      #FD8517 reste intact pour les aplats, filets et indicateurs. */
+  /* Orange « affichage » : réservé aux corps ≥ 48 px (seuil grand texte,
+     3:1). 3,07:1 sur le papier ivoire et 3,47:1 sur blanc. Il garde la
+     chaleur de l'orange de marque là où la variante profonde, plus brune,
+     faisait perdre la signature. Ne jamais l'employer sous 24 px. */
+  --brand-orange-display: #d96b06;
   --brand-orange-deep: #a85208;
   --brand-paper: #f4f1e8;
   --brand-paper-2: #ece7da;

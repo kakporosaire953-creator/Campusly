@@ -695,3 +695,55 @@ L'invariant reste la structure de `components/layout/AppShell.tsx` :
 
 Le test `tests/auth-flow.test.tsx` verrouille cet invariant : `.app-layout` doit
 contenir exactement deux enfants (sidebar + contenu) et plus aucun bandeau.
+
+---
+
+## 13. Mission « identité de marque globale » — rapport
+
+Cette passe ne redessine pas l'application : elle **unifie** ce que plusieurs
+couches avaient progressivement divergé (trois palettes, quatre familles de
+polices, cinq jeux de boutons). Ni les routes, ni les libellés, ni la structure
+`AppShell` n'ont bougé.
+
+### 13.1 Ce qui a été fait
+
+| Axe | Avant | Après |
+| --- | --- | --- |
+| Polices | Fraunces + Manrope + JetBrains Mono + pile système ; 2 familles chargées depuis Google Fonts | **Baloo 2** (signature) + **Manrope** (lecture), auto-hébergées, 10 woff2 / 184 Ko ; JetBrains Mono conservée pour les seules données techniques |
+| Couleurs | trois palettes (`modern.css` #0058BC, `editorial.css` papier/bleu, `brand-*` hérité), dérivées en `rgba()` un peu partout | **une** palette : navy `#132D46`, orange `#FD8517`, papier `#F4F1E8`, blanc `#FFFFFF` + variantes de surface / filet / encre / état, toutes déclarées dans `brand.css` |
+| Logo | `viewBox 0 0 581 81`, collision « a / m » (−1,26 u) | `0 0 588 81`, écart « a / m » `+5,71` ; symbole, proportions et couleurs inchangés |
+| Composants | cinq familles de boutons concurrentes, cartes et tableaux réécrits par page | primitives uniques : `.btn` (5 variantes × 3 tailles), `.form-*`, `.card*`, `.data-table`, `[role=tablist]`, `.modal`, `.toast`, `.state-card`, `.pagination`, `Badge` en jetons |
+| Thèmes | mode sombre appliqué au gabarit public, où il repeignait le journal | le public reste en papier ivoire (`html:has(.public-shell)` re-fixe la palette) ; l'application garde son thème sombre |
+| Focus | anneau animé de 0 → 2 px (invisible au premier Tab), transitions `all` | `:focus-visible` orange 2 px / offset 2 px / `transition-duration: 0s`, et plus aucun `transition: all` sur un élément focalisable |
+
+### 13.2 Décisions de jetons à retenir
+
+- **`--brand-on-surface`** est le jeton par défaut de toute couleur posée sur
+  une surface thémée. Il évite la classe de bugs la plus fréquente du projet :
+  un navy écrit en dur qui disparaît en mode sombre.
+- **Deux oranges de texte, deux emplois.** `--brand-orange-deep` `#a85208`
+  (4,80:1 sur ivoire, 5,42:1 sur blanc) pour le petit texte ; l'orange de
+  marque `#FD8517` n'est jamais employé sous 24 px sur fond clair (2,18:1).
+- **`--brand-orange-display`** `#d96b06` (3,07:1 sur ivoire, 3,47:1 sur blanc)
+  pour les titres ≥ 48 px uniquement, où le seuil « grand texte » est de 3:1.
+  C'est lui qui garde la chaleur de la marque dans `.ed-display em`.
+- Aucun `!important` de couleur, sauf sur le `color` de `a.skip-link`.
+
+### 13.3 Vérifications
+
+| Contrôle | Méthode | Résultat |
+| --- | --- | --- |
+| Compilation | `npm run build` | 26 routes, 0 erreur |
+| Types | `npx tsc --noEmit` | 0 |
+| Tests | `npx vitest run` | 43/43 (5 fichiers) |
+| Contraste WCAG AA | 21 routes × 2 thèmes, `getComputedStyle` + ratio sur le fond effectif, attente 1,4 s | **0 écart** |
+| Débordement horizontal | 10 routes × 5 viewports (1440×900 → 360×800), `scrollWidth - clientWidth` | **0** |
+| Focus clavier | 10 tabulations par page sur `/dashboard` et `/dashboard/epreuves` | anneau 2 px orange sur les 10 |
+| Polices | inspection du CSS compilé | 0 requête vers `fonts.googleapis.com` |
+
+Le point de méthode qui a coûté le plus de temps : **un audit sans attente
+mesure des transitions, pas des couleurs**. Plusieurs « régressions » signalées
+en cours de route (`--text-2` à 2,67, `.side-link` à 4,3, état vide de `/auth`)
+étaient des valeurs intermédiaires ou des contenus pas encore montés. Toute
+vérification de contraste doit attendre ≥ 1 000 ms et être confirmée par une
+capture avant d'être corrigée.

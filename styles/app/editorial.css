@@ -216,9 +216,9 @@ section.ed-rail {
   font-style: normal;
   font-weight: 800;
   /* Le titre est très grand (≥ 48 px) : il relève du seuil « grand texte »
-     (3:1). On garde donc l'orange de marque, mais sur sa variante profonde
-     quand il doit rester lisible sur le papier. */
-  color: var(--brand-orange-deep);
+     (3:1). On emploie donc l'orange d'affichage, plus chaud que la variante
+     profonde — qui, elle, reste réservée au petit texte. */
+  color: var(--brand-orange-display);
 }
 
 .ed-title {
