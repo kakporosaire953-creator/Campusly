@@ -57,6 +57,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [preference, setPreferenceState] = useState<ThemePreference>("system");
   const [systemPrefersDark, setSystemPrefersDark] = useState(false);
   const [resolved, setResolved] = useState<ThemeResolved>("light");
+  /* Garde d'hydratation. Sans elle, l'effet « suivre le système » s'exécute au
+     PREMIER passage avec les valeurs initiales (`system`, clair) et réécrit
+     `data-theme="light"` avant que la préférence mémorisée n'ait été relue :
+     un visiteur qui avait choisi le sombre voyait la page s'éclaircir juste
+     après le chargement. Vérifié en navigateur : `data-theme` valait « dark »
+     au chargement, puis « light » 800 ms plus tard. */
+  const [hydrated, setHydrated] = useState(false);
 
   /* Au montage : on relit ce que le script inline a déjà appliqué. React ne
      décide de rien au premier rendu, il se cale sur le document. */
@@ -69,6 +76,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const current = document.documentElement.dataset.theme;
     setPreferenceState(initial);
     setResolved(current === "dark" ? "dark" : resolveTheme(initial, media.matches));
+    setHydrated(true);
 
     const onSystemChange = (event: MediaQueryListEvent) => {
       setSystemPrefersDark(event.matches);
@@ -77,11 +85,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => media.removeEventListener("change", onSystemChange);
   }, []);
 
-  /* La préférence `system` suit le système en direct. */
+  /* La préférence `system` suit le système en direct — mais seulement APRÈS
+     avoir relu la préférence réelle (voir la garde d'hydratation). */
   useEffect(() => {
-    if (preference !== "system") return;
+    if (!hydrated || preference !== "system") return;
     setResolved(applyTheme("system", systemPrefersDark));
-  }, [preference, systemPrefersDark]);
+  }, [hydrated, preference, systemPrefersDark]);
 
   const setPreference = useCallback(
     (value: ThemePreference) => {

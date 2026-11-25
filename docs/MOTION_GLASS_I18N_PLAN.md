@@ -235,6 +235,43 @@ d'animation écrite en dur dans un composant.
 | 8 | **Motion refinement** : transitions de thème, interactions vitrées | — |
 | 9 | **QA** : responsive × 5, contrastes, 7 langues, 3 préférences | rapport chiffré |
 
+### État d'exécution (mis à jour)
+
+| Phase | État | Détail |
+| --- | --- | --- |
+| 1 | ✅ | audit ci-dessus |
+| 2 | ✅ | `lib/motion/tokens.ts`, `MotionScope`, `data-rise/fade/words/line/stagger/drift/rail` |
+| 3 | ✅ | 2 photos décoratives retirées, hero et figures recomposés (typo, filets, fragments d'interface, index) |
+| 4 | 🟡 | verre + Nocturne en place sur public et applicatif ; **reliquat** : quelques surfaces de la salle d'examen et des tableaux denses n'ont pas été recontrôlées en sombre |
+| 5 | ✅ | un seul contrôle (globe + code), panneau à deux zones, panneau mobile dans le menu, ancrage mesuré, panneaux porteurs de texte opaques |
+| 6 | ✅ | public, auth, 404, hors ligne, coquille applicative, tableau de bord apprenant, navigation, titres de page |
+| 7 | 🟡 | traduits : coquille, tableau de bord apprenant, navigation, états, titres. **Restent en français** : bibliothèque d'épreuves, salle d'examen, forum, compositions, classrooms, révision, crédits, profil, paramètres, notifications, espaces enseignant et admin, assistant IA |
+| 8 | ✅ | transition de thème 240 ms sans flash (bug d'hydratation corrigé), `prefers-reduced-motion` respecté |
+| 9 | 🟡 | responsive × 5 sans débordement, 7 langues vérifiées sur les pages traduites, `prefers-reduced-motion` vérifié ; contrastes non re-mesurés après les dernières modifications |
+
+#### Corrections issues de la QA (détail)
+
+1. **Thème sombre perdu après hydratation.** `ThemeProvider` appliquait
+   « suivre le système » dès le premier effet, avec l'état initial (`system`,
+   clair), avant d'avoir relu la préférence. Un visiteur revenant en sombre
+   voyait la page s'éclaircir. Mesuré : `data-theme` = `dark` au chargement,
+   `light` 800 ms plus tard. Corrigé par une garde d'hydratation ; re-mesuré :
+   `dark` → `dark`.
+2. **Panneau de préférences débordant.** Le panneau dépassait le bas de la
+   fenêtre (dernières options coupées). Ancrage et hauteur maximale mesurés sur
+   la capsule réelle, défilement interne.
+3. **Panneau transparent.** La barre porte un `backdrop-filter`, donc le
+   panneau (descendant) ne pouvait pas flouter la page : le texte du sommaire
+   se lisait sous les options. Le panneau est porté dans `document.body`, et
+   les surfaces porteuses de texte sont opaques.
+4. **Toile de fond en tofu.** Aucune fonte CJK sur la machine : les sinogrammes
+   sortaient en rectangles. Sous-ensembles auto-hébergés (Noto Sans SC 542
+   sinogrammes, Noto Sans latin étendu + vietnamien 514 caractères, 150 Ko),
+   avec `unicode-range` et une pile qui laisse Baloo 2 et Manrope devant.
+5. **Titre composé avec une espace parasite** en allemand et en chinois
+   (« Nutzungs bedingungen. »). Les titres sont désormais une phrase complète
+   plus la portion mise en valeur (`SplitAccent`).
+
 ### Vérifications prévues à chaque étape
 
 `npx tsc --noEmit` · `npx vitest run` · `npm run build` · captures Playwright
