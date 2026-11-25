@@ -26,11 +26,13 @@
     "teacherTitle": "Mɛsɛ́dónɔ́ lɛ kpá",
     "adminTitle": "Gǎnnu",
     "assistantTitle": "Campusly AI",
-    "description": "Kúnnuɖéwema lɛ, wexɔmɛ lɛ, kpɔ́n tɛnmɛ kpo nukúnɖéjí kpo na UAC hɔ̀nnu kpo mɛsɛ́dónɔ́ lɛ kpo."
+    "description": "Kúnnuɖéwema lɛ, wexɔmɛ lɛ, kpɔ́n tɛnmɛ kpo nukúnɖéjí kpo na UAC hɔ̀nnu kpo mɛsɛ́dónɔ́ lɛ kpo.",
+    "examDetailTitle": "Wéxóxó kpɔ́nkpɔ́n",
+    "classroomDetailTitle": "Klasu tɛn"
   },
   "common": {
-    "loading": "Ðó wɛ…",
-    "retry": "Lɛ́ wá",
+    "loading": "È ɖò hinhɔn…",
+    "retry": "Sɔ́ kpɔ́n ɖevo",
     "cancel": "Sɔ́ ɖó",
     "close": "Klɔ́n",
     "save": "Sɔ́ ɖó",
@@ -54,7 +56,20 @@
     "empty": "Nǔ ɖé ɖò finɛ ǎ.",
     "error": "Nǔ ɖé gblee.",
     "count_one": "Nǔ {count}",
-    "count_other": "Nǔ {count}"
+    "count_other": "Nǔ {count}",
+    "loadError": "È nɔ́ mɔ́ nǔ lɛ́ɛ ǎ",
+    "loadingData": "È ɖò nǔ lɛ́ɛ hinhɔn…",
+    "now": "égbɛ́ ɔ",
+    "minutesAgo": "xó {count} min",
+    "hoursAgo": "xó {count} h",
+    "daysAgo": "xó {count} j",
+    "backToTop": "Lɛ́kɔ́ xwlɛ́ ɔ kɔ́n",
+    "pageLoading": "È ɖò Campusly hinhɔn…",
+    "pageErrorTitle": "Xwlɛ́ ɔ nɔ́ hùn ǎ",
+    "pageErrorBody": "Sɔ́ kpɔ́n ɖevo: xóɖiɖɔ e ɔ nɔ́ zán serveur ɖé ǎ.",
+    "appErrorTitle": "Nǔ ɖé jɔ̀",
+    "appErrorBody": "Tɛn e ɔ nɔ́ hɛn ɔ hàn ǎ. Nǔ e ɖò mɛmɛ ɔ lɛ́ɛ ɖò navegatɛ́ɔ ɔ mɛ.",
+    "backToDashboard": "Lɛ́kɔ́ nukúnkpé tɛn ɔ"
   },
   "nav": {
     "label": "Xwégbɛ ɔ kpá lɛ",
@@ -72,7 +87,19 @@
     "about": "Xó azɔ̌ ɔ tɔn",
     "contribute": "Ná nu",
     "contact": "Kan mɛ",
-    "openSpace": "Hún kpá ce"
+    "openSpace": "Hún kpá ce",
+    "notifications": "Xó gblamɛ",
+    "center": "Xó gblamɛ tɛn",
+    "viewAll": "Kpɔ́n xó gblamɛ bǐ",
+    "markAllRead": "Kplɔ́n yé bǐ",
+    "noNotifications": "Xó gblamɛ ɖé ɖò ǎ.",
+    "unread": "Ma kplɔ́n ǎ",
+    "unreadCount": "Xó gblamɛ ({count} ma kplɔ́n ǎ)",
+    "creditsTitle": "Campusly Kredi — tɛn ɔ hùn ǎ",
+    "credits": "kredi",
+    "roleView": "Tɛn ɔ kpɔ́nkpɔ́n",
+    "switchView": "Ðyɔ́ kpɔ́nkpɔ́n",
+    "viewActivated": "Kpɔ́nkpɔ́n « {role} » hùn."
   },
   "preferences": {
     "open": "Ðoɖo na gbè kpo nukún kpo",
@@ -249,9 +276,11 @@
     "logoutShort": "Fó",
     "homeLabel": "Campusly — xwégbɛ̌",
     "sessionLocal": "Kɔntú e ɖò mɛmɛ ɔ",
-    "genericError": "Nǔ ɖé jɔ̀. Kún sɔ́ kpɔ́n ɖevo.",
-    "languageChanged": "Xóɖiɖɔ é ɖò nukún mɛ ɔ: {language}. Nǔ e a ɖè lɛ́ɛ ɔ, è nɔ́ ɖó nǔ ɖó é ɖò mɛmɛ ɔ mɛ, é nɔ́ ɖyɔ́ wemaxɔmɛ ɔ nú tɔn ǎ.",
-    "appearanceChanged": "Nǔ e ɖò nukún mɛ ɔ: {appearance}. È nɔ́ ɖó nǔ ɖó é ɖò mɛmɛ ɔ mɛ."
+    "ui": {
+      "genericError": "Nǔ ɖé jɔ̀. Kún sɔ́ kpɔ́n ɖevo.",
+      "languageChanged": "Xóɖiɖɔ é ɖò nukún mɛ ɔ: {language}. Nǔ e a ɖè lɛ́ɛ ɔ, è nɔ́ ɖó nǔ ɖó é ɖò mɛmɛ ɔ mɛ, é nɔ́ ɖyɔ́ wemaxɔmɛ ɔ nú tɔn ǎ.",
+      "appearanceChanged": "Nǔ e ɖò nukún mɛ ɔ: {appearance}. È nɔ́ ɖó nǔ ɖó é ɖò mɛmɛ ɔ mɛ."
+    }
   },
   "pages": {
     "notice": "Wemaxɔmɛ e ɖò flanségbè mɛ ɔ wɛ nyí nǔgbó. Xóɖiɖɔ ɖevo lɛ ɖò finɛ́ nú mɛ ná mɔ́n nǔ.",
@@ -462,5 +491,51 @@
     "toastLogin": "Hùnhùn ɔ wá nú yé — kú dónɔ̀!",
     "toastRegister": "Kɔntú nukúnɖéjí tɔn ɔ wlán.",
     "placeholderDepartment": "Kɔ́nputa"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "Kú dónɔ̀ {name}",
+      "subtitle": "Nǔkplɔ́nmɛ tɔn, klasu tɔn kpó hwenu tɔn kpó ɖò tɛn ɖokpó.",
+      "revise": "Kplɔ́n",
+      "loading": "È ɖò tɛn tɔn hinhɔn…",
+      "unavailable": "Nukúnkpé tɛn ɔ ɖò ǎ.",
+      "level": "Wemaxɔmɛ kplɔ́nkplɔ́n",
+      "levelHint": "{xp} XP · nukɔn tɔn {next}",
+      "streak": "Kplɔ́nkplɔ́n sɛ́n",
+      "streakValue": "{days} j",
+      "streakHint": "Sun e kú ǎ lɛ é",
+      "credits": "Kredi",
+      "creditsHint": "Nǔ e ɖò finɛ́ é",
+      "weeklyGoal": "Xwèví ɔ tɔn",
+      "emptyTitle": "Tɛn tɔn ɔ nɔ́ kún dó kplɔ́nkplɔ́n wu",
+      "emptySubtitle": "Nǔ ɖé ɖò kɔntú e ɔ mɛ ǎ.",
+      "emptyStep1": "Xwlɛ́ nǔkplɔ́nmɛ ɖé ɖò Campusly AI mɛ.",
+      "emptyStep2": "Wá nǔkplɔ́nmɛ nukɔn tɔn nú a ná mɔ́ nǔ e a kplɔ́n lɛ́ɛ.",
+      "emptyStep3": "Bá amphi kpó kódù e mɛsínɔn tɔn ná wɛ é kpó.",
+      "startRevision": "Bɛ̀ kplɔ́nkplɔ́n",
+      "joinClassroom": "Bá amphi",
+      "classrooms": "Klasu cé lɛ́ɛ",
+      "seeAll": "Kpɔ́n nǔ bǐ",
+      "noClassroom": "Klasu ɖé ɖò ǎ. Kódù amphi e mɛsínɔn tɔn ná wɛ é ɔ kú.",
+      "enrolled": "{count} wlán",
+      "resume": "Kɔ́n kplɔ́nkplɔ́n",
+      "chapterProgress": "Wema ɔ tɔn nukɔnyíyí",
+      "continue": "Yi nukɔn",
+      "diagnosis": "Kpɔ́nkpɔ́n ɖó nǔkplɔ́nmɛ wu",
+      "diagnosisSubtitle": "Nǔ e a kplɔ́n ɖagbe kpó nǔ e ɖò ǎ kpó",
+      "mastered": "Kplɔ́n",
+      "average": "Tɛntin",
+      "high": "Kpata",
+      "upcoming": "Wékwín e ɖò wá wɛ lɛ é",
+      "open": "Hùn",
+      "scheduled": "Ðó ɖóɖo",
+      "enterRoom": "Wá xwégbɛ̌ ɔ mɛ",
+      "waitingRoom": "Kpɔ́n tɛn e è nɔ́ lɛ́n é",
+      "minutes": "{count} min",
+      "recentActivity": "Nǔ e wá égbɛ́ ɔ",
+      "recommended": "Wéxóxó e è ɖè lɛ é",
+      "library": "Wema tɛn",
+      "noRecommended": "Wema tɛn tɔn ná hùn kpó wema nukɔn tɔn lɛ kpó. A sɔ́ có ná xwlɛ́ wéxóxó."
+    }
   }
 }

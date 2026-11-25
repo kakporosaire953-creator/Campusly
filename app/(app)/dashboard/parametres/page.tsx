@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { SettingsView } from "@/features/profile/SettingsView";
 
-export const metadata: Metadata = {
-  title: "Paramètres",
-  description: "Notifications, accessibilité et données locales Campusly.",
-};
+export async function generateMetadata() {
+  return pageMetadata("settingsTitle", "/dashboard/parametres");
+}
 
 export default function SettingsPage() {
   return <SettingsView />;

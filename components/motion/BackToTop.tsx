@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { useScrollDirection } from "@/lib/useScrollDirection";
 import { Icon } from "@/components/motion/Icon";
+import { useT } from "@/lib/i18n/provider";
 
 /**
  * Bouton « revenir en haut » — même comportement que Kraken : il apparaît
@@ -16,6 +17,7 @@ import { Icon } from "@/components/motion/Icon";
 export function BackToTop() {
   const ref = useRef<HTMLButtonElement>(null);
   const { direction, y } = useScrollDirection();
+  const t = useT();
   const visible = direction === "up" && y > 500;
   const shown = useRef(false);
 
@@ -60,7 +62,7 @@ export function BackToTop() {
       ref={ref}
       type="button"
       onClick={toTop}
-      aria-label="Revenir en haut de la page"
+      aria-label={t("common.backToTop")}
       tabIndex={visible ? 0 : -1}
       data-hover-lift
       data-lift-y="-3"

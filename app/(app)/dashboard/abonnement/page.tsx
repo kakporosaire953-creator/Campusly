@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { SubscriptionView } from "@/features/credits/SubscriptionView";
 
-export const metadata: Metadata = {
-  title: "Abonnement",
-  description: "État de l'abonnement Campusly — service pas encore ouvert.",
-};
+export async function generateMetadata() {
+  return pageMetadata("subscriptionTitle", "/dashboard/abonnement");
+}
 
 export default function SubscriptionPage() {
   return <SubscriptionView />;

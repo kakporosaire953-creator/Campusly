@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { ClassroomDetail } from "@/features/classrooms/ClassroomDetail";
 
-export const metadata: Metadata = { title: "Classroom" };
+export async function generateMetadata() {
+  return pageMetadata("classroomDetailTitle", "/dashboard/classrooms");
+}
 
 export default async function ClassroomDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

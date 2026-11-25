@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, LOCALE_COOKIE_MAX_AGE, type Locale, localeConfig } from "./config";
 import { interpolate, resolveMessage } from "./dictionaries";
+import { relativeAmount } from "@/services/mocks/store";
 import type { Messages, MessageKey, MessageParams } from "./types";
 
 /**
@@ -70,6 +71,17 @@ export function useI18n(): I18nContextValue {
   return context;
 }
 
+/**
+ * Contexte facultatif : les primitives d'interface (états, bouton de retour en
+ * haut, pastilles) peuvent être montées hors du fournisseur — dans un test
+ * unitaire, ou dans le squelette suspendu d'une route. Dans ce cas on rend le
+ * français, jamais une exception : une erreur de contexte ne doit pas vider un
+ * écran d'erreur.
+ */
+export function useOptionalI18n(): I18nContextValue | null {
+  return useContext(I18nContext);
+}
+
 /** Raccourci pour les composants qui n'ont besoin que de traduire. */
 export function useT(): I18nContextValue["t"] {
   return useI18n().t;
@@ -108,3 +120,23 @@ export function changeLocale(next: Locale): void {
 
 /** Langue par défaut, réexportée pour les composants serveur. */
 export { DEFAULT_LOCALE };
+
+/**
+ * Temps relatif localisé (« il y a 3 min », « 3 分钟前 »…).
+ * La date reste une donnée, le paraphe vient du dictionnaire : aucune chaîne
+ * française ne subsiste dans un écran non francophone.
+ */
+export function useRelativeTime() {
+  const t = useT();
+  const { dateLocale } = useI18n();
+  return (iso: string): string => {
+    const { unit, count } = relativeAmount(iso);
+    if (unit === "now") return t("common.now");
+    if (unit === "minutes") return t("common.minutesAgo", { count });
+    if (unit === "hours") return t("common.hoursAgo", { count });
+    if (count >= 30) {
+      return new Intl.DateTimeFormat(dateLocale, { dateStyle: "medium" }).format(new Date(iso));
+    }
+    return t("common.daysAgo", { count });
+  };
+}

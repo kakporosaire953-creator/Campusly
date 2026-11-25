@@ -26,10 +26,12 @@
     "teacherTitle": "教师空间",
     "adminTitle": "管理后台",
     "assistantTitle": "Campusly AI",
-    "description": "面向 UAC 学生与教师的历年试题、课程空间、限时考试与练习。"
+    "description": "面向 UAC 学生与教师的历年试题、课程空间、限时考试与练习。",
+    "examDetailTitle": "试题详情",
+    "classroomDetailTitle": "课程空间"
   },
   "common": {
-    "loading": "加载中…",
+    "loading": "正在加载…",
     "retry": "重试",
     "cancel": "取消",
     "close": "关闭",
@@ -54,7 +56,20 @@
     "empty": "暂时没有内容。",
     "error": "出现了一个错误。",
     "count_one": "{count} 个结果",
-    "count_other": "{count} 个结果"
+    "count_other": "{count} 个结果",
+    "loadError": "无法加载数据",
+    "loadingData": "正在加载数据…",
+    "now": "刚刚",
+    "minutesAgo": "{count} 分钟前",
+    "hoursAgo": "{count} 小时前",
+    "daysAgo": "{count} 天前",
+    "backToTop": "回到页面顶部",
+    "pageLoading": "正在加载 Campusly…",
+    "pageErrorTitle": "页面无法加载",
+    "pageErrorBody": "请重试：本版本不使用任何业务服务器。",
+    "appErrorTitle": "出现错误",
+    "appErrorBody": "此部分无法显示。你的本地数据仍保存在浏览器中。",
+    "backToDashboard": "返回仪表盘"
   },
   "nav": {
     "label": "首页分区",
@@ -72,7 +87,19 @@
     "about": "关于",
     "contribute": "投稿",
     "contact": "联系",
-    "openSpace": "打开我的空间"
+    "openSpace": "打开我的空间",
+    "notifications": "通知",
+    "center": "通知中心",
+    "viewAll": "查看全部通知",
+    "markAllRead": "全部标为已读",
+    "noNotifications": "暂无通知。",
+    "unread": "未读",
+    "unreadCount": "通知（{count} 条未读）",
+    "creditsTitle": "Campusly 学分 — 服务尚未开放",
+    "credits": "学分",
+    "roleView": "空间视图",
+    "switchView": "切换视图",
+    "viewActivated": "已切换到「{role}」视图。"
   },
   "preferences": {
     "open": "语言与外观偏好",
@@ -249,9 +276,11 @@
     "logoutShort": "退出登录",
     "homeLabel": "Campusly — 首页",
     "sessionLocal": "本地会话",
-    "genericError": "出现错误，请重试。",
-    "languageChanged": "界面语言：{language}。你的选择保存在此设备上，不会改变课程内容。",
-    "appearanceChanged": "外观：{appearance}。你的选择保存在此设备上。"
+    "ui": {
+      "genericError": "出现错误，请重试。",
+      "languageChanged": "界面语言：{language}。你的选择保存在此设备上，不会改变课程内容。",
+      "appearanceChanged": "外观：{appearance}。你的选择保存在此设备上。"
+    }
   },
   "pages": {
     "notice": "本文档以法文版为准，其他语言版本仅为便于理解。",
@@ -462,5 +491,51 @@
     "toastLogin": "模拟登录成功，欢迎！",
     "toastRegister": "演示账户已创建。",
     "placeholderDepartment": "信息学"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "{name}，你好",
+      "subtitle": "复习、课程与截止时间，都在同一个地方。",
+      "revise": "复习",
+      "loading": "正在加载你的空间…",
+      "unavailable": "仪表盘暂不可用。",
+      "level": "学业等级",
+      "levelHint": "{xp} XP · 下一阶段 {next}",
+      "streak": "连续学习",
+      "streakValue": "{days} 天",
+      "streakHint": "连续天数",
+      "credits": "学分",
+      "creditsHint": "可用余额",
+      "weeklyGoal": "每周目标",
+      "emptyTitle": "复习越多，空间越完整",
+      "emptySubtitle": "该账户尚未记录任何活动。",
+      "emptyStep1": "在 Campusly AI 中导入一份课程或讲义。",
+      "emptyStep2": "先做一次练习，了解自己的水平。",
+      "emptyStep3": "用教师提供的代码加入阶梯教室。",
+      "startRevision": "开始复习",
+      "joinClassroom": "加入阶梯教室",
+      "classrooms": "我的课程",
+      "seeAll": "查看全部",
+      "noClassroom": "暂无课程。教师提供的阶梯教室代码即可加入第一门。",
+      "enrolled": "{count} 人已加入",
+      "resume": "继续复习",
+      "chapterProgress": "章节进度",
+      "continue": "继续",
+      "diagnosis": "按科目诊断",
+      "diagnosisSubtitle": "已识别强项与弱项",
+      "mastered": "已掌握",
+      "average": "中等",
+      "high": "高",
+      "upcoming": "即将开始的考试",
+      "open": "打开",
+      "scheduled": "已安排",
+      "enterRoom": "进入考场",
+      "waitingRoom": "查看候考室",
+      "minutes": "{count} 分钟",
+      "recentActivity": "最近活动",
+      "recommended": "推荐试题",
+      "library": "题库",
+      "noRecommended": "你所在学院的目录将随首批文件上线。现在就可以投稿一份试题。"
+    }
   }
 }

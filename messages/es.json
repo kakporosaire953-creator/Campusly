@@ -26,7 +26,9 @@
     "teacherTitle": "Espacio docente",
     "adminTitle": "Administración",
     "assistantTitle": "Campusly AI",
-    "description": "Exámenes anteriores, espacios de curso, pruebas con tiempo y entrenamiento para estudiantes y docentes de la UAC."
+    "description": "Exámenes anteriores, espacios de curso, pruebas con tiempo y entrenamiento para estudiantes y docentes de la UAC.",
+    "examDetailTitle": "Ficha de la prueba",
+    "classroomDetailTitle": "Espacio de curso"
   },
   "common": {
     "loading": "Cargando…",
@@ -54,7 +56,20 @@
     "empty": "Todavía no hay nada que mostrar.",
     "error": "Se ha producido un error.",
     "count_one": "{count} resultado",
-    "count_other": "{count} resultados"
+    "count_other": "{count} resultados",
+    "loadError": "No se han podido cargar los datos",
+    "loadingData": "Cargando los datos…",
+    "now": "ahora mismo",
+    "minutesAgo": "hace {count} min",
+    "hoursAgo": "hace {count} h",
+    "daysAgo": "hace {count} d",
+    "backToTop": "Volver arriba de la página",
+    "pageLoading": "Cargando Campusly…",
+    "pageErrorTitle": "La página no se ha podido cargar",
+    "pageErrorBody": "Inténtalo de nuevo: esta versión no usa ningún servidor de negocio.",
+    "appErrorTitle": "Se ha producido un error",
+    "appErrorBody": "Esta sección no se ha podido mostrar. Tus datos locales se conservan en el navegador.",
+    "backToDashboard": "Volver al panel"
   },
   "nav": {
     "label": "Secciones de la página de inicio",
@@ -72,7 +87,19 @@
     "about": "Acerca de",
     "contribute": "Contribuir",
     "contact": "Contacto",
-    "openSpace": "Abrir mi espacio"
+    "openSpace": "Abrir mi espacio",
+    "notifications": "Notificaciones",
+    "center": "Centro de notificaciones",
+    "viewAll": "Ver todas las notificaciones",
+    "markAllRead": "Marcar todo como leído",
+    "noNotifications": "No hay notificaciones.",
+    "unread": "Sin leer",
+    "unreadCount": "Notificaciones ({count} sin leer)",
+    "creditsTitle": "Campusly Credits — servicio aún no abierto",
+    "credits": "créditos",
+    "roleView": "Vista del espacio",
+    "switchView": "Cambiar de vista",
+    "viewActivated": "Vista «{role}» activada."
   },
   "preferences": {
     "open": "Preferencias de idioma y apariencia",
@@ -249,9 +276,11 @@
     "logoutShort": "Cerrar sesión",
     "homeLabel": "Campusly — inicio",
     "sessionLocal": "Sesión local",
-    "genericError": "Se ha producido un error. Inténtalo de nuevo.",
-    "languageChanged": "Idioma de la interfaz: {language}. Tu elección se guarda en este dispositivo y no modifica el contenido de tus cursos.",
-    "appearanceChanged": "Apariencia: {appearance}. Tu elección se guarda en este dispositivo."
+    "ui": {
+      "genericError": "Se ha producido un error. Inténtalo de nuevo.",
+      "languageChanged": "Idioma de la interfaz: {language}. Tu elección se guarda en este dispositivo y no modifica el contenido de tus cursos.",
+      "appearanceChanged": "Apariencia: {appearance}. Tu elección se guarda en este dispositivo."
+    }
   },
   "pages": {
     "notice": "La versión francesa de este documento es la que da fe. Las demás lenguas se ofrecen para facilitar la comprensión.",
@@ -462,5 +491,51 @@
     "toastLogin": "Sesión simulada iniciada — ¡bienvenido!",
     "toastRegister": "Cuenta de demostración creada.",
     "placeholderDepartment": "Informática"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "Hola, {name}",
+      "subtitle": "Tus repasos, tus clases y tus plazos, en un solo lugar.",
+      "revise": "Repasar",
+      "loading": "Cargando tu espacio…",
+      "unavailable": "Panel no disponible.",
+      "level": "Nivel académico",
+      "levelHint": "{xp} XP · siguiente umbral {next}",
+      "streak": "Racha de estudio",
+      "streakValue": "{days} d",
+      "streakHint": "Días consecutivos",
+      "credits": "Créditos",
+      "creditsHint": "Saldo disponible",
+      "weeklyGoal": "Objetivo semanal",
+      "emptyTitle": "Tu espacio se llena repasando",
+      "emptySubtitle": "Todavía no hay actividad registrada en esta cuenta.",
+      "emptyStep1": "Importa un curso o una ficha en Campusly AI.",
+      "emptyStep2": "Lanza un primer entrenamiento para situar tus conocimientos.",
+      "emptyStep3": "Únete a un aula con el código de tu docente.",
+      "startRevision": "Empezar un repaso",
+      "joinClassroom": "Unirse a un aula",
+      "classrooms": "Mis aulas",
+      "seeAll": "Ver todo",
+      "noClassroom": "Aún no hay clases. El código de aula que te dio tu docente basta para unirte a la primera.",
+      "enrolled": "{count} inscritos",
+      "resume": "Reanudar el repaso",
+      "chapterProgress": "Progreso del capítulo",
+      "continue": "Continuar",
+      "diagnosis": "Diagnóstico por materia",
+      "diagnosisSubtitle": "Puntos fuertes y débiles identificados",
+      "mastered": "Dominado",
+      "average": "Media",
+      "high": "Alta",
+      "upcoming": "Exámenes próximos",
+      "open": "Abrir",
+      "scheduled": "Programada",
+      "enterRoom": "Entrar en la sala",
+      "waitingRoom": "Ver la sala de espera",
+      "minutes": "{count} min",
+      "recentActivity": "Actividad reciente",
+      "recommended": "Pruebas recomendadas",
+      "library": "Biblioteca",
+      "noRecommended": "El catálogo de tu facultad abrirá con sus primeros archivos. Ya puedes proponer una prueba."
+    }
   }
 }

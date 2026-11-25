@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { useT } from "@/lib/i18n/provider";
 
 /** Frontière d'erreur globale (racine) — identité visuelle préservée. */
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  const t = useT();
+
   useEffect(() => {
     console.error("[Campusly] erreur globale :", error.message);
   }, [error]);
@@ -14,10 +17,10 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
         <div className="state-card-icon" aria-hidden="true">
           <i className="fa-solid fa-plug-circle-xmark" />
         </div>
-        <h3>La page n&apos;a pas pu se charger</h3>
-        <p>Réessayez : cette version n&apos;utilise aucun serveur métier.</p>
+        <h3>{t("common.pageErrorTitle")}</h3>
+        <p>{t("common.pageErrorBody")}</p>
         <button type="button" className="btn btn-primary" onClick={reset}>
-          <i className="fa-solid fa-rotate-right" aria-hidden="true" /> Réessayer
+          <i className="fa-solid fa-rotate-right" aria-hidden="true" /> {t("common.retry")}
         </button>
       </div>
     </div>

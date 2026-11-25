@@ -26,7 +26,9 @@
     "teacherTitle": "Ibùdó olùkọ́",
     "adminTitle": "Ìṣàkóso",
     "assistantTitle": "Campusly AI",
-    "description": "Àwọn ìwé ìdánwò, ibi-ẹ̀kọ́, ìdánwò àkókò àti ìdánrawò fún àwọn akẹ́kọ̀ọ́ àti olùkọ́ UAC."
+    "description": "Àwọn ìwé ìdánwò, ibi-ẹ̀kọ́, ìdánwò àkókò àti ìdánrawò fún àwọn akẹ́kọ̀ọ́ àti olùkọ́ UAC.",
+    "examDetailTitle": "Ìwé ìdánwò",
+    "classroomDetailTitle": "Ààyè ẹ̀kọ́"
   },
   "common": {
     "loading": "Ń gbé wọlé…",
@@ -54,7 +56,20 @@
     "empty": "Kò sí nǹkan láti fi hàn báyìí.",
     "error": "Àṣìṣe kan ṣẹlẹ̀.",
     "count_one": "Ìdáhùn {count}",
-    "count_other": "Ìdáhùn {count}"
+    "count_other": "Ìdáhùn {count}",
+    "loadError": "A kò lè gbé dátà wọlé",
+    "loadingData": "Ń gbé dátà wọlé…",
+    "now": "báyìí",
+    "minutesAgo": "{count} ìṣẹ́jú sẹ́yìn",
+    "hoursAgo": "{count} wákàtí sẹ́yìn",
+    "daysAgo": "{count} ọjọ́ sẹ́yìn",
+    "backToTop": "Padà sí orí ojú-ìwé",
+    "pageLoading": "Ń gbé Campusly wọlé…",
+    "pageErrorTitle": "Ojú-ìwé kò lè gbé wọlé",
+    "pageErrorBody": "Gbidanwo lẹ́ẹ̀kan sí i: ẹ̀dà yìí kò lo sáfà iṣẹ́ kankan.",
+    "appErrorTitle": "Àṣìṣe kan ṣẹlẹ̀",
+    "appErrorBody": "À ẹ̀ka yìí kò lè hàn. Dátà àdúgbò rẹ ṣì wà nínú aṣàwákiri rẹ.",
+    "backToDashboard": "Padà sí pánẹ́ẹ̀lì"
   },
   "nav": {
     "label": "Àwọn ẹ̀ka ojú-ìwé àkọ́kọ́",
@@ -72,7 +87,19 @@
     "about": "Nípa",
     "contribute": "Ṣèdí",
     "contact": "Kàn sí wa",
-    "openSpace": "Ṣí ibùdó mi"
+    "openSpace": "Ṣí ibùdó mi",
+    "notifications": "Ìfitọ́nilétí",
+    "center": "Ilé ìfitọ́nilétí",
+    "viewAll": "Wo gbogbo ìfitọ́nilétí",
+    "markAllRead": "Sà gbogbo rẹ̀ sí kíkà",
+    "noNotifications": "Kò sí ìfitọ́nilétí.",
+    "unread": "Tí a kò kà",
+    "unreadCount": "Ìfitọ́nilétí ({count} tí a kò kà)",
+    "creditsTitle": "Campusly Kírẹ́dìtì — iṣẹ́ kò tíì ṣí",
+    "credits": "kírẹ́dìtì",
+    "roleView": "Ìwò ààyè",
+    "switchView": "Yí ìwò padà",
+    "viewActivated": "Ìwò « {role} » ti ṣí."
   },
   "preferences": {
     "open": "Ètò èdè àti ìrísí",
@@ -249,9 +276,11 @@
     "logoutShort": "Jáde",
     "homeLabel": "Campusly — ilé",
     "sessionLocal": "Ìpàdé àdúgbò",
-    "genericError": "Àṣìṣe kan ṣẹlẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i.",
-    "languageChanged": "Èdè ojú-ìwé: {language}. Àṣàyàn rẹ wà ní ẹ̀rọ yìí, kò sì yí àkóónú ẹ̀kọ́ rẹ padà.",
-    "appearanceChanged": "Ìrísí: {appearance}. Àṣàyàn rẹ wà ní ẹ̀rọ yìí."
+    "ui": {
+      "genericError": "Àṣìṣe kan ṣẹlẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i.",
+      "languageChanged": "Èdè ojú-ìwé: {language}. Àṣàyàn rẹ wà ní ẹ̀rọ yìí, kò sì yí àkóónú ẹ̀kọ́ rẹ padà.",
+      "appearanceChanged": "Ìrísí: {appearance}. Àṣàyàn rẹ wà ní ẹ̀rọ yìí."
+    }
   },
   "pages": {
     "notice": "Ẹ̀dà Fàránsì ti ìwé yìí ni ó wúlò. Àwọn èdè mìíràn wà kí ẹ̀yin lè yé e.",
@@ -462,5 +491,51 @@
     "toastLogin": "Ìwọlé àfihàn ṣàṣeyọrí — káàbọ̀!",
     "toastRegister": "A ti ṣí àkọsílẹ̀ àfihàn.",
     "placeholderDepartment": "Ẹ̀kọ́ kọ̀mpútà"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "Báwo {name}",
+      "subtitle": "Ìkẹ́kọ̀ọ́ rẹ, àwọn kíláàsì rẹ àti àwọn àkókò rẹ, ní ibi kan.",
+      "revise": "Kọ́ ẹ̀kọ́",
+      "loading": "Ń gbé ààyè rẹ wọlé…",
+      "unavailable": "Pánẹ́ẹ̀lì kò sí.",
+      "level": "Ìpele ẹ̀kọ́",
+      "levelHint": "{xp} XP · ìpele tó ń bọ̀ {next}",
+      "streak": "Ìlànà ìkẹ́kọ̀ọ́",
+      "streakValue": "{days} ọjọ́",
+      "streakHint": "Ọjọ́ tí ó tẹ̀léra",
+      "credits": "Kírẹ́dìtì",
+      "creditsHint": "Owó tí ó wà",
+      "weeklyGoal": "Àfojúsùn ọ̀sẹ̀",
+      "emptyTitle": "Ààyè rẹ ń kún bí o ṣe ń kọ́ ẹ̀kọ́",
+      "emptySubtitle": "Kò tíì sí ìṣe kankan nínú àkọsílẹ̀ yìí.",
+      "emptyStep1": "Gbé ẹ̀kọ́ tàbí ìwé kan wọlé sínú Campusly AI.",
+      "emptyStep2": "Ṣe ìdánrawò àkọ́kọ́ kí o lè mọ ipò rẹ.",
+      "emptyStep3": "Darapọ̀ mọ́ gbọ̀ngàn pẹ̀lú kóòdù olùkọ́ rẹ.",
+      "startRevision": "Bẹ̀rẹ̀ ìkẹ́kọ̀ọ́",
+      "joinClassroom": "Darapọ̀ mọ́ gbọ̀ngàn",
+      "classrooms": "Àwọn kíláàsì mi",
+      "seeAll": "Wo gbogbo rẹ̀",
+      "noClassroom": "Kò tíì sí kíláàsì. Kóòdù gbọ̀ngàn láti ọ̀dọ̀ olùkọ́ rẹ tó láti darapọ̀ mọ́ èkíní.",
+      "enrolled": "{count} ti forúkọ",
+      "resume": "Tẹ̀síwájú ìkẹ́kọ̀ọ́",
+      "chapterProgress": "Ìtẹ̀síwájú orí-ọ̀rọ̀",
+      "continue": "Tẹ̀síwájú",
+      "diagnosis": "Àyẹ̀wò gẹ́gẹ́ bí kókó-ẹ̀kọ́",
+      "diagnosisSubtitle": "A ti mọ àwọn ipò tó lágbára àti tó yè",
+      "mastered": "Ti kọ́",
+      "average": "Ìdàìmọ̀",
+      "high": "Gíga",
+      "upcoming": "Àwọn ìdánwò tó ń bọ̀",
+      "open": "Ṣí",
+      "scheduled": "Ti ṣètò",
+      "enterRoom": "Wọ yàrá",
+      "waitingRoom": "Wo yàrá ìdúró",
+      "minutes": "{count} ìṣẹ́jú",
+      "recentActivity": "Ìṣe àìpẹ́",
+      "recommended": "Àwọn ìwé ìdánwò tí a dábàá",
+      "library": "Ilé-ìkàwé",
+      "noRecommended": "Ìkójọ ẹ̀ka rẹ yóò ṣí pẹ̀lú àwọn fáìlì àkọ́kọ́. O lè fi ìwé ìdánwò ránṣẹ́ báyìí."
+    }
   }
 }

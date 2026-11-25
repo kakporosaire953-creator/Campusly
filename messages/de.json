@@ -26,7 +26,9 @@
     "teacherTitle": "Lehrendenbereich",
     "adminTitle": "Verwaltung",
     "assistantTitle": "Campusly AI",
-    "description": "Altklausuren, Kursräume, Klausuren mit Zeitlimit und Übungen für Studierende und Lehrende der UAC."
+    "description": "Altklausuren, Kursräume, Klausuren mit Zeitlimit und Übungen für Studierende und Lehrende der UAC.",
+    "examDetailTitle": "Klausurblatt",
+    "classroomDetailTitle": "Kursraum"
   },
   "common": {
     "loading": "Wird geladen…",
@@ -54,7 +56,20 @@
     "empty": "Noch nichts anzuzeigen.",
     "error": "Es ist ein Fehler aufgetreten.",
     "count_one": "{count} Ergebnis",
-    "count_other": "{count} Ergebnisse"
+    "count_other": "{count} Ergebnisse",
+    "loadError": "Daten konnten nicht geladen werden",
+    "loadingData": "Daten werden geladen…",
+    "now": "gerade eben",
+    "minutesAgo": "vor {count} Min.",
+    "hoursAgo": "vor {count} Std.",
+    "daysAgo": "vor {count} T.",
+    "backToTop": "Zurück zum Seitenanfang",
+    "pageLoading": "Campusly wird geladen…",
+    "pageErrorTitle": "Die Seite konnte nicht geladen werden",
+    "pageErrorBody": "Bitte erneut versuchen: Diese Fassung nutzt keinen Fachserver.",
+    "appErrorTitle": "Es ist ein Fehler aufgetreten",
+    "appErrorBody": "Dieser Abschnitt konnte nicht angezeigt werden. Deine lokalen Daten bleiben im Browser erhalten.",
+    "backToDashboard": "Zurück zum Dashboard"
   },
   "nav": {
     "label": "Abschnitte der Startseite",
@@ -72,7 +87,19 @@
     "about": "Über uns",
     "contribute": "Beitragen",
     "contact": "Kontakt",
-    "openSpace": "Meinen Bereich öffnen"
+    "openSpace": "Meinen Bereich öffnen",
+    "notifications": "Benachrichtigungen",
+    "center": "Benachrichtigungszentrum",
+    "viewAll": "Alle Benachrichtigungen ansehen",
+    "markAllRead": "Alle als gelesen markieren",
+    "noNotifications": "Keine Benachrichtigungen.",
+    "unread": "Ungelesen",
+    "unreadCount": "Benachrichtigungen ({count} ungelesen)",
+    "creditsTitle": "Campusly Credits — Dienst noch nicht offen",
+    "credits": "Guthaben",
+    "roleView": "Ansicht des Bereichs",
+    "switchView": "Ansicht wechseln",
+    "viewActivated": "Ansicht „{role}“ aktiviert."
   },
   "preferences": {
     "open": "Einstellungen für Sprache und Darstellung",
@@ -249,9 +276,11 @@
     "logoutShort": "Abmelden",
     "homeLabel": "Campusly — Startseite",
     "sessionLocal": "Lokale Sitzung",
-    "genericError": "Es ist ein Fehler aufgetreten. Bitte erneut versuchen.",
-    "languageChanged": "Sprache der Oberfläche: {language}. Deine Wahl wird auf diesem Gerät gespeichert und ändert die Inhalte deiner Kurse nicht.",
-    "appearanceChanged": "Darstellung: {appearance}. Deine Wahl wird auf diesem Gerät gespeichert."
+    "ui": {
+      "genericError": "Es ist ein Fehler aufgetreten. Bitte erneut versuchen.",
+      "languageChanged": "Sprache der Oberfläche: {language}. Deine Wahl wird auf diesem Gerät gespeichert und ändert die Inhalte deiner Kurse nicht.",
+      "appearanceChanged": "Darstellung: {appearance}. Deine Wahl wird auf diesem Gerät gespeichert."
+    }
   },
   "pages": {
     "notice": "Maßgeblich ist die französische Fassung dieses Dokuments. Die übrigen Sprachen dienen dem Verständnis.",
@@ -462,5 +491,51 @@
     "toastLogin": "Simulierte Anmeldung erfolgreich — willkommen!",
     "toastRegister": "Demo-Konto erstellt.",
     "placeholderDepartment": "Informatik"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "Hallo {name}",
+      "subtitle": "Deine Wiederholungen, deine Kurse und deine Fristen an einem Ort.",
+      "revise": "Wiederholen",
+      "loading": "Dein Bereich wird geladen…",
+      "unavailable": "Dashboard nicht verfügbar.",
+      "level": "Akademisches Niveau",
+      "levelHint": "{xp} XP · nächste Stufe {next}",
+      "streak": "Lernserie",
+      "streakValue": "{days} T",
+      "streakHint": "Tage in Folge",
+      "credits": "Guthaben",
+      "creditsHint": "Verfügbares Guthaben",
+      "weeklyGoal": "Wochenziel",
+      "emptyTitle": "Dein Bereich füllt sich beim Wiederholen",
+      "emptySubtitle": "Auf diesem Konto ist noch keine Aktivität gespeichert.",
+      "emptyStep1": "Importiere einen Kurs oder ein Skript in Campusly AI.",
+      "emptyStep2": "Starte eine erste Übung, um deinen Stand zu sehen.",
+      "emptyStep3": "Tritt einem Hörsaal mit dem Code deiner Lehrperson bei.",
+      "startRevision": "Wiederholung starten",
+      "joinClassroom": "Hörsaal beitreten",
+      "classrooms": "Meine Kurse",
+      "seeAll": "Alle ansehen",
+      "noClassroom": "Noch kein Kurs. Der Hörsaal-Code deiner Lehrperson genügt, um dem ersten beizutreten.",
+      "enrolled": "{count} eingeschrieben",
+      "resume": "Wiederholung fortsetzen",
+      "chapterProgress": "Fortschritt im Kapitel",
+      "continue": "Weiter",
+      "diagnosis": "Diagnose nach Fach",
+      "diagnosisSubtitle": "Stärken und Schwächen erkannt",
+      "mastered": "Beherrscht",
+      "average": "Mittel",
+      "high": "Hoch",
+      "upcoming": "Anstehende Klausuren",
+      "open": "Öffnen",
+      "scheduled": "Geplant",
+      "enterRoom": "Raum betreten",
+      "waitingRoom": "Warteraum ansehen",
+      "minutes": "{count} Min.",
+      "recentActivity": "Letzte Aktivität",
+      "recommended": "Empfohlene Altklausuren",
+      "library": "Bibliothek",
+      "noRecommended": "Der Katalog deiner Fakultät startet mit den ersten Dateien. Du kannst schon jetzt eine Klausur einreichen."
+    }
   }
 }

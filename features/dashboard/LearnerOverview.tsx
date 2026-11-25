@@ -9,7 +9,8 @@ import { ProgressBar, StatCard } from "@/components/ui/Progress";
 import { Badge } from "@/components/ui/Badge";
 import { ErrorState, LoadingGrid, EmptyState } from "@/components/ui/States";
 import { formatRelativeFr } from "@/services/mocks/store";
-import { roleLabels } from "@/config/site";
+import { roleLabelKeys } from "@/config/site";
+import { useT } from "@/lib/i18n/provider";
 
 /**
  * Tableau de bord apprenant.
@@ -19,18 +20,19 @@ import { roleLabels } from "@/config/site";
  */
 export function LearnerOverview() {
   const { data, status, error, reload } = useAsync(() => userService.getLearnerDashboard(), []);
+  const t = useT();
 
   if (status === "loading" || status === "idle") {
     return (
       <div>
-        <PageHeader title="Vue d'ensemble" subtitle="Chargement de votre espace…" />
+        <PageHeader title={t("app.navOverview")} subtitle={t("dashboard.learner.loading")} />
         <LoadingGrid count={4} />
       </div>
     );
   }
 
   if (status === "error" || !data) {
-    return <ErrorState message={error ?? "Tableau de bord indisponible."} onRetry={reload} />;
+    return <ErrorState message={error ?? t("dashboard.learner.unavailable")} onRetry={reload} />;
   }
 
   const hasActivity =
@@ -48,15 +50,15 @@ export function LearnerOverview() {
   return (
     <div className="stack" style={{ gap: 24 }}>
       <PageHeader
-        title={`Bonjour ${data.user.prenom}`}
-        subtitle="Vos révisions, vos classes et vos échéances, au même endroit."
+        title={t("dashboard.learner.greeting", { name: data.user.prenom })}
+        subtitle={t("dashboard.learner.subtitle")}
         actions={
           <>
             <Badge tone="brand" icon="fa-solid fa-user-graduate">
-              {roleLabels[data.user.role]}
+              {t(roleLabelKeys[data.user.role])}
             </Badge>
             <Link href="/dashboard/revision" className="btn btn-primary btn-sm">
-              <i className="fa-solid fa-brain" aria-hidden="true" /> Réviser
+              <i className="fa-solid fa-brain" aria-hidden="true" /> {t("dashboard.learner.revise")}
             </Link>
           </>
         }
@@ -65,16 +67,28 @@ export function LearnerOverview() {
       {hasActivity ? (
         <div className="stats-grid" style={{ marginBottom: 0 }}>
           <StatCard
-            label="Niveau académique"
+            label={t("dashboard.learner.level")}
             value={data.level.name}
             icon="fa-solid fa-graduation-cap"
             tone="blue"
-            hint={`${data.level.xp} XP · prochain palier ${data.level.nextThreshold}`}
+            hint={t("dashboard.learner.levelHint", { xp: data.level.xp, next: data.level.nextThreshold })}
           />
-          <StatCard label="Série d'étude" value={`${data.streakDays} j`} icon="fa-solid fa-fire" tone="orange" hint="Jours consécutifs" />
-          <StatCard label="Crédits" value={data.credits} icon="fa-solid fa-bolt" tone="green" hint="Solde disponible" />
           <StatCard
-            label="Objectif hebdomadaire"
+            label={t("dashboard.learner.streak")}
+            value={t("dashboard.learner.streakValue", { days: data.streakDays })}
+            icon="fa-solid fa-fire"
+            tone="orange"
+            hint={t("dashboard.learner.streakHint")}
+          />
+          <StatCard
+            label={t("dashboard.learner.credits")}
+            value={data.credits}
+            icon="fa-solid fa-bolt"
+            tone="green"
+            hint={t("dashboard.learner.creditsHint")}
+          />
+          <StatCard
+            label={t("dashboard.learner.weeklyGoal")}
             value={`${data.weeklyGoal.current}/${data.weeklyGoal.target}`}
             icon="fa-solid fa-bullseye"
             tone="purple"
@@ -84,27 +98,27 @@ export function LearnerOverview() {
       ) : (
         <Card>
           <CardHeader
-            title="Votre espace se remplit en révisant"
-            subtitle="Aucune activité n'est encore enregistrée sur ce compte."
+            title={t("dashboard.learner.emptyTitle")}
+            subtitle={t("dashboard.learner.emptySubtitle")}
             icon="fa-solid fa-seedling"
           />
           <ul className="dashboard-onboarding">
             <li>
-              <span aria-hidden="true">01</span> Importez un cours ou une fiche dans Campusly AI.
+              <span aria-hidden="true">01</span> {t("dashboard.learner.emptyStep1")}
             </li>
             <li>
-              <span aria-hidden="true">02</span> Lancez un premier entraînement pour situer vos acquis.
+              <span aria-hidden="true">02</span> {t("dashboard.learner.emptyStep2")}
             </li>
             <li>
-              <span aria-hidden="true">03</span> Rejoignez un amphi avec le code de votre enseignant.
+              <span aria-hidden="true">03</span> {t("dashboard.learner.emptyStep3")}
             </li>
           </ul>
           <div className="row" style={{ gap: 10, marginTop: 18, flexWrap: "wrap" }}>
             <Link href="/dashboard/revision" className="btn btn-primary btn-sm">
-              Commencer une révision
+              {t("dashboard.learner.startRevision")}
             </Link>
             <Link href="/dashboard/classrooms" className="btn btn-ghost btn-sm">
-              Rejoindre un amphi
+              {t("dashboard.learner.joinClassroom")}
             </Link>
           </div>
         </Card>
@@ -115,18 +129,17 @@ export function LearnerOverview() {
           bandeau du haut. */}
       <Card>
         <CardHeader
-          title="Mes classrooms"
+          title={t("dashboard.learner.classrooms")}
           icon="fa-solid fa-chalkboard-user"
           action={
             <Link href="/dashboard/classrooms" className="link-primary" style={{ fontSize: "0.8rem" }}>
-              Tout voir
+              {t("dashboard.learner.seeAll")}
             </Link>
           }
         />
         {data.classrooms.length === 0 ? (
           <p style={{ fontSize: "0.86rem", color: "var(--text-2)", lineHeight: 1.6, maxWidth: "62ch" }}>
-            Aucune classe pour l&apos;instant. Le code d&apos;amphi fourni par votre enseignant
-            suffit pour rejoindre la première.
+            {t("dashboard.learner.noClassroom")}
           </p>
         ) : (
           <ul className="grid-3" style={{ listStyle: "none", gap: 12 }}>
@@ -145,7 +158,7 @@ export function LearnerOverview() {
                 >
                   <div className="row-between">
                     <span style={{ fontSize: "0.86rem", fontWeight: 700, color: "var(--text-1)" }}>{classroom.name}</span>
-                    <Badge tone="neutral">{classroom.studentsCount} inscrits</Badge>
+                    <Badge tone="neutral">{t("dashboard.learner.enrolled", { count: classroom.studentsCount })}</Badge>
                   </div>
                   <div style={{ fontSize: "0.74rem", color: "var(--text-2)", marginTop: 2 }}>
                     {classroom.subject} · {classroom.teacherName}
@@ -164,14 +177,21 @@ export function LearnerOverview() {
         <div className="stack" style={{ gap: 20 }}>
           {data.lastActivity ? (
             <Card>
-              <CardHeader title="Reprendre la révision" subtitle={data.lastActivity.chapter} icon="fa-solid fa-book-open" />
+              <CardHeader
+                title={t("dashboard.learner.resume")}
+                subtitle={data.lastActivity.chapter}
+                icon="fa-solid fa-book-open"
+              />
               <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 10 }}>
                 {data.lastActivity.title}
               </div>
-              <ProgressBar value={data.lastActivity.progressPercent} label="Progression du chapitre" />
+              <ProgressBar
+                value={data.lastActivity.progressPercent}
+                label={t("dashboard.learner.chapterProgress")}
+              />
               <div style={{ marginTop: 16 }}>
                 <Link href="/dashboard/revision" className="btn btn-primary btn-sm">
-                  Continuer
+                  {t("dashboard.learner.continue")}
                 </Link>
               </div>
             </Card>
@@ -183,8 +203,8 @@ export function LearnerOverview() {
           {data.weakTopics.length > 0 || data.strongTopics.length > 0 ? (
             <Card>
             <CardHeader
-              title="Diagnostic par matière"
-              subtitle="Points faibles et points forts identifiés"
+              title={t("dashboard.learner.diagnosis")}
+              subtitle={t("dashboard.learner.diagnosisSubtitle")}
               icon="fa-solid fa-chart-line"
             />
             <div className="stack" style={{ gap: 14 }}>
@@ -192,7 +212,9 @@ export function LearnerOverview() {
                 <div key={topic.subject}>
                   <div className="row-between" style={{ marginBottom: 4 }}>
                     <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-1)" }}>{topic.subject}</span>
-                    <Badge tone={topic.priority === "Haute" ? "danger" : "accent"}>{topic.priority ?? "Moyenne"}</Badge>
+                    <Badge tone={topic.priority === "Haute" ? "danger" : "accent"}>
+                      {topic.priority ?? t("dashboard.learner.average")}
+                    </Badge>
                   </div>
                   <ProgressBar value={topic.mastery} tone={topic.mastery < 50 ? "danger" : "accent"} />
                 </div>
@@ -201,7 +223,7 @@ export function LearnerOverview() {
                 <div key={topic.subject}>
                   <div className="row-between" style={{ marginBottom: 4 }}>
                     <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-1)" }}>{topic.subject}</span>
-                    <Badge tone="success">Maîtrisé</Badge>
+                    <Badge tone="success">{t("dashboard.learner.mastered")}</Badge>
                   </div>
                   <ProgressBar value={topic.mastery} tone="success" />
                 </div>
@@ -216,11 +238,11 @@ export function LearnerOverview() {
           {data.upcomingCompositions.length > 0 ? (
             <Card>
             <CardHeader
-              title="Compositions à venir"
+              title={t("dashboard.learner.upcoming")}
               icon="fa-solid fa-stopwatch"
               action={
                 <Link href="/dashboard/compositions" className="link-primary" style={{ fontSize: "0.8rem" }}>
-                  Tout voir
+                  {t("dashboard.learner.seeAll")}
                 </Link>
               }
             />
@@ -239,11 +261,14 @@ export function LearnerOverview() {
                       <div>
                         <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "var(--text-1)" }}>{composition.title}</div>
                         <div style={{ fontSize: "0.76rem", color: "var(--text-2)" }}>
-                          {composition.classroomName} · {composition.durationMinutes} min · code {composition.code}
+                          {composition.classroomName} ·{" "}
+                          {t("dashboard.learner.minutes", { count: composition.durationMinutes })} · {composition.code}
                         </div>
                       </div>
                       <Badge tone={composition.status === "live" ? "success" : "brand"}>
-                        {composition.status === "live" ? "Ouverte" : "Programmée"}
+                        {composition.status === "live"
+                          ? t("dashboard.learner.open")
+                          : t("dashboard.learner.scheduled")}
                       </Badge>
                     </div>
                     <Link
@@ -251,7 +276,9 @@ export function LearnerOverview() {
                       className={`btn btn-sm ${composition.status === "live" ? "btn-primary" : "btn-outline"}`}
                       style={{ marginTop: 10 }}
                     >
-                      {composition.status === "live" ? "Entrer en salle" : "Voir la salle d'attente"}
+                      {composition.status === "live"
+                        ? t("dashboard.learner.enterRoom")
+                        : t("dashboard.learner.waitingRoom")}
                     </Link>
                   </li>
                 ))}
@@ -266,7 +293,7 @@ export function LearnerOverview() {
           {/* L'historique n'apparaît qu'une fois qu'il y a un historique. */}
           {data.recentActivities.length > 0 ? (
             <Card>
-            <CardHeader title="Activité récente" icon="fa-solid fa-clock-rotate-left" />
+            <CardHeader title={t("dashboard.learner.recentActivity")} icon="fa-solid fa-clock-rotate-left" />
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
               {data.recentActivities.map((activity) => (
                 <li key={activity.id} className="history-row">
@@ -305,11 +332,18 @@ export function LearnerOverview() {
           ) : null}
 
           <Card>
-            <CardHeader title="Épreuves recommandées" icon="fa-solid fa-file-lines" action={<Link href="/dashboard/epreuves" className="link-primary" style={{ fontSize: "0.8rem" }}>Bibliothèque</Link>} />
+            <CardHeader
+              title={t("dashboard.learner.recommended")}
+              icon="fa-solid fa-file-lines"
+              action={
+                <Link href="/dashboard/epreuves" className="link-primary" style={{ fontSize: "0.8rem" }}>
+                  {t("dashboard.learner.library")}
+                </Link>
+              }
+            />
             {data.recommendedExams.length === 0 ? (
               <p style={{ fontSize: "0.86rem", color: "var(--text-2)", lineHeight: 1.6 }}>
-                Le catalogue de votre faculté ouvrira avec ses premiers fichiers. Vous pouvez
-                dès maintenant proposer une épreuve.
+                {t("dashboard.learner.noRecommended")}
               </p>
             ) : null}
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
@@ -325,7 +359,7 @@ export function LearnerOverview() {
                     </div>
                   </div>
                   <Link href={`/dashboard/epreuves/${exam.id}`} className="epreuve-dl" style={{ textDecoration: "none" }}>
-                    Ouvrir
+                    {t("dashboard.learner.open")}
                   </Link>
                 </li>
               ))}

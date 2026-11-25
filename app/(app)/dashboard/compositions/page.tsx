@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { CompositionList } from "@/features/compositions/CompositionList";
 
-export const metadata: Metadata = {
-  title: "Compositions",
-  description: "Évaluations surveillées Campusly : accès par code, minuterie, copies et résultats.",
-};
+export async function generateMetadata() {
+  return pageMetadata("compositionsTitle", "/dashboard/compositions");
+}
 
 export default function CompositionsPage() {
   return <CompositionList />;

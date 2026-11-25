@@ -26,7 +26,9 @@
     "teacherTitle": "Teaching space",
     "adminTitle": "Administration",
     "assistantTitle": "Campusly AI",
-    "description": "Past papers, course spaces, timed exams and practice for UAC students and teachers."
+    "description": "Past papers, course spaces, timed exams and practice for UAC students and teachers.",
+    "examDetailTitle": "Past paper",
+    "classroomDetailTitle": "Course space"
   },
   "common": {
     "loading": "Loading…",
@@ -54,7 +56,20 @@
     "empty": "Nothing to show yet.",
     "error": "Something went wrong.",
     "count_one": "{count} result",
-    "count_other": "{count} results"
+    "count_other": "{count} results",
+    "loadError": "Could not load the data",
+    "loadingData": "Loading data…",
+    "now": "just now",
+    "minutesAgo": "{count} min ago",
+    "hoursAgo": "{count} h ago",
+    "daysAgo": "{count} d ago",
+    "backToTop": "Back to the top of the page",
+    "pageLoading": "Loading Campusly…",
+    "pageErrorTitle": "The page could not load",
+    "pageErrorBody": "Please try again: this version uses no business server.",
+    "appErrorTitle": "Something went wrong",
+    "appErrorBody": "This section could not be displayed. Your local data is kept in your browser.",
+    "backToDashboard": "Back to the dashboard"
   },
   "nav": {
     "label": "Home sections",
@@ -72,7 +87,19 @@
     "about": "About",
     "contribute": "Contribute",
     "contact": "Contact",
-    "openSpace": "Open my space"
+    "openSpace": "Open my space",
+    "notifications": "Notifications",
+    "center": "Notification centre",
+    "viewAll": "See all notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications.",
+    "unread": "Unread",
+    "unreadCount": "Notifications ({count} unread)",
+    "creditsTitle": "Campusly Credits — service not open yet",
+    "credits": "credits",
+    "roleView": "Workspace view",
+    "switchView": "Change view",
+    "viewActivated": "“{role}” view enabled."
   },
   "preferences": {
     "open": "Language and appearance preferences",
@@ -249,9 +276,11 @@
     "logoutShort": "Sign out",
     "homeLabel": "Campusly — home",
     "sessionLocal": "Local session",
-    "genericError": "Something went wrong. Please try again.",
-    "languageChanged": "Interface language: {language}. Your choice is stored on this device and does not change your course content.",
-    "appearanceChanged": "Appearance: {appearance}. Your choice is stored on this device."
+    "ui": {
+      "genericError": "Something went wrong. Please try again.",
+      "languageChanged": "Interface language: {language}. Your choice is stored on this device and does not change your course content.",
+      "appearanceChanged": "Appearance: {appearance}. Your choice is stored on this device."
+    }
   },
   "pages": {
     "notice": "The French version of this document is authoritative. Other languages are provided for comprehension.",
@@ -462,5 +491,51 @@
     "toastLogin": "Simulated sign-in successful — welcome!",
     "toastRegister": "Demo account created.",
     "placeholderDepartment": "Computer Science"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "Hello {name}",
+      "subtitle": "Your revision, your classes and your deadlines, all in one place.",
+      "revise": "Revise",
+      "loading": "Loading your space…",
+      "unavailable": "Dashboard unavailable.",
+      "level": "Academic level",
+      "levelHint": "{xp} XP · next step {next}",
+      "streak": "Study streak",
+      "streakValue": "{days} d",
+      "streakHint": "Consecutive days",
+      "credits": "Credits",
+      "creditsHint": "Available balance",
+      "weeklyGoal": "Weekly goal",
+      "emptyTitle": "Your space fills up as you revise",
+      "emptySubtitle": "No activity is recorded on this account yet.",
+      "emptyStep1": "Import a course or a sheet into Campusly AI.",
+      "emptyStep2": "Run a first practice set to see where you stand.",
+      "emptyStep3": "Join a lecture hall with your lecturer's code.",
+      "startRevision": "Start revising",
+      "joinClassroom": "Join a lecture hall",
+      "classrooms": "My classrooms",
+      "seeAll": "See all",
+      "noClassroom": "No class yet. The lecture-hall code from your lecturer is all you need to join the first one.",
+      "enrolled": "{count} enrolled",
+      "resume": "Resume revision",
+      "chapterProgress": "Chapter progress",
+      "continue": "Continue",
+      "diagnosis": "Diagnosis by subject",
+      "diagnosisSubtitle": "Strengths and weak points identified",
+      "mastered": "Mastered",
+      "average": "Medium",
+      "high": "High",
+      "upcoming": "Upcoming timed tests",
+      "open": "Open",
+      "scheduled": "Scheduled",
+      "enterRoom": "Enter the room",
+      "waitingRoom": "View the waiting room",
+      "minutes": "{count} min",
+      "recentActivity": "Recent activity",
+      "recommended": "Recommended past papers",
+      "library": "Library",
+      "noRecommended": "Your faculty's catalogue will open with its first files. You can already submit a past paper."
+    }
   }
 }

@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { ProfileView } from "@/features/profile/ProfileView";
 
-export const metadata: Metadata = {
-  title: "Mon profil",
-  description: "Informations académiques et statut du compte Campusly.",
-};
+export async function generateMetadata() {
+  return pageMetadata("profileTitle", "/dashboard/profil");
+}
 
 export default function ProfilePage() {
   return <ProfileView />;

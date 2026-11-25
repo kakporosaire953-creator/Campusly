@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { ExamLibrary } from "@/features/exams/ExamLibrary";
 
-export const metadata: Metadata = {
-  title: "Épreuves & annales",
-  description: "Bibliothèque d'épreuves de l'UAC : recherche par faculté, niveau, semestre et année, favoris et fiches détaillées.",
-};
+export async function generateMetadata() {
+  return pageMetadata("examLibraryTitle", "/dashboard/epreuves");
+}
 
 export default async function ExamsPage({
   searchParams,

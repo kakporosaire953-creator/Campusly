@@ -26,7 +26,9 @@
     "teacherTitle": "Espace enseignant",
     "adminTitle": "Administration",
     "assistantTitle": "Campusly AI",
-    "description": "Annales, espaces de cours, compositions et révisions pour les étudiants et les enseignants de l'UAC."
+    "description": "Annales, espaces de cours, compositions et révisions pour les étudiants et les enseignants de l'UAC.",
+    "examDetailTitle": "Fiche épreuve",
+    "classroomDetailTitle": "Espace de cours"
   },
   "common": {
     "loading": "Chargement…",
@@ -54,7 +56,20 @@
     "empty": "Rien à afficher pour le moment.",
     "error": "Une erreur est survenue.",
     "count_one": "{count} résultat",
-    "count_other": "{count} résultats"
+    "count_other": "{count} résultats",
+    "loadError": "Impossible de charger les données",
+    "loadingData": "Chargement des données…",
+    "now": "à l'instant",
+    "minutesAgo": "il y a {count} min",
+    "hoursAgo": "il y a {count} h",
+    "daysAgo": "il y a {count} j",
+    "backToTop": "Revenir en haut de la page",
+    "pageLoading": "Chargement de Campusly…",
+    "pageErrorTitle": "La page n'a pas pu se charger",
+    "pageErrorBody": "Réessayez : cette version n'utilise aucun serveur métier.",
+    "appErrorTitle": "Une erreur est survenue",
+    "appErrorBody": "Cette section n'a pas pu s'afficher. Vos données locales sont conservées dans votre navigateur.",
+    "backToDashboard": "Retour au tableau de bord"
   },
   "nav": {
     "label": "Sections de l'accueil",
@@ -72,7 +87,19 @@
     "about": "À propos",
     "contribute": "Contribuer",
     "contact": "Contact",
-    "openSpace": "Ouvrir mon espace"
+    "openSpace": "Ouvrir mon espace",
+    "notifications": "Notifications",
+    "center": "Centre de notifications",
+    "viewAll": "Voir toutes les notifications",
+    "markAllRead": "Tout marquer comme lu",
+    "noNotifications": "Aucune notification.",
+    "unread": "Non lue",
+    "unreadCount": "Notifications ({count} non lues)",
+    "creditsTitle": "Crédits Campusly — service pas encore ouvert",
+    "credits": "crédits",
+    "roleView": "Vue de l'espace",
+    "switchView": "Changer de vue",
+    "viewActivated": "Vue « {role} » activée."
   },
   "preferences": {
     "open": "Préférences de langue et d'apparence",
@@ -249,9 +276,11 @@
     "logoutShort": "Déconnexion",
     "homeLabel": "Campusly — accueil",
     "sessionLocal": "Session locale",
-    "genericError": "Une erreur est survenue. Réessayez.",
-    "languageChanged": "Langue de l'interface : {language}. Votre choix est enregistré sur cet appareil et ne modifie pas le contenu de vos cours.",
-    "appearanceChanged": "Apparence : {appearance}. Votre choix est enregistré sur cet appareil."
+    "ui": {
+      "genericError": "Une erreur est survenue. Réessayez.",
+      "languageChanged": "Langue de l'interface : {language}. Votre choix est enregistré sur cet appareil et ne modifie pas le contenu de vos cours.",
+      "appearanceChanged": "Apparence : {appearance}. Votre choix est enregistré sur cet appareil."
+    }
   },
   "pages": {
     "notice": "La version française de ce document fait foi. Les autres langues sont fournies pour la compréhension.",
@@ -462,5 +491,51 @@
     "toastLogin": "Connexion simulée réussie — bienvenue !",
     "toastRegister": "Compte de démonstration créé.",
     "placeholderDepartment": "Informatique"
+  },
+  "dashboard": {
+    "learner": {
+      "greeting": "Bonjour {name}",
+      "subtitle": "Vos révisions, vos classes et vos échéances, au même endroit.",
+      "revise": "Réviser",
+      "loading": "Chargement de votre espace…",
+      "unavailable": "Tableau de bord indisponible.",
+      "level": "Niveau académique",
+      "levelHint": "{xp} XP · prochain palier {next}",
+      "streak": "Série d'étude",
+      "streakValue": "{days} j",
+      "streakHint": "Jours consécutifs",
+      "credits": "Crédits",
+      "creditsHint": "Solde disponible",
+      "weeklyGoal": "Objectif hebdomadaire",
+      "emptyTitle": "Votre espace se remplit en révisant",
+      "emptySubtitle": "Aucune activité n'est encore enregistrée sur ce compte.",
+      "emptyStep1": "Importez un cours ou une fiche dans Campusly AI.",
+      "emptyStep2": "Lancez un premier entraînement pour situer vos acquis.",
+      "emptyStep3": "Rejoignez un amphi avec le code de votre enseignant.",
+      "startRevision": "Commencer une révision",
+      "joinClassroom": "Rejoindre un amphi",
+      "classrooms": "Mes classrooms",
+      "seeAll": "Tout voir",
+      "noClassroom": "Aucune classe pour l'instant. Le code d'amphi fourni par votre enseignant suffit pour rejoindre la première.",
+      "enrolled": "{count} inscrits",
+      "resume": "Reprendre la révision",
+      "chapterProgress": "Progression du chapitre",
+      "continue": "Continuer",
+      "diagnosis": "Diagnostic par matière",
+      "diagnosisSubtitle": "Points faibles et points forts identifiés",
+      "mastered": "Maîtrisé",
+      "average": "Moyenne",
+      "high": "Haute",
+      "upcoming": "Compositions à venir",
+      "open": "Ouvrir",
+      "scheduled": "Programmée",
+      "enterRoom": "Entrer en salle",
+      "waitingRoom": "Voir la salle d'attente",
+      "minutes": "{count} min",
+      "recentActivity": "Activité récente",
+      "recommended": "Épreuves recommandées",
+      "library": "Bibliothèque",
+      "noRecommended": "Le catalogue de votre faculté ouvrira avec ses premiers fichiers. Vous pouvez dès maintenant proposer une épreuve."
+    }
   }
 }
