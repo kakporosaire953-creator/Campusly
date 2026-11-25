@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Logo } from "@/components/shared/CampuslyLogo";
 import "@/styles/legacy/pages/404.css";
 
 export const metadata: Metadata = {
@@ -12,8 +13,7 @@ export default function NotFound() {
     <div className="notfound-page" id="contenu">
       <div className="not-found">
         <Link href="/" className="logo-text">
-          <span className="logo-campus">Campus</span>
-          <span className="logo-ly">ly</span>
+          <Logo size={30} className="logo-campusly" />
         </Link>
         <div className="not-found-code">404</div>
         <h1 className="not-found-title">Page introuvable</h1>

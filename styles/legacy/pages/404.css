@@ -9,6 +9,4 @@
     .not-found-title { font-size:1.5rem; font-weight:700; color:var(--text-1); margin-bottom:12px; }
     .not-found-desc  { color:var(--text-2); font-size:0.95rem; line-height:1.7; margin-bottom:32px; }
     .not-found-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .logo-text { font-size:1.4rem; font-weight:800; letter-spacing:-0.03em; text-decoration:none; display:inline-block; margin-bottom:32px; }
-    .logo-campus { color:var(--text-1); }
-    .logo-ly     { color:#1565C0; }
+    .logo-text, .logo-text.logo-campusly { display:inline-flex; align-items:center; text-decoration:none; margin-bottom:32px; color:var(--text-1); }

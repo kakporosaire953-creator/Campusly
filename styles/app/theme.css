@@ -446,7 +446,7 @@ body {
   color: var(--text-1);
 }
 
-[data-theme="dark"] .logo-campus {
+[data-theme="dark"] .campusly-logo {
   color: #FFFFFF;
 }
 

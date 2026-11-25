@@ -637,16 +637,10 @@ section.ed-rail {
    mot-symbole du pied de page en encre sur encre. D'où `:has(...)` sur le
    `<header>` de navigation plutôt qu'une classe. */
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo,
-body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo .logo-campus,
-body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo .logo-cap,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo svg,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__link,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__signin {
   color: #122d45;
-}
-
-body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo .logo-ly {
-  color: #326de6;
 }
 
 body:has(.public-shell) .site-nav__burger {

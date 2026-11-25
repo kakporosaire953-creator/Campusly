@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { CreditsPill } from "@/components/navigation/CreditsPill";
 import { NotificationBell } from "@/components/navigation/NotificationBell";
 import { RoleSwitcher } from "@/components/navigation/RoleSwitcher";
-import { LogoCap } from "@/components/layout/SiteHeader";
+import { Logo } from "@/components/shared/CampuslyLogo";
 import { Avatar } from "@/components/ui/PageHeader";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
@@ -69,11 +69,7 @@ export function AppShell({ children, breadcrumb }: { children: ReactNode; breadc
       >
         <div className="sidebar-header">
           <Link href="/" className="sidebar-brand" aria-label="Campusly — accueil">
-            <LogoCap size={24} />
-            <span>
-              <span className="logo-campus">Campus</span>
-              <span className="logo-ly">ly</span>
-            </span>
+            <Logo size={24} className="logo-campusly" />
           </Link>
           <button
             type="button"

@@ -13,7 +13,7 @@
    3. `is-hidden` : la barre s'escamote quand on descend au-delà
       de 160 px et revient dès qu'on remonte.
 
-   Le logo est conservé tel quel (`.logo-text`, chapeau SVG bleu).
+   Le logo est conservé tel quel (composant `Logo`).
    ============================================================ */
 
 :root {
@@ -88,24 +88,10 @@
   color: var(--ink);
 }
 
-.site-nav__logo .logo-text {
-  font-family: var(--sans);
-  font-size: 1.16rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.site-nav__logo .logo-campus {
+/* Logo : un seul <svg> (marque + mot-symbole), plus de composition texte.
+   La couleur du bleu vient de `currentColor`, donc on la pilote ici. */
+.site-nav__logo .campusly-logo {
   color: var(--ink);
-}
-
-.site-nav__logo .logo-ly {
-  color: var(--signal);
-}
-
-.site-nav__logo .logo-cap {
-  display: inline-flex;
-  margin-right: 7px;
 }
 
 /* Rubriques : capitales espacées, filet qui se dessine au survol. */
@@ -508,13 +494,9 @@
   margin-top: 14px;
 }
 
-.site-footer__brand .site-nav__logo .logo-campus,
-.site-footer__brand .site-nav__logo .logo-ly {
+/* Colophon : fond encre, logo papier. Le bleu de la marque suit le texte. */
+.site-footer__brand .site-nav__logo .campusly-logo {
   color: var(--paper);
-}
-
-.site-footer__brand .site-nav__logo .logo-ly {
-  color: #9dbcf7;
 }
 
 .site-footer__claim {

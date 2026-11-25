@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { footerNav, siteConfig } from "@/config/site";
-import { LogoCap } from "@/components/layout/SiteHeader";
+import { Logo } from "@/components/shared/CampuslyLogo";
 
 /**
  * Colophon — la dernière page du journal.
@@ -42,13 +42,7 @@ export function SiteFooter() {
       <div className="site-footer__main">
         <div className="site-footer__brand" data-reveal>
           <Link href="/" className="site-nav__logo" aria-label="Campusly — accueil">
-            <span className="logo-text">
-              <span className="logo-cap" aria-hidden="true">
-                <LogoCap />
-              </span>
-              <span className="logo-campus">Campus</span>
-              <span className="logo-ly">ly</span>
-            </span>
+            <Logo size={30} className="logo-campusly" />
           </Link>
           <p>
             Ressources académiques, espaces de cours et outils de révision pensés pour les étudiants

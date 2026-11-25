@@ -6,7 +6,7 @@ import type { Composition, CompositionCopy, ProctorEvent, ProctorEventType, Quiz
 import { compositionService } from "@/services/compositionService";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { LogoCap } from "@/components/layout/SiteHeader";
+import { Logo } from "@/components/shared/CampuslyLogo";
 import { Loader, ErrorState } from "@/components/ui/States";
 import { FlipNumber } from "@/components/motion/FlipNumber";
 
@@ -182,9 +182,7 @@ export function ExamRoom({ code }: { code: string }) {
         <div className="exam-view active">
           <header className="waiting-header">
             <div className="logo-text">
-              <LogoCap size={22} />
-              <span className="logo-campus">Campus</span>
-              <span className="logo-ly">ly</span>
+              <Logo size={22} className="logo-campusly" />
               <span className="exam-tag">EXAMEN</span>
             </div>
             <div className="exam-student-badge">
@@ -315,8 +313,7 @@ export function ExamRoom({ code }: { code: string }) {
           <header className="exam-header">
             <div className="row" style={{ gap: 10, alignItems: "center", minWidth: 0 }}>
               <span className="logo-text">
-                <span className="logo-campus">Campus</span>
-                <span className="logo-ly">ly</span>
+                <Logo size={20} className="logo-campusly" />
               </span>
               <span style={{ fontSize: "0.78rem", color: "var(--text-2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {composition.title}

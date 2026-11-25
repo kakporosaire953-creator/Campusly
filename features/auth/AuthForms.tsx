@@ -8,7 +8,7 @@ import { useSession } from "@/features/auth/SessionProvider";
 import { useToast } from "@/components/ui/ToastProvider";
 import { ApiError } from "@/services/api/client";
 import { Button } from "@/components/ui/Button";
-import { LogoCap } from "@/components/layout/SiteHeader";
+import { Logo } from "@/components/shared/CampuslyLogo";
 import { roleLabels } from "@/config/site";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
@@ -200,13 +200,7 @@ export function AuthForms() {
     <div className="auth">
       <header className="auth__bar">
         <Link href="/" className="auth__brand" aria-label="Campusly — retour à l'accueil">
-          <span className="logo-text">
-            <span className="logo-cap" aria-hidden="true">
-              <LogoCap size={26} />
-            </span>
-            <span className="logo-campus">Campus</span>
-            <span className="logo-ly">ly</span>
-          </span>
+          <Logo size={28} className="logo-campusly" />
         </Link>
         <div className="auth__bar-actions">
           <ThemeToggle compact />
