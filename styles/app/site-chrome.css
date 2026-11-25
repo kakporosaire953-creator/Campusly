@@ -202,19 +202,27 @@
   margin-left: auto;
   padding: 0;
   border: 1px solid var(--rule);
+  border-radius: var(--brand-radius-sm);
   background: transparent;
+  color: var(--ink);
   cursor: pointer;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 5px;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.site-nav__burger:hover {
+  border-color: var(--rule-strong);
+  background: rgba(19, 45, 70, 0.04);
 }
 
 .site-nav__burger span {
   display: block;
   width: 18px;
   height: 1px;
-  background: var(--ink);
+  background: currentColor;
   transition: transform 220ms ease, opacity 180ms ease;
 }
 
