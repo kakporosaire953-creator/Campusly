@@ -15,6 +15,7 @@ import {
   AiTrail,
 } from "@/components/editorial/PaperFragments";
 import { FaqSection } from "@/components/shared/FaqSection";
+import { LegacyAnchors } from "@/components/editorial/LegacyAnchors";
 import { Icon } from "@/components/motion/Icon";
 
 export const metadata: Metadata = {
@@ -122,6 +123,9 @@ const EXAM_FEATURES = [
 export default function HomePage() {
   return (
     <div className="ed">
+      {/* Anciennes ancres partagées : `#fonctionnalites` → `#experience`. */}
+      <LegacyAnchors />
+
       {/* ═══════════ 01 — OUVERTURE ═══════════ */}
       <HeroEditorial />
 

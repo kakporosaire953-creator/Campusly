@@ -475,12 +475,18 @@
   align-content: start;
   padding-top: 18px;
   border-top: 1px solid var(--rule);
+  /* `min-width: 0` : sans lui, la colonne ne peut pas descendre sous la
+     largeur de son titre, qui débordait et se faisait couper par
+     `overflow-x: clip` entre 880 et 1064 px. */
+  min-width: 0;
 }
 
 .ed-campus__audience {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
   gap: 10px;
+  min-width: 0;
 }
 
 .ed-campus__title {
@@ -489,6 +495,8 @@
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   line-height: 1.04;
   letter-spacing: -0.022em;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .ed-campus__steps {
@@ -674,9 +682,36 @@
   max-width: 34ch;
 }
 
-@media (min-width: 760px) {
+/* Trois stations côte à côte seulement quand la colonne est assez large pour
+   porter le texte de chaque station. Entre 760 et 899 px, trois colonnes
+   réduisaient `.ed-track__text` à 0–25 px : le texte s'affichait à la
+   verticale et chevauchait les titres voisins. */
+@media (min-width: 900px) {
   .ed-track__rail {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 760px) and (max-width: 899px) {
+  .ed-track__rail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ed-track__step {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px;
+    padding-bottom: 16px;
+  }
+
+  .ed-track__dot {
+    grid-column: 1;
+    transform: none;
+    margin-top: 6px;
+  }
+
+  .ed-track__text {
+    grid-column: 2;
+    max-width: 62ch;
   }
 }
 
@@ -685,6 +720,12 @@
   padding-left: 14px;
   border-left: 2px solid var(--ember);
   max-width: 62ch;
+}
+
+/* Le lien qui suit la note restait collé à sa dernière ligne (2 à 5 px) :
+   il se lisait comme une ligne de la note. */
+.ed-track__note + p {
+  margin-top: clamp(14px, 1.6vw, 20px);
 }
 
 /* ═══════════════ 08. ÉTABLISSEMENTS ═══════════════ */
@@ -802,6 +843,14 @@
     margin-right: clamp(0px, 3vw, 44px);
     position: relative;
     z-index: 2;
+  }
+
+  /* L'appel chevauche le bas de la photo : la légende, ancrée en bas à
+     droite, passait dessous et n'affichait plus que « …TION ». Elle passe en
+     haut du cadre, hors de la zone de recouvrement. */
+  .ed-institutions__figure figcaption {
+    bottom: auto;
+    top: 0;
   }
 }
 

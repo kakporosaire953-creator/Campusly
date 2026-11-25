@@ -614,3 +614,171 @@ section.ed-rail {
     color: #000;
   }
 }
+
+/* ── 16. Le thème sombre ne s'applique pas au papier ─────────
+   Le gabarit public garde le papier ivoire dans les deux modes : le choix
+   n'est pas une préférence, c'est une contrainte de la direction artistique
+   (papier + encre). Les feuilles historiques sont chargées APRÈS
+   `site-chrome.css` et posent des règles globales `[data-theme="dark"] a`
+   et `[data-theme="dark"] *` : sans cette neutralisation, les liens, le
+   mot-symbole, les boutons et les légendes passaient en blanc ou en bleu
+   clair sur le papier (contraste mesuré 1,13:1 pour « Campus »).
+
+   Portée : uniquement `.public-shell`. L'espace connecté, `/auth` et les
+   autres routes applicatives gardent leur thème clair/sombre habituel.
+   La bascule est retirée de la barre publique (§18) : sur ce gabarit elle
+   n'avait aucun effet observable.
+
+   Les couleurs sont posées en hexadécimal plutôt qu'en `var(--ink)` :
+   `theme-dark.css` redéfinit des jetons globaux et les variables ne
+   garantissent pas ici la valeur du papier. */
+/* Barre de navigation uniquement. `.site-nav__logo` est réutilisé par le
+   colophon (fond encre) : le cibler sans ancêtre commun aurait repeint le
+   mot-symbole du pied de page en encre sur encre. D'où `:has(...)` sur le
+   `<header>` de navigation plutôt qu'une classe. */
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo,
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo .logo-campus,
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo .logo-cap,
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo svg,
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__link,
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__signin {
+  color: #122d45;
+}
+
+body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo .logo-ly {
+  color: #326de6;
+}
+
+body:has(.public-shell) .site-nav__burger {
+  border-color: rgba(18, 45, 69, 0.16);
+}
+
+body:has(.public-shell) .site-nav__burger span {
+  background: #122d45;
+}
+
+/* CTA pleins : encre sur papier, jamais bleu clair sur encre.
+   Les boutons du colophon vivent sur la bande d'encre : ils gardent leur
+   traitement inversé (papier sur encre), on ne les repeint donc pas. */
+body:has(.public-shell) .site-nav__cta,
+body:has(.public-shell) .ed .ed-btn,
+body:has(.public-shell) .ed .ed-btn--ghost-ink {
+  background: #122d45;
+  border-color: #122d45;
+  color: #f4f1e9;
+}
+
+body:has(.public-shell) .site-nav__cta:hover,
+body:has(.public-shell) .ed .ed-btn:hover,
+body:has(.public-shell) .ed .ed-btn--ghost-ink:hover {
+  background: #326de6;
+  border-color: #326de6;
+  color: #ffffff;
+}
+
+body:has(.public-shell) .ed .ed-btn--ghost {
+  background: transparent;
+  border-color: #122d45;
+  color: #122d45;
+}
+
+body:has(.public-shell) .ed .ed-btn--ghost:hover {
+  background: #122d45;
+  border-color: #122d45;
+  color: #f4f1e9;
+}
+
+body:has(.public-shell) .ed .ed-btn--ink {
+  background: #f4f1e9;
+  border-color: #f4f1e9;
+  color: #122d45;
+}
+
+body:has(.public-shell) .ed .ed-link {
+  color: #122d45;
+}
+
+body:has(.public-shell) .ed .ed-link:hover,
+body:has(.public-shell) .ed .ed-link:focus-visible {
+  color: #2a5cc4;
+}
+
+body:has(.public-shell) .ed-summary__item {
+  color: rgba(18, 45, 69, 0.66);
+}
+
+body:has(.public-shell) .ed-summary__item:hover,
+body:has(.public-shell) .ed-summary__item:focus-visible {
+  color: #122d45;
+}
+
+/* Colophon : les liens restent dans la gamme d'encre claire. */
+body:has(.public-shell) .site-footer__col a {
+  color: rgba(244, 241, 233, 0.82);
+}
+
+body:has(.public-shell) .site-footer__col a:hover,
+body:has(.public-shell) .site-footer__col a:focus-visible {
+  color: #f4f1e9;
+}
+
+body:has(.public-shell) .site-footer__legal a {
+  color: rgba(244, 241, 233, 0.72);
+}
+
+body:has(.public-shell) .site-footer__legal a:hover,
+body:has(.public-shell) .site-footer__legal a:focus-visible {
+  color: #f4f1e9;
+}
+
+/* Le filtre de luminosité du thème sombre n'a pas de sens sur le papier :
+   on rend aux photos leur traitement éditorial. */
+body:has(.public-shell) .ed img {
+  filter: none;
+}
+
+body:has(.public-shell) .ed-hero__img {
+  filter: saturate(0.92) contrast(1.02);
+}
+
+body:has(.public-shell) .ed-media-img {
+  filter: saturate(0.9);
+}
+
+
+/* ── 17. Surfaces legacy sous le papier ─────────────────────
+   Les cartes historiques (`--grad-card`, `.card`) suivent le thème sombre
+   global. Sous le gabarit public, le papier ne change pas : une carte qui
+   passerait en `rgba(16,22,36,.58)` deviendrait un bloc sombre sur ivoire
+   (mesuré sur /a-propos, /conditions et /contribuer).
+   On fige donc la surface des cartes, uniquement sous `.public-shell`.
+   `!important` est nécessaire : `theme.css` pose `--glass-bg` en
+   `!important` sur `.card`, une déclaration normale perdait la cascade
+   (vérifié : la carte restait `rgba(16,22,36,.58)` en mode sombre). */
+body:has(.public-shell) .card,
+body:has(.public-shell) .rev-panel,
+body:has(.public-shell) .upload-card {
+  background: #ffffff !important;
+  border-color: rgba(18, 45, 69, 0.16) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #122d45;
+}
+
+body:has(.public-shell) .card p,
+body:has(.public-shell) .card li {
+  color: #122d45;
+}
+
+/* ── 18. La bascule de thème n'a pas d'objet sur le papier ──
+   Le gabarit public reste en papier ivoire dans les deux modes : c'est le
+   choix de direction artistique, pas un réglage utilisateur. Laisser le
+   bouton visible produisait un contrôle sans effet observable (mesuré :
+   `data-theme` change, aucune surface ne bouge). On le retire donc de la
+   barre publique — seulement de l'en-tête, `.site-nav` étant aussi utilisé
+   par le colophon. Le choix reste disponible là où il agit : /auth,
+   /onboarding et l'espace connecté, qui gardent leur propre bouton. */
+body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
+  display: none;
+}

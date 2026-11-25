@@ -44,6 +44,8 @@
 @import "../styles/app/editorial.css";
 @import "../styles/app/editorial-home.css";
 @import "../styles/app/editorial-modules.css";
+/* Pages secondaires : ajustement minimal du gabarit public */
+@import "../styles/app/public-secondary.css";
 
 /* Mouvement : vocabulaire d'animation (Kraken), survols, bandeau défilant */
 @import "../styles/app/motion.css";

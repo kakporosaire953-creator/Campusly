@@ -1,0 +1,80 @@
+/* ============================================================
+   CAMPUSLY — PAGES SECONDAIRES (à propos, conditions, contribuer)
+   ------------------------------------------------------------
+   Ces trois pages ne reprennent pas la composition de la landing
+   (neuf séquences) : elles gardent leur contenu et leur mise en
+   page d'origine. Elles partagent en revanche le papier, le
+   masthead et le colophon du gabarit public.
+
+   Ce fichier ne contient que l'ajustement nécessaire pour que
+   cette cohabitation ne produise pas de rupture : les cartes
+   historiques (`.card`) arrivaient avec un rayon de 24 px et une
+   ombre portée, alors que la direction éditoriale tient des
+   rayons de 0 à 2 px et aucune ombre sur le papier.
+
+   Portée stricte : `.secondary-page`, posée sur les trois pages
+   concernées uniquement. Les cartes de l'espace connecté,
+   de /auth et des autres routes applicatives ne changent pas.
+   ============================================================ */
+
+.secondary-page .card {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.secondary-page h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.secondary-page .card a {
+  color: var(--signal-ink, #2a5cc4);
+}
+
+/* Les pages secondaires posent leurs couleurs en style inline :
+   `color: var(--text-1)` sur les titres, `--text-2` sur les paragraphes,
+   `--text-3` sur les mentions. En mode sombre ces variables valent du blanc
+   et du gris clair, ce qui donnait des titres blancs sur les cartes
+   désormais blanches (contraste mesuré 1,07:1). On ne touche pas au balisage :
+   on redéfinit les variables de texte sur le conteneur de la page, qui reste
+   en papier dans les deux modes. La hiérarchie typographique est conservée
+   (titre plein, corps 82 %, mention 62 %). */
+.secondary-page {
+  /* Texte : la hiérarchie d'origine est conservée (titre plein, corps 82 %,
+     mention 62 %), seule la teinte change — encre au lieu de blanc. */
+  --text-1: #122d45;
+  --text-2: rgba(18, 45, 69, 0.82);
+  --text-3: rgba(18, 45, 69, 0.62);
+  --text-4: rgba(18, 45, 69, 0.48);
+
+  /* Surfaces et filets : le dépôt de fichier, la notice et les champs sont
+     dessinés avec ces jetons. En sombre ils valaient du blanc translucide,
+     donc invisibles sur la carte ivoire (mesuré : bordure 12 % de blanc sur
+     blanc). */
+  --surface: #ffffff;
+  --surface-2: rgba(18, 45, 69, 0.04);
+  --surface-3: rgba(18, 45, 69, 0.08);
+  --border: rgba(18, 45, 69, 0.12);
+  --border-2: rgba(18, 45, 69, 0.2);
+
+  /* Signal : le bleu `#1565C0` du gabarit applicatif reste utilisé pour les
+     liens de contenu, mais pas pour les contours de formulaire. */
+  --brand-1: #2a5cc4;
+  --brand-2: #326de6;
+  --brand-3: #5b8cf0;
+}
+
+/* Les champs du formulaire de contribution reçoivent leur bordure d'une
+   règle `!important` héritée (`--glass-border`), que la portée des variables
+   ne peut pas atteindre : en mode sombre la bordure valait 9 % de blanc sur
+   une carte blanche (contraste 1:1, champ invisible). On la rétablit ici,
+   sans toucher au formulaire lui-même (toujours fermé, signalé comme tel). */
+.secondary-page .form-input,
+.secondary-page .form-select,
+.secondary-page .form-textarea {
+  background: #ffffff !important;
+  border-color: rgba(18, 45, 69, 0.22) !important;
+  color: #122d45 !important;
+}

@@ -340,9 +340,22 @@
 }
 
 @media (max-width: 940px) {
+  /* Le masthead garde TROIS colonnes à toutes les largeurs : mot-symbole,
+     respiration, puis la pile thème + bouton de menu. En deux colonnes, le
+     bouton (4ᵉ enfant de la grille) basculait sur une seconde ligne, sous la
+     barre de 56 px, et n'était plus cliquable une fois le panneau ouvert. */
   .site-nav__inner {
-    grid-template-columns: auto auto;
-    justify-content: space-between;
+    grid-template-columns: auto 1fr auto;
+    justify-content: normal;
+  }
+
+  .site-nav__actions {
+    justify-self: end;
+  }
+
+  .site-nav__burger {
+    justify-self: end;
+    align-self: center;
   }
 
   .site-nav__links,
