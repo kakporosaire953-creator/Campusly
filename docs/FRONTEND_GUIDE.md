@@ -32,7 +32,7 @@ fonctionne **sans backend**, entièrement à partir de données de démonstratio
 │   ├── ui/                 # Button, Card, Badge, Progress, States, Modal, Field, PageHeader, Toast
 │   ├── layout/             # SiteHeader, SiteFooter, AppShell
 │   ├── navigation/         # RoleSwitcher, CreditsPill, NotificationBell
-│   └── shared/             # AppProviders, HeroPreview, FaqSection, LegacyHashRedirect
+│   └── shared/             # AppProviders, HeroPreview, ThemeToggle, CampuslyLogo
 ├── features/               # logique d'interface par domaine
 ├── services/               # accès aux données (seul point d'entrée : services/index.ts)
 ├── types/                  # contrats TypeScript (source de vérité)
@@ -301,16 +301,15 @@ ces jetons : aucune couleur en dur, aucune nouvelle famille.
 
 | Composant | Fichier | Rôle |
 | --- | --- | --- |
-| `Chapter` / `Marker` | `components/editorial/Chapter.tsx` | en-tête de chapitre (index, libellé, filet, note) et intertitre de colonne |
 | `Asterisk`, `Ruler`, `Cross`, `LongArrow` | `components/editorial/Marks.tsx` | quatre marques géométriques ; remplacent les doodles |
-| `FragLibrary`, `FragClassroom`, `FragQuiz`, `FragProgress`, `FragComposition`, `FragTeacher`, `AiTrail` | `components/editorial/PaperFragments.tsx` | aperçus d'interface et démonstrateur AI |
-| `HeroEditorial` | `components/editorial/Hero.tsx` | séquence 01 |
+| `HeroEditorial` | `components/editorial/Hero.tsx` | ouverture de l'accueil |
 
-**Règle des fragments** : un fragment reproduit la *structure* d'un écran réel
-(recherche, filtres, ligne de document, question, chronomètre) et laisse les
-valeurs en pointillés (`.ed-ph`). Il ne porte jamais un faux chiffre, un faux
-titre d'épreuve, un faux nom d'étudiant ou une fausse note. Sa barre de titre dit
-« Aperçu d'interface ».
+Depuis la refonte resserrée (KRAFTER-13), l'accueil tient en quatre séquences :
+ouverture, fonctions disponibles, Campusly AI, compositions, questions. Les
+composants de mise en scène — `Chapter` / `Marker`, `PaperFragments` (aperçus
+d'interface), `LegacyAnchors`, l'ancienne `FaqSection` à filtres — ont été
+supprimés avec les séquences qu'ils servaient : ils n'avaient plus d'usage et
+représentaient 3 700 lignes de styles.
 
 ### 5 quinquies.4 Destinations conservées
 

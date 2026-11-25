@@ -29,10 +29,10 @@ export const siteConfig = {
  * valides depuis les pages légales et « à propos ».
  */
 export const publicNav = [
-  { href: "/#manifeste", label: "Manifeste" },
-  { href: "/#experience", label: "L'expérience" },
+  { href: "/#experience", label: "Fonctions" },
   { href: "/#campusly-ai", label: "Campusly AI" },
-  { href: "/#etablissements", label: "Établissements" },
+  { href: "/#compositions", label: "Compositions" },
+  { href: "/a-propos", label: "Le projet" },
 ] as const;
 
 export interface FooterLink {
@@ -48,7 +48,7 @@ export const footerNav: ReadonlyArray<{ title: string; links: readonly FooterLin
       { href: "/a-propos", label: "À propos" },
       { href: "/contribuer", label: "Contribuer" },
       { href: "/#campusly-ai", label: "Campusly AI" },
-      { href: "/#manifeste", label: "Manifeste" },
+      { href: "/#compositions", label: "Compositions" },
       { href: "/a-propos#contact", label: "Contact" },
     ],
   },
@@ -66,7 +66,6 @@ export const footerNav: ReadonlyArray<{ title: string; links: readonly FooterLin
     title: "Ressources et informations",
     links: [
       { href: "/#experience", label: "Vue d'ensemble" },
-      { href: "/#etablissements", label: "Établissements" },
       { href: "/#faq", label: "Questions fréquentes" },
       { href: "/offline", label: "Mode hors ligne" },
       { href: "/conditions", label: "Conditions d'utilisation" },

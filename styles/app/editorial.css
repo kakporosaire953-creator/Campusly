@@ -731,7 +731,7 @@ body:has(.public-shell) .ed img {
   filter: none;
 }
 
-body:has(.public-shell) .ed-hero__img {
+body:has(.public-shell) .ed-open__img {
   filter: saturate(0.92) contrast(1.02);
 }
 
@@ -775,4 +775,373 @@ body:has(.public-shell) .card li {
    /onboarding et l'espace connecté, qui gardent leur propre bouton. */
 body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
   display: none;
+}
+
+/* ============================================================
+   6. ACCUEIL RESSERRÉ (KRAFTER-13)
+   ------------------------------------------------------------
+   Quatre séquences au lieu de neuf. Une seule idée par bloc,
+   des textes courts, deux photographies en tout. Les espacements
+   sont volontairement larges (clamp) : la page doit respirer,
+   pas s'étirer.
+   ============================================================ */
+
+/* ── Ouverture ─────────────────────────────────────────────── */
+
+.ed-open {
+  padding-top: calc(var(--nav-h, 72px) + clamp(48px, 8vw, 110px));
+  padding-bottom: clamp(56px, 8vw, 120px);
+}
+
+.ed-open__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: end;
+  gap: clamp(32px, 5vw, 76px);
+}
+
+.ed-open__kicker {
+  margin-bottom: clamp(20px, 3vw, 34px);
+}
+
+.ed-open__title {
+  font-size: clamp(2.6rem, 6.2vw, 5.1rem);
+  max-width: 14ch;
+}
+
+.ed-open__lede {
+  margin-top: clamp(20px, 2.6vw, 30px);
+  max-width: 42ch;
+  font-size: clamp(1.02rem, 0.5vw + 0.94rem, 1.24rem);
+}
+
+.ed-open__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(26px, 3.4vw, 40px);
+}
+
+.ed-open__figure {
+  margin: 0;
+}
+
+.ed-open__img {
+  width: 100%;
+  height: auto;
+  max-height: 46vh;
+  object-fit: cover;
+  display: block;
+}
+
+.ed-open__caption {
+  margin-top: 10px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* ── Ce que fait la plateforme ─────────────────────────────── */
+
+.ed-features {
+  padding-block: clamp(56px, 7vw, 116px);
+  border-top: 1px solid var(--rule);
+}
+
+.ed-features__head {
+  margin-bottom: clamp(32px, 4vw, 60px);
+}
+
+.ed-features__title {
+  margin-top: 16px;
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+  max-width: 22ch;
+}
+
+.ed-features__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 3.4vw, 54px);
+}
+
+.ed-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.ed-feature__num {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--signal);
+}
+
+.ed-feature__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.22rem, 1.5vw, 1.5rem);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.ed-feature__text {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.62;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.ed-feature .ed-link {
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.ed-features__figure {
+  margin: clamp(40px, 6vw, 88px) 0 0;
+  max-width: 620px;
+}
+
+.ed-media-img,
+.ed-features__figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ed-features__figure figcaption {
+  margin-top: 10px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* ── Campusly AI (bande d'encre) ───────────────────────────── */
+
+.ed-ai {
+  padding-block: clamp(64px, 8vw, 124px);
+}
+
+.ed-ai__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(36px, 5vw, 88px);
+  align-items: start;
+}
+
+.ed-ai__eyebrow {
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ed-ai__title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  max-width: 18ch;
+}
+
+.ed-ai__text {
+  margin-top: 22px;
+  max-width: 46ch;
+}
+
+.ed-ai__actions {
+  margin-top: clamp(26px, 3vw, 38px);
+}
+
+.ed-ai__steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.ed-ai__steps li {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 12px;
+  padding-block: 18px;
+  border-top: 1px solid var(--on-ink-rule);
+}
+
+.ed-ai__steps li > span {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ember);
+  padding-top: 3px;
+}
+
+.ed-ai__steps b {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--on-ink);
+}
+
+.ed-ai__steps p {
+  margin-top: 4px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--on-ink-muted);
+}
+
+/* ── Compositions ──────────────────────────────────────────── */
+
+.ed-exams {
+  padding-block: clamp(56px, 7vw, 116px);
+}
+
+.ed-exams__head {
+  max-width: 62ch;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.ed-exams__title {
+  margin-top: 16px;
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+  max-width: 24ch;
+}
+
+.ed-exams__lede {
+  margin-top: 18px;
+}
+
+.ed-exams__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 40px);
+}
+
+.ed-exams__item {
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.ed-exams__item h3 {
+  margin-top: 8px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.ed-exams__item p {
+  margin-top: 6px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.ed-exams__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(30px, 4vw, 48px);
+}
+
+/* ── Questions ─────────────────────────────────────────────── */
+
+.ed-faq {
+  padding-block: clamp(56px, 7vw, 112px);
+  border-top: 1px solid var(--rule);
+}
+
+.ed-faq__head {
+  margin-bottom: clamp(28px, 3.4vw, 44px);
+}
+
+.ed-faq__title {
+  margin-top: 16px;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+}
+
+.ed-faq__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 46px) clamp(32px, 5vw, 80px);
+  margin: 0;
+}
+
+.ed-faq__list > div {
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+}
+
+.ed-faq__list dt {
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ed-faq__list dd {
+  margin: 8px 0 0;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.62;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.ed-faq__more {
+  margin-top: clamp(28px, 3.4vw, 44px);
+}
+
+/* ── Colophon d'appel ──────────────────────────────────────── */
+
+.ed-final__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  align-items: end;
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.ed-final__title {
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
+  max-width: 20ch;
+}
+
+.ed-final__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ed-final__note {
+  margin-top: 16px;
+}
+
+/* ── Adaptations ───────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .ed-open__grid,
+  .ed-ai__inner,
+  .ed-final__inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .ed-open__title {
+    max-width: 18ch;
+  }
+
+  .ed-open__img {
+    max-height: 34vh;
+  }
+
+  .ed-features__list,
+  .ed-exams__grid,
+  .ed-faq__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ed-features__figure {
+    max-width: 100%;
+  }
 }

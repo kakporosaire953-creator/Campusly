@@ -86,9 +86,7 @@ export function ContributionForm() {
         className="drop-zone"
         style={{ padding: 24, textAlign: "center", marginBottom: 16 }}
       >
-        <div style={{ fontSize: "1.6rem", marginBottom: 6 }} aria-hidden="true">
-          📁
-        </div>
+        <i className="fa-solid fa-file-arrow-up" aria-hidden="true" style={{ fontSize: "1.4rem", color: "var(--brand-1)", marginBottom: 8, display: "block" }} />
         <p style={{ fontSize: "0.86rem", fontWeight: 700, color: "var(--text-1)", marginBottom: 4 }}>
           {file ? file.name : "Glissez votre fichier ici"}
         </p>

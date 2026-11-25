@@ -3,8 +3,6 @@
    Dark mode · Couleurs logo (Bleu #1565C0 + Orange #F57C00)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
 /* ── Tokens ───────────────────────────────────────────────── */
 :root {
   /* Couleurs Campusly - Bleu et Orange uniquement */
@@ -50,7 +48,7 @@
   --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
   --space-12:48px; --space-16:64px;
 
-  --font-sans: 'Plus Jakarta Sans','Inter',system-ui,sans-serif;
+  --font-sans: "Manrope",'Inter',system-ui,sans-serif;
   --ease: cubic-bezier(0.4,0,0.2,1);
   --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
   --t-fast:150ms; --t-base:250ms; --t-slow:400ms;
@@ -394,4 +392,39 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
   .hero-content { max-width: 1300px; }
   .features-grid { max-width: 1300px; gap: 40px; }
   .section-center { max-width: 800px; }
+}
+
+/* ============================================================
+   TYPOGRAPHIE DE MARQUE (KRAFTER-13)
+   ------------------------------------------------------------
+   Une seule famille pour toute la plateforme : Manrope — la même
+   que le gabarit public, celle qui accompagne le mot-symbole du
+   logo. Elle est déjà chargée par `app/layout.tsx` : aucun
+   téléchargement supplémentaire.
+
+   Les anciennes feuilles demandaient « Plus Jakarta Sans » puis
+   « Inter » ; les deux étaient chargées pour rien et ne servaient
+   qu'à l'espace connecté et à la connexion. Ce bloc les remplace
+   sans toucher aux tailles ni aux graisses déjà réglées.
+   ============================================================ */
+
+:root {
+  --font-sans: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Couleurs du logo : #0058BC et #FE8415 remplacent les anciens
+     #1565C0 / #F57C00 qui n'étaient pas exactement ceux de la marque. */
+  --brand-1: #0058bc;
+  --brand-2: #3d84dd;
+  --brand-soft: rgba(0, 88, 188, 0.08);
+  --accent: #fe8415;
+  --accent-2: #ffa04d;
+}
+
+/* Les composants de l'application qui posaient encore la famille en dur. */
+button,
+input,
+select,
+textarea,
+optgroup {
+  font-family: inherit;
 }

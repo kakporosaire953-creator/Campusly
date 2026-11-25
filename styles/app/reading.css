@@ -1,0 +1,112 @@
+/* ============================================================
+   CAMPUSLY — LECTURE (KRAFTER-13)
+   ------------------------------------------------------------
+   L'espace connecté et la connexion gardaient le rythme dense de
+   l'ancienne application : cartes empilées, rayons de 16 à 24 px,
+   ombres, tout collé. Sur un écran de 1440 px, le contenu
+   commençait à 1050 px et le reste respirait mal.
+
+   Ce fichier ne change pas la structure : il donne de l'air et
+   ramène les surfaces au même vocabulaire que le public — filets
+   d'un pixel, rayons discrets, aucune ombre portée.
+
+   Portée : `.app-shell` (espace connecté) et `.auth` (connexion).
+   Rien d'autre n'est touché.
+   ============================================================ */
+
+/* ── 1. Rythme général ─────────────────────────────────────── */
+
+.app-shell .app-body {
+  padding: clamp(24px, 3.2vw, 56px) clamp(20px, 3vw, 60px);
+}
+
+.app-shell .app-body > * + * {
+  margin-top: clamp(20px, 2.4vw, 34px);
+}
+
+/* Les blocs de l'application respiraient mal : on ouvre les grilles. */
+.app-shell .dash-grid-2col,
+.app-shell .dash-grid-3col,
+.app-shell .dash-metrics-grid {
+  gap: clamp(18px, 2vw, 30px);
+}
+
+.app-shell .dash-grid-2col,
+.app-shell .dash-grid-3col {
+  margin-bottom: clamp(20px, 2.4vw, 34px);
+}
+
+/* ── 2. Surfaces : filet plutôt qu'ombre ──────────────────── */
+
+.app-shell .card,
+.app-shell .stat-card,
+.app-shell .ep-card,
+.auth .auth__card {
+  border-radius: 3px;
+}
+
+.app-shell .card,
+.auth .auth__card {
+  box-shadow: none;
+}
+
+/* Le bandeau latéral perd son verre : il redevient une colonne pleine. */
+.app-shell .sidebar {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--bg-2, #f1f5f9);
+}
+
+.app-shell .sidebar-header {
+  padding: 18px 20px;
+}
+
+.app-shell .sidebar-menu {
+  padding: 10px 14px;
+}
+
+.app-shell .sidebar-menu a,
+.app-shell .sidebar-menu button {
+  border-radius: 2px;
+  padding-block: 11px;
+}
+
+/* ── 3. La connexion ──────────────────────────────────────── */
+
+.auth .auth__card {
+  padding: clamp(24px, 3vw, 40px);
+}
+
+.auth .auth__bar {
+  padding-block: clamp(16px, 2vw, 24px);
+}
+
+.auth .auth__main {
+  padding-block: clamp(28px, 4vw, 56px);
+}
+
+/* Formulaire : champs plus hauts, écarts réguliers. */
+.auth .form-input,
+.auth .form-select,
+.app-shell .form-input,
+.app-shell .form-select {
+  border-radius: 2px;
+  padding: 12px 14px;
+}
+
+.auth .form-group,
+.app-shell .form-group {
+  margin-bottom: clamp(14px, 1.4vw, 20px);
+}
+
+/* ── 4. Typographie : une seule famille, hiérarchie par la taille ─ */
+
+.app-shell,
+.auth {
+  font-family: var(--sans, "Manrope", system-ui, sans-serif);
+}
+
+.app-shell h1,
+.auth h1 {
+  letter-spacing: -0.02em;
+}
