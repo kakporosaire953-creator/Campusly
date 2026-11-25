@@ -19,7 +19,7 @@
     }
     .role-option.active {
       border-color: var(--brand-1);
-      background: rgba(0, 88, 188, 0.08);
+      background: rgba(19, 45, 70, 0.08);
     }
     .role-option-title {
       font-size: 0.85rem;

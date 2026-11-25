@@ -1,60 +1,22 @@
 /* ============================================================
-   CAMPUSLY — Thème Sombre
+   CAMPUSLY — MODE SOMBRE : réglages de structure
+   ------------------------------------------------------------
+   Ce fichier portait sa propre palette (fond #090A0F, gris froid
+   #e5e7eb, bleus décoratifs) qui passait devant les jetons de la marque
+   et donnait un mode sombre « graphite » sans rapport avec le navy du
+   logo. Les COULEURS du mode sombre sont désormais déclarées une seule
+   fois, dans `styles/app/brand.css` (bloc `[data-theme="dark"]`).
+   Ne restent ici que les retouches de structure propres à ces écrans.
    ============================================================ */
 
-[data-theme="dark"] {
-  /* ── Couleurs de base ── */
-  --bg: #090A0F;
-  --bg-2: #12131A;
-  --surface: rgba(255,255,255,0.02);
-  --surface-2: rgba(255,255,255,0.04);
-  --surface-3: rgba(255,255,255,0.08);
-
-  /* ── Texte ── */
-  --text-1: #f9fafb;
-  --text-2: #e5e7eb;
-  --text-3: #9ca3af;
-  --text-4: #6b7280;
-
-  /* ── Bordures ── */
-  --border: rgba(255,255,255,0.06);
-  --border-2: rgba(255,255,255,0.12);
-
-  /* ── Brand ── */
-  --brand-1: #0058BC;
-  --brand-2: #3D84DD;
-  --brand-3: #64B5F6;
-
-  /* ── Accent ── */
-  --accent-1: #FE8415;
-  --accent-2: #FB8C00;
-
-  /* ── États ── */
-  --success: #10b981;
-  --warning: #FE8415;
-  --danger: #ef4444;
-  --info: #0058BC;
-
-  /* ── Gradients (remplacés par couleurs solides) ── */
-  --grad-brand: #0058BC;
-  --grad-accent: #FE8415;
-  --grad-card: rgba(255,255,255,0.03);
-
-  /* ── Ombres ── */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-  --shadow-brand: 0 4px 16px rgba(0, 88, 188, 0.25);
-}
 
 /* ── Orbes de fond en mode sombre ── */
 [data-theme="dark"] .bg-orb-1 {
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(253, 133, 23, 0.1) 0%, transparent 70%);
 }
 
 [data-theme="dark"] .bg-orb-2 {
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(253, 133, 23, 0.12) 0%, transparent 70%);
 }
 
 /* ── Navbar en mode sombre ── */
@@ -104,28 +66,10 @@
   color: var(--text-4);
 }
 
-/* ── Boutons en mode sombre ── */
-[data-theme="dark"] .btn-ghost {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--text-2);
-}
-
-[data-theme="dark"] .btn-ghost:hover {
-  background: var(--surface-2);
-  border-color: var(--border-2);
-  color: var(--text-1);
-}
-
-[data-theme="dark"] .btn-outline {
-  background: transparent;
-  border-color: var(--border-2);
-  color: var(--text-1);
-}
-
-[data-theme="dark"] .btn-outline:hover {
-  background: var(--surface);
-}
+/* ── Boutons ──
+   Les déclinaisons sombres des boutons sont définies une seule fois,
+   avec les autres états, dans `styles/app/brand.css`. Les dupliquer ici
+   faisait perdre la teinte de marque (texte en `--text-2` neutre). */
 
 /* ── Sidebar en mode sombre ── */
 [data-theme="dark"] .sidebar {
@@ -215,19 +159,19 @@
 [data-theme="dark"] .badge,
 [data-theme="dark"] .ep-badge-faculte,
 [data-theme="dark"] .q-faculte {
-  background: rgba(0, 88, 188, 0.2);
-  border-color: rgba(0, 88, 188, 0.4);
+  background: rgba(19, 45, 70, 0.2);
+  border-color: rgba(19, 45, 70, 0.4);
   color: #64B5F6;
 }
 
 /* ── Stats cards en mode sombre ── */
 [data-theme="dark"] .stat-card-icon.blue {
-  background: rgba(0, 88, 188, 0.2);
-  color: #3D84DD;
+  background: rgba(19, 45, 70, 0.2);
+  color: #1F4260;
 }
 
 [data-theme="dark"] .stat-card-icon.orange {
-  background: rgba(254, 132, 21, 0.2);
+  background: rgba(253, 133, 23, 0.2);
   color: #FB8C00;
 }
 
@@ -251,13 +195,19 @@
   filter: brightness(0.9);
 }
 
-/* ── Amélioration contraste liens ── */
-[data-theme="dark"] a {
-  color: #3D84DD;
+/* ── Liens en mode sombre ──
+   Cette règle globale posait `#1F4260` (navy) sur TOUS les liens, y compris
+   les boutons-liens de l'espace connecté : texte navy sur fond navy, 1,74:1.
+   Les liens lisent désormais la teinte de surface de la marque. */
+/* `:not(.btn)` est indispensable : un bouton-lien tient sa couleur de ses
+   propres jetons (`--btn-fg`). Sans cette exclusion, la règle globale
+   repeignait le texte des boutons Primary en ivoire sur ivoire. */
+[data-theme="dark"] a:not(.btn) {
+  color: var(--brand-on-surface);
 }
 
-[data-theme="dark"] a:hover {
-  color: #64B5F6;
+[data-theme="dark"] a:not(.btn):hover {
+  color: var(--brand-orange);
 }
 
 /* ── Empty states en mode sombre ── */
@@ -275,8 +225,8 @@
 }
 
 [data-theme="dark"] .pricing-card.popular {
-  border-color: #0058BC;
-  box-shadow: 0 0 0 2px #0058BC;
+  border-color: #132D46;
+  box-shadow: 0 0 0 2px #132D46;
 }
 
 /* ── Forum en mode sombre ── */
@@ -301,8 +251,8 @@
 }
 
 [data-theme="dark"] .msg.user .msg-content {
-  background: rgba(0, 88, 188, 0.2);
-  border-color: rgba(0, 88, 188, 0.4);
+  background: rgba(19, 45, 70, 0.2);
+  border-color: rgba(19, 45, 70, 0.4);
 }
 
 /* ── Quiz en mode sombre ── */
@@ -323,8 +273,8 @@
 }
 
 [data-theme="dark"] .lb-row.me {
-  background: rgba(0, 88, 188, 0.2);
-  border-color: rgba(0, 88, 188, 0.4);
+  background: rgba(19, 45, 70, 0.2);
+  border-color: rgba(19, 45, 70, 0.4);
 }
 
 /* ── Amélioration lisibilité ── */

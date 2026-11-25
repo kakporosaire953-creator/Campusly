@@ -530,7 +530,7 @@ export function ExamRoom({ code }: { code: string }) {
                 <p style={{ fontSize: "0.86rem", color: "var(--text-2)", marginBottom: 8 }}>
                   {answeredCount}/{palette.length} questions répondues · {flagged.length} marquée(s) à revoir.
                 </p>
-                <div className="payment-notice" style={{ background: "rgba(254,132,21,0.1)", marginBottom: 16 }}>
+                <div className="payment-notice" style={{ background: "rgba(253,133,23,0.1)", marginBottom: 16 }}>
                   La remise reste <strong>locale</strong> : aucune copie n&apos;est transmise et la note affichée
                   est calculée dans votre navigateur.
                 </div>

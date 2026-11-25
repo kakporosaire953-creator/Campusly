@@ -16,23 +16,13 @@
    Le logo est conservé tel quel (composant `Logo`).
    ============================================================ */
 
+/* Châssis : uniquement ses propres mesures. La palette et les polices
+   viennent de `brand.css` (importé en premier dans `globals.css`). */
 :root {
-  --nav-h: 72px;
+  --nav-h: 68px;
   --nav-h-compact: 56px;
-  --chrome-max: 1240px;
-  --chrome-pad: clamp(18px, 4.4vw, 46px);
-  --accent-text: #b85800;
-
-  /* Les jetons éditoriaux sont redéclarés ici : le châssis est chargé
-     avant `editorial.css`, il ne doit jamais dépendre de son ordre. */
-  --paper: #f4f1e9;
-  --ink: #122d45;
-  --signal: #326de6;
-  --ember: #e77d43;
-  --rule: rgba(18, 45, 69, 0.16);
-  --muted: rgba(18, 45, 69, 0.66);
-  --serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --sans: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --chrome-max: var(--brand-rail);
+  --chrome-pad: var(--brand-gutter);
 }
 
 /* ── Masthead ─────────────────────────────────────────────── */
@@ -103,12 +93,15 @@
 
 .site-nav__link {
   position: relative;
-  font-family: var(--sans);
-  font-size: 0.71rem;
+  font-family: var(--brand-display);
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--ink);
+  letter-spacing: 0.002em;
+  text-transform: none;
+  /* `--ink` vaut le navy en clair : parfait, mais il restait navy en mode
+     sombre (le gabarit public est en papier dans les deux modes, seule la
+     barre de navigation suit le thème). On lit donc la surface. */
+  color: var(--brand-on-surface);
   text-decoration: none;
   padding-block: 6px;
 }
@@ -140,10 +133,10 @@
 
 /* Connexion : lien texte, pas un bouton de plus. */
 .site-nav__signin {
-  font-family: var(--sans);
-  font-size: 0.79rem;
+  font-family: var(--brand-display);
+  font-size: 0.88rem;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--brand-on-surface);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 180ms ease;
@@ -151,35 +144,39 @@
 
 .site-nav__signin:hover,
 .site-nav__signin:focus-visible {
-  border-bottom-color: var(--ink);
+  border-bottom-color: var(--brand-on-surface);
 }
 
-/* CTA : rectangle d'encre, angles vifs. */
+/* CTA : le bouton principal du site, celui défini dans brand.css. */
 .site-nav__cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  padding: 9px 16px;
-  border: 1px solid var(--ink);
-  border-radius: 0;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--brand-navy);
+  border-radius: var(--brand-radius-sm);
+  background: var(--brand-navy);
+  color: var(--brand-paper);
+  font-family: var(--brand-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
   text-decoration: none;
   box-shadow: none;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
 
 .site-nav__cta:hover {
-  background: var(--signal);
-  border-color: var(--signal);
-  color: #fff;
-  transform: none;
-  box-shadow: none;
+  background: var(--brand-navy-soft);
+  border-color: var(--brand-navy-soft);
+  color: var(--brand-paper);
+}
+
+.site-nav__cta:active {
+  background: var(--brand-navy-deep);
+  border-color: var(--brand-navy-deep);
 }
 
 /* La bascule de thème reste disponible mais discrète. */
@@ -205,19 +202,27 @@
   margin-left: auto;
   padding: 0;
   border: 1px solid var(--rule);
+  border-radius: var(--brand-radius-sm);
   background: transparent;
+  color: var(--ink);
   cursor: pointer;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 5px;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.site-nav__burger:hover {
+  border-color: var(--rule-strong);
+  background: rgba(19, 45, 70, 0.04);
 }
 
 .site-nav__burger span {
   display: block;
   width: 18px;
   height: 1px;
-  background: var(--ink);
+  background: currentColor;
   transition: transform 220ms ease, opacity 180ms ease;
 }
 
@@ -235,7 +240,9 @@
   position: fixed;
   inset: var(--nav-h-compact) 0 0;
   border: 0;
-  background: rgba(11, 30, 48, 0.28);
+  /* Voile plus dense : à 28 % on voyait la photographie du hero à travers,
+     ce qui donnait un fond gris sale sous un menu pourtant opaque. */
+  background: rgba(11, 30, 48, 0.52);
   cursor: pointer;
 }
 
@@ -260,19 +267,20 @@
   gap: 14px;
   padding: 14px 0;
   border-bottom: 1px solid var(--rule);
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 6vw, 2rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-family: var(--brand-display);
+  font-size: clamp(1.4rem, 5.4vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.012em;
   color: var(--ink);
   text-decoration: none;
 }
 
 .site-nav__panel-links a span {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.14em;
-  color: var(--signal);
+  font-family: var(--brand-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--brand-orange-deep);
 }
 
 .site-nav__panel-actions {
@@ -281,28 +289,15 @@
   margin-top: 26px;
 }
 
+/* Les actions du menu reprennent les primitives de `brand.css` : même
+   hauteur, même rayon, mêmes états. Seule la largeur change (colonne). */
 .site-nav__panel-actions .btn {
   width: 100%;
   justify-content: center;
-  border-radius: 0;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.82rem;
-  padding: 13px 20px;
-  box-shadow: none;
-}
-
-.site-nav__panel-actions .btn-outline {
-  background: transparent;
-  color: var(--ink);
 }
 
 .site-nav__panel-actions .btn:hover {
   transform: none;
-  background: var(--signal);
-  border-color: var(--signal);
-  box-shadow: none;
 }
 
 .site-nav__panel-foot {
@@ -407,8 +402,8 @@
 }
 
 .site-footer__title {
-  font-family: var(--serif);
-  font-weight: 400;
+  font-family: var(--brand-display);
+  font-weight: 700;
   font-size: clamp(1.7rem, 3.6vw, 2.9rem);
   line-height: 1.04;
   letter-spacing: -0.022em;

@@ -1,45 +1,92 @@
-html.theme-light {
-  --bg: #FFFFFF;
-  --bg-2: #F1F5F9;
-  --bg-3: #E2E8F0;
-  --surface: rgba(0,88,188,0.03);
-  --surface-2: rgba(0,88,188,0.06);
-  --border: rgba(0,88,188,0.08);
-  --border-2: rgba(0,88,188,0.18);
-  --text-1: #0F172A;
-  --text-2: #334155;
-  --text-3: #64748B;
-  --text-4: #94A3B8;
-  --grad-card: #FFFFFF;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.05);
+/* ============================================================
+   CAMPUSLY — MODE CLAIR : structure de page
+   ------------------------------------------------------------
+   Cette feuille redéclarait toute la palette sur `html.theme-light`
+   (`--text-1: #0F172A`, `--bg-2: #F1F5F9`, `--surface: rgba(19,45,70,…)`).
+   Or `html.theme-light` est PLUS SPÉCIFIQUE que le `:root` de la marque :
+   ces valeurs gagnaient donc malgré l'ordre d'import, et l'espace connecté
+   affichait des titres noir ardoise et des encadrés gris-bleu au milieu
+   d'une interface navy/ivoire.
+
+   Il ne reste ici que la STRUCTURE du mode clair. Toutes les couleurs
+   viennent de `styles/app/brand.css` (source unique).
+   ============================================================ */
+
+html.theme-light body {
+  background: var(--bg);
+  color: var(--text-1);
 }
-html.theme-light body { background: var(--bg); color: var(--text-1); }
-html.theme-light .navbar { background: rgba(250,250,252,0.96) !important; border-bottom: 1px solid var(--border); }
-html.theme-light .sidebar { background: var(--bg-2); border-right-color: var(--border); }
-html.theme-light .card { background: #fff; border-color: var(--border); }
-html.theme-light .rev-panel { background: #fff; }
-html.theme-light .upload-card { background: #fff; }
-html.theme-light .modal-box { background: #fff; }
-html.theme-light .form-input { background: #fff; color: var(--text-1); border-color: var(--border-2); }
-html.theme-light .form-select { background: #fff; color: var(--text-1); border-color: var(--border-2); }
-html.theme-light .btn-ghost { color: var(--text-1); }
-html.theme-light .bg-orb { opacity: 0.1; }
-html.theme-light .dashboard-main { background: var(--bg); }
-html.theme-light .stat-card { background: #fff; border-color: var(--border); }
-html.theme-light .sidebar-link { color: var(--text-2); }
-html.theme-light .sidebar-link:hover { background: var(--surface); color: var(--text-1); }
-html.theme-light .history-row { background: var(--surface); }
-html.theme-light .chat-main { background: var(--bg); }
-html.theme-light .chat-input-area { background: var(--bg-2); border-top-color: var(--border); }
-html.theme-light .chat-input-wrap { background: #fff; border-color: var(--border-2); }
-html.theme-light .msg-content { background: #fff; border-color: var(--border); color: var(--text-1); }
-html.theme-light .msg.user .msg-content { background: rgba(0, 88, 188, 0.08); }
-html.theme-light .ep-card { background: #fff; border-color: var(--border); }
-html.theme-light .rev-quiz-container { background: #fff; border-color: var(--border); }
-html.theme-light .results-card { background: #fff; border-color: var(--border); }
-html.theme-light .auth-page { background: var(--bg); }
-html.theme-light .auth-right { background: #fff; }
-html.theme-light .pricing-card { background: #fff; border-color: var(--border); }
-html.theme-light .footer { background: var(--bg-2); border-top-color: var(--border); }
-html.theme-light .nav-links a { color: var(--text-2); }
+
+html.theme-light .navbar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+html.theme-light .sidebar {
+  background: var(--bg-2);
+  border-right-color: var(--border);
+}
+
+html.theme-light .card,
+html.theme-light .rev-panel,
+html.theme-light .upload-card,
+html.theme-light .modal-box,
+html.theme-light .stat-card,
+html.theme-light .ep-card,
+html.theme-light .results-card,
+html.theme-light .pricing-card,
+html.theme-light .rev-quiz-container,
+html.theme-light .chat-input-wrap,
+html.theme-light .msg-content,
+html.theme-light .auth-right {
+  background: var(--brand-surface);
+  border-color: var(--border);
+}
+
+html.theme-light .form-input,
+html.theme-light .form-select {
+  background: var(--brand-white);
+  color: var(--text-1);
+  border-color: var(--border-2);
+}
+
+html.theme-light .bg-orb {
+  opacity: 0.1;
+}
+
+html.theme-light .dashboard-main,
+html.theme-light .chat-main,
+html.theme-light .auth-page {
+  background: var(--bg);
+}
+
+html.theme-light .sidebar-link {
+  color: var(--text-2);
+}
+
+html.theme-light .sidebar-link:hover {
+  background: var(--surface);
+  color: var(--text-1);
+}
+
+html.theme-light .history-row {
+  background: var(--surface);
+}
+
+html.theme-light .chat-input-area {
+  background: var(--bg-2);
+  border-top-color: var(--border);
+}
+
+html.theme-light .msg.user .msg-content {
+  background: var(--brand-info-soft);
+}
+
+html.theme-light .footer {
+  background: var(--bg-2);
+  border-top-color: var(--border);
+}
+
+html.theme-light .nav-links a {
+  color: var(--text-2);
+}

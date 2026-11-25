@@ -369,7 +369,7 @@ function ExamCard({
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "rgba(0,88,188,0.1)",
+              background: "rgba(19,45,70,0.1)",
               color: "var(--brand-1)",
               flexShrink: 0,
             }}

@@ -88,7 +88,9 @@ app → features → services → types
 
 ## 3. Identité visuelle (règle absolue)
 
-**Ne pas redessiner Campusly.** Le CSS historique est la source unique :
+**Ne pas redessiner Campusly.** La marque est centralisée dans
+`styles/app/brand.css` (polices, jetons, primitives) ; les feuilles
+historiques fournissent la mise en page et consomment ces jetons :
 
 | Fichier | Statut | Contenu |
 | --- | --- | --- |
@@ -99,29 +101,64 @@ app → features → services → types
 | `styles/legacy/mobile.css` | importé | navigation mobile (drawer) |
 | `styles/legacy/interactive-buttons.css` | importé | états des boutons |
 | `styles/legacy/pages/*.css` | importés par route | styles extraits des `<style>` inline historiques |
+| `styles/app/brand.css` | importé **en dernier** | socle de marque : `@font-face`, jetons, échelle typo, primitives (`.btn*`, `.form-*`, `.card`, `.data-table`, `[role=tablist]`, `.modal`, `.toast`, `.state-card`, `.pagination`), focus global, `prefers-reduced-motion` |
 | `styles/app/campusly-next.css` | importé | **compléments uniquement** (focus, états, bannière démo, utilitaires) |
 | `styles/app/exam-room.css` | importé par la route d'examen | traduction des styles inline de `exam-room.html` |
 | `design-system.css`, `style.css`, `components.css`, `sections-premium.css`, `hero-futuriste.css`, `skeleton-loaders.css`, `revision.css`, `theme-dark.css` | **non importés** | code mort / contradictions (cf. `PROJECT_AUDIT.md` §4) |
 
-**Deux palettes cohabitent, sur deux périmètres distincts.**
+**Une seule palette, pour tout le site.**
 
-| Périmètre | Palette | Source |
+| Jeton | Valeur | Rôle |
 | --- | --- | --- |
-| Accueil public (et pages légales du gabarit public) | `--paper #F4F1E9`, `--ink #122D45`, `--signal #326DE6`, `--ember #E77D43` | `styles/app/editorial.css` |
-| Application (`/dashboard`, `/auth`, `/examen`, `/onboarding`…) | `--brand-1 #0058BC`, `--brand-2 #3D84DD`, `--accent #FE8415`, `--accent-2 #FFA04D` | `styles/legacy/modern.css` + `styles/app/reading.css` |
+| `--brand-navy` | `#132D46` | structure : textes principaux, navigation, titres, boutons principaux |
+| `--brand-orange` | `#FD8517` | distinction : accents, index, indicateurs, états actifs — usage mesuré |
+| `--brand-paper` | `#F4F1E8` | surface chaude du gabarit public |
+| `--brand-white` | `#FFFFFF` | respiration des surfaces applicatives |
 
-Depuis KRAFTER-14, **une seule palette** pour tout le site : `#0058BC` et
-`#FE8415`, ceux du logo. Les anciennes teintes `#1565C0` / `#F57C00` ont été
-remplacées dans toutes les feuilles (y compris `legacy/`), et leurs `rgba()`
-équivalents réécrits. L'espace connecté, `/auth` et `/onboarding` ont reçu la
-même tenue que le public : filets d'un pixel, rayons de 2-3 px, aucun fond
-dégradé, aucune nappe floutée.
+Source unique : **`styles/app/brand.css`** (importé en dernier dans
+`app/globals.css`). Aucune autre feuille ne redéclare de couleur de marque :
+elles consomment les jetons. Les variantes dérivées vivent aussi dans ce
+fichier :
 
-Typographie : **Fraunces** (serif éditoriale, titres de l'accueil et des cartes)
-+ **Manrope** (texte et interface, §5 bis) + JetBrains Mono (numéros, données
-techniques). Icônes : **Font Awesome 6.5.2, servi par le site** (`public/fonts/fa/`
-+ `styles/app/icons.css`, 120 Ko). Le `<link>` CDN a été retiré : sans lui, toutes
-les icônes de l'application disparaissaient silencieusement.
+- surfaces `--brand-surface` `#fff`, `--brand-surface-2` `#f6f4ee`,
+  `--brand-surface-3` `#efebe1` ;
+- encres `--brand-ink` `#132d46`, `--brand-ink-2` `#3a5268`,
+  `--brand-ink-3` `#5b6f80`, `--brand-ink-4` `#8a99a6` ;
+- filets `--brand-line` (12 %), `--brand-line-2` (22 %), `--brand-line-3` (38 %) ;
+- états `--brand-success` `#0f7b52`, `--brand-danger` `#b3261e`,
+  `--brand-warning` `#8a5300`, `--brand-info` `#132d46` ;
+- encres d'accent `--brand-orange-deep` `#a85208` (texte sur papier, 4,8:1),
+  `--accent-text` (orange de texte, inversé en mode sombre) ;
+- **`--brand-on-surface`** : la teinte posée SUR une surface. Navy en clair,
+  ivoire en sombre. C'est le jeton à utiliser dès qu'une couleur doit
+  « fonctionner » sur un fond thémé (liens, libellés d'onglets, contours).
+
+Les alias historiques (`--brand-1`, `--brand-2`, `--brand-3`, `--ink`,
+`--paper`, `--signal`, `--ember`, `--accent`, `--text-*`, `--border*`, `--bg*`,
+`--font-sans`, `--font-editorial`, `--serif`, `--mono`) pointent tous vers ces
+jetons : une cinquantaine de feuilles continuent ainsi de fonctionner sans
+réécriture.
+
+**Mode sombre** : mêmes rôles, valeurs inversées (le navy devient surface,
+l'ivoire encre, l'orange reste la distinction). Le bloc `[data-theme="dark"]`
+de `brand.css` est le seul à déclarer ces valeurs ; `theme-dark.css` et
+`theme.css` ne gardent que des retouches de structure et de transparence.
+Le **gabarit public** (`html:has(.public-shell)`) reste en papier ivoire dans
+les deux modes : c'est une contrainte de direction artistique, exprimée en
+re-fixant les jetons dans cette portée (voir `editorial.css` §0).
+
+Typographie : **Baloo 2** (signature — 800 grands titres et expressions de
+marque, 700 titres de section, 600 navigation/boutons/onglets, 500 interface
+modérée) + **Manrope** (lecture : paragraphes, formulaires, tableaux, mentions
+techniques). Les deux familles sont **auto-hébergées** (`public/fonts/brand/`,
+10 fichiers woff2, 184 Ko) : plus aucun appel à Google Fonts. Fraunces a été
+retirée des titres — ses axes optiques créaient une troisième voix
+typographique sans emploi. Icônes : **Font Awesome 6.5.2 servi par le site**
+(`public/fonts/fa/` + `styles/app/icons.css`).
+
+Échelle : `--fs-display` (`clamp(2.6rem, 5.6vw, 4.4rem)`), `--fs-h1`, `--fs-h2`,
+`--fs-h3`, `--fs-h4`, `--fs-body` `0.95rem` … `--fs-nano` `0.66rem`. Pas de
+taille « au hasard » : les tailles de titre passent par ces jetons.
 
 ### 3.1 Ce qui peut être corrigé
 
@@ -134,11 +171,40 @@ les icônes de l'application disparaissaient silencieusement.
 ### 3.2 Ce qui ne doit pas changer
 
 Logo au chapeau, nom des fonctions, ton des textes, conventions de navigation.
-La palette est unique (`#0058BC` / `#FE8415`) et ne se discute plus : c'est celle
-du logo. La mise en page de l'accueil est pilotée par `editorial.css` (§5
+La palette est unique (`#132D46` / `#FD8517` / `#F4F1E8` / `#FFFFFF`) et ne se
+discute plus : c'est celle du logo. Le mot-symbole conserve ses proportions ;
+seul le crénage de la paire « a / m » a été corrigé (voir §3.4). La mise en page de l'accueil est pilotée par `editorial.css` (§5
 quinquies) ; l'espace connecté par `reading.css`.
 
-### 3.3 Couches de composition (ajoutées par-dessus le legacy)
+### 3.3 Boutons — trois familles, tous les états
+
+| Famille | Classe | Aspect | Emploi |
+| --- | --- | --- | --- |
+| Primary | `.btn.btn-primary` | navy plein, texte ivoire | l'action décisive d'un écran |
+| Accent | `.btn.btn-accent` | orange plein, texte navy profond (6,6:1) | une action importante mais secondaire dans la hiérarchie |
+| Secondary | `.btn.btn-outline` | fond ivoire + filet navy | l'alternative immédiate |
+| — | `.btn.btn-ghost` | filet fin, sans aplat | l'action tertiaire d'une rangée |
+| — | `.btn.btn-danger` | filet et texte rouges | les actions destructives |
+
+Hauteurs 32 / 40 / 48 px (`.btn-sm`, défaut, `.btn-lg`), rayons 4 / 8 / 10 px.
+États obligatoires : `hover` (changement de couleur uniquement), `active`,
+`:focus-visible` (anneau orange 2 px, offset 2 px), `disabled`, `.loading`.
+Aucun déplacement, aucune ombre portée, aucun dégradé.
+
+### 3.4 Logo et crénage
+
+`components/shared/CampuslyLogo.tsx` : un seul SVG, `viewBox` `0 0 588 81`.
+Le mot-symbole est un groupe de `<path>` positionnés par
+`transform="translate(x 0)"` — c'est donc là, et nulle part ailleurs, que se
+règle le crénage. La paire « a / m » était en collision (−1,26 u : la queue du
+« a » touchait la haste du « m »). Correction : le « m » avance de 7 u (écart
+`+5,71`), et les cinq lettres suivantes du même delta pour ne pas créer de
+trou ; `l / y` conserve son empiètement voulu (l'italique du « y » glisse sous
+le « l », c'est le dessin de la marque). La baie a été élargie de 581 à 588 u
+pour que le « y » ne soit pas rogné. Ni le symbole, ni les couleurs, ni les
+proportions n'ont changé.
+
+### 3.5 Couches de composition (ajoutées par-dessus le legacy)
 
 | Fichier | Portée | Rôle |
 | --- | --- | --- |
@@ -438,9 +504,11 @@ npm run test
 - `tests/features.test.tsx` : parcours réels de la bibliothèque d'épreuves (recherche,
   état vide, réinitialisation, favoris, modale de téléchargement simulé) et du moteur
   de quiz (réponses, résultat local, reprise).
+- `tests/theme.test.tsx` : bascule de thème (attribut `data-theme`, classe
+  historique, persistance).
 
-33 tests au total. Ce qui n'est **pas** couvert par des tests automatisés est vérifié
-manuellement et listé dans la section 8.
+43 tests au total (5 fichiers). Ce qui n'est **pas** couvert par des tests
+automatisés est vérifié manuellement et listé dans la section 8.
 
 ---
 
@@ -627,3 +695,55 @@ L'invariant reste la structure de `components/layout/AppShell.tsx` :
 
 Le test `tests/auth-flow.test.tsx` verrouille cet invariant : `.app-layout` doit
 contenir exactement deux enfants (sidebar + contenu) et plus aucun bandeau.
+
+---
+
+## 13. Mission « identité de marque globale » — rapport
+
+Cette passe ne redessine pas l'application : elle **unifie** ce que plusieurs
+couches avaient progressivement divergé (trois palettes, quatre familles de
+polices, cinq jeux de boutons). Ni les routes, ni les libellés, ni la structure
+`AppShell` n'ont bougé.
+
+### 13.1 Ce qui a été fait
+
+| Axe | Avant | Après |
+| --- | --- | --- |
+| Polices | Fraunces + Manrope + JetBrains Mono + pile système ; 2 familles chargées depuis Google Fonts | **Baloo 2** (signature) + **Manrope** (lecture), auto-hébergées, 10 woff2 / 184 Ko ; JetBrains Mono conservée pour les seules données techniques |
+| Couleurs | trois palettes (`modern.css` #0058BC, `editorial.css` papier/bleu, `brand-*` hérité), dérivées en `rgba()` un peu partout | **une** palette : navy `#132D46`, orange `#FD8517`, papier `#F4F1E8`, blanc `#FFFFFF` + variantes de surface / filet / encre / état, toutes déclarées dans `brand.css` |
+| Logo | `viewBox 0 0 581 81`, collision « a / m » (−1,26 u) | `0 0 588 81`, écart « a / m » `+5,71` ; symbole, proportions et couleurs inchangés |
+| Composants | cinq familles de boutons concurrentes, cartes et tableaux réécrits par page | primitives uniques : `.btn` (5 variantes × 3 tailles), `.form-*`, `.card*`, `.data-table`, `[role=tablist]`, `.modal`, `.toast`, `.state-card`, `.pagination`, `Badge` en jetons |
+| Thèmes | mode sombre appliqué au gabarit public, où il repeignait le journal | le public reste en papier ivoire (`html:has(.public-shell)` re-fixe la palette) ; l'application garde son thème sombre |
+| Focus | anneau animé de 0 → 2 px (invisible au premier Tab), transitions `all` | `:focus-visible` orange 2 px / offset 2 px / `transition-duration: 0s`, et plus aucun `transition: all` sur un élément focalisable |
+
+### 13.2 Décisions de jetons à retenir
+
+- **`--brand-on-surface`** est le jeton par défaut de toute couleur posée sur
+  une surface thémée. Il évite la classe de bugs la plus fréquente du projet :
+  un navy écrit en dur qui disparaît en mode sombre.
+- **Deux oranges de texte, deux emplois.** `--brand-orange-deep` `#a85208`
+  (4,80:1 sur ivoire, 5,42:1 sur blanc) pour le petit texte ; l'orange de
+  marque `#FD8517` n'est jamais employé sous 24 px sur fond clair (2,18:1).
+- **`--brand-orange-display`** `#d96b06` (3,07:1 sur ivoire, 3,47:1 sur blanc)
+  pour les titres ≥ 48 px uniquement, où le seuil « grand texte » est de 3:1.
+  C'est lui qui garde la chaleur de la marque dans `.ed-display em`.
+- Aucun `!important` de couleur, sauf sur le `color` de `a.skip-link`.
+
+### 13.3 Vérifications
+
+| Contrôle | Méthode | Résultat |
+| --- | --- | --- |
+| Compilation | `npm run build` | 26 routes, 0 erreur |
+| Types | `npx tsc --noEmit` | 0 |
+| Tests | `npx vitest run` | 43/43 (5 fichiers) |
+| Contraste WCAG AA | 21 routes × 2 thèmes, `getComputedStyle` + ratio sur le fond effectif, attente 1,4 s | **0 écart** |
+| Débordement horizontal | 10 routes × 5 viewports (1440×900 → 360×800), `scrollWidth - clientWidth` | **0** |
+| Focus clavier | 10 tabulations par page sur `/dashboard` et `/dashboard/epreuves` | anneau 2 px orange sur les 10 |
+| Polices | inspection du CSS compilé | 0 requête vers `fonts.googleapis.com` |
+
+Le point de méthode qui a coûté le plus de temps : **un audit sans attente
+mesure des transitions, pas des couleurs**. Plusieurs « régressions » signalées
+en cours de route (`--text-2` à 2,67, `.side-link` à 4,3, état vide de `/auth`)
+étaient des valeurs intermédiaires ou des contenus pas encore montés. Toute
+vérification de contraste doit attendre ≥ 1 000 ms et être confirmée par une
+capture avant d'être corrigée.

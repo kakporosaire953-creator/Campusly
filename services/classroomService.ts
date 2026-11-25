@@ -90,7 +90,7 @@ class ClassroomService implements ClassroomServiceContract {
       description: input.description?.trim() || "Classe créée depuis votre espace ; les contenus restent sur cet appareil.",
       studentsCount: 0,
       average: null,
-      color: "#0058BC",
+      color: "#132D46",
       createdAt: nowIso(),
       members: [],
       resources: [],

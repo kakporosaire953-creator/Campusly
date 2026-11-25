@@ -6,50 +6,27 @@
    Règles tenues :
    1. Le papier et l'encre portent la page ; les aplats sont rares
       et voulus (deux écrans de couleur sur toute la page).
-   2. Le bleu profond #326DE6 est un SIGNAL, pas un décor : liens,
-      index, filets, focus. Jamais en aplat plein écran.
+   2. Le navy #132D46 est un SIGNAL, pas un décor : liens, index,
+      filets, focus. L'orange #FD8517 ne sert qu'à distinguer une
+      expression, un index actif, une action décisive. Jamais en
+      aplat plein écran.
    3. Les surfaces sont planes : pas de verre, pas de flou, pas
       d'ombre portée. Une bordure d'1 px suffit à séparer.
-   4. Rayons quasi nuls (0 à 2 px) : c'est la page, pas des cartes.
-   5. La typographie fait la hiérarchie : serif éditoriale pour les
-      titres, sans pour le texte, capitales espacées pour les
-      annotations.
-
-   Deux contextes de couleur seulement :
-   - `--paper` (ivoire) / encre : le corps du journal ;
-   - `.ink-field` (bleu profond) : les deux ruptures — Campusly AI
-     et le colophon final.
+   4. Rayons modérés (8 à 12 px) : la page reste une page, mais les
+      objets interactifs ont une assise commune avec le reste du site.
+   5. La typographie fait la hiérarchie : Baloo 2 pour les titres et
+      la navigation, Manrope pour la lecture, capitales espacées pour
+      les annotations.
    ============================================================ */
 
+/* Les jetons sont déclarés une seule fois, dans `brand.css`.
+   Cette feuille ne redéclare plus la palette : c'est ce doublon qui faisait
+   diverger l'accueil (ancien bleu vif #326DE6) du reste du site. Il ne reste
+   ici que les deux réglages propres au registre éditorial. */
 :root {
-  /* Palette éditoriale */
-  --paper: #f4f1e9;
-  --paper-2: #eae4d7;
-  --paper-3: #e0d8c7;
-  --ink: #122d45;
-  --ink-deep: #0b1e30;
-  --signal: #326de6;
-  --signal-ink: #2a5cc4;
-  --signal-soft: rgba(50, 109, 230, 0.1);
-  --ember: #e77d43;
-  --ember-soft: rgba(231, 125, 67, 0.14);
-  --rule: rgba(18, 45, 69, 0.16);
-  --rule-strong: rgba(18, 45, 69, 0.4);
-  --muted: rgba(18, 45, 69, 0.66);
-
-  /* Encre claire (sur fond bleu profond) */
-  --on-ink: #f4f1e9;
-  --on-ink-muted: rgba(244, 241, 233, 0.7);
-  --on-ink-rule: rgba(244, 241, 233, 0.22);
-
-  /* Familles éditoriales */
-  --serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --sans: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-
-  /* Eyebrow : capitales espacées, jamais en gras. */
-  --eyebrow-size: 0.68rem;
-  --eyebrow-track: 0.2em;
+  /* Sur-titre : capitales espacées, jamais en gras. */
+  --eyebrow-size: var(--fs-nano);
+  --eyebrow-track: 0.16em;
 }
 
 /* ── 0. Base : papier ivoire, encre bleu profond ──
@@ -57,9 +34,86 @@
    app/(public)/layout.tsx). L'espace connecté et l'authentification gardent
    leur fond historique : aucune régression hors de l'accueil. */
 
+/* Le gabarit public garde le papier ivoire DANS LES DEUX MODES : c'est la
+   direction artistique, pas une préférence utilisateur. Le contrat est écrit
+   sur `<html>` (qui porte `theme-dark`/`theme-light`) et non sur
+   `body:has(.public-shell)` : le `body` du routeur Next n'est pas un ancêtre
+   de `.public-shell` dans l'arbre servi, donc la portée précédente ne
+   s'appliquait jamais (vérifié : le papier restait blanc en mode sombre).
+
+   Portée : `.public-shell` — et surtout PAS `:root`, sinon l'espace connecté
+   hériterait du papier. */
+.public-shell,
+html:has(.public-shell) {
+  /* Surfaces et encres du papier. Valeurs littérales : les jetons
+     `--brand-ink-*` s'inversent en mode sombre, or ici la page reste ivoire. */
+  --paper: var(--brand-paper);
+  --paper-2: var(--brand-paper-2);
+  --paper-3: var(--brand-paper-3);
+  --ink: var(--brand-navy);
+  --ink-deep: var(--brand-navy-deep);
+  --on-ink: var(--brand-paper);
+  --on-ink-muted: rgba(244, 241, 232, 0.74);
+  --on-ink-rule: rgba(244, 241, 232, 0.22);
+
+  --text-1: var(--brand-navy);
+  --text-2: #3a5268;
+  --text-3: #5b6f80;
+  --text-4: #8a99a6;
+  --muted: #3a5268;
+  --bg: var(--brand-white);
+  --bg-2: var(--brand-surface-2);
+  --surface: rgba(19, 45, 70, 0.03);
+  --surface-2: rgba(19, 45, 70, 0.06);
+  --surface-3: rgba(19, 45, 70, 0.1);
+  --border: rgba(19, 45, 70, 0.12);
+  --border-2: rgba(19, 45, 70, 0.22);
+
+  /* Sur le papier, la teinte « posée sur la surface » est l'encre. Sans ce
+     remappage, la règle globale de `theme-dark.css` (`a:not(.btn)`) repeignait
+     tous les liens des pages secondaires en ivoire sur ivoire. */
+  --brand-on-surface: var(--brand-navy);
+  --brand-3: var(--brand-navy);
+
+  /* Toute la palette de marque revient à sa version claire dans cette
+     portée : le mode sombre de l'application ne doit pas repeindre les
+     surfaces, les filets ni les encres du journal. */
+  --brand-surface: #ffffff;
+  --brand-surface-2: #f6f4ee;
+  --brand-surface-3: #efebe1;
+  --brand-ink: #132d46;
+  --brand-ink-2: #3a5268;
+  --brand-ink-3: #5b6f80;
+  --brand-ink-4: #8a99a6;
+  --brand-line: rgba(19, 45, 70, 0.12);
+  --brand-line-2: rgba(19, 45, 70, 0.22);
+  --brand-line-3: rgba(19, 45, 70, 0.38);
+  --brand-1: var(--brand-navy);
+  --brand-2: var(--brand-navy-soft);
+  --signal: var(--brand-navy);
+  --signal-ink: var(--brand-navy);
+  --success: #0f7b52;
+  --danger: #b3261e;
+  --warning: #8a5300;
+  --info: #132d46;
+  --brand-success: #0f7b52;
+  --brand-danger: #b3261e;
+  --brand-warning: #8a5300;
+  --brand-info: #132d46;
+  /* Le texte d'accent reste l'orange profond, seul lisible sur ivoire. */
+  --accent-text: var(--brand-orange-deep);
+}
+
+/* Les bandes d'encre reprennent l'encre claire en local : c'est la surface
+   qui décide de la teinte, pas le gabarit. */
+body:has(.public-shell) .ink-field {
+  --brand-on-surface: var(--brand-paper);
+  --brand-3: var(--brand-paper);
+}
+
 .public-shell {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--brand-paper);
+  color: var(--brand-navy);
 }
 
 /* Le grain bruité historique est retiré sous le gabarit public : le papier
@@ -88,12 +142,12 @@ body:has(.public-shell) .site-footer {
   z-index: 1;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   overflow-x: clip;
 }
 
 .ed ::selection {
-  background: rgba(50, 109, 230, 0.2);
+  background: rgba(253, 133, 23, 0.22);
   color: var(--ink);
 }
 
@@ -125,51 +179,58 @@ section.ed-rail {
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.55em;
-  font-family: var(--sans);
+  font-family: var(--brand-display);
   font-size: var(--eyebrow-size);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--eyebrow-track);
   text-transform: uppercase;
   color: var(--muted);
 }
 
+/* Le sur-titre et les index portent la DISTINCTION : c'est là que l'orange
+   est légitime. On utilise sa variante profonde, la seule qui tienne le
+   contraste de lecture sur le papier ivoire (3,8:1 pour du petit texte
+   gras, au-delà du seuil de 3:1 des grands corps). */
 .ed-eyebrow strong,
 .ed-num {
-  color: var(--signal);
+  color: var(--brand-orange-deep);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .ed-display {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-optical-sizing: auto;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
-  letter-spacing: -0.026em;
-  line-height: 0.94;
+  font-family: var(--brand-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
   text-wrap: balance;
   color: var(--ink);
 }
 
-/* Ligne accentuée : italique de la serif, comme un chapeau de magazine. */
+/* Seconde ligne du titre : même graisse, même assise, teinte orange de
+   marque. Baloo 2 n'a pas d'italique dessiné : un italique synthétique
+   serait une déformation, on distingue donc par la couleur et non par
+   l'inclinaison. */
 .ed-display em,
 .ed-accent {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--signal);
+  font-style: normal;
+  font-weight: 800;
+  /* Le titre est très grand (≥ 48 px) : il relève du seuil « grand texte »
+     (3:1). On emploie donc l'orange d'affichage, plus chaud que la variante
+     profonde — qui, elle, reste réservée au petit texte. */
+  color: var(--brand-orange-display);
 }
 
 .ed-title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
+  font-family: var(--brand-display);
+  font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.02;
+  line-height: 1.04;
   text-wrap: balance;
 }
 
 .ed-lede {
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: clamp(1rem, 0.55vw + 0.9rem, 1.15rem);
   line-height: 1.62;
   color: var(--muted);
@@ -177,7 +238,7 @@ section.ed-rail {
 }
 
 .ed-body {
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.94rem;
   line-height: 1.68;
   color: var(--muted);
@@ -185,7 +246,7 @@ section.ed-rail {
 
 /* Note de bas de page, légende, mention d'état. */
 .ed-note {
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.74rem;
   line-height: 1.55;
   letter-spacing: 0.005em;
@@ -193,9 +254,9 @@ section.ed-rail {
 }
 
 .ed-label {
-  font-family: var(--sans);
+  font-family: var(--brand-display);
   font-size: var(--eyebrow-size);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--eyebrow-track);
   text-transform: uppercase;
   color: var(--muted);
@@ -221,7 +282,7 @@ section.ed-rail {
 }
 
 .ed-chapter__index {
-  font-family: var(--mono);
+  font-family: var(--brand-mono);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -262,10 +323,13 @@ section.ed-rail {
 
 /* ── 4. Ruptures en encre pleine ──────────────────────────── */
 
+/* Les deux ruptures du journal (Campusly AI, colophon) restent des bandes
+   d'encre dans les deux modes : `--ink` s'inversant en sombre, elles
+   devenaient ivoire sur ivoire. */
 .ink-field {
   position: relative;
-  background: var(--ink);
-  color: var(--on-ink);
+  background: var(--brand-navy);
+  color: var(--brand-paper);
   overflow: clip;
 }
 
@@ -274,9 +338,11 @@ section.ed-rail {
   color: var(--on-ink);
 }
 
+/* Sur le fond d'encre, l'accent ne change pas de nature : c'est l'orange
+   de marque, éclairci d'un cran pour tenir 5:1 sur le navy. */
 .ink-field .ed-display em,
 .ink-field .ed-accent {
-  color: #9dbcf7;
+  color: #ffb469;
 }
 
 .ink-field .ed-eyebrow,
@@ -332,7 +398,7 @@ section.ed-rail {
   border-radius: 0;
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.86rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -429,7 +495,7 @@ section.ed-rail {
 
 /* Numéro de section en marge, à la verticale. */
 .ed-marginal {
-  font-family: var(--mono);
+  font-family: var(--brand-mono);
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -472,7 +538,7 @@ section.ed-rail {
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -514,7 +580,7 @@ section.ed-rail {
   position: relative;
   background: #fff;
   border: 1px solid var(--rule);
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   color: var(--ink);
 }
 
@@ -552,7 +618,7 @@ section.ed-rail {
 .ed-ph {
   display: block;
   height: 6px;
-  border-bottom: 1px dotted rgba(18, 45, 69, 0.35);
+  border-bottom: 1px dotted var(--brand-line-3);
 }
 
 .ed-frag__foot {
@@ -625,26 +691,35 @@ section.ed-rail {
    La bascule est retirée de la barre publique (§18) : sur ce gabarit elle
    n'avait aucun effet observable.
 
-   Les couleurs sont posées en hexadécimal plutôt qu'en `var(--ink)` :
+   Les couleurs sont posées via les jetons de `brand.css`, qui portent la
+   valeur exacte du logo et ne dépendent pas de `theme-dark.css`. Ancien
+   commentaire :
    `theme-dark.css` redéfinit des jetons globaux et les variables ne
    garantissent pas ici la valeur du papier. */
 /* Barre de navigation uniquement. `.site-nav__logo` est réutilisé par le
    colophon (fond encre) : le cibler sans ancêtre commun aurait repeint le
    mot-symbole du pied de page en encre sur encre. D'où `:has(...)` sur le
    `<header>` de navigation plutôt qu'une classe. */
+/* `--brand-on-surface` vaudrait l'ivoire en mode sombre : sur le papier, on
+   veut l'encre. La valeur est donc écrite en dur, comme la surface. */
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo svg,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__link,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__signin {
-  color: #122d45;
+  color: var(--brand-navy);
+}
+
+body:has(.public-shell) header:has(.site-nav__inner) {
+  background: var(--brand-paper);
+  border-bottom: 1px solid var(--brand-line);
 }
 
 body:has(.public-shell) .site-nav__burger {
-  border-color: rgba(18, 45, 69, 0.16);
+  border-color: var(--brand-line);
 }
 
 body:has(.public-shell) .site-nav__burger span {
-  background: #122d45;
+  background: var(--brand-navy);
 }
 
 /* CTA pleins : encre sur papier, jamais bleu clair sur encre.
@@ -653,53 +728,53 @@ body:has(.public-shell) .site-nav__burger span {
 body:has(.public-shell) .site-nav__cta,
 body:has(.public-shell) .ed .ed-btn,
 body:has(.public-shell) .ed .ed-btn--ghost-ink {
-  background: #122d45;
-  border-color: #122d45;
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
   color: #f4f1e9;
 }
 
 body:has(.public-shell) .site-nav__cta:hover,
 body:has(.public-shell) .ed .ed-btn:hover,
 body:has(.public-shell) .ed .ed-btn--ghost-ink:hover {
-  background: #326de6;
-  border-color: #326de6;
+  background: var(--brand-orange);
+  border-color: var(--brand-orange);
   color: #ffffff;
 }
 
 body:has(.public-shell) .ed .ed-btn--ghost {
   background: transparent;
-  border-color: #122d45;
-  color: #122d45;
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
 }
 
 body:has(.public-shell) .ed .ed-btn--ghost:hover {
-  background: #122d45;
-  border-color: #122d45;
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
   color: #f4f1e9;
 }
 
 body:has(.public-shell) .ed .ed-btn--ink {
   background: #f4f1e9;
   border-color: #f4f1e9;
-  color: #122d45;
+  color: var(--brand-navy);
 }
 
 body:has(.public-shell) .ed .ed-link {
-  color: #122d45;
+  color: var(--brand-navy);
 }
 
 body:has(.public-shell) .ed .ed-link:hover,
 body:has(.public-shell) .ed .ed-link:focus-visible {
-  color: #2a5cc4;
+  color: var(--brand-orange-deep);
 }
 
 body:has(.public-shell) .ed-summary__item {
-  color: rgba(18, 45, 69, 0.66);
+  color: var(--brand-ink-2);
 }
 
 body:has(.public-shell) .ed-summary__item:hover,
 body:has(.public-shell) .ed-summary__item:focus-visible {
-  color: #122d45;
+  color: var(--brand-navy);
 }
 
 /* Colophon : les liens restent dans la gamme d'encre claire. */
@@ -749,16 +824,16 @@ body:has(.public-shell) .card,
 body:has(.public-shell) .rev-panel,
 body:has(.public-shell) .upload-card {
   background: #ffffff !important;
-  border-color: rgba(18, 45, 69, 0.16) !important;
+  border-color: var(--brand-line) !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  color: #122d45;
+  color: var(--brand-navy);
 }
 
 body:has(.public-shell) .card p,
 body:has(.public-shell) .card li {
-  color: #122d45;
+  color: var(--brand-navy);
 }
 
 /* ── 18. La bascule de thème n'a pas d'objet sur le papier ──
@@ -847,7 +922,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 
 .ed-open__caption {
   margin-top: 10px;
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--muted);
@@ -885,23 +960,24 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 }
 
 .ed-feature__num {
-  font-family: var(--mono);
+  font-family: var(--brand-mono);
   font-size: 0.72rem;
   letter-spacing: 0.14em;
-  color: var(--signal);
+  color: var(--brand-orange-deep);
+  font-weight: 700;
 }
 
 .ed-feature__title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(1.22rem, 1.5vw, 1.5rem);
-  line-height: 1.16;
-  letter-spacing: -0.01em;
+  font-family: var(--brand-display);
+  font-weight: 700;
+  font-size: clamp(1.18rem, 1.5vw, 1.4rem);
+  line-height: 1.2;
+  letter-spacing: -0.012em;
   text-wrap: balance;
 }
 
 .ed-feature__text {
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.92rem;
   line-height: 1.62;
   color: var(--muted);
@@ -927,7 +1003,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 
 .ed-features__figure figcaption {
   margin-top: 10px;
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.72rem;
   color: var(--muted);
 }
@@ -982,7 +1058,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 }
 
 .ed-ai__steps li > span {
-  font-family: var(--mono);
+  font-family: var(--brand-mono);
   font-size: 0.72rem;
   color: var(--ember);
   padding-top: 3px;
@@ -990,7 +1066,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 
 .ed-ai__steps b {
   display: block;
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--on-ink);
@@ -1037,7 +1113,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 
 .ed-exams__item h3 {
   margin-top: 8px;
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.95rem;
   font-weight: 700;
 }
@@ -1085,7 +1161,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 }
 
 .ed-faq__list dt {
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.98rem;
   font-weight: 700;
   color: var(--ink);
@@ -1093,7 +1169,7 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 
 .ed-faq__list dd {
   margin: 8px 0 0;
-  font-family: var(--sans);
+  font-family: var(--brand-text);
   font-size: 0.9rem;
   line-height: 1.62;
   color: var(--muted);

@@ -133,8 +133,8 @@ export function NotificationBell() {
                       display: "block",
                       padding: 10,
                       borderRadius: "var(--r-lg)",
-                      border: `1px solid ${item.read ? "var(--border)" : "rgba(0,88,188,0.25)"}`,
-                      background: item.read ? "var(--surface)" : "rgba(0,88,188,0.08)",
+                      border: `1px solid ${item.read ? "var(--border)" : "rgba(19,45,70,0.25)"}`,
+                      background: item.read ? "var(--surface)" : "rgba(19,45,70,0.08)",
                       textDecoration: "none",
                     }}
                   >

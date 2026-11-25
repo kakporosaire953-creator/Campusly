@@ -100,7 +100,7 @@ export function TeacherOverview() {
                       border: "1px solid var(--border)",
                       background:
                         alert.tone === "warning"
-                          ? "rgba(254,132,21,0.08)"
+                          ? "rgba(253,133,23,0.08)"
                           : alert.tone === "danger"
                             ? "rgba(239,68,68,0.08)"
                             : "var(--surface)",
