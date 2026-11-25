@@ -146,7 +146,7 @@ export function SiteHeader() {
         <div className="site-nav__actions">
           <ThemeToggle compact />
           {status === "authenticated" && user ? (
-            <Link href="/dashboard" className="btn btn-primary btn-sm site-nav__cta">
+            <Link href="/dashboard" className="site-nav__cta">
               Mon espace
             </Link>
           ) : (
@@ -154,7 +154,7 @@ export function SiteHeader() {
               <Link href="/auth" className="site-nav__signin">
                 Connexion
               </Link>
-              <Link href="/auth?tab=register" className="btn btn-primary btn-sm site-nav__cta">
+              <Link href="/auth?tab=register" className="site-nav__cta">
                 Créer un compte
               </Link>
             </>
@@ -207,15 +207,15 @@ export function SiteHeader() {
 
             <div className="site-nav__panel-actions">
               {status === "authenticated" && user ? (
-                <Link href="/dashboard" className="btn btn-primary btn-lg" onClick={() => setOpen(false)}>
+                <Link href="/dashboard" className="btn" onClick={() => setOpen(false)}>
                   Ouvrir mon espace
                 </Link>
               ) : (
                 <>
-                  <Link href="/auth?tab=register" className="btn btn-primary btn-lg" onClick={() => setOpen(false)}>
+                  <Link href="/auth?tab=register" className="btn" onClick={() => setOpen(false)}>
                     Créer un compte
                   </Link>
-                  <Link href="/auth" className="btn btn-outline btn-lg" onClick={() => setOpen(false)}>
+                  <Link href="/auth" className="btn btn-outline" onClick={() => setOpen(false)}>
                     Connexion
                   </Link>
                 </>
@@ -226,6 +226,9 @@ export function SiteHeader() {
               <ThemeToggle />
               <Link href="/a-propos" onClick={() => setOpen(false)}>
                 À propos
+              </Link>
+              <Link href="/contribuer" onClick={() => setOpen(false)}>
+                Contribuer
               </Link>
               <Link href="/a-propos#contact" onClick={() => setOpen(false)}>
                 Contact

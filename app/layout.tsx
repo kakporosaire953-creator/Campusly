@@ -10,7 +10,7 @@ import { LiquidBackground } from "@/components/shared/LiquidBackground";
 export const metadata: Metadata = {
   metadataBase: new URL("https://campusly-one.vercel.app"),
   title: {
-    default: "Campusly — Épreuves, IA & Évaluations UAC",
+    default: "Campusly — Apprendre avec une longueur d'avance",
     template: "%s — Campusly",
   },
   description: siteConfig.description,
@@ -24,13 +24,20 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_BJ",
-    title: "Campusly — Plateforme Académique Intelligente UAC",
+    title: "Campusly — Apprendre avec une longueur d'avance",
     description: siteConfig.description,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Campusly — plateforme académique de l'UAC" }],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Campusly — ressources, cours et révisions pour l'université",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Campusly — Plateforme Académique Intelligente UAC",
+    title: "Campusly — Apprendre avec une longueur d'avance",
     description: siteConfig.description,
     images: ["/og-image.png"],
   },
@@ -40,7 +47,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#1565C0",
+  themeColor: "#F4F1E9",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -60,7 +67,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
         />
         <link
           rel="stylesheet"
@@ -72,6 +79,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a className="skip-link" href="#contenu">
           Aller au contenu principal
         </a>
+        {/* Fond « liquide » de l'espace applicatif : neutralisé en CSS sous le
+            gabarit public (voir styles/app/editorial.css §0). */}
         <LiquidBackground />
         <ThemeProvider>
           <AppProviders>{children}</AppProviders>

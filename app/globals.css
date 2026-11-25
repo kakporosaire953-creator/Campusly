@@ -8,9 +8,12 @@
  * `campusly-next.css` limitée aux besoins du nouveau frontend.
  *
  * Feuilles volontairement NON importées (code mort ou contradictoire, cf.
- * docs/PROJECT_AUDIT.md §4) : style.css (ancien design system, chargée plus
- * bas), design-system.css, components.css, sections-premium.css,
- * hero-futuriste.css, skeleton-loaders.css, revision.css.
+ * docs/PROJECT_AUDIT.md §4) : style.css (ancien design system), design-system.css,
+ * components.css, sections-premium.css, hero-futuriste.css, skeleton-loaders.css,
+ * revision.css.
+ *
+ * Depuis la refonte éditoriale de l'accueil (KRAFTER-11), `landing.css` (mise en
+ * page précédente de l'accueil) est remplacée par `editorial-*.css`.
  */
 
 @import "../styles/legacy/modern.css";
@@ -29,12 +32,20 @@
 /* Châssis public : navigation et pied de page (global) */
 @import "../styles/app/site-chrome.css";
 
-/* Mise en scène de la landing page (composition, rythme, hero) */
-@import "../styles/app/landing.css";
+/* Thèmes clair / sombre et surfaces « verre » des pages applicatives.
+   Conservés : l'espace connecté et /auth n'ont pas changé d'apparence.
+   Le gabarit public les neutralise (voir editorial.css §0). */
+@import "../styles/legacy/theme-dark.css";
+@import "../styles/app/theme.css";
+
+/* Direction éditoriale de l'accueil public (papier, encre, signal).
+   Importée APRÈS les feuilles de thème : sur le gabarit public, le papier
+   gagne ; sur les pages applicatives, ces règles ne s'appliquent pas. */
+@import "../styles/app/editorial.css";
+@import "../styles/app/editorial-home.css";
+@import "../styles/app/editorial-modules.css";
+/* Pages secondaires : ajustement minimal du gabarit public */
+@import "../styles/app/public-secondary.css";
 
 /* Mouvement : vocabulaire d'animation (Kraken), survols, bandeau défilant */
 @import "../styles/app/motion.css";
-
-/* Thèmes clair / sombre + surfaces « liquid glass » (importé en dernier) */
-@import "../styles/legacy/theme-dark.css";
-@import "../styles/app/theme.css";

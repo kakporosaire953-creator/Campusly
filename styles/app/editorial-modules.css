@@ -1,0 +1,518 @@
+/* ============================================================
+   CAMPUSLY — MODULES ÉDITORIAUX (fragments, séquence IA, FAQ)
+   ------------------------------------------------------------
+   Deuxième moitié de la feuille éditoriale : les composants qui
+   simulent une interface (`.ed-frag`, `.ai-*`, `.ef-*`).
+
+   Règle constante : une interface simulée reste PLANE, en encre
+   sur blanc, avec des pointillés à la place des valeurs. Elle ne
+   mime jamais une capture d'écran photographique.
+   ============================================================ */
+
+/* ── 1. Intérieur des fragments ───────────────────────────── */
+
+.ef-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ef-meta .ed-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+}
+
+.ef-code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.ef-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border: 1px solid var(--rule);
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.ef-search__icon {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.ef-search__icon::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 4px;
+  height: 1px;
+  background: var(--muted);
+  transform: rotate(45deg);
+}
+
+.ef-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+}
+
+.ef-chips li {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 3px 7px;
+  border: 1px solid var(--rule);
+}
+
+.ef-chips--static li {
+  color: var(--ink);
+}
+
+.ef-chip {
+  font-family: inherit;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 3px 7px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  cursor: pointer;
+  transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease;
+}
+
+.ef-chip:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+
+.ef-chip.is-active {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: #fff;
+}
+
+.ef-rows,
+.ef-list,
+.ef-steps,
+.ef-options {
+  display: grid;
+  gap: 0;
+  list-style: none;
+}
+
+.ef-rows li,
+.ef-list li,
+.ef-steps li,
+.ef-options li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid var(--rule);
+  font-size: 0.68rem;
+}
+
+.ef-rows__index,
+.ef-steps__index {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.58rem;
+  color: var(--signal);
+  flex: 0 0 auto;
+}
+
+.ef-rows__pill {
+  margin-left: auto;
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  padding: 1px 5px;
+  flex: 0 0 auto;
+}
+
+.ef-rows .ed-ph,
+.ef-list .ed-ph {
+  flex: 1 1 auto;
+}
+
+.ef-list__name {
+  flex: 0 0 40%;
+  color: var(--ink);
+}
+
+.ef-question {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+.ef-options li {
+  border-top: 1px solid var(--rule);
+  padding: 5px 0;
+}
+
+.ef-options li.is-current {
+  background: var(--signal-soft);
+  margin-inline: -12px;
+  padding-inline: 12px;
+}
+
+.ef-letter {
+  width: 15px;
+  height: 15px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--rule-strong);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.55rem;
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+
+.ef-options .ed-ph {
+  flex: 1 1 auto;
+}
+
+.ef-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding-bottom: 6px;
+}
+
+.ef-stats .ed-label {
+  font-size: 0.54rem;
+  letter-spacing: 0.1em;
+  display: block;
+}
+
+.ef-stats__value {
+  display: block;
+  margin-top: 4px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  color: var(--ink);
+}
+
+.ef-timer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--ink);
+}
+
+.ef-timer__digits {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ── 2. Séquence Campusly AI (sur fond d'encre) ───────────── */
+
+.ai-trail {
+  display: grid;
+  gap: clamp(20px, 3vw, 34px);
+  padding-top: clamp(20px, 3vw, 34px);
+  border-top: 1px solid var(--on-ink-rule);
+}
+
+.ai-trail__steps {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  border-top: 1px solid var(--on-ink-rule);
+}
+
+.ai-trail__step {
+  display: grid;
+  grid-template-columns: auto minmax(0, auto) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 0;
+  border: 0;
+  border-bottom: 1px solid var(--on-ink-rule);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--on-ink-muted);
+  font-family: var(--sans);
+  transition: color 160ms ease;
+}
+
+.ai-trail__step:hover {
+  color: var(--on-ink);
+}
+
+.ai-trail__step.is-current {
+  color: var(--on-ink);
+}
+
+.ai-trail__num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--ember);
+}
+
+.ai-trail__name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.9vw, 1.45rem);
+  letter-spacing: -0.015em;
+}
+
+.ai-trail__detail {
+  justify-self: end;
+  font-size: 0.72rem;
+  text-align: right;
+  opacity: 0.75;
+}
+
+.ai-trail__step.is-current .ai-trail__name {
+  font-style: italic;
+}
+
+/* Le panneau de démonstration : cadre en filet clair, pas de carte flottante. */
+.ai-stage {
+  display: grid;
+  gap: 14px;
+  padding: clamp(16px, 2.4vw, 24px);
+  border: 1px solid var(--on-ink-rule);
+  min-height: 210px;
+  align-content: start;
+}
+
+.ai-stage__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ai-stage .ed-label {
+  color: var(--on-ink-muted);
+}
+
+.ai-stage .ed-state {
+  color: var(--on-ink-muted);
+}
+
+.ai-stage .ed-state::before {
+  border-color: var(--ember);
+}
+
+.ai-sheet {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  background: rgba(244, 241, 233, 0.06);
+  border: 1px solid var(--on-ink-rule);
+}
+
+.ai-sheet__tab {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--ember);
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--on-ink-rule);
+}
+
+.ai-sheet__line {
+  display: block;
+  height: 1px;
+  background: rgba(244, 241, 233, 0.42);
+}
+
+.ai-sheet__line.is-short {
+  width: 72%;
+}
+
+.ai-sheet__line.is-shorter {
+  width: 48%;
+}
+
+.ai-notions {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  border-top: 1px solid var(--on-ink-rule);
+}
+
+.ai-notions li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--on-ink-rule);
+  font-size: 0.84rem;
+  color: var(--on-ink);
+}
+
+.ai-notions__dots {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  color: var(--on-ink-muted);
+  letter-spacing: 0.2em;
+}
+
+.ai-formats {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  border-top: 1px solid var(--on-ink-rule);
+}
+
+.ai-formats li {
+  display: grid;
+  grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr);
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--on-ink-rule);
+  font-size: 0.8rem;
+}
+
+.ai-formats strong {
+  font-weight: 600;
+  color: var(--on-ink);
+}
+
+.ai-formats span {
+  color: var(--on-ink-muted);
+}
+
+.ai-runner {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--on-ink-rule);
+}
+
+.ai-runner__q {
+  display: grid;
+  gap: 8px;
+}
+
+.ai-runner__q .ed-ph {
+  border-bottom-color: var(--on-ink-rule);
+}
+
+.ai-runner__bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.ai-runner__bar span {
+  height: 3px;
+  background: rgba(244, 241, 233, 0.2);
+}
+
+.ai-runner__bar span.is-on {
+  background: var(--ember);
+}
+
+.ai-trail__note {
+  max-width: 78ch;
+  font-size: 0.78rem;
+  line-height: 1.62;
+  color: var(--on-ink-muted);
+  padding-top: 14px;
+  border-top: 1px solid var(--on-ink-rule);
+}
+
+.ai-trail__note strong {
+  color: var(--on-ink);
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  .ai-trail {
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+    align-items: start;
+    column-gap: clamp(24px, 4vw, 56px);
+  }
+
+  .ai-trail__steps {
+    border-top: 1px solid var(--on-ink-rule);
+  }
+
+  .ai-trail__step {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "num name"
+      "num detail";
+    row-gap: 2px;
+  }
+
+  .ai-trail__num {
+    grid-area: num;
+  }
+
+  .ai-trail__name {
+    grid-area: name;
+  }
+
+  .ai-trail__detail {
+    grid-area: detail;
+    justify-self: start;
+    text-align: left;
+  }
+
+  .ai-trail__note {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── 3. FAQ éditoriale — état d'attente et ouverture ──────── */
+
+/* Le panneau est refermé au chargement ; GSAP n'anime que sa hauteur.
+   Sans JavaScript, `<details>` fonctionne normalement (et ce fichier
+   n'est chargé qu'avec la page publique de toute façon). */
+.js .faq-ed__panel {
+  height: 0;
+}
+
+.js .faq-ed__row[open] .faq-ed__panel {
+  height: auto;
+}
+
+/* ── 4. Préférences & impression ──────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .ef-chip,
+  .ai-trail__step,
+  .faq-ed__chip,
+  .faq-ed__sign::before,
+  .faq-ed__sign::after {
+    transition: none;
+  }
+}
+
+@media print {
+  .ed-frag,
+  .ai-stage {
+    break-inside: avoid;
+  }
+}

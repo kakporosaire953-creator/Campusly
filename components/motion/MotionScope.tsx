@@ -194,6 +194,32 @@ export function MotionScope({ children, className }: { children: ReactNode; clas
           });
         });
 
+        /* Masques d'image : la photo se découvre par le bas, sans
+           déplacement de mise en page (le cadre garde sa hauteur). */
+        gsap.utils.toArray<HTMLElement>("[data-mask]", root).forEach((el) => {
+          const img = el.querySelector<HTMLElement>("img");
+          if (!img) return;
+          const timeline = gsap.timeline({
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          });
+          timeline.fromTo(
+            el,
+            { clipPath: "inset(0 0 100% 0)" },
+            { clipPath: "inset(0 0 0% 0)", duration: 1, ease: "power3.inOut" },
+          );
+          timeline.fromTo(
+            img,
+            { scale: 1.18 },
+            { scale: 1, duration: 1.25, ease: "power3.out" },
+            0,
+          );
+          ctx.add(() => {
+            timeline.scrollTrigger?.kill();
+            timeline.kill();
+            gsap.set([el, img], { clearProps: "clipPath,transform" });
+          });
+        });
+
         /* Cartes soulevées au passage du centre de l'écran. */
         gsap.utils.toArray<HTMLElement>("[data-lift]", root).forEach((el) => {
           const tl = gsap
