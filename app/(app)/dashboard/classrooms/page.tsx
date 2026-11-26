@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { ClassroomList } from "@/features/classrooms/ClassroomList";
 
-export const metadata: Metadata = {
-  title: "Classrooms",
-  description: "Amphis virtuels Campusly : ressources, devoirs, annonces et suivi de classe.",
-};
+export async function generateMetadata() {
+  return pageMetadata("classroomsTitle", "/dashboard/classrooms");
+}
 
 export default function ClassroomsPage() {
   return <ClassroomList />;

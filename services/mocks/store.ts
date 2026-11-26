@@ -80,17 +80,33 @@ export function formatDateFr(iso: string, withTime = false): string {
   });
 }
 
-export function formatRelativeFr(iso: string): string {
+/**
+ * Écart relatif, localisé.
+ * La version française était la seule disponible ; les paraphes (`il y a`,
+ * `à l'instant`) sont maintenant passés par l'appelant, qui les tient du
+ * dictionnaire. Ici, on rend la seule donnée : l'unité et le nombre.
+ */
+export function relativeAmount(iso: string): { unit: "now" | "minutes" | "hours" | "days"; count: number } {
   const date = new Date(iso).getTime();
-  if (Number.isNaN(date)) return iso;
+  if (Number.isNaN(date)) return { unit: "now", count: 0 };
   const diffMinutes = Math.round((Date.now() - date) / 60_000);
-  if (diffMinutes < 1) return "à l'instant";
-  if (diffMinutes < 60) return `il y a ${diffMinutes} min`;
+  if (diffMinutes < 1) return { unit: "now", count: 0 };
+  if (diffMinutes < 60) return { unit: "minutes", count: diffMinutes };
   const hours = Math.round(diffMinutes / 60);
-  if (hours < 24) return `il y a ${hours} h`;
+  if (hours < 24) return { unit: "hours", count: hours };
   const days = Math.round(hours / 24);
-  if (days < 30) return `il y a ${days} j`;
-  return formatDateFr(iso);
+  if (days < 30) return { unit: "days", count: days };
+  return { unit: "days", count: days };
+}
+
+/** Version française de l'écart relatif, pour les écrans pas encore traduits. */
+export function formatRelativeFr(iso: string): string {
+  const { unit, count } = relativeAmount(iso);
+  if (unit === "now") return "à l'instant";
+  if (unit === "minutes") return `il y a ${count} min`;
+  if (unit === "hours") return `il y a ${count} h`;
+  if (count >= 30) return formatDateFr(iso);
+  return `il y a ${count} j`;
 }
 
 export function formatXof(amount: number): string {

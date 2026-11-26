@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { examService } from "@/services/examService";
@@ -8,7 +8,9 @@ import { Card, CardHeader } from "@/components/ui/Card";
 import { ExamDetailActions } from "@/features/exams/ExamDetailActions";
 import { formatDateFr } from "@/services/mocks/store";
 
-export const metadata: Metadata = { title: "Fiche épreuve" };
+export async function generateMetadata() {
+  return pageMetadata("examDetailTitle", "/dashboard/epreuves");
+}
 
 export default async function ExamDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

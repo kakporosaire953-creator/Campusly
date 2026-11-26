@@ -65,3 +65,19 @@
    gagner, ce qui préserve la spécificité de chaque espace.
    ============================================================ */
 @import "../styles/app/brand.css";
+
+/* ============================================================
+   LIQUID GLASS — matériaux et lumière ambiante.
+   ------------------------------------------------------------
+   Importé APRÈS le socle de marque : il consomme les jetons
+   `--brand-*` sans les redéfinir. Porte les cinq matériaux
+   (primary, elevated, floating, interactive, navigation), les
+   palettes d'environnement clair / Nocturne, la lumière ambiante
+   et les replis (navigateur sans `backdrop-filter`, mobile,
+   transparence ou mouvement réduits).
+   ============================================================ */
+@import "../styles/app/glass.css";
+
+/* Panneau de préférences (langue + apparence). Après `glass.css`, dont il
+   consomme les matériaux. */
+@import "../styles/app/preferences.css";

@@ -27,16 +27,20 @@ const { SessionProvider } = await import("@/features/auth/SessionProvider");
 const { AppShell } = await import("@/components/layout/AppShell");
 const { AuthForms } = await import("@/features/auth/AuthForms");
 const { ToastProvider } = await import("@/components/ui/ToastProvider");
-const { ThemeProvider } = await import("@/components/shared/ThemeProvider");
+const { ThemeProvider } = await import("@/components/shared/theme/ThemeProvider");
+const { I18nProvider } = await import("@/lib/i18n/provider");
+const { getMessages } = await import("@/lib/i18n/dictionaries");
 
 function renderShell() {
   return render(
     <ThemeProvider>
-      <ToastProvider>
-        <SessionProvider>
-          <AppShell>contenu de la page</AppShell>
-        </SessionProvider>
-      </ToastProvider>
+      <I18nProvider locale="fr" messages={getMessages("fr")}>
+        <ToastProvider>
+          <SessionProvider>
+            <AppShell>contenu de la page</AppShell>
+          </SessionProvider>
+        </ToastProvider>
+      </I18nProvider>
     </ThemeProvider>,
   );
 }
@@ -44,11 +48,13 @@ function renderShell() {
 function renderAuth() {
   return render(
     <ThemeProvider>
-      <ToastProvider>
-        <SessionProvider>
-          <AuthForms />
-        </SessionProvider>
-      </ToastProvider>
+      <I18nProvider locale="fr" messages={getMessages("fr")}>
+        <ToastProvider>
+          <SessionProvider>
+            <AuthForms />
+          </SessionProvider>
+        </ToastProvider>
+      </I18nProvider>
     </ThemeProvider>,
   );
 }

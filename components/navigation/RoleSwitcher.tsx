@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "@/features/auth/SessionProvider";
 import { useToast } from "@/components/ui/ToastProvider";
 import type { UserRole } from "@/types";
-import { roleLabels } from "@/config/site";
+import { roleLabelKeys } from "@/config/site";
+import { useT } from "@/lib/i18n/provider";
 
 const ROLES: UserRole[] = ["learner", "teacher", "admin"];
 
@@ -18,6 +19,7 @@ const ROLES: UserRole[] = ["learner", "teacher", "admin"];
 export function RoleSwitcher({ compact = false }: { compact?: boolean }) {
   const { role, switchRole } = useSession();
   const { toast } = useToast();
+  const t = useT();
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
@@ -26,7 +28,7 @@ export function RoleSwitcher({ compact = false }: { compact?: boolean }) {
     setPending(true);
     try {
       await switchRole(next);
-      toast(`Vue « ${roleLabels[next]} » activée.`, "info");
+      toast(t("nav.viewActivated", { role: t(roleLabelKeys[next]) }), "info");
       router.push(next === "teacher" ? "/enseignant" : next === "admin" ? "/admin" : "/dashboard");
     } finally {
       setPending(false);
@@ -46,12 +48,12 @@ export function RoleSwitcher({ compact = false }: { compact?: boolean }) {
             marginBottom: 6,
           }}
         >
-          Vue de l'espace
+          {t("nav.roleView")}
         </div>
       ) : null}
       <div
         role="group"
-        aria-label="Changer de vue"
+        aria-label={t("nav.switchView")}
         style={{ display: "flex", gap: 6, flexWrap: "wrap" }}
       >
         {ROLES.map((item) => (
@@ -64,7 +66,7 @@ export function RoleSwitcher({ compact = false }: { compact?: boolean }) {
             onClick={() => handleChange(item)}
             style={{ fontSize: "0.72rem", padding: "5px 10px" }}
           >
-            {roleLabels[item]}
+            {t(roleLabelKeys[item])}
           </button>
         ))}
       </div>

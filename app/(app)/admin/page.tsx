@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { AdminPanel } from "@/features/dashboard/AdminPanel";
 
-export const metadata: Metadata = {
-  title: "Administration",
-  description: "Validation des contributions et supervision de la plateforme Campusly.",
-};
+export async function generateMetadata() {
+  return pageMetadata("adminTitle", "/admin");
+}
 
 export default function AdminPage() {
   return <AdminPanel />;

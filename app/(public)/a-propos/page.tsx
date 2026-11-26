@@ -1,58 +1,55 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { FACULTIES } from "@/types";
+import { getMessages } from "@/lib/i18n/dictionaries";
+import { localeContext, pageMetadata } from "@/lib/i18n/metadata";
+import { SplitAccent } from "@/components/editorial/SplitAccent";
 
-export const metadata: Metadata = {
-  title: "À propos",
-  description: "La mission de Campusly : centraliser les ressources académiques de l'UAC.",
-};
+export async function generateMetadata() {
+  return pageMetadata("aboutTitle", "/a-propos", "description");
+}
 
-/** Les fonctions réellement disponibles, sans les annonces en préparation. */
-const OFFERS = [
-  "Les annales classées par faculté, département, niveau et année.",
-  "Un espace de cours par matière, ouvert par un code d'amphi.",
-  "Des entraînements corrigés localement, avec les notions à revoir.",
-];
+/**
+ * « Le projet ».
+ * Aucune phrase n'est en dur : les vingt segments de cette page viennent du
+ * bloc `pages.*` des sept dictionnaires. Le nom des facultés est un code
+ * (`FASHS`, `FADESP`…) : c'est une donnée de l'université, pas une chaîne
+ * d'interface, elle n'est donc pas traduite.
+ */
+export default async function AboutPage() {
+  const { locale } = await localeContext();
+  const pages = getMessages(locale).pages;
 
-export default function AboutPage() {
+  const offers = [pages.aboutOffer1, pages.aboutOffer2, pages.aboutOffer3];
+
   return (
     <div className="doc">
       <div className="ed-rail">
         <header className="doc__head">
-          <p className="ed-eyebrow">Le projet</p>
+          <p className="ed-eyebrow">{pages.aboutEyebrow}</p>
           <h1 className="ed-display doc__title">
-            À propos <em>de Campusly.</em>
+            <SplitAccent text={pages.aboutTitle} accent={pages.aboutTitleAccent} />
           </h1>
-          <p className="ed-lede doc__lede">
-            Centraliser les ressources académiques de l&apos;UAC, et les rendre utilisables
-            depuis un seul endroit.
-          </p>
+          <p className="ed-lede doc__lede">{pages.aboutLede}</p>
         </header>
 
         <div className="doc__body">
           <section>
-            <h2>Pourquoi</h2>
-            <p>
-              Les épreuves, les supports de cours et les corrections existent déjà : ils circulent
-              dans des groupes de messagerie, sur des clés USB et dans des dossiers partagés qui
-              finissent par se perdre. Campusly les range selon la logique des maquettes de
-              l&apos;université, pour qu&apos;un étudiant de première année trouve la même chose
-              qu&apos;un étudiant de cinquième.
-            </p>
+            <h2>{pages.aboutWhyTitle}</h2>
+            <p>{pages.aboutWhyBody}</p>
           </section>
 
           <section>
-            <h2>Ce que la plateforme fait aujourd&apos;hui</h2>
+            <h2>{pages.aboutOffersTitle}</h2>
             <ul>
-              {OFFERS.map((item) => (
+              {offers.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </section>
 
           <section>
-            <h2>Facultés couvertes</h2>
+            <h2>{pages.aboutFacultiesTitle}</h2>
             <p className="doc__faculties">
               {FACULTIES.map((faculty) => (
                 <span key={faculty.code}>{faculty.code}</span>
@@ -61,21 +58,18 @@ export default function AboutPage() {
           </section>
 
           <section id="demonstration">
-            <h2>État actuel : préfiguration</h2>
-            <p>
-              Cette version présente l&apos;interface complète avec des données fictives. Rien
-              n&apos;est enregistré sur un serveur. La génération de questions n&apos;est pas
-              ouverte, aucun paiement n&apos;est accepté, et la bibliothèque ouvrira avec ses
-              premiers fichiers.
-            </p>
+            <h2>{pages.aboutStateTitle}</h2>
+            <p>{pages.aboutStateBody}</p>
           </section>
 
           <section id="contact">
-            <h2>Contact</h2>
+            <h2>{pages.aboutContactTitle}</h2>
             <p>
-              Une question, une suggestion, un partenariat d&apos;établissement&nbsp;: écrivez à{" "}
-              <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a> ou passez
-              par la page <Link href="/contribuer">Contribuer</Link>.
+              {pages.aboutContactBody}{" "}
+              <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>
+            </p>
+            <p>
+              <Link href="/contribuer">{pages.contributeTitle}</Link>
             </p>
           </section>
         </div>

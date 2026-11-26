@@ -1,64 +1,60 @@
-import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { HeroEditorial } from "@/components/editorial/Hero";
-import { Asterisk, LongArrow } from "@/components/editorial/Marks";
+import { Asterisk, Ruler } from "@/components/editorial/Marks";
 import { Icon } from "@/components/motion/Icon";
+import { pageMetadata, localeContext } from "@/lib/i18n/metadata";
 
-export const metadata: Metadata = {
-  title: { absolute: "Campusly — Apprendre avec une longueur d'avance" },
-  description:
-    "Les annales de votre faculté, vos espaces de cours et vos entraînements, au même endroit. Projet indépendant, pensé pour l'UAC.",
-  alternates: { canonical: "/" },
-};
+export async function generateMetadata() {
+  const { messages, locale } = await localeContext();
+  const base = await pageMetadata("homeTitle", "/", "homeDescription");
+  return {
+    ...base,
+    title: { absolute: messages.meta.homeTitle },
+    alternates: { canonical: "/", languages: { fr: "/", en: "/?lang=en" } },
+    other: { "content-language": locale },
+  };
+}
 
 /**
- * Accueil public — quatre temps.
+ * Accueil public — quatre temps, aucune photographie.
  * ---------------------------------------------------------------------------
- * Une ouverture, ce que la plateforme fait aujourd'hui, une rupture en encre,
- * puis les questions. Les séquences de mise en scène (sommaire numéroté,
- * manifeste, progression, établissements) ont été retirées : le visiteur a
- * besoin de savoir ce qu'il peut faire, pas de visiter un sommaire.
+ * Le visuel ne repose plus sur des images mais sur la typographie, les filets,
+ * les index numérotés et trois fragments d'interface réels (une ligne de
+ * résultat, une fosse de composition, une carte de notion). Chaque fragment
+ * est `aria-hidden` : il illustre, il ne prétend pas être un contrôle.
  *
  * Vérité éditoriale tenue : la génération de document n'est pas ouverte, le
  * paiement non plus, les données restent sur l'appareil, et Campusly n'a aucun
- * adossement officiel à l'UAC.
+ * adossement officiel à l'UAC. Tous les textes viennent des dictionnaires.
  */
 
-/* Ce que la plateforme fait réellement, en une ligne chacune. */
-const FEATURES = [
-  {
-    num: "01",
-    title: "Les annales de votre faculté",
-    text: "Épreuves et supports classés par faculté, département, niveau et année — la logique de vos maquettes, pas un dossier partagé.",
-    href: "/dashboard/epreuves",
-    link: "Ouvrir la bibliothèque",
-  },
-  {
-    num: "02",
-    title: "Vos classes, au même endroit",
-    text: "Un code d'amphi à transmettre en cours, les supports, les annonces et les rendus réunis dans une seule classe.",
-    href: "/dashboard/classrooms",
-    link: "Voir les espaces de cours",
-  },
-  {
-    num: "03",
-    title: "S'entraîner, puis mesurer",
-    text: "Des questions tirées de vos supports, corrigées localement, et les notions à revoir regroupées par matière.",
-    href: "/dashboard/revision",
-    link: "Lancer un entraînement",
-  },
-] as const;
+type Feature = { num: string; title: string; text: string; href: string; link: string };
 
-/* Les quatre gestes d'une composition surveillée. */
-const EXAM = [
-  { num: "a", title: "Un temps imparti", text: "Chronomètre fixé par l'enseignant, jamais par l'étudiant." },
-  { num: "b", title: "Une salle à part", text: "Un espace plein écran, ouvert par le code de composition." },
-  { num: "c", title: "Un journal local", text: "Les changements d'onglet restent sur l'appareil, revus par l'enseignant." },
-  { num: "d", title: "Une copie personnelle", text: "Chacun retrouve sa copie et les commentaires reçus." },
-] as const;
+export default async function HomePage() {
+  const { messages } = await localeContext();
+  const t = messages;
 
-export default function HomePage() {
+  const features: Feature[] = [
+    { num: t.features.oneNum, title: t.features.oneTitle, text: t.features.oneText, href: "/dashboard/epreuves", link: t.features.oneLink },
+    { num: t.features.twoNum, title: t.features.twoTitle, text: t.features.twoText, href: "/dashboard/classrooms", link: t.features.twoLink },
+    { num: t.features.threeNum, title: t.features.threeTitle, text: t.features.threeText, href: "/dashboard/revision", link: t.features.threeLink },
+  ];
+
+  const exams = [
+    { num: "a", title: t.exams.itemATitle, text: t.exams.itemAText },
+    { num: "b", title: t.exams.itemBTitle, text: t.exams.itemBText },
+    { num: "c", title: t.exams.itemCTitle, text: t.exams.itemCText },
+    { num: "d", title: t.exams.itemDTitle, text: t.exams.itemDText },
+  ];
+
+  const questions = [
+    { q: t.faq.q1, a: t.faq.a1 },
+    { q: t.faq.q2, a: t.faq.a2 },
+    { q: t.faq.q3, a: t.faq.a3 },
+    { q: t.faq.q4, a: t.faq.a4 },
+    { q: t.faq.q5, a: t.faq.a5 },
+  ];
+
   return (
     <div className="ed">
       {/* ═══════════ 01 — OUVERTURE ═══════════ */}
@@ -68,17 +64,20 @@ export default function HomePage() {
       <section className="ed-features" id="experience" aria-labelledby="features-title">
         <div className="ed-rail">
           <header className="ed-features__head">
-            <p className="ed-eyebrow">
+            <p className="ed-eyebrow" data-rise>
               <Asterisk size={11} color="var(--ember)" />
-              Disponible aujourd&apos;hui
+              {t.features.eyebrow}
             </p>
-            <h2 className="ed-display ed-features__title" id="features-title">
-              Trois gestes, <em>dès maintenant.</em>
+            <h2 className="ed-display ed-features__title" id="features-title" data-words>
+              {t.features.titleLead} <em>{t.features.titleAccent}</em>
             </h2>
+            <p className="ed-lede ed-features__lede" data-rise>
+              {t.features.intro}
+            </p>
           </header>
 
-          <div className="ed-features__list">
-            {FEATURES.map((item) => (
+          <div className="ed-features__list" data-stagger>
+            {features.map((item) => (
               <article className="ed-feature" key={item.num}>
                 <span className="ed-feature__num" aria-hidden="true">
                   {item.num}
@@ -87,22 +86,49 @@ export default function HomePage() {
                 <p className="ed-feature__text">{item.text}</p>
                 <Link href={item.href} className="ed-link">
                   {item.link}
-                  <LongArrow size={20} />
+                  <Icon name="arrow-right" size={18} />
                 </Link>
               </article>
             ))}
           </div>
 
-          <figure className="ed-features__figure">
-            <Image
-              src="/images/library-study.jpg"
-              alt="Étudiante travaillant ses cours à la bibliothèque universitaire"
-              width={1200}
-              height={700}
-              sizes="(max-width: 900px) 92vw, 620px"
-              className="ed-media-img"
-            />
-            <figcaption>Salle de lecture — visuel d&apos;illustration.</figcaption>
+          {/* Fragment d'interface réel : une ligne de résultat de la
+              bibliothèque. Il remplace la photographie de la salle de lecture
+              — même rôle d'accroche, mais il montre le produit. */}
+          <figure className="ed-specimen" data-rise aria-hidden="true">
+            <div className="ed-specimen__bar">
+              <span className="ed-specimen__dot" />
+              <span className="ed-specimen__dot" />
+              <span className="ed-specimen__dot" />
+              <span className="ed-specimen__url">{t.meta.examLibraryTitle}</span>
+            </div>
+            <div className="ed-specimen__body">
+              <div className="ed-specimen__row">
+                <div>
+                  <p className="ed-specimen__title">Annales · Algorithmique</p>
+                  <p className="ed-specimen__meta">L2 Informatique · 2024 · corrigé inclus</p>
+                </div>
+                <span className="ed-specimen__tag">PDF</span>
+              </div>
+              <div className="ed-specimen__row">
+                <div>
+                  <p className="ed-specimen__title">TD · Structures de données</p>
+                  <p className="ed-specimen__meta">L2 Informatique · 2023</p>
+                </div>
+                <span className="ed-specimen__tag">PDF</span>
+              </div>
+              <div className="ed-specimen__row ed-specimen__row--muted">
+                <div>
+                  <p className="ed-specimen__title">Examen · Analyse</p>
+                  <p className="ed-specimen__meta">L1 Mathématiques · 2024</p>
+                </div>
+                <span className="ed-specimen__tag ed-specimen__tag--soft">À vérifier</span>
+              </div>
+            </div>
+            <figcaption className="ed-specimen__caption">
+              <Ruler ticks={10} color="currentColor" />
+              <span>Aperçu de la bibliothèque — fragment d&apos;interface</span>
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -112,53 +138,51 @@ export default function HomePage() {
         <div className="ed-rail">
           <div className="ed-ai__inner">
             <div>
-              <p className="ed-eyebrow ed-ai__eyebrow">
+              <p className="ed-eyebrow ed-ai__eyebrow" data-rise>
                 <span className="ed-num">03</span>
-                <span>Campusly AI</span>
-                <span className="ed-state ed-state--soon">En préparation</span>
+                <span>{t.ai.eyebrow}</span>
+                <span className="ed-state ed-state--soon">{t.ai.state}</span>
               </p>
 
-              <h2 className="ed-display ed-ai__title" id="ai-title">
-                Un support entre. <em>Des questions sortent.</em>
+              <h2 className="ed-display ed-ai__title" id="ai-title" data-words>
+                {t.ai.titleLead} <em>{t.ai.titleAccent}</em>
               </h2>
 
-              <p className="ed-lede ed-ai__text">
-                Vous déposez un cours, un TD ou une épreuve ; les notions en sont tirées, puis
-                transformées en questions que vous relisez avant de vous entraîner. L&apos;analyse
-                de document n&apos;est pas encore ouverte — les entraînements, eux, le sont.
+              <p className="ed-lede ed-ai__text" data-rise>
+                {t.ai.lede}
               </p>
 
-              <div className="ed-ai__actions">
+              <div className="ed-ai__actions" data-rise>
                 <Link href="/dashboard/revision" className="ed-btn ed-btn--ink">
-                  Ouvrir les entraînements
+                  {t.ai.cta}
                   <Icon name="arrow-right" size={16} />
                 </Link>
               </div>
             </div>
 
-            <ul className="ed-ai__steps">
+            <ol className="ed-ai__steps" data-stagger aria-label={t.ai.flowLabel}>
               <li>
                 <span aria-hidden="true">01</span>
                 <div>
-                  <b>Déposer</b>
-                  <p>Un support de cours, une fiche, une annale.</p>
+                  <b>{t.ai.step1Title}</b>
+                  <p>{t.ai.step1Text}</p>
                 </div>
               </li>
               <li>
                 <span aria-hidden="true">02</span>
                 <div>
-                  <b>Relire</b>
-                  <p>Les questions proposées, à corriger ou à garder.</p>
+                  <b>{t.ai.step2Title}</b>
+                  <p>{t.ai.step2Text}</p>
                 </div>
               </li>
               <li>
                 <span aria-hidden="true">03</span>
                 <div>
-                  <b>Réviser</b>
-                  <p>Les notions fragiles reviennent à l&apos;entraînement suivant.</p>
+                  <b>{t.ai.step3Title}</b>
+                  <p>{t.ai.step3Text}</p>
                 </div>
               </li>
-            </ul>
+            </ol>
           </div>
         </div>
       </section>
@@ -167,21 +191,20 @@ export default function HomePage() {
       <section className="ed-exams" id="compositions" aria-labelledby="exams-title">
         <div className="ed-rail">
           <header className="ed-exams__head">
-            <p className="ed-eyebrow">
+            <p className="ed-eyebrow" data-rise>
               <span className="ed-num">04</span>
-              <span>Compositions</span>
+              <span>{t.exams.eyebrow}</span>
             </p>
-            <h2 className="ed-display ed-exams__title" id="exams-title">
-              Évaluer à distance, <em>sans perdre la main.</em>
+            <h2 className="ed-display ed-exams__title" id="exams-title" data-words>
+              {t.exams.titleLead} <em>{t.exams.titleAccent}</em>
             </h2>
-            <p className="ed-lede ed-exams__lede">
-              La salle consigne ce qui s&apos;y passe, mais la décision reste humaine : Campusly
-              n&apos;annule aucune note et ne sanctionne personne automatiquement.
+            <p className="ed-lede ed-exams__lede" data-rise>
+              {t.exams.lede}
             </p>
           </header>
 
-          <div className="ed-exams__grid">
-            {EXAM.map((item) => (
+          <div className="ed-exams__grid" data-stagger>
+            {exams.map((item) => (
               <article className="ed-exams__item" key={item.num}>
                 <span className="ed-num" aria-hidden="true">
                   {item.num}
@@ -192,13 +215,13 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="ed-exams__actions">
+          <div className="ed-exams__actions" data-rise>
             <Link href="/dashboard/compositions" className="ed-btn">
-              Accéder aux compositions
-              <LongArrow size={22} />
+              {t.exams.cta}
+              <Icon name="arrow-right" size={18} />
             </Link>
             <Link href="/dashboard/epreuves" className="ed-btn ed-btn--ghost">
-              Voir les épreuves
+              {t.exams.ctaSecondary}
             </Link>
           </div>
         </div>
@@ -208,65 +231,32 @@ export default function HomePage() {
       <section className="ed-faq" id="faq" aria-labelledby="faq-title">
         <div className="ed-rail">
           <header className="ed-faq__head">
-            <p className="ed-eyebrow">
+            <p className="ed-eyebrow" data-rise>
               <span className="ed-num">05</span>
-              <span>Questions</span>
+              <span>{t.faq.eyebrow}</span>
             </p>
-            <h2 className="ed-display ed-faq__title" id="faq-title">
-              L&apos;essentiel, <em>en cinq réponses.</em>
+            <h2 className="ed-display ed-faq__title" id="faq-title" data-words>
+              {t.faq.titleLead} <em>{t.faq.titleAccent}</em>
             </h2>
           </header>
 
-          <dl className="ed-faq__list">
-            <div>
-              <dt>Que puis-je faire dès aujourd&apos;hui&nbsp;?</dt>
-              <dd>
-                Consulter les annales de votre faculté, rejoindre une classe avec un code
-                d&apos;amphi, vous entraîner et suivre vos notions fragiles.
-              </dd>
-            </div>
-            <div>
-              <dt>La génération de questions est-elle ouverte&nbsp;?</dt>
-              <dd>
-                Pas encore. L&apos;analyse de document est annoncée « en préparation » partout où
-                elle apparaît, y compris sur cette page.
-              </dd>
-            </div>
-            <div>
-              <dt>Faut-il payer quelque chose&nbsp;?</dt>
-              <dd>
-                Non. Les packs de crédits ne sont pas ouverts et aucun tarif n&apos;est publié
-                avant l&apos;activation des paiements.
-              </dd>
-            </div>
-            <div>
-              <dt>Où vont mes données&nbsp;?</dt>
-              <dd>
-                Dans cette version, tout ce que vous saisissez reste sur votre appareil : rien
-                n&apos;est envoyé à un serveur.
-              </dd>
-            </div>
-            <div>
-              <dt>Campusly est-il lié à l&apos;UAC&nbsp;?</dt>
-              <dd>
-                C&apos;est un projet indépendant. Il n&apos;est ni édité ni approuvé officiellement
-                par l&apos;Université d&apos;Abomey-Calavi.
-              </dd>
-            </div>
+          <dl className="ed-faq__list" data-stagger>
+            {questions.map((item) => (
+              <div key={item.q}>
+                <dt>{item.q}</dt>
+                <dd>{item.a}</dd>
+              </div>
+            ))}
           </dl>
 
-          <p className="ed-faq__more">
+          <p className="ed-faq__more" data-rise>
             <Link href="/a-propos#contact" className="ed-link">
-              Écrire à l&apos;équipe
-              <LongArrow size={20} />
+              {t.faq.contact}
+              <Icon name="arrow-right" size={18} />
             </Link>
           </p>
         </div>
       </section>
-
-      {/* Le colophon d'appel a été retiré : le pied de page portait déjà
-          l'invitation aux établissements, les deux blocs d'encre se
-          confondaient en un seul aplat. */}
     </div>
   );
 }

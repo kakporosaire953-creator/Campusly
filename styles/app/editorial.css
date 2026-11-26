@@ -34,19 +34,30 @@
    app/(public)/layout.tsx). L'espace connecté et l'authentification gardent
    leur fond historique : aucune régression hors de l'accueil. */
 
-/* Le gabarit public garde le papier ivoire DANS LES DEUX MODES : c'est la
-   direction artistique, pas une préférence utilisateur. Le contrat est écrit
-   sur `<html>` (qui porte `theme-dark`/`theme-light`) et non sur
-   `body:has(.public-shell)` : le `body` du routeur Next n'est pas un ancêtre
-   de `.public-shell` dans l'arbre servi, donc la portée précédente ne
-   s'appliquait jamais (vérifié : le papier restait blanc en mode sombre).
+/* ── Le gabarit public suit désormais le thème ──────────────
+   Jusqu'ici, `.public-shell` re-fixait toute la palette claire : le mode
+   sombre, quel qu'il soit, n'avait aucun effet sur le journal. C'était une
+   contrainte de direction artistique ; elle est levée.
 
-   Portée : `.public-shell` — et surtout PAS `:root`, sinon l'espace connecté
-   hériterait du papier. */
+   Le public porte donc deux environnements, et les deux sont des créations,
+   pas des inversions :
+
+     LIGHT — « Editorial Glass » : papier ivoire, encre navy, orange de
+     signature. Le registre magazine est intact.
+
+     DARK  — « Campusly Nocturne » : deep space, verre sombre, lumière
+     contrôlée. Le papier devient surface profonde, l'encre devient ivoire,
+     et l'organge reste la distinction (voir le bloc suivant).
+
+   La portée reste `.public-shell` ET `html:has(.public-shell)` : le `body`
+   du routeur Next n'est pas un ancêtre de `.public-shell` dans l'arbre
+   servi, une portée sur `body:has()` ne s'appliquerait jamais.
+   Elle ne touche PAS `:root`, sinon l'espace connecté hériterait du papier. */
+
 .public-shell,
 html:has(.public-shell) {
-  /* Surfaces et encres du papier. Valeurs littérales : les jetons
-     `--brand-ink-*` s'inversent en mode sombre, or ici la page reste ivoire. */
+  /* Surfaces et encres du papier — valeurs littérales, pour que l'ivoire
+     reste l'ivoire même quand les jetons `--brand-ink-*` s'inversent. */
   --paper: var(--brand-paper);
   --paper-2: var(--brand-paper-2);
   --paper-3: var(--brand-paper-3);
@@ -75,9 +86,6 @@ html:has(.public-shell) {
   --brand-on-surface: var(--brand-navy);
   --brand-3: var(--brand-navy);
 
-  /* Toute la palette de marque revient à sa version claire dans cette
-     portée : le mode sombre de l'application ne doit pas repeindre les
-     surfaces, les filets ni les encres du journal. */
   --brand-surface: #ffffff;
   --brand-surface-2: #f6f4ee;
   --brand-surface-3: #efebe1;
@@ -104,6 +112,104 @@ html:has(.public-shell) {
   --accent-text: var(--brand-orange-deep);
 }
 
+/* ── Nocturne, sous le gabarit public ────────────────────────
+   Le même journal, dans l'autre environnement. Trois différences avec le
+   mode sombre de l'application, toutes voulues :
+
+   1. le fond est plus profond (`#071521` au lieu de `#0b1620`) : une page
+      longue respire mieux sur un bleu-noir que sur un gris bleuté ;
+   2. les surfaces sont du VERRE (translucides), pas des aplats : c'est ce
+      qui donne au journal nocturne son architecture de couches ;
+   3. l'orange remonte vers `#ffb469` — le seul orange lisible sur profond —
+      et le signal bleu `#69A4FF` apparaît là où le navy ne suffit plus. */
+
+html[data-theme="dark"] .public-shell,
+html[data-theme="dark"]:has(.public-shell) {
+  --paper: #071521;
+  --paper-2: #0b2031;
+  --paper-3: #0f2a3e;
+  --ink: #f5f7fa;
+  --ink-deep: #ffffff;
+  --on-ink: #071521;
+  --on-ink-muted: rgba(7, 21, 33, 0.72);
+  --on-ink-rule: rgba(7, 21, 33, 0.2);
+
+  --text-1: #f5f7fa;
+  --text-2: #c3cede;
+  --text-3: #a9b6c5;
+  --text-4: #7d8b9b;
+  --muted: #a9b6c5;
+  --bg: #071521;
+  --bg-2: #0b2031;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --surface-3: rgba(255, 255, 255, 0.11);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-2: rgba(255, 255, 255, 0.2);
+
+  --brand-on-surface: #f5f7fa;
+  --brand-3: #f5f7fa;
+
+  --brand-surface: rgba(255, 255, 255, 0.055);
+  --brand-surface-2: rgba(255, 255, 255, 0.075);
+  --brand-surface-3: rgba(255, 255, 255, 0.1);
+  --brand-ink: #f5f7fa;
+  --brand-ink-2: #c3cede;
+  --brand-ink-3: #a9b6c5;
+  --brand-ink-4: #7d8b9b;
+  --brand-line: rgba(255, 255, 255, 0.12);
+  --brand-line-2: rgba(255, 255, 255, 0.2);
+  --brand-line-3: rgba(255, 255, 255, 0.3);
+  --brand-1: #f5f7fa;
+  --brand-2: #c3cede;
+  --signal: #69a4ff;
+  --signal-ink: #9dc4ff;
+  --success: #4ecb9a;
+  --danger: #ff8a80;
+  --warning: #ffc078;
+  --info: #9dc4ff;
+  --brand-success: #4ecb9a;
+  --brand-danger: #ff8a80;
+  --brand-warning: #ffc078;
+  --brand-info: #9dc4ff;
+  --accent-text: #ffb469;
+  /* L'orange des grands titres (.ed-display em) : la variante affichage du
+     mode clair est illisible sur deep space, on emploie l'orange eclairci. */
+  --brand-orange-display: #ffb469;
+
+  /* Le filet des index et des sur-titres s'éclaircit : sur profond, un filet
+     à 12 % disparaît complètement. */
+  --rule: rgba(255, 255, 255, 0.12);
+  --rule-strong: rgba(255, 255, 255, 0.3);
+  --ember: #ffb469;
+  --ember-soft: rgba(253, 133, 23, 0.18);
+}
+
+/* Les bandes d'encre gardent leur navy profond dans les DEUX modes : c'est
+   un aplat de couleur assumé, pas une surface thémée. Seules leurs encres
+   internes changent — le navy sur navy serait illisible. */
+html[data-theme="dark"] .public-shell .ink-field,
+html[data-theme="dark"] .public-shell .ed-ai {
+  --brand-surface: #0d2740;
+  --brand-surface-2: #10314e;
+  --ink: #f5f7fa;
+  --paper: #0b2031;
+  --brand-on-surface: #f5f7fa;
+  --brand-3: #f5f7fa;
+  --text-1: #f5f7fa;
+  --text-2: #c3cede;
+  --text-3: #a9b6c5;
+  --muted: #a9b6c5;
+  --rule: rgba(255, 255, 255, 0.12);
+  --rule-strong: rgba(255, 255, 255, 0.28);
+  --brand-line: rgba(255, 255, 255, 0.12);
+  --brand-line-2: rgba(255, 255, 255, 0.2);
+  --brand-line-3: rgba(255, 255, 255, 0.3);
+  --on-ink: #f5f7fa;
+  --on-ink-muted: rgba(245, 247, 250, 0.74);
+  --on-ink-rule: rgba(245, 247, 250, 0.22);
+}
+
 /* Les bandes d'encre reprennent l'encre claire en local : c'est la surface
    qui décide de la teinte, pas le gabarit. */
 body:has(.public-shell) .ink-field {
@@ -111,9 +217,16 @@ body:has(.public-shell) .ink-field {
   --brand-3: var(--brand-paper);
 }
 
+/* Le gabarit public est TRANSPARENT et au-dessus de la lumière ambiante :
+   `.ambient` est un élément fixe en z-index 0 (voir `glass.css`). Avec une
+   surface opaque ici, la lumière nocturne etait entierement recouverte et
+   le fond se reduisait a un aplat — verifie a la capture. La couleur de base
+   reste portee par html / body (--bg). */
 .public-shell {
-  background: var(--brand-paper);
-  color: var(--brand-navy);
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: var(--text-1);
 }
 
 /* Le grain bruité historique est retiré sous le gabarit public : le papier
@@ -124,11 +237,13 @@ body:has(.public-shell)::before {
 
 /* (Le fond « liquide » n'existe plus : voir styles/app/theme.css §2.) */
 
-/* Le verre des surfaces historiques ne s'applique pas aux blocs éditoriaux :
-   `theme.css` est chargé après `site-chrome.css`, il faut donc lui rendre la
-   main sur `.site-footer` (qui reste une bande d'encre pleine). */
+/* Le colophon est une BANDE D'ENCRE, pas une surface thémée : il garde le
+   navy profond dans les deux environnements, avec l'encre ivoire. Utiliser
+   `--ink` / `--paper` l'inversait en sombre — un pied de page blanc sous un
+   journal nocturne (constaté à la capture). */
 body:has(.public-shell) .site-footer {
-  background: var(--ink) !important;
+  background: var(--brand-navy-deep) !important;
+  color: var(--brand-paper) !important;
   border: 0;
   box-shadow: none;
   -webkit-backdrop-filter: none;
@@ -140,7 +255,10 @@ body:has(.public-shell) .site-footer {
 .ed {
   position: relative;
   z-index: 1;
-  background: var(--paper);
+  /* Transparent : la lumière ambiante (`.ambient`, fixe, z-index 0) doit
+     rester visible derrière le journal. Une couleur pleine ici la masquait
+     entièrement — le fond nocturne se réduisait à un aplat. */
+  background: transparent;
   color: var(--ink);
   font-family: var(--brand-text);
   overflow-x: clip;
@@ -677,60 +795,45 @@ section.ed-rail {
   }
 }
 
-/* ── 16. Le thème sombre ne s'applique pas au papier ─────────
-   Le gabarit public garde le papier ivoire dans les deux modes : le choix
-   n'est pas une préférence, c'est une contrainte de la direction artistique
-   (papier + encre). Les feuilles historiques sont chargées APRÈS
-   `site-chrome.css` et posent des règles globales `[data-theme="dark"] a`
-   et `[data-theme="dark"] *` : sans cette neutralisation, les liens, le
-   mot-symbole, les boutons et les légendes passaient en blanc ou en bleu
-   clair sur le papier (contraste mesuré 1,13:1 pour « Campus »).
+/* ── 16. Navigation et actions du gabarit public ────────────
+   Le journal suit désormais le thème (voir §0), donc la barre et les CTA
+   doivent eux aussi se re-tokeniser : le navy écrit en dur les rendait
+   invisibles sur le verre nocturne.
 
-   Portée : uniquement `.public-shell`. L'espace connecté, `/auth` et les
-   autres routes applicatives gardent leur thème clair/sombre habituel.
-   La bascule est retirée de la barre publique (§18) : sur ce gabarit elle
-   n'avait aucun effet observable.
+   Règle : on ne fixe plus de teinte, on emploie les jetons qui changent
+   avec l'environnement. `.site-nav__logo` est réutilisé par le colophon
+   (bande d'encre) : on cible donc le `<header>` par `:has()` plutôt que la
+   classe, sinon le mot-symbole du pied de page héritait de l'encre sur encre. */
 
-   Les couleurs sont posées via les jetons de `brand.css`, qui portent la
-   valeur exacte du logo et ne dépendent pas de `theme-dark.css`. Ancien
-   commentaire :
-   `theme-dark.css` redéfinit des jetons globaux et les variables ne
-   garantissent pas ici la valeur du papier. */
-/* Barre de navigation uniquement. `.site-nav__logo` est réutilisé par le
-   colophon (fond encre) : le cibler sans ancêtre commun aurait repeint le
-   mot-symbole du pied de page en encre sur encre. D'où `:has(...)` sur le
-   `<header>` de navigation plutôt qu'une classe. */
-/* `--brand-on-surface` vaudrait l'ivoire en mode sombre : sur le papier, on
-   veut l'encre. La valeur est donc écrite en dur, comme la surface. */
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__logo svg,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__link,
 body:has(.public-shell) header:has(.site-nav__inner) .site-nav__signin {
-  color: var(--brand-navy);
+  color: var(--brand-on-surface);
 }
 
 body:has(.public-shell) header:has(.site-nav__inner) {
-  background: var(--brand-paper);
+  background: transparent;
   border-bottom: 1px solid var(--brand-line);
 }
 
 body:has(.public-shell) .site-nav__burger {
-  border-color: var(--brand-line);
+  border-color: var(--brand-line-2);
+  color: var(--brand-on-surface);
 }
 
 body:has(.public-shell) .site-nav__burger span {
-  background: var(--brand-navy);
+  background: currentColor;
 }
 
-/* CTA pleins : encre sur papier, jamais bleu clair sur encre.
-   Les boutons du colophon vivent sur la bande d'encre : ils gardent leur
-   traitement inversé (papier sur encre), on ne les repeint donc pas. */
+/* CTA pleins : encre sur papier, ivoire sur profond. Le survol passe à
+   l'orange de marque dans les deux cas. */
 body:has(.public-shell) .site-nav__cta,
 body:has(.public-shell) .ed .ed-btn,
 body:has(.public-shell) .ed .ed-btn--ghost-ink {
-  background: var(--brand-navy);
-  border-color: var(--brand-navy);
-  color: #f4f1e9;
+  background: var(--brand-on-surface);
+  border-color: var(--brand-on-surface);
+  color: var(--paper);
 }
 
 body:has(.public-shell) .site-nav__cta:hover,
@@ -743,29 +846,39 @@ body:has(.public-shell) .ed .ed-btn--ghost-ink:hover {
 
 body:has(.public-shell) .ed .ed-btn--ghost {
   background: transparent;
-  border-color: var(--brand-navy);
-  color: var(--brand-navy);
+  border-color: var(--brand-line-3);
+  color: var(--brand-on-surface);
 }
 
 body:has(.public-shell) .ed .ed-btn--ghost:hover {
-  background: var(--brand-navy);
-  border-color: var(--brand-navy);
-  color: #f4f1e9;
+  background: var(--brand-on-surface);
+  border-color: var(--brand-on-surface);
+  color: var(--paper);
 }
 
+/* Bouton posé SUR une bande d'encre (Campusly AI) : inversé en clair,
+   il doit rester clair en sombre — la bande est toujours navy. */
 body:has(.public-shell) .ed .ed-btn--ink {
+  /* La bande d'encre est navy dans les deux modes : l'encre du bouton est
+     donc navy en dur, pas `--brand-on-surface` (qui s'inverserait). */
   background: #f4f1e9;
   border-color: #f4f1e9;
-  color: var(--brand-navy);
+  color: #132d46;
+}
+
+body:has(.public-shell) .ed .ed-btn--ink:hover {
+  background: var(--brand-orange);
+  border-color: var(--brand-orange);
+  color: #ffffff;
 }
 
 body:has(.public-shell) .ed .ed-link {
-  color: var(--brand-navy);
+  color: var(--brand-on-surface);
 }
 
 body:has(.public-shell) .ed .ed-link:hover,
 body:has(.public-shell) .ed .ed-link:focus-visible {
-  color: var(--brand-orange-deep);
+  color: var(--accent-text);
 }
 
 body:has(.public-shell) .ed-summary__item {
@@ -774,10 +887,11 @@ body:has(.public-shell) .ed-summary__item {
 
 body:has(.public-shell) .ed-summary__item:hover,
 body:has(.public-shell) .ed-summary__item:focus-visible {
-  color: var(--brand-navy);
+  color: var(--brand-on-surface);
 }
 
-/* Colophon : les liens restent dans la gamme d'encre claire. */
+/* Colophon : les liens restent dans la gamme d'encre claire — le pied de page
+   est une bande d'encre dans les deux modes. */
 body:has(.public-shell) .site-footer__col a {
   color: rgba(244, 241, 233, 0.82);
 }
@@ -802,14 +916,6 @@ body:has(.public-shell) .ed img {
   filter: none;
 }
 
-body:has(.public-shell) .ed-open__img {
-  filter: saturate(0.92) contrast(1.02);
-}
-
-body:has(.public-shell) .ed-media-img {
-  filter: saturate(0.9);
-}
-
 
 /* ── 17. Surfaces legacy sous le papier ─────────────────────
    Les cartes historiques (`--grad-card`, `.card`) suivent le thème sombre
@@ -823,30 +929,20 @@ body:has(.public-shell) .ed-media-img {
 body:has(.public-shell) .card,
 body:has(.public-shell) .rev-panel,
 body:has(.public-shell) .upload-card {
-  background: #ffffff !important;
+  background: var(--brand-surface) !important;
   border-color: var(--brand-line) !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  color: var(--brand-navy);
+  color: var(--brand-on-surface);
 }
 
 body:has(.public-shell) .card p,
 body:has(.public-shell) .card li {
-  color: var(--brand-navy);
+  color: var(--text-2);
 }
 
-/* ── 18. La bascule de thème n'a pas d'objet sur le papier ──
-   Le gabarit public reste en papier ivoire dans les deux modes : c'est le
-   choix de direction artistique, pas un réglage utilisateur. Laisser le
-   bouton visible produisait un contrôle sans effet observable (mesuré :
-   `data-theme` change, aucune surface ne bouge). On le retire donc de la
-   barre publique — seulement de l'en-tête, `.site-nav` étant aussi utilisé
-   par le colophon. Le choix reste disponible là où il agit : /auth,
-   /onboarding et l'espace connecté, qui gardent leur propre bouton. */
-body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
-  display: none;
-}
+/* ── 18. Le sélecteur d'apparence ───────────────────────────
+   La bascule à deux états a été remplacée par le panneau de préférences
+   (langue + apparence). Elle n'est plus masquée sur le gabarit public :
+   elle agit désormais réellement, puisque le journal suit le thème. */
 
 /* ============================================================
    6. ACCUEIL RESSERRÉ (KRAFTER-13)
@@ -908,24 +1004,223 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
   margin-top: clamp(26px, 3.4vw, 40px);
 }
 
-.ed-open__figure {
-  margin: 0;
+/* ── Relevé d'état (remplace la photographie d'ouverture) ────
+   Une composition éditoriale : filet gradué, cinq lignes numérotées,
+   chaque ligne disant si la fonction est ouverte ou en préparation.
+   Aucune image, mais une information vraie — et une trame qui donne
+   au premier écran sa densité. */
+
+.ed-ledger {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: clamp(16px, 2vw, 22px);
 }
 
-.ed-open__img {
-  width: 100%;
-  height: auto;
-  max-height: 46vh;
-  object-fit: cover;
+.ed-ledger__head svg {
   display: block;
+  color: var(--rule-strong);
+  margin-bottom: 12px;
 }
 
-.ed-open__caption {
-  margin-top: 10px;
+.ed-ledger__title {
+  font-family: var(--brand-display);
+  font-size: clamp(1.02rem, 0.4vw + 0.96rem, 1.16rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.ed-ledger__note {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.ed-ledger__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.ed-ledger__list li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ed-ledger__num {
+  font-family: var(--brand-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.ed-ledger__label {
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.ed-ledger__state {
   font-family: var(--brand-text);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-success);
+}
+
+.ed-ledger__list li.is-soon .ed-ledger__label {
+  color: var(--muted);
+}
+
+.ed-ledger__list li.is-soon .ed-ledger__state {
+  color: var(--brand-orange-deep);
+}
+
+/* ── Index de sommaire ──────────────────────────────────────
+   Cinq repères, chacun une ancre réelle. Sur filet, sans puce : c'est
+   une table des matières de magazine, pas un menu. */
+
+.ed-open__index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 16px;
+}
+
+.ed-open__index a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 2px 0;
+  font-size: 0.74rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--brand-quick) ease, border-color var(--brand-quick) ease;
+}
+
+.ed-open__index a span {
+  font-family: var(--brand-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--brand-orange-deep);
+}
+
+.ed-open__index a:hover,
+.ed-open__index a.is-current {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* ── Spécimen d'interface (section Fonctions) ──────────────── */
+
+.ed-specimen {
+  margin: clamp(28px, 4vw, 48px) 0 0;
+  border: 1px solid var(--rule-strong);
+  background: var(--brand-surface);
+  max-width: 720px;
+}
+
+.ed-specimen__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--brand-surface-2);
+}
+
+.ed-specimen__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rule-strong);
+}
+
+.ed-specimen__url {
+  margin-left: 10px;
+  font-family: var(--brand-mono);
+  font-size: 0.64rem;
   letter-spacing: 0.04em;
   color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ed-specimen__body {
+  padding: 4px 0;
+}
+
+.ed-specimen__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ed-specimen__row:last-child {
+  border-bottom: 0;
+}
+
+.ed-specimen__title {
+  margin: 0;
+  font-family: var(--brand-display);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ed-specimen__meta {
+  margin: 2px 0 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.ed-specimen__row--muted .ed-specimen__title {
+  color: var(--muted);
+}
+
+.ed-specimen__tag {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--brand-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.ed-specimen__tag--soft {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.ed-specimen__caption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.ed-specimen__caption svg {
+  flex-shrink: 0;
+  color: var(--rule-strong);
 }
 
 /* ── Ce que fait la plateforme ─────────────────────────────── */
@@ -987,25 +1282,6 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
 .ed-feature .ed-link {
   margin-top: auto;
   padding-top: 12px;
-}
-
-.ed-features__figure {
-  margin: clamp(40px, 6vw, 88px) 0 0;
-  max-width: 620px;
-}
-
-.ed-media-img,
-.ed-features__figure img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.ed-features__figure figcaption {
-  margin-top: 10px;
-  font-family: var(--brand-text);
-  font-size: 0.72rem;
-  color: var(--muted);
 }
 
 /* ── Campusly AI (bande d'encre) ───────────────────────────── */
@@ -1218,17 +1494,10 @@ body:has(.public-shell) header:has(.site-nav__inner) .theme-toggle {
     max-width: 18ch;
   }
 
-  .ed-open__img {
-    max-height: 34vh;
-  }
-
   .ed-features__list,
   .ed-exams__grid,
   .ed-faq__list {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .ed-features__figure {
-    max-width: 100%;
-  }
 }

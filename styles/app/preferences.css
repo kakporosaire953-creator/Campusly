@@ -1,0 +1,284 @@
+/* ============================================================
+   CAMPUSLY — PANNEAU DE PRÉFÉRENCES
+   ------------------------------------------------------------
+   Un seul contrôle dans le header : une capsule (globe + code de
+   langue) qui ouvre deux zones nettement séparées — LANGUE et
+   APPARENCE.
+
+   Le panneau est un matériau « Glass Floating » : il flotte
+   au-dessus de la page, avec un flou plus marqué que les cartes de
+   contenu. Les options sont des cibles de 44 px minimum, utilisables
+   au clavier (motif `radiogroup`).
+   ============================================================ */
+
+.prefs {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ── 1. La capsule ─────────────────────────────────────────── */
+
+.prefs__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--brand-radius-full, 999px);
+  background: transparent;
+  color: var(--brand-on-surface);
+  font-family: var(--brand-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.prefs__trigger:hover {
+  background: var(--glass-tint);
+}
+
+.prefs__trigger[aria-expanded="true"] {
+  background: var(--glass-tint-strong);
+  border-color: var(--brand-orange);
+}
+
+.prefs__trigger-icon {
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+.prefs__trigger-code {
+  font-variant-numeric: tabular-nums;
+}
+
+.prefs__trigger-chevron {
+  font-size: 0.6rem;
+  opacity: 0.6;
+  transition: transform 180ms var(--brand-ease);
+}
+
+.prefs__trigger[aria-expanded="true"] .prefs__trigger-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── 2. Le panneau ────────────────────────────────────────── */
+
+/* `position: fixed` plutôt qu'`absolute` : le panneau est posé dans la barre,
+   qui est elle-même `position: fixed` avec un `overflow` de navigation. En
+   `absolute`, le bas du panneau était coupé par la fenêtre (vérifié : les
+   deux dernières options d'apparence sortaient de l'écran et le panneau se
+   prolongeait sous le pied de page). En `fixed`, il est dimensionné sur la
+   fenêtre, jamais sur la barre. */
+.prefs__panel {
+  position: fixed;
+  top: calc(var(--nav-h, 72px) + 8px);
+  right: max(16px, calc((100vw - var(--chrome-max, 1240px)) / 2 + 16px));
+  z-index: 1300;
+  width: min(340px, calc(100vw - 32px));
+  max-height: calc(100dvh - var(--nav-h, 72px) - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 18px;
+  color: var(--brand-on-surface);
+  text-align: left;
+  /* Panneau opaque : voir le commentaire de `--glass-tint-panel`. Le flou de
+     `glass--floating` n'a plus rien à flouter — on le retire, c'est une
+     couche de composition en moins sur un élément où l'on lit. */
+  background: var(--glass-tint-panel);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Ouverture : très courte, jamais de rebond. */
+@media (prefers-reduced-motion: no-preference) {
+  .prefs__panel {
+    animation: prefs-in 200ms var(--brand-ease) both;
+  }
+}
+
+@keyframes prefs-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prefs__zone + .prefs__zone {
+  margin-top: 16px;
+  padding-top: 16px;
+  /* Le filet est la seule séparation : pas de carte imbriquée dans une
+     carte. */
+  border-top: 1px solid var(--glass-border);
+}
+
+.prefs__heading {
+  margin: 0 0 4px;
+  font-family: var(--brand-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-ink-3);
+}
+
+.prefs__hint {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--brand-ink-3);
+}
+
+.prefs__options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── 3. Les options ───────────────────────────────────────── */
+
+.prefs__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--brand-radius-sm);
+  background: transparent;
+  color: var(--brand-on-surface);
+  font-family: var(--brand-text);
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--brand-quick) ease,
+    border-color var(--brand-quick) ease;
+}
+
+.prefs__option:hover {
+  background: var(--glass-tint);
+}
+
+.prefs__option[aria-checked="true"] {
+  background: var(--glass-tint-strong);
+  border-color: var(--brand-orange);
+  font-weight: 700;
+}
+
+.prefs__option-name {
+  flex: 1;
+  min-width: 0;
+  /* Un nom de langue très long en allemand ou en chinois ne doit jamais
+     pousser la coche hors du panneau. */
+  overflow-wrap: anywhere;
+}
+
+/* Deux glyphes de la capsule (`中文`) n'existent dans aucune fonte latine :
+   sans cette pile, le code de langue s'affichait en deux rectangles (tofu)
+   dans le choix « 中文 » du panneau — vérifié sur capture. */
+.prefs__option-meta {
+  font-family: var(--brand-mono), "Campusly CJK", "Campusly Fallback", system-ui, sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: var(--brand-ink-3);
+}
+
+.prefs__option--theme i:first-child {
+  width: 16px;
+  font-size: 0.8rem;
+  color: var(--brand-ink-3);
+  text-align: center;
+}
+
+.prefs__option[aria-checked="true"] .prefs__option-meta,
+.prefs__option[aria-checked="true"] .prefs__option--theme i:first-child {
+  color: var(--brand-on-surface);
+}
+
+.prefs__check {
+  font-size: 0.7rem;
+  color: var(--brand-orange);
+}
+
+.prefs__option:focus-visible {
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 2px;
+}
+
+/* ── 4. Variante menu mobile ──────────────────────────────── */
+
+.prefs--menu {
+  display: block;
+  width: 100%;
+}
+
+.prefs--menu .prefs__trigger {
+  width: 100%;
+  height: 48px;
+  justify-content: flex-start;
+  padding: 0 14px;
+  border-radius: var(--brand-radius-sm);
+  border-color: var(--glass-border);
+  font-size: 0.84rem;
+}
+
+.prefs--menu .prefs__trigger-code {
+  margin-left: auto;
+  letter-spacing: 0.1em;
+}
+
+/* Sur mobile le panneau occupe la largeur du menu et ne flotte plus :
+   un panneau flottant dans un panneau déjà plein écran empile deux
+   surfaces vitrées, ce qui coûte cher et se lit mal. */
+.prefs--menu .prefs__panel {
+  position: static;
+  right: auto;
+  top: auto;
+  width: 100%;
+  max-height: none;
+  margin-top: 8px;
+  padding: 14px;
+  border-radius: var(--brand-radius);
+  box-shadow: none;
+  /* Surface opaque plutôt que verre : le menu est déjà translucide. */
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.prefs--menu .prefs__option {
+  min-height: 44px;
+}
+
+/* ── 5. Adaptation de la capsule en barre compacte ───────── */
+
+@media (max-width: 720px) {
+  .prefs--header .prefs__trigger-icon {
+    display: none;
+  }
+
+  .prefs--header .prefs__trigger {
+    padding: 0 10px;
+  }
+}
+
+/* ── 6. Préférences système ───────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .prefs__panel {
+    animation: none;
+  }
+
+  .prefs__trigger-chevron {
+    transition: none;
+  }
+}

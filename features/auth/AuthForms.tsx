@@ -9,8 +9,9 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { ApiError } from "@/services/api/client";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/shared/CampuslyLogo";
-import { roleLabels } from "@/config/site";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { roleLabelKeys } from "@/config/site";
+import { PreferencesPanel } from "@/components/shared/PreferencesPanel";
+import { useT } from "@/lib/i18n/provider";
 
 type Tab = "login" | "register";
 type RoleChoice = "learner" | "teacher";
@@ -37,6 +38,7 @@ export function AuthForms() {
   const router = useRouter();
   const { status, login, register, enterDemo } = useSession();
   const { toast } = useToast();
+  const t = useT();
 
   /**
    * Page demandée avant la redirection vers /auth (`?next=/dashboard/epreuves`).
@@ -96,13 +98,13 @@ export function AuthForms() {
     setSubmitting(true);
     try {
       await login({ identifier: loginIdentifier, password: loginPassword });
-      toast("Connexion simulée réussie — bienvenue !", "success");
+      toast(t("auth.toastLogin"), "success");
       router.push(next);
     } catch (cause) {
       if (cause instanceof ApiError) {
         setErrors(cause.fields ?? { form: cause.message });
       } else {
-        setErrors({ form: "Connexion impossible. Réessayez." });
+        setErrors({ form: t("auth.errLogin") });
       }
     } finally {
       setSubmitting(false);
@@ -112,11 +114,11 @@ export function AuthForms() {
   /** Contrôles de l'étape 1 : mêmes règles que `authService.register`. */
   const validateIdentity = () => {
     const fields: Record<string, string> = {};
-    if (!form.prenom.trim()) fields.prenom = "Le prénom est obligatoire";
-    if (!form.nom.trim()) fields.nom = "Le nom est obligatoire";
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email ?? "")) fields.email = "Adresse e-mail invalide";
-    if (!form.password || form.password.length < 8) fields.password = "8 caractères minimum";
-    if (form.password !== form.confirm) fields.confirm = "Les mots de passe ne correspondent pas.";
+    if (!form.prenom.trim()) fields.prenom = t("auth.errFirstName");
+    if (!form.nom.trim()) fields.nom = t("auth.errLastName");
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email ?? "")) fields.email = t("auth.errEmail");
+    if (!form.password || form.password.length < 8) fields.password = t("auth.errPasswordLen");
+    if (form.password !== form.confirm) fields.confirm = t("auth.errConfirm");
     return fields;
   };
 
@@ -133,7 +135,7 @@ export function AuthForms() {
 
     setErrors({});
     if (form.password !== form.confirm) {
-      setErrors({ confirm: "Les mots de passe ne correspondent pas." });
+      setErrors({ confirm: t("auth.errConfirm") });
       setStep(1);
       return;
     }
@@ -154,7 +156,7 @@ export function AuthForms() {
             ? form.subjects.split(",").map((item) => item.trim()).filter(Boolean)
             : undefined,
       });
-      toast("Compte de démonstration créé.", "success");
+      toast(t("auth.toastRegister"), "success");
       router.push("/onboarding");
     } catch (cause) {
       if (cause instanceof ApiError) {
@@ -165,7 +167,7 @@ export function AuthForms() {
           setStep(1);
         }
       } else {
-        setErrors({ form: "Inscription impossible. Réessayez." });
+        setErrors({ form: t("auth.errRegister") });
       }
     } finally {
       setSubmitting(false);
@@ -199,13 +201,13 @@ export function AuthForms() {
   return (
     <div className="auth">
       <header className="auth__bar">
-        <Link href="/" className="auth__brand" aria-label="Campusly — retour à l'accueil">
+        <Link href="/" className="auth__brand" aria-label={t("auth.brandAria")}>
           <Logo size={28} className="logo-campusly" />
         </Link>
         <div className="auth__bar-actions">
-          <ThemeToggle compact />
+          <PreferencesPanel />
           <Link href="/" className="auth__back">
-            Retour au site
+            {t("auth.backToSite")}
           </Link>
         </div>
       </header>
@@ -214,25 +216,29 @@ export function AuthForms() {
         <div className="auth__card">
           <div className="auth__intro">
             <p className="auth__eyebrow">
-              {tab === "login" ? "Espace personnel" : step === 1 ? "Créer un compte · étape 1" : "Créer un compte · étape 2"}
+              {tab === "login"
+                ? t("auth.eyebrowLogin")
+                : step === 1
+                  ? t("auth.eyebrowRegister1")
+                  : t("auth.eyebrowRegister2")}
             </p>
             <h1 className="auth__title">
               {tab === "login"
-                ? "Se connecter"
+                ? t("auth.titleLogin")
                 : step === 1
-                  ? "Votre identité"
-                  : "Votre parcours"}
+                  ? t("auth.titleIdentity")
+                  : t("auth.titleProgram")}
             </h1>
             <p className="auth__subtitle">
               {tab === "login"
-                ? "Retrouvez vos ressources, vos entraînements et vos compositions."
+                ? t("auth.subLogin")
                 : step === 1
-                  ? "Quatre champs suffisent pour ouvrir un compte."
-                  : "Dites-nous comment vous travaillez : l'espace s'adapte ensuite."}
+                  ? t("auth.subIdentity")
+                  : t("auth.subProgram")}
             </p>
           </div>
 
-          <div className="auth__tabs" role="tablist" aria-label="Connexion ou inscription">
+          <div className="auth__tabs" role="tablist" aria-label={t("auth.tablistLabel")}>
             <button
               type="button"
               role="tab"
@@ -240,7 +246,7 @@ export function AuthForms() {
               className={`auth__tab ${tab === "login" ? "is-active" : ""}`}
               onClick={() => selectTab("login")}
             >
-              Connexion
+              {t("auth.tabLogin")}
             </button>
             <button
               type="button"
@@ -249,15 +255,13 @@ export function AuthForms() {
               className={`auth__tab ${tab === "register" ? "is-active" : ""}`}
               onClick={() => selectTab("register")}
             >
-              Inscription
+              {t("auth.tabRegister")}
             </button>
           </div>
 
           {rawNext ? (
             <p className="auth__notice" role="status">
-              <strong>Connexion requise</strong> pour accéder à cet espace. En démonstration, un
-              identifiant quelconque et un mot de passe d&apos;au moins 4 caractères ouvrent l&apos;espace
-              étudiant.
+              <strong>{t("auth.noticeStrong")}</strong> {t("auth.noticeText")}
             </p>
           ) : null}
 
@@ -265,14 +269,14 @@ export function AuthForms() {
             <form className="auth__form" onSubmit={handleLogin} noValidate>
               <div className="auth__field">
                 <label className="auth__label" htmlFor="loginIdentifier">
-                  E-mail ou matricule UAC
+                  {t("auth.labelIdentifier")}
                 </label>
                 <input
                   id="loginIdentifier"
                   className="auth__input"
                   value={loginIdentifier}
                   onChange={(event) => setLoginIdentifier(event.target.value)}
-                  placeholder="prenom.nom@uac.bj"
+                  placeholder={t("auth.placeholderIdentifier")}
                   autoComplete="username"
                   aria-invalid={Boolean(errors.identifier)}
                   aria-describedby={errors.identifier ? "loginIdentifier-error" : undefined}
@@ -286,7 +290,7 @@ export function AuthForms() {
 
               <div className="auth__field">
                 <label className="auth__label" htmlFor="loginPassword">
-                  Mot de passe
+                  {t("auth.labelPassword")}
                 </label>
                 <div className="auth__input-wrap">
                   <input
@@ -295,7 +299,7 @@ export function AuthForms() {
                     type={showPassword ? "text" : "password"}
                     value={loginPassword}
                     onChange={(event) => setLoginPassword(event.target.value)}
-                    placeholder="Votre mot de passe"
+                    placeholder={t("auth.placeholderPassword")}
                     autoComplete="current-password"
                     aria-invalid={Boolean(errors.password)}
                     aria-describedby={errors.password ? "loginPassword-error" : undefined}
@@ -304,7 +308,7 @@ export function AuthForms() {
                     type="button"
                     className="auth__reveal"
                     onClick={() => setShowPassword((value) => !value)}
-                    aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
                     aria-pressed={showPassword}
                   >
                     <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} aria-hidden="true" />
@@ -324,41 +328,41 @@ export function AuthForms() {
               ) : null}
 
               <button type="submit" className="auth__submit" disabled={submitting}>
-                {submitting ? "Connexion en cours…" : "Se connecter"}
+                {submitting ? t("auth.submittingLogin") : t("auth.submitLogin")}
               </button>
 
               <p className="auth__switch">
-                Pas encore de compte ?{" "}
+                {t("auth.noAccount")}{" "}
                 <button type="button" className="auth__switch-link" onClick={() => selectTab("register")}>
-                  Créer un compte
+                  {t("auth.createAccount")}
                 </button>
               </p>
             </form>
           ) : (
             <form className="auth__form" onSubmit={handleRegister} noValidate>
-              <ol className="auth__steps" aria-label="Étapes de l'inscription">
+              <ol className="auth__steps" aria-label={t("auth.stepsLabel")}>
                 <li className={step === 1 ? "is-current" : "is-done"}>
-                  <span aria-hidden="true">01</span> Identité
+                  <span aria-hidden="true">01</span> {t("auth.stepIdentity")}
                 </li>
                 <li className={step === 2 ? "is-current" : ""}>
-                  <span aria-hidden="true">02</span> Parcours
+                  <span aria-hidden="true">02</span> {t("auth.stepProgram")}
                 </li>
               </ol>
 
               <p className="auth__sr" role="status">
-                {step === 1 ? "Étape 1 sur 2 : identité." : "Étape 2 sur 2 : parcours académique."}
+                {step === 1 ? t("auth.stage1") : t("auth.stage2")}
               </p>
 
               {step === 1 ? (
                 <div className="auth__step" key="identity">
                   <p className="auth__step-title" ref={stepOneHeading} tabIndex={-1}>
-                    Identité
+                    {t("auth.stepIdentity")}
                   </p>
 
                   <div className="auth__row">
                     <div className="auth__field">
                       <label className="auth__label" htmlFor="regPrenom">
-                        Prénom
+                        {t("auth.labelFirstName")}
                       </label>
                       <input
                         id="regPrenom"
@@ -377,7 +381,7 @@ export function AuthForms() {
 
                     <div className="auth__field">
                       <label className="auth__label" htmlFor="regNom">
-                        Nom
+                        {t("auth.labelLastName")}
                       </label>
                       <input
                         id="regNom"
@@ -397,7 +401,7 @@ export function AuthForms() {
 
                   <div className="auth__field">
                     <label className="auth__label" htmlFor="regEmail">
-                      Adresse e-mail
+                      {t("auth.labelEmail")}
                     </label>
                     <input
                       id="regEmail"
@@ -427,7 +431,7 @@ export function AuthForms() {
                         type={showPassword ? "text" : "password"}
                         value={form.password}
                         onChange={(event) => set("password", event.target.value)}
-                        placeholder="8 caractères minimum"
+                        placeholder={t("auth.placeholderNewPassword")}
                         autoComplete="new-password"
                         aria-invalid={Boolean(errors.password)}
                       />
@@ -435,7 +439,7 @@ export function AuthForms() {
                         type="button"
                         className="auth__reveal"
                         onClick={() => setShowPassword((value) => !value)}
-                        aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                        aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
                         aria-pressed={showPassword}
                       >
                         <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} aria-hidden="true" />
@@ -450,7 +454,7 @@ export function AuthForms() {
 
                   <div className="auth__field">
                     <label className="auth__label" htmlFor="regConfirm">
-                      Confirmer le mot de passe
+                      {t("auth.labelConfirm")}
                     </label>
                     <input
                       id="regConfirm"
@@ -469,17 +473,17 @@ export function AuthForms() {
                   </div>
 
                   <button type="submit" className="auth__submit">
-                    Continuer
+                    {t("auth.submitContinue")}
                   </button>
                 </div>
               ) : (
                 <div className="auth__step" key="parcours">
                   <p className="auth__step-title" ref={stepTwoHeading} tabIndex={-1}>
-                    Parcours
+                    {t("auth.stepProgram")}
                   </p>
 
                   <fieldset className="auth__roles">
-                    <legend className="auth__label">Vous êtes</legend>
+                    <legend className="auth__label">{t("auth.rolesLegend")}</legend>
                     {(["learner", "teacher"] as RoleChoice[]).map((item) => (
                       <label
                         key={item}
@@ -496,8 +500,8 @@ export function AuthForms() {
                           <i className={item === "learner" ? "fa-solid fa-user-graduate" : "fa-solid fa-chalkboard-user"} />
                         </span>
                         <span className="auth__role-text">
-                          <strong>{roleLabels[item]}</strong>
-                          <span>{item === "learner" ? "Révisions, quiz et compositions" : "Classes, supports et rendus"}</span>
+                          <strong>{t(roleLabelKeys[item])}</strong>
+                          <span>{item === "learner" ? t("auth.roleLearnerHint") : t("auth.roleTeacherHint")}</span>
                         </span>
                       </label>
                     ))}
@@ -508,7 +512,7 @@ export function AuthForms() {
                       <div className="auth__row">
                         <div className="auth__field">
                           <label className="auth__label" htmlFor="regMatricule">
-                            Matricule UAC (8 chiffres)
+                            {t("auth.labelMatricule")}
                           </label>
                           <input
                             id="regMatricule"
@@ -529,7 +533,7 @@ export function AuthForms() {
 
                         <div className="auth__field">
                           <label className="auth__label" htmlFor="regFaculte">
-                            Faculté / institut
+                            {t("auth.labelFaculty")}
                           </label>
                           <select
                             id="regFaculte"
@@ -548,7 +552,7 @@ export function AuthForms() {
 
                       <div className="auth__field">
                         <label className="auth__label" htmlFor="regDepartement">
-                          Département / filière
+                          {t("auth.labelDepartment")}
                         </label>
                         <input
                           id="regDepartement"
@@ -556,11 +560,11 @@ export function AuthForms() {
                           list="departments"
                           value={form.department}
                           onChange={(event) => set("department", event.target.value)}
-                          placeholder="Informatique"
+                          placeholder={t("auth.placeholderDepartment")}
                           aria-describedby="regDepartement-hint"
                         />
                         <p className="auth__hint" id="regDepartement-hint">
-                          Suggestions issues de la faculté sélectionnée.
+                          {t("auth.hintDepartment")}
                         </p>
                         <datalist id="departments">
                           {(DEPARTMENTS_BY_FACULTY[form.faculty] ?? []).map((department) => (
@@ -573,14 +577,14 @@ export function AuthForms() {
                     <>
                       <div className="auth__field">
                         <label className="auth__label" htmlFor="teacherDept">
-                          Faculté / département d&apos;enseignement
+                          {t("auth.labelTeacherDept")}
                         </label>
                         <input
                           id="teacherDept"
                           className="auth__input"
                           value={form.teacherDepartment}
                           onChange={(event) => set("teacherDepartment", event.target.value)}
-                          placeholder="FAST — Mathématiques & Informatique"
+                          placeholder={t("auth.placeholderTeacherDept")}
                           aria-invalid={Boolean(errors.department)}
                         />
                         {errors.department ? (
@@ -592,24 +596,24 @@ export function AuthForms() {
 
                       <div className="auth__field">
                         <label className="auth__label" htmlFor="teacherSubjects">
-                          Matières enseignées
+                          {t("auth.labelSubjects")}
                         </label>
                         <input
                           id="teacherSubjects"
                           className="auth__input"
                           value={form.subjects}
                           onChange={(event) => set("subjects", event.target.value)}
-                          placeholder="Algorithmique, Structures de données"
+                          placeholder={t("auth.placeholderSubjects")}
                           aria-describedby="teacherSubjects-hint"
                         />
                         <p className="auth__hint" id="teacherSubjects-hint">
-                          Séparez les matières par une virgule.
+                          {t("auth.hintSubjects")}
                         </p>
                       </div>
 
                       <div className="auth__field">
                         <label className="auth__label" htmlFor="teacherFaculty">
-                          Faculté de rattachement
+                          {t("auth.labelTeacherFaculty")}
                         </label>
                         <select
                           id="teacherFaculty"
@@ -635,10 +639,10 @@ export function AuthForms() {
 
                   <div className="auth__step-actions">
                     <button type="button" className="auth__back-step" onClick={() => setStep(1)}>
-                      <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Retour
+                      <i className="fa-solid fa-arrow-left" aria-hidden="true" /> {t("auth.back")}
                     </button>
                     <button type="submit" className="auth__submit" disabled={submitting}>
-                      {submitting ? "Création du compte…" : "Créer mon compte"}
+                      {submitting ? t("auth.submittingRegister") : t("auth.submitRegister")}
                     </button>
                   </div>
                 </div>
@@ -646,9 +650,9 @@ export function AuthForms() {
 
               {step === 1 ? (
                 <p className="auth__switch">
-                  Déjà un compte ?{" "}
+                  {t("auth.haveAccount")}{" "}
                   <button type="button" className="auth__switch-link" onClick={() => selectTab("login")}>
-                    Se connecter
+                    {t("auth.submitLogin")}
                   </button>
                 </p>
               ) : null}
@@ -663,30 +667,27 @@ export function AuthForms() {
               onClick={handleExplore}
               disabled={exploring}
             >
-              {exploring ? "Ouverture de la démonstration…" : "Explorer sans compte"}
+              {exploring ? t("auth.exploring") : t("auth.explore")}
             </Button>
           </div>
         </div>
 
         <div className="auth__note" role="note">
           <p>
-            <strong>Démonstration.</strong> Aucun mot de passe n&apos;est vérifié et aucun compte réel
-            n&apos;est créé : l&apos;authentification institutionnelle n&apos;est pas encore branchée.
+            <strong>{t("auth.demoStrong")}</strong> {t("auth.demoText")}
           </p>
           <p>
-            Pour parcourir les trois espaces : <code>23180001</code> (étudiant),{" "}
-            <code>prof.agboton</code> (enseignant), <code>admin.sossou</code> (administration). Mot de
-            passe au choix, 4 caractères minimum.
+            {t("auth.demoAccounts")}
           </p>
         </div>
       </main>
 
       <footer className="auth__foot">
-        <p>Projet indépendant · préfiguration · aucune donnée envoyée à un serveur</p>
-        <nav aria-label="Informations légales">
-          <Link href="/a-propos">À propos</Link>
-          <Link href="/politique-de-confidentialite">Confidentialité</Link>
-          <Link href="/conditions">Conditions</Link>
+        <p>{t("auth.footNote")}</p>
+        <nav aria-label={t("auth.footNavLabel")}>
+          <Link href="/a-propos">{t("auth.footAbout")}</Link>
+          <Link href="/politique-de-confidentialite">{t("auth.footPrivacy")}</Link>
+          <Link href="/conditions">{t("auth.footTerms")}</Link>
         </nav>
       </footer>
     </div>

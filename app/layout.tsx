@@ -3,86 +3,126 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { AppProviders } from "@/components/shared/AppProviders";
 import { LegacyServiceWorkerCleanup } from "@/components/shared/LegacyServiceWorkerCleanup";
+import { AmbientLight } from "@/components/shared/AmbientLight";
 import { siteConfig } from "@/config/site";
-import { ThemeProvider, themeInitScript } from "@/components/shared/ThemeProvider";
+import { ThemeProvider } from "@/components/shared/theme/ThemeProvider";
+import { themeInitScript } from "@/components/shared/theme/config";
+import { I18nProvider } from "@/lib/i18n/provider";
+import { getLocale } from "@/lib/i18n/server";
+import { getMessages } from "@/lib/i18n/dictionaries";
+import { localeConfig } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://campusly-one.vercel.app"),
-  title: {
-    default: "Campusly — Apprendre avec une longueur d'avance",
-    template: "%s — Campusly",
-  },
-  description: siteConfig.description,
-  applicationName: siteConfig.name,
-  manifest: "/manifest.webmanifest",
-  icons: {
-    icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
-    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
-    shortcut: ["/favicon.ico"],
-  },
-  openGraph: {
-    type: "website",
-    locale: "fr_BJ",
-    title: "Campusly — Apprendre avec une longueur d'avance",
-    description: siteConfig.description,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Campusly — ressources, cours et révisions pour l'université",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Campusly — Apprendre avec une longueur d'avance",
-    description: siteConfig.description,
-    images: ["/og-image.png"],
-  },
-  robots: { index: true, follow: true },
-};
+/**
+ * Racine de l'application.
+ * ---------------------------------------------------------------------------
+ * Deux préférences y sont résolues pour la requête :
+ *
+ *  - l'APPARENCE (clair / sombre / automatique) est appliquée par un script
+ *    inline dans `<head>`, avant toute peinture : aucun flash de thème ;
+ *  - la LANGUE est lue dans un cookie côté serveur, donc `<html lang>`, les
+ *    métadonnées et le contenu sont déjà dans la bonne langue dans la première
+ *    réponse HTTP.
+ *
+ * Les deux sont indépendantes : changer l'une ne touche jamais l'autre.
+ */
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const messages = getMessages(locale);
+  const config = localeConfig(locale);
+
+  return {
+    metadataBase: new URL("https://campusly-one.vercel.app"),
+    title: {
+      default: messages.meta.homeTitle,
+      template: messages.meta.titleTemplate,
+    },
+    description: messages.meta.homeDescription,
+    applicationName: siteConfig.name,
+    manifest: "/manifest.webmanifest",
+    icons: {
+      icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+      apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+      shortcut: ["/favicon.ico"],
+    },
+    openGraph: {
+      type: "website",
+      locale: config.bcp47,
+      title: messages.meta.homeTitle,
+      description: messages.meta.homeDescription,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: messages.meta.homeTitle,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: messages.meta.homeTitle,
+      description: messages.meta.homeDescription,
+      images: ["/og-image.png"],
+    },
+    robots: { index: true, follow: true },
+    alternates: { canonical: "/" },
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#F4F1E9",
+  /* Deux valeurs, pour que la barre du navigateur suive les deux
+     environnements : Editorial Glass (ivoire) et Nocturne (deep space). */
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F4F1E9" },
+    { media: "(prefers-color-scheme: dark)", color: "#071521" },
+  ],
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getLocale();
+  const messages = getMessages(locale);
+  const config = localeConfig(locale);
+
   return (
-    <html lang="fr" className="theme-light" data-theme="light" suppressHydrationWarning>
+    <html
+      lang={config.bcp47}
+      dir={config.dir}
+      className="theme-light"
+      data-theme="light"
+      data-theme-pref="system"
+      suppressHydrationWarning
+      /* Le fon et le yoruba reposent sur des diacritiques que les fontes de
+         marque ne couvrent pas toutes ; le chinois suppose une pile CJK.
+         On déclare donc la police de secours sur la racine plutôt que de
+         charger plusieurs mégaoctets de fontes supplémentaires. */
+      style={config.fontFallback ? ({ "--brand-locale-fallback": config.fontFallback } as React.CSSProperties) : undefined}
+    >
       <head>
-        {/* Thème appliqué avant le premier rendu : aucun flash clair/sombre. */}
+        {/* Apparence appliquée avant le premier rendu : aucun flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/* Marqueur « JavaScript disponible » : les éléments animés à
             l'apparition ne sont masqués que si le script peut les révéler.
             Sans JavaScript, la page reste entièrement lisible. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        {/* Polices et icônes : mêmes CDN que la version historique (identité
-            conservée). Placées dans <head> pour ne pas retarder le rendu du
-            body et pour rester valides au regard de la spécification HTML. */}
-        {/* Polices auto-hébergées : les polices locales sont préchargées
-            plutôt que d'ouvrir une connexion vers un CDN. */}
+        {/* Polices auto-hébergées : préchargées plutôt que tirées d'un CDN. */}
         <link rel="preload" href="/fonts/brand/baloo-2-latin-700-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/brand/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        {/* Polices servies par le site (Baloo 2 + Manrope), déclarées dans
-            `styles/app/brand.css`. Plus aucune requête vers un CDN : en
-            environnement fermé, l'ancien <link> laissait la page en police
-            système, ce qui cassait la signature typographique. */}
       </head>
       <body>
         <LegacyServiceWorkerCleanup />
         <a className="skip-link" href="#contenu">
-          Aller au contenu principal
+          {messages.common.skipToContent}
         </a>
-        {/* Le fond « liquide » (quatre nappes floues animées) a été retiré :
-            il ne restait qu'un halo bleu et orange derrière l'application, en
-            contradiction avec les surfaces planes du reste du site.
-            `components/shared/LiquidBackground.tsx` est conservé pour mémoire
-            mais n'est plus monté. */}
+        {/* Lumière ambiante : un seul élément fixe, peint par trois dégradés
+            et une trame. Statique — donc gratuite au défilement. */}
+        <AmbientLight />
         <ThemeProvider>
-          <AppProviders>{children}</AppProviders>
+          <I18nProvider locale={locale} messages={messages}>
+            <AppProviders>{children}</AppProviders>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

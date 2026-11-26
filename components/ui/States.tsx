@@ -1,5 +1,32 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { Button } from "./Button";
+import { useOptionalI18n } from "@/lib/i18n/provider";
+import { getMessages } from "@/lib/i18n/dictionaries";
+import { DEFAULT_LOCALE } from "@/lib/i18n/config";
+
+/**
+ * Traduction avec repli français, sans exiger le fournisseur : ces primitives
+ * sont aussi rendues hors contexte (tests unitaires, squelettes de route).
+ */
+function useFallbackT() {
+  const context = useOptionalI18n();
+  return (
+    context?.t ??
+    ((key: string, params?: Record<string, string | number>) => {
+      const messages = getMessages(DEFAULT_LOCALE);
+      const raw = key.split(".").reduce<unknown>(
+        (node, segment) => (typeof node === "object" && node ? (node as Record<string, unknown>)[segment] : undefined),
+        messages,
+      );
+      const text = typeof raw === "string" ? raw : key;
+      return params
+        ? text.replace(/\{(\w+)\}/g, (match, name: string) => (name in params ? String(params[name]) : match))
+        : text;
+    })
+  );
+}
 
 /** État vide — reprend la structure `.state-card` (alignée sur `.empty-state`). */
 export function EmptyState({
@@ -26,7 +53,7 @@ export function EmptyState({
 }
 
 export function ErrorState({
-  title = "Impossible de charger les données",
+  title,
   message,
   onRetry,
   action,
@@ -37,16 +64,17 @@ export function ErrorState({
   /** Action supplémentaire affichée sous le bouton « Réessayer ». */
   action?: ReactNode;
 }) {
+  const t = useFallbackT();
   return (
     <div className="state-card" role="alert" style={{ borderColor: "rgba(239,68,68,0.35)" }}>
       <div className="state-card-icon" aria-hidden="true" style={{ background: "rgba(239,68,68,0.12)", color: "var(--danger)" }}>
         <i className="fa-solid fa-triangle-exclamation" />
       </div>
-      <h3>{title}</h3>
+      <h3>{title ?? t("common.loadError")}</h3>
       <p>{message}</p>
       {onRetry ? (
         <Button variant="outline" icon="fa-solid fa-rotate-right" onClick={onRetry}>
-          Réessayer
+          {t("common.retry")}
         </Button>
       ) : null}
       {action}
@@ -70,11 +98,10 @@ export function SkeletonCard({ lines = 3 }: { lines?: number }) {
 }
 
 export function LoadingGrid({ count = 3 }: { count?: number }) {
+  const t = useFallbackT();
   return (
     <div className="grid-3" aria-busy="true" aria-live="polite">
-      <span className="sr-only">
-        Chargement des données…
-      </span>
+      <span className="sr-only">{t("common.loading")}</span>
       {Array.from({ length: count }).map((_, index) => (
         <SkeletonCard key={index} />
       ))}
@@ -83,7 +110,8 @@ export function LoadingGrid({ count = 3 }: { count?: number }) {
 }
 
 /** Indicateur de chargement plein cadre (salle d'examen, écrans dédiés). */
-export function Loader({ label = "Chargement…" }: { label?: string }) {
+export function Loader({ label }: { label?: string }) {
+  const t = useFallbackT();
   return (
     <div
       role="status"
@@ -100,7 +128,7 @@ export function Loader({ label = "Chargement…" }: { label?: string }) {
       }}
     >
       <span className="loader-spinner" style={{ width: 28, height: 28 }} aria-hidden="true" />
-      {label}
+      {label ?? t("common.loading")}
     </div>
   );
 }

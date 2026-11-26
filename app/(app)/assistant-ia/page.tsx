@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { AssistantChat } from "@/features/ai/AssistantChat";
 
-export const metadata: Metadata = {
-  title: "Assistant IA",
-  description: "Assistant conversationnel Campusly pour la révision et la compréhension des cours.",
-};
+export async function generateMetadata() {
+  return pageMetadata("assistantTitle", "/assistant-ia");
+}
 
 export default function AssistantPage() {
   return <AssistantChat />;

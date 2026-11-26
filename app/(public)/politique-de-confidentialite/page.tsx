@@ -1,69 +1,57 @@
-import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { getMessages } from "@/lib/i18n/dictionaries";
+import { localeContext, pageMetadata } from "@/lib/i18n/metadata";
+import { SplitAccent } from "@/components/editorial/SplitAccent";
 
-export const metadata: Metadata = {
-  title: "Politique de confidentialité",
-  description: "Données collectées, finalités et droits des utilisateurs Campusly.",
-};
+export async function generateMetadata() {
+  return pageMetadata("privacyTitle", "/politique-de-confidentialite", "description");
+}
 
-export default function PrivacyPage() {
+/**
+ * Politique de confidentialité.
+ * Le contenu est un texte juridique : traduit pour être compris, la version
+ * française faisant foi (mention affichée dans les six autres langues).
+ */
+export default async function PrivacyPage() {
+  const { locale } = await localeContext();
+  const { pages } = getMessages(locale);
+  const legal = pages.legal;
+
   return (
     <div className="doc">
       <div className="ed-rail">
         <header className="doc__head">
-          <p className="ed-eyebrow">Données personnelles</p>
+          <p className="ed-eyebrow">{legal.privacyEyebrow}</p>
           <h1 className="ed-display doc__title">
-            Politique <em>de confidentialité.</em>
+            <SplitAccent text={legal.privacyTitle} accent={legal.privacyTitleAccent} />
           </h1>
-          <p className="ed-note doc__date">Dernière mise à jour : novembre 2026</p>
+          <p className="ed-note doc__date">{legal.updated}</p>
         </header>
+
+        {locale !== "fr" ? <p className="doc__notice">{pages.notice}</p> : null}
+
         <div className="doc__body">
-
-        <h2>1. Données collectées</h2>
-        <p>Campusly collecte les informations suivantes lors de votre inscription et de l&apos;utilisation du service :</p>
-        <ul>
-          <li>
-            <strong>Informations d&apos;identité :</strong> nom, prénom, adresse e-mail.
-          </li>
-          <li>
-            <strong>Informations académiques :</strong> matricule UAC, faculté et département d&apos;appartenance.
-          </li>
-          <li>
-            <strong>Données d&apos;utilisation :</strong> historique de quiz, progression, épreuves consultées et
-            messages du forum.
-          </li>
-        </ul>
-
-        <h2>2. Utilisation de vos données</h2>
-        <p>Vos données sont exclusivement utilisées pour :</p>
-        <ul>
-          <li>Personnaliser votre expérience (suggestions d&apos;épreuves de votre faculté).</li>
-          <li>Suivre votre progression académique dans le tableau de bord.</li>
-          <li>Gérer votre abonnement et les paiements via notre partenaire FedaPay.</li>
-        </ul>
-
-        <h2>3. Protection et sécurité</h2>
-        <p>
-          Les mots de passe sont hachés côté serveur. Aucune donnée personnelle n&apos;est revendue. Dans cette
-          version actuelle, <strong>aucune donnée ne quitte votre navigateur</strong> : les informations
-          saisies restent dans le stockage local et peuvent être effacées à tout moment depuis les paramètres.
-        </p>
-
-        <h2>4. Vos droits</h2>
-        <p>
-          Vous disposez d&apos;un droit d&apos;accès, de rectification et de suppression de vos données. La
-          suppression du compte sera disponible depuis les paramètres du tableau de bord.
-        </p>
-
-        <h2>5. Nous contacter</h2>
-        <p>
-          Pour toute question concernant vos données, écrivez à{" "}
-          <a href={`mailto:${siteConfig.supportEmail}`}>
-            {siteConfig.supportEmail}
-          </a>{" "}
-          ou via WhatsApp au {siteConfig.whatsapp}.
-        </p>
+          {legal.privacy.map((section) => (
+            <section key={section.title}>
+              <h2>{section.title}</h2>
+              {"intro" in section && section.intro ? <p>{section.intro}</p> : null}
+              <ul>
+                {section.items.map((item) => (
+                  <li key={item.text}>
+                    {"lead" in item && item.lead ? <strong>{item.lead}</strong> : null}
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
         </div>
+
+        <p className="doc__contact">
+          <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>
+          <span aria-hidden="true"> · </span>
+          <a href={`https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`}>WhatsApp</a>
+        </p>
       </div>
     </div>
   );

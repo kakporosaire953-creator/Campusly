@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { AppNotification } from "@/types";
 import { notificationService } from "@/services/notificationService";
-import { formatRelativeFr } from "@/services/mocks/store";
+import { useT, useRelativeTime } from "@/lib/i18n/provider";
 
 /**
  * Cloche de notifications.
@@ -17,6 +17,8 @@ export function NotificationBell() {
   const [items, setItems] = useState<AppNotification[]>([]);
   const [unread, setUnread] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const t = useT();
+  const relative = useRelativeTime();
 
   const load = () => {
     notificationService
@@ -59,7 +61,7 @@ export function NotificationBell() {
       <button
         type="button"
         className="icon-btn"
-        aria-label={`Notifications${unread > 0 ? ` (${unread} non lues)` : ""}`}
+        aria-label={unread > 0 ? t("nav.unreadCount", { count: unread }) : t("nav.notifications")}
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={() => {
@@ -94,7 +96,7 @@ export function NotificationBell() {
       {open ? (
         <div
           role="dialog"
-          aria-label="Centre de notifications"
+          aria-label={t("nav.center")}
           style={{
             position: "absolute",
             top: 46,
@@ -110,19 +112,19 @@ export function NotificationBell() {
           }}
         >
           <div className="row-between" style={{ marginBottom: 12, paddingBottom: 8, borderBottom: "1px solid var(--border)" }}>
-            <strong style={{ fontSize: "0.9rem", color: "var(--text-1)" }}>Notifications</strong>
+            <strong style={{ fontSize: "0.9rem", color: "var(--text-1)" }}>{t("nav.notifications")}</strong>
             <button
               type="button"
               onClick={markAll}
               style={{ background: "none", border: "none", color: "var(--brand-1)", fontSize: "0.72rem", fontWeight: 700, cursor: "pointer" }}
             >
-              Tout marquer comme lu
+              {t("nav.markAllRead")}
             </button>
           </div>
 
           <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8, maxHeight: 320, overflowY: "auto" }}>
             {items.length === 0 ? (
-              <li style={{ fontSize: "0.82rem", color: "var(--text-2)" }}>Aucune notification.</li>
+              <li style={{ fontSize: "0.82rem", color: "var(--text-2)" }}>{t("nav.noNotifications")}</li>
             ) : (
               items.map((item) => (
                 <li key={item.id}>
@@ -140,12 +142,12 @@ export function NotificationBell() {
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                       <strong style={{ fontSize: "0.82rem", color: "var(--text-1)" }}>{item.title}</strong>
-                      {!item.read ? <span className="status-dot live" aria-label="Non lue" /> : null}
+                      {!item.read ? <span className="status-dot live" aria-label={t("nav.unread")} /> : null}
                     </div>
                     <p style={{ fontSize: "0.76rem", color: "var(--text-2)", margin: "4px 0", lineHeight: 1.4 }}>
                       {item.message}
                     </p>
-                    <div style={{ fontSize: "0.68rem", color: "var(--text-3)" }}>{formatRelativeFr(item.createdAt)}</div>
+                    <div style={{ fontSize: "0.68rem", color: "var(--text-3)" }}>{relative(item.createdAt)}</div>
                   </Link>
                 </li>
               ))
@@ -157,7 +159,7 @@ export function NotificationBell() {
             onClick={() => setOpen(false)}
             style={{ display: "block", marginTop: 12, textAlign: "center", fontSize: "0.78rem", fontWeight: 700, color: "var(--brand-1)" }}
           >
-            Voir toutes les notifications
+            {t("nav.viewAll")}
           </Link>
         </div>
       ) : null}

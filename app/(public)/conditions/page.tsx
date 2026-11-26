@@ -1,68 +1,56 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { getMessages } from "@/lib/i18n/dictionaries";
+import { localeContext, pageMetadata } from "@/lib/i18n/metadata";
+import { SplitAccent } from "@/components/editorial/SplitAccent";
 
-export const metadata: Metadata = {
-  title: "Conditions d'utilisation",
-  description: "Conditions d'utilisation de la plateforme Campusly.",
-};
+export async function generateMetadata() {
+  return pageMetadata("conditionsTitle", "/conditions", "description");
+}
 
-const SECTIONS = [
-  {
-    title: "Acceptation des conditions",
-    body: "En utilisant Campusly, vous acceptez les présentes conditions. Si vous ne les acceptez pas, n'utilisez pas la plateforme.",
-  },
-  {
-    title: "Utilisation du service",
-    body: "Campusly est destiné aux étudiants de l'Université d'Abomey-Calavi. La plateforme s'utilise à des fins académiques légitimes ; le compte est personnel.",
-  },
-  {
-    title: "Contenu et contributions",
-    body: "Les épreuves soumises doivent être des documents académiques légitimes. Tout contenu inapproprié, protégé sans autorisation ou trompeur est retiré. La modération reste humaine.",
-  },
-  {
-    title: "Données personnelles",
-    body: "Seules les données nécessaires au fonctionnement sont collectées (matricule, faculté, historique d'utilisation). Vous pouvez demander la suppression de votre compte à tout moment.",
-  },
-  {
-    title: "Abonnement Premium",
-    body: "Les packs de crédits ne sont pas ouverts : aucun paiement n'est accepté dans cette version, et aucun tarif n'est publié.",
-  },
-  {
-    title: "Limitation de responsabilité",
-    body: "Campusly fournit les ressources « en l'état ». L'exactitude et l'exhaustivité des épreuves ne sont pas garanties.",
-  },
-] as const;
+/**
+ * Conditions d'utilisation.
+ * ----------------------------------------------------------------
+ * Le corps est un **texte juridique**. Il est traduit pour être compris, mais
+ * la version française fait foi : la mention `pages.notice` est affichée en
+ * tête dans les six autres langues, jamais en français (où elle serait
+ * redondante). Les traductions ne sont pas validées par un juriste.
+ */
+export default async function TermsPage() {
+  const { locale } = await localeContext();
+  const { pages } = getMessages(locale);
+  const legal = pages.legal;
 
-export default function TermsPage() {
   return (
     <div className="doc">
       <div className="ed-rail">
         <header className="doc__head">
-          <p className="ed-eyebrow">Conditions</p>
+          <p className="ed-eyebrow">{legal.termsEyebrow}</p>
           <h1 className="ed-display doc__title">
-            Conditions <em>d&apos;utilisation.</em>
+            <SplitAccent text={legal.termsTitle} accent={legal.termsTitleAccent} />
           </h1>
-          <p className="ed-note doc__date">Dernière mise à jour : novembre 2026</p>
+          <p className="ed-note doc__date">{legal.updated}</p>
         </header>
 
+        {locale !== "fr" ? <p className="doc__notice">{pages.notice}</p> : null}
+
         <div className="doc__body">
-          {SECTIONS.map((section, index) => (
-            <section key={section.title}>
+          {legal.terms.map((term, index) => (
+            <section key={term.title}>
               <h2>
                 <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                {section.title}
+                {term.title}
               </h2>
-              <p>{section.body}</p>
+              <p>{term.body}</p>
             </section>
           ))}
 
           <section>
             <h2>
-              <span aria-hidden="true">07</span>
-              Contact
+              <span aria-hidden="true">{String(legal.terms.length + 1).padStart(2, "0")}</span>
+              {legal.termsContactTitle}
             </h2>
             <p>
-              Pour toute question, utilisez la page <Link href="/contribuer">Contribuer</Link>.
+              {legal.termsContactBody} <Link href="/contribuer">{pages.contributeTitle}</Link>.
             </p>
           </section>
         </div>

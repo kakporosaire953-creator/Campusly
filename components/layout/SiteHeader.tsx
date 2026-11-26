@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { publicNav } from "@/config/site";
 import { useSession } from "@/features/auth/SessionProvider";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { PreferencesPanel } from "@/components/shared/PreferencesPanel";
 import { useScrollDirection } from "@/lib/useScrollDirection";
 import { Logo } from "@/components/shared/CampuslyLogo";
+import { useT } from "@/lib/i18n/provider";
 
 /**
  * Barre de navigation publique.
@@ -38,6 +39,7 @@ export function SiteHeader() {
   const panelRef = useRef<HTMLDivElement>(null);
   const [focusWithin, setFocusWithin] = useState(false);
   const { direction, y } = useScrollDirection();
+  const t = useT();
 
   const isHome = pathname === "/";
   const overlay = isHome && !scrolled && !open;
@@ -126,31 +128,31 @@ export function SiteHeader() {
       }}
     >
       <div className="site-nav__inner">
-        <Link href="/" className="site-nav__logo" aria-label="Campusly — accueil">
+        <Link href="/" className="site-nav__logo" aria-label={t("nav.homeLabel")}>
           <Logo size={26} className="logo-campusly" />
         </Link>
 
-        <nav className="site-nav__links" aria-label="Sections de l'accueil">
+        <nav className="site-nav__links" aria-label={t("nav.label")}>
           {publicNav.map((item) => (
             <Link key={item.href} href={item.href} className="site-nav__link">
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </nav>
 
         <div className="site-nav__actions">
-          <ThemeToggle compact />
+          <PreferencesPanel />
           {status === "authenticated" && user ? (
             <Link href="/dashboard" className="site-nav__cta">
-              Mon espace
+              {t("nav.mySpace")}
             </Link>
           ) : (
             <>
               <Link href="/auth" className="site-nav__signin">
-                Connexion
+                {t("nav.signin")}
               </Link>
               <Link href="/auth?tab=register" className="site-nav__cta">
-                Créer un compte
+                {t("nav.register")}
               </Link>
             </>
           )}
@@ -159,7 +161,7 @@ export function SiteHeader() {
         <button
           type="button"
           className="site-nav__burger"
-          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-label={open ? t("nav.closeMenu") : t("nav.openMenu")}
           aria-expanded={open}
           aria-controls="menu-mobile"
           onClick={() => setOpen((value) => !value)}
@@ -174,7 +176,7 @@ export function SiteHeader() {
           <button
             type="button"
             className="site-nav__scrim"
-            aria-label="Fermer le menu"
+            aria-label={t("nav.closeMenu")}
             tabIndex={-1}
             onClick={() => setOpen(false)}
           />
@@ -184,9 +186,9 @@ export function SiteHeader() {
             id="menu-mobile"
             role="dialog"
             aria-modal="true"
-            aria-label="Menu"
+            aria-label={t("nav.menu")}
           >
-            <nav className="site-nav__panel-links" aria-label="Sections de l'accueil">
+            <nav className="site-nav__panel-links" aria-label={t("nav.label")}>
               {publicNav.map((item, index) => (
                 <Link
                   key={item.href}
@@ -195,7 +197,7 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                 >
                   <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               ))}
             </nav>
@@ -203,30 +205,32 @@ export function SiteHeader() {
             <div className="site-nav__panel-actions">
               {status === "authenticated" && user ? (
                 <Link href="/dashboard" className="btn" onClick={() => setOpen(false)}>
-                  Ouvrir mon espace
+                  {t("nav.openSpace")}
                 </Link>
               ) : (
                 <>
                   <Link href="/auth?tab=register" className="btn" onClick={() => setOpen(false)}>
-                    Créer un compte
+                    {t("nav.register")}
                   </Link>
                   <Link href="/auth" className="btn btn-outline" onClick={() => setOpen(false)}>
-                    Connexion
+                    {t("nav.signin")}
                   </Link>
                 </>
               )}
             </div>
 
             <div className="site-nav__panel-foot">
-              <ThemeToggle />
+              {/* Les préférences restent accessibles EN MOBILE, à l'intérieur
+                  du menu : jamais une seconde barre de navigation. */}
+              <PreferencesPanel variant="menu" onNavigate={() => setOpen(false)} />
               <Link href="/a-propos" onClick={() => setOpen(false)}>
-                À propos
+                {t("nav.about")}
               </Link>
               <Link href="/contribuer" onClick={() => setOpen(false)}>
-                Contribuer
+                {t("nav.contribute")}
               </Link>
               <Link href="/a-propos#contact" onClick={() => setOpen(false)}>
-                Contact
+                {t("nav.contact")}
               </Link>
             </div>
           </div>

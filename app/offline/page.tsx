@@ -1,19 +1,25 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/shared/CampuslyLogo";
+import { getMessages } from "@/lib/i18n/dictionaries";
+import { localeContext } from "@/lib/i18n/metadata";
 import "@/styles/legacy/pages/offline.css";
 
-export const metadata: Metadata = {
-  title: "Hors ligne",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata() {
+  const { locale } = await localeContext();
+  return { title: getMessages(locale).pages.system.offlineTitle, robots: { index: false, follow: false } };
+}
 
 /**
  * Page de secours hors ligne.
- * Elle est statique : elle pourra être mise en cache par un service worker
- * lorsque le mode PWA sera réactivé (voir docs/FRONTEND_GUIDE.md).
+ * Statique côté contenu, mais rendue par requête pour suivre la langue
+ * (cookie) : un utilisateur hors ligne voit cette page dans SA langue, pas en
+ * français. Elle pourra être mise en cache par un service worker lorsque le
+ * mode PWA sera réactivé (voir docs/FRONTEND_GUIDE.md).
  */
-export default function OfflinePage() {
+export default async function OfflinePage() {
+  const { locale } = await localeContext();
+  const s = getMessages(locale).pages.system;
+
   return (
     <div className="offline-page" id="contenu">
       <div className="offline-container">
@@ -23,26 +29,25 @@ export default function OfflinePage() {
         <div className="offline-icon" aria-hidden="true">
           <i className="fa-solid fa-wifi" />
         </div>
-        <h1>Vous êtes hors ligne</h1>
-        <p>
-          Impossible de joindre Campusly. Vérifiez votre connexion internet pour continuer à réviser.
-        </p>
+        <h1>{s.offlineTitle}</h1>
+        <p>{s.offlineBody}</p>
         <Link href="/dashboard" className="btn btn-primary">
-          <i className="fa-solid fa-rotate-right" aria-hidden="true" /> Réessayer
+          <i className="fa-solid fa-rotate-right" aria-hidden="true" /> {s.retry}
         </Link>
         <div className="tips">
           <h3>
-            <i className="fa-solid fa-lightbulb" aria-hidden="true" style={{ color: "#FD8517" }} /> Conseils
+            <i className="fa-solid fa-lightbulb" aria-hidden="true" style={{ color: "var(--brand-orange)" }} />{" "}
+            {s.offlineTips}
           </h3>
           <ul>
             <li>
-              <i className="fa-solid fa-check" aria-hidden="true" /> Vérifiez votre connexion Wi-Fi ou données mobiles
+              <i className="fa-solid fa-check" aria-hidden="true" /> {s.offlineTip1}
             </li>
             <li>
-              <i className="fa-solid fa-check" aria-hidden="true" /> Désactivez le mode avion si activé
+              <i className="fa-solid fa-check" aria-hidden="true" /> {s.offlineTip2}
             </li>
             <li>
-              <i className="fa-solid fa-check" aria-hidden="true" /> Vos données locales restent dans le navigateur
+              <i className="fa-solid fa-check" aria-hidden="true" /> {s.offlineTip3}
             </li>
           </ul>
         </div>

@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { CreditsCenter } from "@/features/credits/CreditsCenter";
 
-export const metadata: Metadata = {
-  title: "Campusly Credits",
-  description: "Crédits Campusly : état du service, historique et actions à venir.",
-};
+export async function generateMetadata() {
+  return pageMetadata("creditsTitle", "/dashboard/credits");
+}
 
 export default function CreditsPage() {
   return <CreditsCenter />;

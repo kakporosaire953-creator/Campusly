@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { TeacherOverview } from "@/features/dashboard/TeacherOverview";
 
-export const metadata: Metadata = {
-  title: "Espace enseignant",
-  description: "Centre de pilotage pédagogique : classrooms, devoirs, compositions et suivi des apprenants.",
-};
+export async function generateMetadata() {
+  return pageMetadata("teacherTitle", "/enseignant");
+}
 
 export default function TeacherPage() {
   return <TeacherOverview />;

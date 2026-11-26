@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import { RoleHome } from "@/features/dashboard/RoleHome";
 
-export const metadata: Metadata = {
-  title: "Tableau de bord",
-  description: "Tableau de bord académique de suivi et d'apprentissage Campusly UAC.",
-};
+export async function generateMetadata() {
+  return pageMetadata("dashboardTitle", "/dashboard");
+}
 
 export default function DashboardPage() {
   return <RoleHome />;
